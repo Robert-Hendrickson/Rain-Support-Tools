@@ -32,7 +32,7 @@
         </style>
         <script>
             function reset() {
-                var reset_values = ["crm_input", "system_input", "replication_input", "steps_input", "description_input", "example_input", "screenshot_input", "video_input", "expectation_input", "console_input"]
+                var reset_values = ["crm_input", "system_input", "steps_input", "description_input", "example_input", "screenshot_input", "video_input", "expectation_input", "console_input"]
                 for(let i = 0; i < reset_values.length; i++){
                     let remove = reset_values[i];
                     document.getElementById(remove).value = '';
@@ -66,7 +66,7 @@ CONSOLE ERRORS:`;
             let ticket_output = '';
             let entered_info = '';
             let split_info = '';
-            let replication_steps = '';
+            let replicable_steps = '';
             let output_example = '';
             let screenshot_output = '';
             let video_output = '';
@@ -75,7 +75,7 @@ CONSOLE ERRORS:`;
                 var inputs = {
                     "crm": document.getElementById('crm_input').value,
                     "area": document.getElementById('system_input').value,
-                    "replicable": document.getElementById('replication_input').value,
+                    "replicable": document.getElementById('replicable_input').value,
                     "steps": document.getElementById('steps_input').value,
                     "description": document.getElementById('description_input').value,
                     "example": document.getElementById('example_input').value,
@@ -158,6 +158,13 @@ CONSOLE ERRORS:`;
                 for(var i=0; i<split_info.length; i++){
                     video_output = video_output + `${split_info[i]}\n`;
                 };
+                let is_replicable = '';
+                let replicable_input = document.getElementById('replicable_input').value;
+                if(replicable_input === 'Yes'){
+                    is_replicable = 'STEPS TO REPRODUCE:';
+                }else{
+                    is_replicable = 'ATTEMPTED STEPS TO REPRODUCE:';
+                };
                 ticket_output = `**LOCATION**
 Store ID:
 `+ document.getElementById('crm_input').value +`
@@ -165,9 +172,9 @@ System Area:
 `+ document.getElementById('system_input').value +`
 
 Can you recreate the problem on your demo site (if yes please continue, if no use the "Bug - non reproducible" macro)?
-`+ document.getElementById('replication_input').value +`
+`+ document.getElementById('replicable_input').value +`
 
-STEPS TO REPRODUCE:
+${is_replicable}
 ${replication_steps}
 
 ACTUAL RESULTS:(Please be as detailed as possible.)
@@ -223,13 +230,16 @@ CONSOLE ERRORS:
                             </label>
                         </td>
                         <td>
-                            <input id="replication_input" type="text" placeholder="Is this Replicatable" value="" />
+                            <select name="replicable" id="replicable_input">
+                                <Option value="Yes">Yes</Option>
+                                <Option value="No">No</Option>
+                            </select>
                         </td>
                     </tr>
                     <tr>
                         <td>
                             <label>
-                                Steps to Reproduce
+                                (Attempted)Steps<br /> to Reproduce
                             </label>
                         </td>
                         <td>
