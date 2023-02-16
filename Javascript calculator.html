@@ -93,8 +93,11 @@
                             </label>
                         </td>
                         <td>
-                            <input id="discount_input" type="text" placeholder="Quantity" value="" />
-                            <input type="color" />
+                            <select id="discount_type">
+                                <option value="percent">%</option>
+                                <option value="dollar">$</option>
+                            </select>
+                            <input id="discount_input" type="text" placeholder="Discount" value="" />
                         </td>
                     </tr>
                     <tr>
@@ -164,19 +167,31 @@
             var current_line = "";
             var line_data_object = {};
             function addLine() {
-                console.log($('#price_input').value);
                 let price_output = parseFloat(document.getElementById('price_input').value);
                 let quantity_output = parseFloat(document.getElementById('quantity_input').value);
                 let discount_output = parseFloat(document.getElementById('discount_input').value);
                 let tax_rate = parseFloat(document.getElementById('tax_rate').value);
                 let ext_price = price_output*quantity_output;
-                let discount_price = ext_price-discount_output;
+                let discount_type = document.getElementById('discount_type').value;
+                let discount_amount;
+                let discount_price;
+                if(discount_type === "percent"){
+                    let discount_percent = discount_output/100;
+                    discount_percent = discount_percent * ext_price;
+                    discount_amount = parseFloat(discount_percent.toFixed(2));
+                    discount_price = ext_price-discount_percent;
+                }
+                if(discount_type === "dollar"){
+                    discount_amount = discount_output;
+                    discount_price = ext_price-discount_output;
+                }
                 let tax_output = (tax_rate/100)*discount_price;
-                let line_total = ext_price - discount_output + tax_output;
+                let tax_amount = parseFloat(tax_output.toFixed(2));
+                let line_total = ext_price - discount_amount + tax_amount;
                 line_data_object[`line${line_number}`] = {
                     'price' : price_output,
                     'quantity' : quantity_output,
-                    'discount' : discount_output,
+                    'discount' : discount_amount,
                     'tax' : tax_output,
                     'ext' : ext_price,
                     'total' : line_total
@@ -187,8 +202,8 @@
                         <td>${price_output}</td>
                         <td>${quantity_output}</td>
                         <td>${ext_price}</td>
-                        <td>${discount_output}</td>
-                        <td>${tax_output}</td>
+                        <td>${discount_amount}</td>
+                        <td>${tax_amount}</td>
                         <td>${line_total}</td>
                         <td onclick="removeLine(${line_number})" class="line-removal" style="width: 16px; border: none; padding-top: 4px;">X</td>
                     </tr>`
@@ -217,6 +232,9 @@
                     total_data_array[2] = total_data_array[2] + line_data_object[`${line}`].tax;
                     total_data_array[3] = total_data_array[0] - total_data_array[1] + total_data_array[2];
                 };
+                total_data_array[1] = parseFloat(total_data_array[1].toFixed(2));
+                total_data_array[2] = parseFloat(total_data_array[2].toFixed(2));
+                total_data_array[3] = parseFloat(total_data_array[3].toFixed(2));
                 new_totals = `
                     <tbody>
                         <tr>
