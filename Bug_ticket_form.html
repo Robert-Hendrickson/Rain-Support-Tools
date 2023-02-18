@@ -7,7 +7,7 @@
                 border: #000 5px solid;
                 min-height: 277px;
             }
-            #input-values  table {
+            #input-values > table table {
                 float: left;
             }
             .bug-glitch-ticket {
@@ -205,47 +205,122 @@ CONSOLE ERRORS:
                 <tbody>
                     <tr>
                         <td>
-                            <label>
-                                CRM
-                            </label>
-                        </td>
-                        <td>
-                            <input id="crm_input" type="text" placeholder="Store ID" value="" />
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <label>
+                                                CRM
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <input id="crm_input" type="text" placeholder="Store ID" value="" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>
+                                                System Area
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <input id="system_input" type="text" placeholder="Trouble Area" value="" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>
+                                                Replicable
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <select name="replicable" id="replicable_input">
+                                                <Option value="Yes">Yes</Option>
+                                                <Option value="No">No</Option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>
+                                                (Attempted)Steps<br /> to Reproduce
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <textarea id="steps_input" placeholder="Step by Step Instruction" value=""></textarea>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <label>
+                                                Example
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <textarea id="example_input"  placeholder="links or Data. Please seperate using returns" value=""></textarea>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>
+                                                Expected
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <textarea id="expectation_input"  placeholder="Expected Results." value=""></textarea>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <label>
+                                                Screenshots
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <textarea id="screenshot_input"  placeholder="Screenshot Links. Please seperate using returns" value=""></textarea>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>
+                                                Video
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <textarea id="video_input"  placeholder="Video Link(s). Please seperate using returns" value=""></textarea>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <label>
+                                                Console <br /> Errors
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <textarea style="height: 164px; width: 182px;" id="console_input"  placeholder="Errors found in the console that relate to the issue being reported" value=""></textarea>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            
                         </td>
                     </tr>
-                    <tr>
-                        <td>
-                            <label>
-                                System Area
-                            </label>
-                        </td>
-                        <td>
-                            <input id="system_input" type="text" placeholder="Trouble Area" value="" />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label>
-                                Replicable
-                            </label>
-                        </td>
-                        <td>
-                            <select name="replicable" id="replicable_input">
-                                <Option value="Yes">Yes</Option>
-                                <Option value="No">No</Option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label>
-                                (Attempted)Steps<br /> to Reproduce
-                            </label>
-                        </td>
-                        <td>
-                            <textarea id="steps_input" placeholder="Step by Step Instruction" value=""></textarea>
-                        </td>
-                    </tr>
+                </tbody>
+            </table>
+            <table>
+                <tbody>
                     <tr>
                         <td>
                             <label>
@@ -253,69 +328,7 @@ CONSOLE ERRORS:
                             </label>
                         </td>
                         <td>
-                            <textarea id="description_input" placeholder="Description" value=""></textarea>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            <table>
-                <tbody>
-                </tbody>
-            </table>
-            <table>
-                <tbody>
-                    <tr>
-                        <td>
-                            <label>
-                                Example
-                            </label>
-                        </td>
-                        <td>
-                            <textarea id="example_input"  placeholder="links or Data. Please seperate using returns" value=""></textarea>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label>
-                                Screenshots
-                            </label>
-                        </td>
-                        <td>
-                            <textarea id="screenshot_input"  placeholder="Screenshot Links. Please seperate using returns" value=""></textarea>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label>
-                                Video
-                            </label>
-                        </td>
-                        <td>
-                            <textarea id="video_input"  placeholder="Video Link(s). Please seperate using returns" value=""></textarea>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            <table>
-                <tbody>
-                    <tr>
-                        <td>
-                            <label>
-                                Expected
-                            </label>
-                        </td>
-                        <td>
-                            <textarea id="expectation_input"  placeholder="Expected Results." value=""></textarea>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label>
-                                Console Errors
-                            </label>
-                        </td>
-                        <td>
-                            <textarea id="console_input"  placeholder="Errors found in the console that relate to the issue being reported" value=""></textarea>
+                            <textarea style="height: 124px; width: 1032px;" id="description_input" placeholder="Description" value=""></textarea>
                         </td>
                     </tr>
                 </tbody>
