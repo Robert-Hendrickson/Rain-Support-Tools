@@ -30,12 +30,18 @@
         <style id="error-borders">
 
         </style>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
         <script>
+            $(document).ready(function(){
+                console.log('It worked');
+            });
             function reset() {
+                $('#error-borders')[0].innerHTML =''
+                $('#input_error').css('display','none');
                 var reset_values = ["crm_input", "system_input", "steps_input", "description_input", "example_input", "screenshot_input", "video_input", "expectation_input", "console_input"]
                 for(let i = 0; i < reset_values.length; i++){
                     let remove = reset_values[i];
-                    document.getElementById(remove).value = '';
+                    $(`#${remove}`)[0].value = '';
                 };
                 let base_ticket = `**LOCATION**
 Store ID:
@@ -61,7 +67,7 @@ Console Info:
 EXPECTED RESULTS:
 
 CONSOLE ERRORS:`;
-                document.getElementById('bug-glitch-ticket').value = base_ticket;
+                $('#bug-glitch-ticket')[0].value = base_ticket;
             };
             let ticket_output = '';
             let entered_info = '';
@@ -71,21 +77,21 @@ CONSOLE ERRORS:`;
             let screenshot_output = '';
             let video_output = '';
             function checkInputs() {
-                document.getElementById('input_error').removeAttribute('style');
+                $('#input_error').css('display','none');
                 var inputs = {
-                    "crm": document.getElementById('crm_input').value,
-                    "area": document.getElementById('system_input').value,
-                    "replicable": document.getElementById('replicable_input').value,
-                    "steps": document.getElementById('steps_input').value,
-                    "description": document.getElementById('description_input').value,
-                    "example": document.getElementById('example_input').value,
-                    "screenshots": document.getElementById('screenshot_input').value,
-                    "videos": document.getElementById('video_input').value,
-                    "expectation": document.getElementById('expectation_input').value,
-                    "console": document.getElementById('console_input').value
+                    "crm": $('#crm_input')[0].value,
+                    "area": $('#system_input')[0].value,
+                    "replicable": $('#replicable_input')[0].value,
+                    "steps": $('#steps_input')[0].value,
+                    "description": $('#description_input')[0].value,
+                    "example": $('#example_input')[0].value,
+                    "screenshots": $('#screenshot_input')[0].value,
+                    "videos": $('#video_input')[0].value,
+                    "expectation": $('#expectation_input')[0].value,
+                    "console": $('#console_input')[0].value
                 };
                 if(inputs.crm && inputs.area && inputs.replicable && inputs.steps && inputs.description && inputs.example && inputs.screenshots && inputs.videos && inputs.expectation && inputs.console){
-                    document.getElementById('error-borders').innerHTML = '';
+                    $('#error-borders').innerHTML = '';
                     generateTicket();
                 }else{
                     let borders = '';
@@ -96,7 +102,7 @@ CONSOLE ERRORS:`;
                             borders = borders +`${newborder}`;
                         };
                     };
-                    document.getElementById('input_error').setAttribute('style','display: block');
+                    $('#input_error').css('display','block');
                     if(!inputs.crm){
                         addBorder('#crm_input');
                     };
@@ -127,7 +133,7 @@ CONSOLE ERRORS:`;
                     if(!inputs.console){
                         addBorder('#console_input');
                     };
-                    document.getElementById('error-borders').innerHTML = `
+                    $('#error-borders')[0].innerHTML = `
                         ${borders} {
                             border-color: red !important;
                         }`;
@@ -135,31 +141,31 @@ CONSOLE ERRORS:`;
             };
             function generateTicket() {
                 replication_steps = '';
-                entered_info = document.getElementById('steps_input').value;
+                entered_info = $('#steps_input')[0].value;
                 split_info = entered_info.split('\n');
                 for(var i=0; i<split_info.length; i++){
                     replication_steps = replication_steps + `${split_info[i]}\n`;
                 };
                 output_example = '';
-                entered_info = document.getElementById('example_input').value;
+                entered_info = $('#example_input')[0].value;
                 split_info = entered_info.split('\n');
                 for(var i=0; i<split_info.length; i++){
                     output_example = output_example + `${split_info[i]}\n`;
                 };
                 screenshot_output = '';
-                entered_info = document.getElementById('screenshot_input').value;
+                entered_info = $('#screenshot_input')[0].value;
                 split_info = entered_info.split('\n');
                 for(var i=0; i<split_info.length; i++){
                     screenshot_output = screenshot_output + `${split_info[i]}\n`;
                 };
                 video_output = '';
-                entered_info = document.getElementById('video_input').value;
+                entered_info = $('#video_input')[0].value;
                 split_info = entered_info.split('\n');
                 for(var i=0; i<split_info.length; i++){
                     video_output = video_output + `${split_info[i]}\n`;
                 };
                 let is_replicable = '';
-                let replicable_input = document.getElementById('replicable_input').value;
+                let replicable_input = $('#replicable_input')[0].value;
                 if(replicable_input === 'Yes'){
                     is_replicable = 'STEPS TO REPRODUCE:';
                 }else{
@@ -167,19 +173,19 @@ CONSOLE ERRORS:`;
                 };
                 ticket_output = `**LOCATION**
 Store ID:
-`+ document.getElementById('crm_input').value +`
+`+ $('#crm_input')[0].value +`
 System Area:
-`+ document.getElementById('system_input').value +`
+`+ $('#system_input')[0].value +`
 
 Can you recreate the problem on your demo site (if yes please continue, if no use the "Bug - non reproducible" macro)?
-`+ document.getElementById('replicable_input').value +`
+`+ $('#replicable_input')[0].value +`
 
 ${is_replicable}
 ${replication_steps}
 
 ACTUAL RESULTS:(Please be as detailed as possible.)
 Description:
-`+ document.getElementById('description_input').value +`
+`+ $('#description_input')[0].value +`
 
 Example:(If this pertains to the customer's site, please provide links to the relevant pages.)
 ${output_example}
@@ -192,12 +198,12 @@ ${video_output}
 
 Console Info:
 EXPECTED RESULTS:
-`+ document.getElementById('expectation_input').value +`
+`+ $('#expectation_input')[0].value +`
 
 CONSOLE ERRORS:
-`+ document.getElementById('console_input').value
+`+ $('#console_input')[0].value
                 ;
-                document.getElementById('bug-glitch-ticket').value = ticket_output;
+                $('#bug-glitch-ticket')[0].value = ticket_output;
             };
         </script>
         <div id="input-values">
@@ -214,7 +220,7 @@ CONSOLE ERRORS:
                                             </label>
                                         </td>
                                         <td>
-                                            <input id="crm_input" type="text" placeholder="Store ID" value="" />
+                                            <input id="crm_input" type="text" placeholder="Store ID" />
                                         </td>
                                     </tr>
                                     <tr>
@@ -224,7 +230,7 @@ CONSOLE ERRORS:
                                             </label>
                                         </td>
                                         <td>
-                                            <input id="system_input" type="text" placeholder="Trouble Area" value="" />
+                                            <input id="system_input" type="text" placeholder="Trouble Area" />
                                         </td>
                                     </tr>
                                     <tr>
@@ -247,7 +253,7 @@ CONSOLE ERRORS:
                                             </label>
                                         </td>
                                         <td>
-                                            <textarea id="steps_input" placeholder="Step by Step Instruction" value=""></textarea>
+                                            <textarea id="steps_input" placeholder="Step by Step Instruction"></textarea>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -261,7 +267,7 @@ CONSOLE ERRORS:
                                             </label>
                                         </td>
                                         <td>
-                                            <textarea id="example_input"  placeholder="links or Data. Please seperate using returns" value=""></textarea>
+                                            <textarea id="example_input"  placeholder="links or Data. Please seperate using returns"></textarea>
                                         </td>
                                     </tr>
                                     <tr>
@@ -271,7 +277,7 @@ CONSOLE ERRORS:
                                             </label>
                                         </td>
                                         <td>
-                                            <textarea id="expectation_input"  placeholder="Expected Results." value=""></textarea>
+                                            <textarea id="expectation_input"  placeholder="Expected Results."></textarea>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -285,7 +291,7 @@ CONSOLE ERRORS:
                                             </label>
                                         </td>
                                         <td>
-                                            <textarea id="screenshot_input"  placeholder="Screenshot Links. Please seperate using returns" value=""></textarea>
+                                            <textarea id="screenshot_input"  placeholder="Screenshot Links. Please seperate using returns"></textarea>
                                         </td>
                                     </tr>
                                     <tr>
@@ -295,7 +301,7 @@ CONSOLE ERRORS:
                                             </label>
                                         </td>
                                         <td>
-                                            <textarea id="video_input"  placeholder="Video Link(s). Please seperate using returns" value=""></textarea>
+                                            <textarea id="video_input"  placeholder="Video Link(s). Please seperate using returns"></textarea>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -309,7 +315,7 @@ CONSOLE ERRORS:
                                             </label>
                                         </td>
                                         <td>
-                                            <textarea style="height: 164px; width: 182px;" id="console_input"  placeholder="Errors found in the console that relate to the issue being reported" value=""></textarea>
+                                            <textarea style="height: 164px; width: 182px;" id="console_input"  placeholder="Errors found in the console that relate to the issue being reported"></textarea>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -328,7 +334,7 @@ CONSOLE ERRORS:
                             </label>
                         </td>
                         <td>
-                            <textarea style="height: 124px; width: 1032px;" id="description_input" placeholder="Description" value=""></textarea>
+                            <textarea style="height: 124px; width: 1032px;" id="description_input" placeholder="Description"></textarea>
                         </td>
                     </tr>
                 </tbody>

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-    <header>
+    <body>
         <style>
             #inputs {
             height: 100px;
@@ -59,8 +59,6 @@
             color: red;
             }
         </style>
-    </header>
-    <body>
         <div id="inputs">
             <table>
                 <tbody>
@@ -159,18 +157,19 @@
                 <button onclick="calculateTotals();">Calculate Totals</button>
             </div>
         </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
         <script>
             var line_number = 1;
             var new_line = '';
             var current_line = "";
             var line_data_object = {};
             function addLine() {
-                let price_output = parseFloat(document.getElementById('price_input').value);
-                let quantity_output = parseFloat(document.getElementById('quantity_input').value);
-                let discount_output = parseFloat(document.getElementById('discount_input').value);
-                let tax_rate = parseFloat(document.getElementById('tax_rate').value);
+                let price_output = parseFloat($('#price_input')[0].value);
+                let quantity_output = parseFloat($('#quantity_input')[0].value);
+                let discount_output = parseFloat($('#discount_input')[0].value);
+                let tax_rate = parseFloat($('#tax_rate')[0].value);
                 let ext_price = price_output*quantity_output;
-                let discount_type = document.getElementById('discount_type').value;
+                let discount_type = $('#discount_type')[0].value;
                 let discount_amount;
                 let discount_price;
                 if(discount_type === "percent"){
@@ -194,7 +193,7 @@
                     'ext' : ext_price,
                     'total' : line_total
                 };
-                current_line = document.getElementById('lines').innerHTML;
+                current_line = $('#lines')[0].innerHTML;
                 new_line =  `
                     <tr id="row_${line_number}" class="table-contents">
                         <td>${price_output}</td>
@@ -206,13 +205,13 @@
                         <td onclick="removeLine(${line_number})" class="line-removal" style="width: 16px; border: none; padding-top: 4px;">X</td>
                     </tr>`
                 current_line = current_line + new_line;
-                document.getElementById('lines').innerHTML = current_line;
+                $('#lines')[0].innerHTML = current_line;
                 line_number++
                 //removes entered inputs for data
-                price_output = document.getElementById('price_input').value = '';
-                quantity_output = document.getElementById('quantity_input').value = '';
-                discount_output = document.getElementById('discount_input').value = '';
-                tax_rate = document.getElementById('tax_rate').value = '';
+                price_output = $('#price_input')[0].value = '';
+                quantity_output = $('#quantity_input')[0].value = '';
+                discount_output = $('#discount_input')[0].value = '';
+                tax_rate = $('#tax_rate')[0].value = '';
             };
             //subtotal, discount total, tax total, total
             var total_data_array = [0,0,0,0];
@@ -252,45 +251,45 @@
                             <td>${total_data_array[3]}</td>
                         </tr>
                     </tbody>`;
-                document.getElementById('total-headers').innerHTML = new_totals;
+                $('#total-headers')[0].innerHTML = new_totals;
             };
             //check for inputs only being numbers and not strings
             function inputChecker(){
-                document.getElementById('price_input').setAttribute('style','');
-                document.getElementById('price_error').setAttribute('style','display: none;');
-                document.getElementById('quantity_input').setAttribute('style','');
-                document.getElementById('quantity_error').setAttribute('style','display: none;');
-                document.getElementById('discount_input').setAttribute('style','');
-                document.getElementById('discount_error').setAttribute('style','display: none;');
-                document.getElementById('tax_rate').setAttribute('style','');
-                document.getElementById('tax_error').setAttribute('style','display: none;');
-                price_output = parseFloat(document.getElementById('price_input').value);
-                quantity_output = parseFloat(document.getElementById('quantity_input').value);
-                discount_output = parseFloat(document.getElementById('discount_input').value);
-                tax_rate = parseFloat(document.getElementById('tax_rate').value);
+                $('#price_input')[0].setAttribute('style','');
+                $('#price_error')[0].setAttribute('style','display: none;');
+                $('#quantity_input')[0].setAttribute('style','');
+                $('#quantity_error')[0].setAttribute('style','display: none;');
+                $('#discount_input')[0].setAttribute('style','');
+                $('#discount_error')[0].setAttribute('style','display: none;');
+                $('#tax_rate')[0].setAttribute('style','');
+                $('#tax_error')[0].setAttribute('style','display: none;');
+                price_output = parseFloat($('#price_input')[0].value);
+                quantity_output = parseFloat($('#quantity_input')[0].value);
+                discount_output = parseFloat($('#discount_input')[0].value);
+                tax_rate = parseFloat($('#tax_rate')[0].value);
                 if(!isNaN(price_output) && !isNaN(quantity_output) && !isNaN(discount_output) && !isNaN(tax_rate)){
                     addLine();
                 }else{
                     if(isNaN(price_output)){
-                        document.getElementById('price_input').setAttribute('style','border-color: red;');
-                        document.getElementById('price_error').setAttribute('style','display: block;');
+                        $('#price_input')[0].setAttribute('style','border-color: red;');
+                        $('#price_error')[0].setAttribute('style','display: block;');
                     };
                     if(isNaN(quantity_output)){
-                        document.getElementById('quantity_input').setAttribute('style','border-color: red;');
-                        document.getElementById('quantity_error').setAttribute('style','display: block;');
+                        $('#quantity_input')[0].setAttribute('style','border-color: red;');
+                        $('#quantity_error').setAttribute('style','display: block;');
                     };
                     if(isNaN(discount_output)){
-                        document.getElementById('discount_input').setAttribute('style','border-color: red;');
-                        document.getElementById('discount_error').setAttribute('style','display: block;');
+                        $('#discount_input')[0].setAttribute('style','border-color: red;');
+                        $('#discount_error')[0].setAttribute('style','display: block;');
                     };
                     if(isNaN(tax_rate)){
-                        document.getElementById('tax_rate').setAttribute('style','border-color: red;');
-                        document.getElementById('tax_error').setAttribute('style','display: block;');
+                        $('#tax_rate').setAttribute('style','border-color: red;');
+                        $('#tax_error').setAttribute('style','display: block;');
                     };
                 };
             };
             function clearLines() {
-                document.getElementById('lines').innerHTML = `
+                $('#lines')[0].innerHTML = `
                 <tr class="table-headers">
                         <td>Price</td>
                         <td>Qty</td>
@@ -300,7 +299,7 @@
                         <td>Total</td>
                         <td style="display: none;"></td>
                 </tr>`;
-                document.getElementById('total-headers').innerHTML =`
+                $('#total-headers')[0].innerHTML =`
                     <tbody>
                         <tr>
                             <td>Sub Total</td>
@@ -323,7 +322,7 @@
                 line_data_object = {};
             };
             function removeLine(line_to_remove) {
-                document.getElementById(`row_${line_to_remove}`).setAttribute('style','display: none;');
+                $(`#row_${line_to_remove}`)[0].setAttribute('style','display: none;');
                 line_data_object[`line${line_to_remove}`] = {
                     'price' : 0,
                     'quantity' : 0,
