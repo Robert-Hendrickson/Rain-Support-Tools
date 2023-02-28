@@ -32,6 +32,9 @@
         </style>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
         <script>
+            $(document).ready(function(){
+                console.log('It worked');
+            });
             function reset() {
                 $('#error-borders')[0].innerHTML =''
                 $('#input_error').css('display','none');
@@ -202,20 +205,6 @@ CONSOLE ERRORS:
                 ;
                 $('#bug-glitch-ticket')[0].value = ticket_output;
             };
-            function copyTicket() {
-                // Get the text field
-                var copyText = document.getElementById("bug-glitch-ticket");
-
-                // Select the text field
-                copyText.select();
-                copyText.setSelectionRange(0, 99999); // For mobile devices
-
-                // Copy the text inside the text field
-                navigator.clipboard.writeText(copyText.value);
-                
-                // Alert the copied text
-                //console.log("Copied the text: " + copyText.value);
-            }
         </script>
         <div id="input-values">
             <table>
@@ -357,7 +346,6 @@ CONSOLE ERRORS:
         <div>
             <input type="button" value="Generate" onclick="checkInputs()" />
             <input type="button" value="Reset" onclick="reset()" />
-            <input type="button" value="Copy" onclick="copyTicket()" />
         </div>
         <div>
             <textarea id="bug-glitch-ticket">
