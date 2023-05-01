@@ -43,7 +43,7 @@
                     let remove = reset_values[i];
                     $(`#${remove}`)[0].value = '';
                 };
-                let base_ticket = `**LOCATION**
+                let base_ticket = `**LOCATION:**
 Store ID:
 
 System Area:
@@ -171,7 +171,7 @@ CONSOLE ERRORS:`;
                 }else{
                     is_replicable = 'ATTEMPTED STEPS TO REPRODUCE:';
                 };
-                ticket_output = `**LOCATION**
+                ticket_output = `**LOCATION:**
 Store ID:
 `+ $('#crm_input')[0].value +`
 System Area:
@@ -349,7 +349,7 @@ CONSOLE ERRORS:
         </div>
         <div>
             <textarea id="bug-glitch-ticket">
-**LOCATION**
+**LOCATION:**
 Store ID:
 
 System Area:
