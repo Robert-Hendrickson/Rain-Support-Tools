@@ -32,6 +32,8 @@
         </style>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
         <script>
+            //set regex value to be checked against
+            let regex_na = new RegExp('(n|N)\/(a|A)');
             $(document).ready(function(){
                 console.log('It worked');
             });
@@ -90,7 +92,7 @@ CONSOLE ERRORS:`;
                     "expectation": $('#expectation_input')[0].value,
                     "console": $('#console_input')[0].value
                 };
-                if(inputs.crm && inputs.area && inputs.replicable && inputs.steps && inputs.description && inputs.example && inputs.screenshots && inputs.videos && inputs.expectation && inputs.console){
+                if(inputs.crm && inputs.area && inputs.replicable && inputs.steps && inputs.description && (inputs.example && !regex_na.test(inputs.example)) && (inputs.screenshots && !regex_na.test(inputs.screenshots)) && (inputs.videos && !regex_na.test(inputs.videos)) && inputs.expectation && inputs.console){
                     $('#error-borders').innerHTML = '';
                     generateTicket();
                 }else{
@@ -118,13 +120,13 @@ CONSOLE ERRORS:`;
                     if(!inputs.description){
                         addBorder('#description_input');
                     };
-                    if(!inputs.example){
+                    if(!inputs.example | regex_na.test(inputs.example)){
                         addBorder('#example_input');
                     };
-                    if(!inputs.screenshots){
+                    if(!inputs.screenshots | regex_na.test(inputs.screenshots)){
                         addBorder('#screenshot_input');
                     };
-                    if(!inputs.videos){
+                    if(!inputs.videos | regex_na.test(inputs.videos)){
                         addBorder('#video_input');
                     };
                     if(!inputs.expectation){
