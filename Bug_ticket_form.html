@@ -47,21 +47,23 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
         <script>
             //check for cookie and update if necessary
-            let cookieList = document.cookie.split(';');
-            let cookieCheck = "";
-            for(i=0;i<cookieList.length;i++){
-                if(cookieList[i] == "popup=alerted"){
-                    cookieCheck = 'true';
+            $(document).ready(function(){
+                let cookieList = document.cookie.split(';');
+                let cookieCheck = "";
+                for(i=0;i<cookieList.length;i++){
+                    if(cookieList[i] == "popup=alerted"){
+                        cookieCheck = 'true';
+                    }
                 }
-            }
-            console.log(cookieCheck);
-            if(!cookieCheck){
-                console.log('cookie added');
-                let date = new Date();
-                date.setTime(date.getTime() + (14*24*60*60*1000));
-                document.cookie = `popup=alerted; expires=${date}; path=/`;
-                $('#popup-reminder')[0].classList = '';
-            }
+                console.log(cookieCheck);
+                if(!cookieCheck){
+                    console.log('cookie added');
+                    let date = new Date();
+                    date.setTime(date.getTime() + (14*24*60*60*1000));
+                    document.cookie = `popup=alerted; expires=${date}; path=/`;
+                    $('#popup-reminder')[0].classList = '';
+                }
+            })
             //hide pop-up
             function popup() {
                 $('#popup-reminder')[0].classList = 'hide';
