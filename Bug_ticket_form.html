@@ -26,50 +26,14 @@
                 min-height: 990px;
                 width: 925px;
             }
-            div#popup-reminder {
-                position: absolute;
-                left: 40%;
-                top: 25%;
-                height: 170px;
-                width: 271px;
-                border: #000 solid 3px;
-                background-color: #c1b5b5;
-                z-index: 20;
-                padding: 5px;
-            }
-            div#popup-reminder.hide {
-                display:none;
-            }
         </style>
         <style id="error-borders">
 
         </style>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
         <script>
-            //check for cookie and update if necessary
-            $(document).ready(function(){
-                let cookieList = document.cookie.split(';');
-                let cookieCheck = "";
-                for(i=0;i<cookieList.length;i++){
-                    if(cookieList[i] == "popup=alerted"){
-                        cookieCheck = 'true';
-                    }
-                }
-                console.log(cookieCheck);
-                if(!cookieCheck){
-                    console.log('cookie added');
-                    let date = new Date();
-                    date.setTime(date.getTime() + (14*24*60*60*1000));
-                    document.cookie = `popup=alerted; expires=${date}; path=/`;
-                    $('#popup-reminder')[0].classList = '';
-                }
-            })
-            //hide pop-up
-            function popup() {
-                $('#popup-reminder')[0].classList = 'hide';
-            }
             //set regex value to be checked against
-            let regex_na = new RegExp('(n|N)\/*(a|A)');
+            let regex_na = new RegExp('^(n|N)\/*(a|A)');
             $(document).ready(function(){
                 console.log('It worked');
             });
@@ -244,10 +208,6 @@ CONSOLE ERRORS:
                 $('#bug-glitch-ticket')[0].value = ticket_output;
             };
         </script>
-        <div id="popup-reminder" class="hide">Please remember when filling out the fields that all entries should include either usable info or a reason that info cannot be entered. NOTHING should be blank.
-            <br /><br /><br />
-            <input type="button" style="margin-left: 100px;" onclick="popup()" value="Close" />
-        </div>
         <div id="input-values">
             <table>
                 <tbody>
