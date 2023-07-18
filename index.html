@@ -22,13 +22,20 @@
                 float: left;
             }
         </style>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
         <script>
             function redirect(x){
                 location.pathname = x;
             }
+            function riley_gradient(){
+                $('body')[0].style = 'background: linear-gradient(179deg, green, blue);';
+            }
         </script>
     </header>
     <body>
+        <div style="width:100%">
+            <button style="float:right;" onclick="riley_gradient()">For Riley</button>
+        </div>
         <div class="menu">
             <h2>Support Tools</h2>
             <div class="menu_links">
