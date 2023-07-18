@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+    <header>
+        <style>
+            .menu {
+                width: 100%;
+                margin: 0% auto;
+                text-align: center;
+            }
+            .menu_links{
+                width:auto;
+                margin-left: auto;
+                margin-right:auto;
+            }
+            ul {
+                list-style: none;
+                margin: 0% auto;
+                width: 26%;
+            }
+            li {
+                width: 160px;
+                float: left;
+            }
+        </style>
+        <script>
+            function redirect(x){
+                location.pathname = x;
+            }
+        </script>
+    </header>
+    <body>
+        <div class="menu">
+            <h2>Support Tools</h2>
+            <div class="menu_links">
+                <ul>
+                    <li>
+                        <button onClick="redirect('/Rain-Support-Tools/Bug_ticket_form.html')">Bug Ticket Form</button>
+                    </li>
+                    <li>
+                        <button onClick="redirect('/Rain-Support-Tools/Javascript_calculator.html')">Transaction Calculator</button>
+                    </li>
+                    <li>
+                        <button onClick="redirect('/Rain-Support-Tools/Tax-inclusive-Calculator.html')">Transaction Calculator<br />(tax inclusive:Australia)</abutton>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </body>
+</html>
