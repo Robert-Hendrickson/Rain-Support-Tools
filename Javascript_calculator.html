@@ -47,7 +47,7 @@
                 border-left:#000 solid 2px;
             }
             div.totals {
-                width: 290px;
+                width: 330px;
                 float: left;
             }
             div.totals-container {
@@ -85,6 +85,9 @@
             }
             div.breakdown-hide.active{
                 display: block !important;
+            }
+            tr.subrow{
+                translate: 10px;
             }
         </style>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
@@ -309,6 +312,7 @@
                         'material':0,
                         'service':0,
                         'class':0,
+                        'shipping':0,
                         'total':0
                     },
                     'total': 0
@@ -320,11 +324,23 @@
                     totals.tax.service = totals.tax.service + line_entries[`${line}`].tax.serv;
                     totals.tax.class = totals.tax.class + line_entries[`${line}`].tax.class;
                 }
+                
+                if($('select#shippingtaxed')[0].value == 'yes'){
+                    let rate = parseFloat($('#material-rate')[0].value);
+                    rate = rate/100;
+                    let shipping = parseFloat($('input#shipping')[0].value);
+                    let taxamount = shipping * rate;
+                    taxamount = parseFloat(taxamount.toFixed(2));
+                    totals.tax.shipping = taxamount;
+                    $('#tax-shipping')[0].value = totals.tax.shipping;
+                }else{
+                    $('#tax-shipping')[0].value = 0
+                }
                 totals.sub_total = parseFloat(totals.sub_total.toFixed(2));
                 totals.tax.material = parseFloat(totals.tax.material.toFixed(2));
                 totals.tax.service = parseFloat(totals.tax.service.toFixed(2));
                 totals.tax.class = parseFloat(totals.tax.class.toFixed(2));
-                totals.tax.total = totals.tax.material + totals.tax.service + totals.tax.class;
+                totals.tax.total = totals.tax.material + totals.tax.service + totals.tax.class + totals.tax.shipping;
                 totals.tax.total = parseFloat(totals.tax.total.toFixed(2));
                 totals.tax.total = parseFloat(totals.tax.total.toFixed(2));
                 totals.total = totals.sub_total - totals.disc + totals.tax.total;
@@ -335,6 +351,9 @@
                 $('#total-disc')[0].value = totals.disc;
                 $('#total-tax')[0].value = totals.tax.total;
                 $('#total-total')[0].value = totals.total;
+                $('#tax-material')[0].value = totals.tax.material;
+                $('#tax-service')[0].value = totals.tax.service;
+                $('#tax-class')[0].value = totals.tax.class;
             }
             function lineUpdate(x){
                 let row = line_entries[`row_${x}`];
@@ -417,7 +436,22 @@
             function displayBreakdown(x) {
                 //for totals
                 console.log(x);
-                if(x=='totals'){
+                if(x=='totals' && $('select#shippingtaxed')[0].value == 'yes'){
+                    let btotals = `Totals {
+                        SubTotal: ${totals.sub_total}
+                        Discount: ${totals.disc}
+                        Shipping: ${totals.shipping}
+                        Tax: {
+                            Material: ${totals.tax.material}
+                            Service: ${totals.tax.service}
+                            Class: ${totals.tax.class}
+                            Shipping: ${totals.tax.shipping}
+                            Total: ${totals.tax.total}
+                        }
+                        Total: ${totals.total}
+                    }`;
+                    $('#break-totals textarea')[0].innerText = `${btotals}`;
+               }else if(x=='totals' && $('select#shippingtaxed')[0].value == 'no'){
                     let btotals = `Totals {
                         SubTotal: ${totals.sub_total}
                         Discount: ${totals.disc}
@@ -431,7 +465,7 @@
                         Total: ${totals.total}
                     }`;
                     $('#break-totals textarea')[0].innerText = `${btotals}`;
-               }  
+               }
                 //for taxes
                 if(x=='lines'){
                     let blines = '';
@@ -468,6 +502,15 @@
                     $('div#break-lines')[0].classList = 'breakdown-hide active';
                     console.log('switched to taxes');
                 }
+            }
+            function shippingDisplay() {
+                if($('select#shippingtaxed')[0].value == 'yes'){
+                    $('tr.subrow.ship-tax')[0].setAttribute('style','');
+                }
+                if($('select#shippingtaxed')[0].value == 'no'){
+                    $('tr.subrow.ship-tax')[0].setAttribute('style','display: none');
+                }
+                calcTotals();
             }
         </script>
     </head>
@@ -516,6 +559,9 @@
                                 <td>
                                     Classes
                                 </td>
+                                <td>
+                                    Shipping
+                                </td>
                             </tr>
                             <tr>
                                 <td>
@@ -526,6 +572,12 @@
                                 </td>
                                 <td>
                                     <input id="class-rate" type="number" onchange="updateTax()" value="0" />
+                                </td>
+                                <td>
+                                    <select id="shippingtaxed" onchange="shippingDisplay()">
+                                        <option value="no">No</option>
+                                        <option value="yes">Yes</option>
+                                    </select>
                                 </td>
                             </tr>
                         </tbody>
@@ -565,6 +617,38 @@
                                 <input id="total-tax" type="number" disabled="disabled" value="0" />
                             </td>
                         </tr>
+                        <tr class="subrow">
+                            <td>
+                                Mat
+                            </td>
+                            <td>
+                                <input id="tax-material" type="number" value="0" disabled="disabled" />
+                            </td>
+                        </tr>
+                        <tr class="subrow">
+                            <td>
+                                Service
+                            </td>
+                            <td>
+                                <input id="tax-service" type="number" value="0" disabled="disabled" />
+                            </td>
+                        </tr>
+                        <tr class="subrow">
+                            <td>
+                                Class
+                            </td>
+                            <td>
+                                <input id="tax-class" type="number" value="0" disabled="disabled" />
+                            </td>
+                        </tr>
+                        <tr style="display: none;" class="subrow ship-tax">
+                            <td>
+                                Ship Tax
+                            </td>
+                            <td>
+                                <input id="tax-shipping" type="number" value="0" disabled="disabled" />
+                            </td>
+                        </tr>
                         <tr>
                             <td>
                                 Total
@@ -598,10 +682,6 @@
                     <button onclick="displayBreakdown('lines')">Lines</button>
                 </div>
             </div>
-            <!--hold for later use
-            <textarea id="breakdown"></textarea>
-            <input style="width: 110px;" type="button" value="See Breakdown" onclick="displayBreakdown()" />
-                -->
         </div>
     </body>
 </html>
