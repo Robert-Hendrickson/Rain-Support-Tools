@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-    <body>
+    <head>
         <style>
             #input-values {
                 width: 100%;
@@ -26,6 +26,12 @@
                 min-height: 990px;
                 width: 925px;
             }
+            div.reset-popup{
+                background-color: #808080;
+                position:absolute;
+                left:40%;
+                top: 30%;
+            }
         </style>
         <style id="error-borders">
 
@@ -34,9 +40,6 @@
         <script>
             //set regex value to be checked against
             let regex_na = new RegExp('^(n|N)\/*(a|A)');
-            $(document).ready(function(){
-                console.log('It worked');
-            });
             function reset() {
                 $('#error-borders')[0].innerHTML =''
                 $('#input_error').css('display','none');
@@ -53,6 +56,9 @@ System Area:
 Can you recreate the problem on your demo site (if yes please continue, if no use the "Bug - non reproducible" macro)?
 
 STEPS TO REPRODUCE:
+1.
+2.
+3.
 
 ACTUAL RESULTS:(Please be as detailed as possible.)
 
@@ -68,6 +74,7 @@ EXPECTED RESULTS:
 
 CONSOLE ERRORS:`;
                 $('#bug-glitch-ticket')[0].value = base_ticket;
+                $('div.reset-popup')[0].setAttribute('style','display: none;');
             };
             let ticket_output = '';
             let entered_info = '';
@@ -218,7 +225,20 @@ CONSOLE ERRORS:
                 // Alert the copied text
                 //console.log("Copied the text: " + copyText.value);
             }
+            function resetCheck(){
+                $('div.reset-popup')[0].setAttribute('style','');
+            }
+            function goBack(){
+                $('div.reset-popup')[0].setAttribute('style','display: none;');
+            }
         </script>
+    </head>
+    <body>
+        <div style="display: none;" class="reset-popup">
+            <h2>Are you sure you want to clear all reset values?</h2>
+            <input type="button" value="Reset" onclick="reset()" />
+            <input type="button" value="Cancel" onclick="goBack()" />
+        </div>
         <div id="input-values">
             <table>
                 <tbody>
@@ -359,7 +379,7 @@ CONSOLE ERRORS:
         <div>
             <input type="button" value="Generate" onclick="checkInputs()" />
             <input type="button" value="Copy" onclick="copyTicket()" />
-            <input style="float: right;" type="button" value="Reset" onclick="reset()" />
+            <input type="button" value="Reset" onclick="resetCheck()" />
         </div>
         <div>
             <textarea id="bug-glitch-ticket">
