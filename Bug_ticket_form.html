@@ -98,7 +98,7 @@ CONSOLE ERRORS:`;
                     "console": $('#console_input')[0].value
                 };
                 if(inputs.crm && inputs.area && inputs.replicable && inputs.steps && inputs.description && (inputs.example && !regex_na.test(inputs.example)) && (inputs.screenshots && !regex_na.test(inputs.screenshots)) && (inputs.videos && !regex_na.test(inputs.videos)) && inputs.expectation && inputs.console){
-                    $('#error-borders').innerHTML = '';
+                    $('#error-borders')[0].innerHTML ='';
                     generateTicket();
                 }else{
                     let borders = '';
