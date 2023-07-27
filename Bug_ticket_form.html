@@ -151,7 +151,8 @@ CONSOLE ERRORS:`;
                 entered_info = $('#steps_input')[0].value;
                 split_info = entered_info.split('\n');
                 for(var i=0; i<split_info.length; i++){
-                    replication_steps = replication_steps + `${split_info[i]}\n`;
+                    let z = i + 1;
+                    replication_steps = replication_steps + `${z}.${split_info[i]}\n`;
                 };
                 output_example = '';
                 entered_info = $('#example_input')[0].value;
