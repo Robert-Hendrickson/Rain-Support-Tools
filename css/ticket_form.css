@@ -1,0 +1,30 @@
+#input-values {
+    width: 100%;
+    border: #000 5px solid;
+    min-height: 277px;
+}
+#input-values > table table {
+    float: left;
+}
+.bug-glitch-ticket {
+    width: 100%;
+    float: left;
+}
+textarea {
+    height: 75px;
+    width: 197px;
+}
+#input_error {
+    display: none;
+    color: red;
+}
+#bug-glitch-ticket {
+    min-height: 990px;
+    width: 925px;
+}
+div.reset-popup{
+    background-color: #808080;
+    position:absolute;
+    left:40%;
+    top: 30%;
+}
