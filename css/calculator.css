@@ -1,0 +1,87 @@
+input[type="checkbox"]{
+    width: 13px;
+    float: left;
+}
+thead td {
+    height: 35px !important;
+}
+#inputTable td {
+    border-top: #000 solid 2px;
+    border-bottom: #000 solid 2px;
+    border-right: #000 solid 2px;
+}
+#inputTable td:first-child {
+    border-left: #000 solid 2px;
+}
+td {
+    width: 70px;
+    height: 21px;
+    float: left;
+}
+input {
+    width: 63px;
+}
+input[disabled] {
+    border: none !important;
+}
+#inputTable {
+    width:540px;
+    float: left;
+}
+#btn-totals {
+    width: 155px;
+    float: left;
+    margin-top: 40px;
+    margin-left: 40px;
+}
+#btn-totals tr td {
+    border-top:#000 solid 2px;
+    border-right:#000 solid 2px;
+    border-bottom:#000 solid 2px;
+}
+#btn-totals tr td:first-child {
+    border-left:#000 solid 2px;
+}
+div.totals {
+    width: 330px;
+    float: left;
+}
+div.totals-container {
+    float: left;
+}
+div.totals div {
+    float: left;
+    width: 100%;
+}
+div.breakdown-area {
+    width: 290px;
+    float: left;
+}
+div.breakdown-view textarea {
+    max-width: 180px;
+    min-width: 180px;
+    height: 500px;
+}
+ul#breakdowns li{
+    list-style: none;
+    width: 40px;
+    float: left;
+    border:#000 solid 2px;
+    border-bottom-width: 0px;
+}
+div.breakdown-nav{
+    width: 100%;
+}
+div.breakdown-view {
+    width: 100%;
+    float: left;
+}
+div.breakdown-hide{
+    display: none;
+}
+div.breakdown-hide.active{
+    display: block !important;
+}
+tr.subrow{
+    translate: 10px;
+}
