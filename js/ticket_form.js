@@ -168,9 +168,9 @@ EXPECTED RESULTS:
 `+ $('#expectation_input')[0].value +`
 
 CONSOLE ERRORS:
-`+ $('#console_input')[0].value
-    ;
-    $('#bug-glitch-ticket')[0].value = ticket_output;
+`+ $('#console_input')[0].value;
+$('#bug-glitch-ticket')[0].value = ticket_output;
+popupControl('open','ticket');
 };
 function copyTicket() {
     // Get the text field
@@ -191,4 +191,15 @@ function resetCheck(){
 }
 function goBack(){
     $('div.reset-popup')[0].setAttribute('style','display: none;');
+}
+function popupControl(x,y){
+    if(x === 'close' && y === 'ticket'){
+        $('.container.generated_popup')[0].setAttribute('style','display: none;');
+    }else if(x === 'open' && y === 'ticket'){
+        $('.container.generated_popup')[0].removeAttribute('style');
+    }else if(x === 'close' && y === 'steps'){
+        $('.container.steps_popup')[0].setAttribute('style','display: none;');
+    }else if(x === 'open' && y === 'steps'){
+        $('.container.steps_popup')[0].removeAttribute('style');
+    }
 }
