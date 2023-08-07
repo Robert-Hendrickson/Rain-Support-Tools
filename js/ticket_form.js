@@ -52,7 +52,7 @@ let output_example = '';
 let screenshot_output = '';
 let video_output = '';
 function steps_check(){
-    if($('#steps-table tbody tr').length > 0 && $('#steps-table tbody tr td:last-child input')[0].value != ''){
+    if($('#steps-table tbody tr').length > 0 && $('#steps-table tbody tr td:last-child input')[0].value != '' && !regex_na.test($('#steps-table tbody tr td:last-child input')[0].value)){
         return true;
     }else{
         return false;
@@ -241,24 +241,25 @@ function newStep(){
         td_detail.appendChild(span_delete);
         trow.appendChild(td_detail);
         $('#steps-table table tbody')[0].appendChild(trow);
-    }else{//set's row one if no row's are currently there
-         //create table row element
-         const  trow = $(document)[0].createElement("tr");
-         //create row cell step number
-         const td_num = $(document)[0].createElement("td");
-         td_num.innerText = '1';
-         trow.appendChild(td_num);
-         //create row cell for step details
-         const td_detail = $(document)[0].createElement("td");
-         const in_detail = $(document)[0].createElement("input");
-         in_detail.setAttribute('type', 'text');
-         td_detail.appendChild(in_detail);
-         const span_delete = $(document)[0].createElement("span");
-         span_delete.innerText = "X";
-         span_delete.setAttribute('onclick', 'deleteStep(1)');
-         td_detail.appendChild(span_delete);
-         trow.appendChild(td_detail);
-         $('#steps-table table tbody')[0].appendChild(trow);
+    }else{
+        //set's row one if no row's are currently there
+        //create table row element
+        const  trow = $(document)[0].createElement("tr");
+        //create row cell step number
+        const td_num = $(document)[0].createElement("td");
+        td_num.innerText = '1';
+        trow.appendChild(td_num);
+        //create row cell for step details
+        const td_detail = $(document)[0].createElement("td");
+        const in_detail = $(document)[0].createElement("input");
+        in_detail.setAttribute('type', 'text');
+        td_detail.appendChild(in_detail);
+        const span_delete = $(document)[0].createElement("span");
+        span_delete.innerText = "X";
+        span_delete.setAttribute('onclick', 'deleteStep(1)');
+        td_detail.appendChild(span_delete);
+        trow.appendChild(td_detail);
+        $('#steps-table table tbody')[0].appendChild(trow);
     }
     
 }
