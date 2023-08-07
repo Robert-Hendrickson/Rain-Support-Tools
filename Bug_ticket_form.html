@@ -54,14 +54,14 @@
                                             </select>
                                         </td>
                                     </tr>
-                                    <tr>
+                                    <tr id="steps_input">
                                         <td>
                                             <label>
                                                 (Attempted)Steps<br /> to Reproduce
                                             </label>
                                         </td>
                                         <td>
-                                            <textarea id="steps_input" placeholder="Step by Step Instruction"></textarea>
+                                            <button onclick="popupControl('open','steps')">Steps</button><span id="number-of-steps" style="margin-left: 10px;">None</span>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -151,38 +151,39 @@
         <div id="input_error">
             Please make sure all inputs have something entered, or have a reason that nothing can be entered.(i.e.:No errors in Console)
         </div>
-        <div>
+        <div id="buttons">
             <input type="button" value="Generate" onclick="checkInputs()" />
-            <input type="button" value="Copy" onclick="copyTicket()" />
             <input type="button" value="Reset" onclick="resetCheck()" />
         </div>
-        <div>
-            <textarea id="bug-glitch-ticket">
-**LOCATION:**
-Store ID:
-
-System Area:
-
-Can you recreate the problem on your demo site (if yes please continue, if no use the "Bug - non reproducible" macro)?
-
-STEPS TO REPRODUCE:
-1.
-2.
-3.
-
-ACTUAL RESULTS:(Please be as detailed as possible.)
-Description:
-
-Example:(If this pertains to the customer's site, please provide links to the relevant pages.)
-
-Screenshot:
-
-Video:
-
-EXPECTED RESULTS:
-
-CONSOLE ERRORS:
-            </textarea>
+        <div style="display: none;" class="container generated_popup">
+            <div id="generated_popup">
+                <div>
+                    <input type="button" value="Copy" onclick="copyTicket()" />
+                    <input type="button" value="Close" onclick="popupControl('close','ticket')" />
+                </div>
+                <div>
+                    <textarea id="bug-glitch-ticket"></textarea>
+                </div>
+            </div>
+        </div>
+        <div style="display: none;" class="container steps_popup">
+            <div id="steps_popup">
+                <div>
+                    <input type="button" value="Save" onclick="saveSteps()" />
+                    <input type="button" value="Close" onclick="popupControl('close','steps')" />
+                </div>
+                <div id="steps-table">
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td><input type="text" /><span onclick="deleteStep(1)">X</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <input style="float: right;" type="button" value="+New" onclick="newStep()" />
+                </div>
+            </div>
         </div>
     </body>
 </html>
