@@ -71,5 +71,8 @@ div.container.steps_popup{
     width: 100%;
 }
 #steps-table > table tr td:nth-child(2) input {
-    width: 95%;
+    width: 90%;
+}
+#steps-table > table tr td:last-child span{
+    cursor: pointer;
 }
