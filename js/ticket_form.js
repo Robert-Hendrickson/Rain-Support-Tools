@@ -263,11 +263,14 @@ function newStep(){
     
 }
 function saveSteps(){
-    $('#number-of-steps')[0].innerText = $('#steps-table table tbody tr').length;
+    if($('#steps-table table tbody tr:first-child td:last-child input')[0].value != ''){
+        $('#number-of-steps')[0].innerText = $('#steps-table table tbody tr').length;
+    }else{
+        $('#number-of-steps')[0].innerText = 'None';
+    }
     popupControl('close','steps');
 }
 function deleteStep(step){
-    //.remove()
     $(`#steps-table > table > tbody tr:nth-child(${step})`).remove();
     let x = $('#steps-table > table > tbody tr');
     let y = 1;
