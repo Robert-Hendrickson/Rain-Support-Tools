@@ -14,7 +14,9 @@ function reset() {
     $('#steps-table table tbody').remove();
     let steps_reset = $(document)[0].createElement('tbody')
     $('#steps-table table')[0].appendChild(steps_reset);
-    newStep();
+    for(i=0;i<3;i++){
+        newStep();
+    };
     $('#number-of-steps')[0].innerText = 'None';
     let base_ticket = `**LOCATION:**
 Store ID:
