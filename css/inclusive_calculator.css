@@ -39,10 +39,10 @@ input[disabled] {
     border-left:#000 solid 2px;
 }
 div.totals {
-    width: 440px;
+    width: 475px;
     float: left;
 }
 div.totals div {
     float: left;
-    width: 50%;
+    /*width: 50%;*/
 }
