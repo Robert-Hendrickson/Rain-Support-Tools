@@ -1,9 +1,7 @@
 #input-values {
+    width: 100%;
     border: #000 5px solid;
     min-height: 277px;
-    background-color: white;
-    position: relative;
-    z-index: 2;
 }
 #input-values > table table {
     float: left;
@@ -17,16 +15,8 @@ textarea {
     width: 197px;
 }
 #input_error {
-    background-color: #ff000057;
-    color: #000;
-    width: 300px;
-    padding: 10px;
-    transition-duration: 2s;
-    translate: 200px -100px;
-}
-#input_error.active{
-    transition-duration: 2s;
-    translate: 200px -22px;
+    display: none;
+    color: red;
 }
 #bug-glitch-ticket {
     min-height: 990px;

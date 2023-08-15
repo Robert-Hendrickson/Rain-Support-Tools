@@ -61,6 +61,7 @@ function steps_check(){
     }
 }
 function checkInputs() {
+    $('#input_error').css('display','none');
     var inputs = {
         "crm": $('#crm_input')[0].value,
         "area": $('#system_input')[0].value,
@@ -74,7 +75,6 @@ function checkInputs() {
         "console": $('#console_input')[0].value
     };
     if(inputs.crm && inputs.area && inputs.replicable && inputs.steps && inputs.description && (inputs.example && !regex_na.test(inputs.example)) && (inputs.screenshots && !regex_na.test(inputs.screenshots)) && (inputs.videos && !regex_na.test(inputs.videos)) && inputs.expectation && inputs.console){
-        $('#input_error')[0].classList = '';
         $('#error-borders')[0].innerHTML ='';
         $('#steps_input td:last-child button')[0].removeAttribute('style');
         generateTicket();
@@ -88,7 +88,7 @@ function checkInputs() {
                 borders = borders +`${newborder}`;
             };
         };
-        $('#input_error')[0].classList = 'active';
+        $('#input_error').css('display','block');
         if(!inputs.crm){
             addBorder('#crm_input');
         };
