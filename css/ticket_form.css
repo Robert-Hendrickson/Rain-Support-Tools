@@ -37,6 +37,7 @@ div.reset-popup{
     position:absolute;
     left:40%;
     top: 30%;
+    z-index: 3;
 }
 /*Generated Ticket Popup*/
 div.container.generated_popup{
