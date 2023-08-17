@@ -1,9 +1,10 @@
 //set regex value to be checked against
 let regex_na = new RegExp('^(n|N)\/*(a|A)');
+let regex_local_path = new RegExp('^file:.*(Users)*(Screenpresso)*');
 function reset() {
     $('#error-borders')[0].innerHTML =''
     $('#steps_input td:last-child button')[0].removeAttribute('style');
-    $('#input_error').css('display','none');
+    $('#input_error')[0].classList = '';
     var reset_values = ["crm_input", "system_input", "description_input", "example_input", "screenshot_input", "video_input", "expectation_input", "console_input"]
     for(let i = 0; i < reset_values.length; i++){
         let remove = reset_values[i];

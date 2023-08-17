@@ -91,6 +91,13 @@
                                 </tbody>
                             </table>
                             <table>
+                                <!--
+                                    need to add a regex checker to make sure local file links aren't being added to the ticket info
+                                    let x = new regex('(?i)^file:[\/]+|Users|Screenpresso')
+                                    this should grab anything that begins with file: or has either Users or Screenpesso in the file path
+                                    google links won't have that info in them.
+                                    Also maybe need to update the input method to mimic the way steps are entered. then we can check links before they are saved instead of when they try to create the ticket.
+                                -->
                                 <tbody>
                                     <tr>
                                         <td>
