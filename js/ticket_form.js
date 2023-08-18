@@ -5,7 +5,7 @@ function reset() {
     $('#error-borders')[0].innerHTML =''
     $('#steps_input td:last-child button')[0].removeAttribute('style');
     $('#input_error')[0].classList = '';
-    var reset_values = ["crm_input", "system_input", "description_input", "example_input", "video_input", "expectation_input", "console_input"]
+    var reset_values = ["crm_input", "system_input", "description_input", "example_input", "expectation_input", "console_input"]
     for(let i = 0; i < reset_values.length; i++){
         let remove = reset_values[i];
         $(`#${remove}`)[0].value = '';
@@ -20,13 +20,16 @@ function reset() {
     };
     $('#number-of-steps')[0].innerText = 'None';
     //reset screenshot table
-    console.log('resetting screenshots');
+    console.log('resetting screenshot list');
     $('#screenshot-table table tbody').remove();
     let screenshot_reset = $(document)[0].createElement('tbody')
     $('#screenshot-table table')[0].appendChild(screenshot_reset);
-    for(i=0;i<3;i++){
-        newRow('screenshot-table');
-    };
+    newRow('screenshot-table');
+    console.log("resetting videolist")
+    $('#video-table table tbody').remove();
+    let video_reset = $(document)[0].createElement('tbody')
+    $('#video-table table')[0].appendChild(video_reset);
+    newRow('video-table');
     let base_ticket = `**LOCATION:**
 Store ID:
 
@@ -76,6 +79,13 @@ function screenshot_check(){
         return false;
     }
 }
+function video_check(){
+    if($('#video-table tbody tr').length > 0 && $('#video-table tbody tr td:last-child input')[0].value != '' && !regex_na.test($('#video-table tbody tr td:last-child input')[0].value)){
+        return true;
+    }else{
+        return false;
+    }
+}
 function checkInputs() {
     var inputs = {
         "crm": $('#crm_input')[0].value,
@@ -85,17 +95,21 @@ function checkInputs() {
         "description": $('#description_input')[0].value,
         "example": $('#example_input')[0].value,
         "screenshots": screenshot_check(),
-        "videos": $('#video_input')[0].value,
+        "videos": video_check(),
         "expectation": $('#expectation_input')[0].value,
         "console": $('#console_input')[0].value
     };
-    if(inputs.crm && inputs.area && inputs.replicable && inputs.steps && inputs.description && (inputs.example && !regex_na.test(inputs.example)) && inputs.screenshots && (inputs.videos && !regex_na.test(inputs.videos)) && inputs.expectation && inputs.console){
+    if(inputs.crm && inputs.area && inputs.replicable && inputs.steps && inputs.description && (inputs.example && !regex_na.test(inputs.example)) && inputs.screenshots && inputs.videos && inputs.expectation && inputs.console){
         $('#input_error')[0].classList = '';
         $('#error-borders')[0].innerHTML ='';
         $('#steps_input td:last-child button')[0].removeAttribute('style');
+        $('#video-input')[0].removeAttribute('style');
+        $('#screenshot-input')[0].removeAttribute('style');
         generateTicket();
     }else{
         $('#steps_input td:last-child button')[0].removeAttribute('style');
+        $('#video-input')[0].removeAttribute('style');
+        $('#screenshot-input')[0].removeAttribute('style');
         let borders = '';
         function addBorder(newborder){
             if(borders){
@@ -127,7 +141,7 @@ function checkInputs() {
             $('#screenshot-input')[0].setAttribute('style','background-color: red;');
         };
         if(!inputs.videos | regex_na.test(inputs.videos)){
-            addBorder('#video_input');
+            $('#video-input')[0].setAttribute('style','background-color: red;');
         };
         if(!inputs.expectation){
             addBorder('#expectation_input');
@@ -161,10 +175,9 @@ function generateTicket() {
         screenshot_output = screenshot_output + `${entered_info[i].value}\n`;
     };
     video_output = '';
-    entered_info = $('#video_input')[0].value;
-    split_info = entered_info.split('\n');
-    for(var i=0; i<split_info.length; i++){
-        video_output = video_output + `${split_info[i]}\n`;
+    entered_info = $('#video-table tbody tr td:last-child input');
+    for(var i=0; i<entered_info.length; i++){
+        video_output = video_output + `${entered_info[i].value}\n`;
     };
     let is_replicable = '';
     let replicable_input = $('#replicable_input')[0].value;
@@ -307,6 +320,32 @@ function saveScreenshots(){
         popupControl('close','screenshot_popup');
     }else{
         screenshotError('show');
+    }
+}
+function videoError(e){
+    if(e === 'show'){
+        $('.video-error').addClass('active');
+    }else if(e === 'hide'){
+        $('.video-error').removeClass('active');
+    }
+}
+function saveVideos(){
+    let x = $('#video-table table tbody tr td:last-child input');
+    let result = true;
+    for(i=0;i<x.length;i++){
+        x[i].removeAttribute('style');
+    }
+    for(i=0;i<x.length;i++){
+        if(regex_local_path.test(x[i].value)){
+            x[i].setAttribute('style','border: red solid 2px');
+            result = false;
+        }
+    }
+    if(result){
+        videoError('hide');
+        popupControl('close','video_popup');
+    }else{
+        videoError('show');
     }
 }
 function deleteRow(table,row){
