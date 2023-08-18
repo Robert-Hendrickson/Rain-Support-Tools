@@ -55,7 +55,7 @@ div.container.generated_popup{
     background-color: #808080;
 }
 /*Number of Steps Popup*/
-div.container.steps_popup{
+div.container.steps_popup, div.container.screenshot_popup{
     position: absolute;
     z-index: 2;
     top: 0px;
@@ -63,7 +63,7 @@ div.container.steps_popup{
     height: 100%;
     background-color: #808080db;
 }
-.container.steps_popup > #steps_popup{
+.container.steps_popup > #steps_popup, .container.screenshot_popup > #screenshot_popup{
     width:80%;
     margin: 0px auto;
     border: solid 5px #000;
@@ -73,17 +73,27 @@ div.container.steps_popup{
     min-height: 400px;
 }
 /*steps table*/
-#steps-table{
+#steps-table,#screenshot-table{
     width: 40%;
     background-color: #fff;
     margin: 10px auto;
 }
-#steps-table > table{
+#steps-table > table,#screenshot-table > table{
     width: 100%;
 }
-#steps-table > table tr td:nth-child(2) input {
+#steps-table > table tr td:nth-child(2) input,#screenshot-table > table tr td:nth-child(2) input {
     width: 90%;
 }
-#steps-table > table tr td:last-child span{
+#steps-table > table tr td:last-child span,#screenshot-table > table tr td:last-child span{
     cursor: pointer;
+}
+.screenshot-error {
+    background-color: #ff0000bd;
+    width: 28%;
+    float: left;
+    opacity: 0%;
+}
+.screenshot-error.active {
+    transition-duration: 2s;
+    opacity: 100%;
 }
