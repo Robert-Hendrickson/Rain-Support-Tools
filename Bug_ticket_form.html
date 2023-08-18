@@ -61,7 +61,7 @@
                                             </label>
                                         </td>
                                         <td>
-                                            <button onclick="popupControl('open','steps')">Steps</button><span id="number-of-steps" style="margin-left: 10px;">None</span>
+                                            <button onclick="popupControl('open','steps_popup')">Steps</button><span id="number-of-steps" style="margin-left: 10px;">None</span>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -99,7 +99,7 @@
                                             </label>
                                         </td>
                                         <td>
-                                            <textarea id="screenshot_input"  placeholder="Screenshot Links. Please seperate using returns"></textarea>
+                                            <input id="screenshot-input" type="button" value="list" onclick="popupControl('open','screenshot_popup')">
                                         </td>
                                     </tr>
                                     <tr>
@@ -109,7 +109,7 @@
                                             </label>
                                         </td>
                                         <td>
-                                            <textarea id="video_input"  placeholder="Video Link(s). Please seperate using returns"></textarea>
+                                            <input id="video-input" type="button" value="list" onclick="popupControl('open','video_popup')">
                                         </td>
                                     </tr>
                                 </tbody>
@@ -160,7 +160,7 @@
             <div id="generated_popup">
                 <div>
                     <input type="button" value="Copy" onclick="copyTicket()" />
-                    <input type="button" value="Close" onclick="popupControl('close','ticket')" />
+                    <input type="button" value="Close" onclick="popupControl('close','generated_popup')" />
                 </div>
                 <div>
                     <textarea id="bug-glitch-ticket"></textarea>
@@ -171,26 +171,72 @@
             <div id="steps_popup">
                 <div>
                     <input type="button" value="Save" onclick="saveSteps()" />
-                    <input type="button" value="Close" onclick="popupControl('close','steps')" />
+                    <input type="button" value="Close" onclick="popupControl('close','steps_popup')" />
                 </div>
                 <div id="steps-table">
                     <table>
                         <tbody>
                             <tr>
                                 <td>1</td>
-                                <td><input type="text" /><span onclick="deleteStep(1)">X</span></td>
+                                <td><input type="text" /><span onclick="deleteRow('steps-table',1)">X</span></td>
                             </tr>
                             <tr>
                                 <td>2</td>
-                                <td><input type="text" /><span onclick="deleteStep(2)">X</span></td>
+                                <td><input type="text" /><span onclick="deleteRow('steps-table',2)">X</span></td>
                             </tr>
                             <tr>
                                 <td>3</td>
-                                <td><input type="text" /><span onclick="deleteStep(3)">X</span></td>
+                                <td><input type="text" /><span onclick="deleteRow('steps-table',3)">X</span></td>
                             </tr>
                         </tbody>
                     </table>
-                    <input style="float: right;" type="button" value="+New" onclick="newStep()" />
+                    <input style="float: right;" type="button" value="+New" onclick="newRow('steps-table')" />
+                </div>
+            </div>
+        </div>
+        <div style="display: none;" class="container screenshot_popup">
+            <div id="screenshot_popup">
+                <div>
+                    <input type="button" value="Save" onclick="saveScreenshots()" />
+                </div>
+                <div class="screenshot-error">
+                    <div id="error">
+                        One or more of the provided urls points to a local file on your computer. Please make sure that all url's point to an available source.
+                    </div>
+                </div>
+                <div id="screenshot-table">
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td><input type="text" /><span onclick="deleteRow('screenshot-table',1)">X</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <input style="float: right;" type="button" value="+New" onclick="newRow('screenshot-table')" />
+                </div>
+            </div>
+        </div>
+        <div style="display: none;" class="container video_popup">
+            <div id="video_popup">
+                <div>
+                    <input type="button" value="Save" onclick="saveVideos()" />
+                </div>
+                <div class="video-error">
+                    <div id="error">
+                        One or more of the provided urls points to a local file on your computer. Please make sure that all url's point to an available source.
+                    </div>
+                </div>
+                <div id="video-table">
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td><input type="text" /><span onclick="deleteRow('video-table',1)">X</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <input style="float: right;" type="button" value="+New" onclick="newRow('video-table')" />
                 </div>
             </div>
         </div>
