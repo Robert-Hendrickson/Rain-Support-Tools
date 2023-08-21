@@ -1,6 +1,6 @@
 //set regex value to be checked against
 let regex_na = new RegExp('^(n|N)\/*(a|A)');
-let regex_local_path = new RegExp('^file:.*(Users)*(Screenpresso)*');
+let regex_local_path = new RegExp('^.*drive\.google\.com\/.*');
 function reset() {
     $('#error-borders')[0].innerHTML =''
     $('#steps_input td:last-child button')[0].removeAttribute('style');
@@ -161,7 +161,7 @@ function generateTicket() {
     entered_info = $('#steps-table tbody tr td:last-child input');
     for(var i=0; i<entered_info.length; i++){
         let z = i + 1;
-        replication_steps = replication_steps + `${z}.${entered_info[i].value}\n`;
+        replication_steps = replication_steps + `${z}. ${entered_info[i].value}\n`;
     };
     output_example = '';
     entered_info = $('#example_input')[0].value;
@@ -310,7 +310,7 @@ function saveScreenshots(){
         x[i].removeAttribute('style');
     }
     for(i=0;i<x.length;i++){
-        if(regex_local_path.test(x[i].value)){
+        if(!regex_local_path.test(x[i].value)){
             x[i].setAttribute('style','border: red solid 2px');
             result = false;
         }
@@ -336,7 +336,7 @@ function saveVideos(){
         x[i].removeAttribute('style');
     }
     for(i=0;i<x.length;i++){
-        if(regex_local_path.test(x[i].value)){
+        if(!regex_local_path.test(x[i].value)){
             x[i].setAttribute('style','border: red solid 2px');
             result = false;
         }
