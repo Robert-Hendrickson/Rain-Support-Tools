@@ -253,6 +253,12 @@ function popupControl(x,y){
             $(`.container.${y}_popup`)[0].removeAttribute('style');
             holdCurrent(y);
         }
+        if(y === 'screenshot'){
+            screenshotError('hide');
+        }
+        if(y === 'video'){
+            videoError('hide');
+        }
     }
 }
 function newRow(table){
