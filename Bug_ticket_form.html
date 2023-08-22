@@ -61,7 +61,7 @@
                                             </label>
                                         </td>
                                         <td>
-                                            <button onclick="popupControl('open','steps_popup')">Steps</button><span id="number-of-steps" style="margin-left: 10px;">None</span>
+                                            <button onclick="popupControl('open','steps')">Steps</button><span id="number-of-steps" style="margin-left: 10px;">None</span>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -99,7 +99,7 @@
                                             </label>
                                         </td>
                                         <td>
-                                            <input id="screenshot-input" type="button" value="list" onclick="popupControl('open','screenshot_popup')">
+                                            <input id="screenshot-input" type="button" value="list" onclick="popupControl('open','screenshot')">
                                         </td>
                                     </tr>
                                     <tr>
@@ -109,7 +109,7 @@
                                             </label>
                                         </td>
                                         <td>
-                                            <input id="video-input" type="button" value="list" onclick="popupControl('open','video_popup')">
+                                            <input id="video-input" type="button" value="list" onclick="popupControl('open','video')">
                                         </td>
                                     </tr>
                                 </tbody>
@@ -160,7 +160,7 @@
             <div id="generated_popup">
                 <div>
                     <input type="button" value="Copy" onclick="copyTicket()" />
-                    <input type="button" value="Close" onclick="popupControl('close','generated_popup')" />
+                    <input type="button" value="Close" onclick="popupControl('close','generated')" />
                 </div>
                 <div>
                     <textarea id="bug-glitch-ticket"></textarea>
@@ -171,26 +171,26 @@
             <div id="steps_popup">
                 <div>
                     <input type="button" value="Save" onclick="saveSteps()" />
-                    <input type="button" value="Close" onclick="popupControl('close','steps_popup')" />
+                    <input type="button" value="Close" onclick="popupControl('close','steps')" />
                 </div>
                 <div id="steps-table">
                     <table>
                         <tbody>
                             <tr>
                                 <td>1</td>
-                                <td><input type="text" /><span onclick="deleteRow('steps-table',1)">X</span></td>
+                                <td><input type="text" /><span onclick="deleteRow('steps',1)">X</span></td>
                             </tr>
                             <tr>
                                 <td>2</td>
-                                <td><input type="text" /><span onclick="deleteRow('steps-table',2)">X</span></td>
+                                <td><input type="text" /><span onclick="deleteRow('steps',2)">X</span></td>
                             </tr>
                             <tr>
                                 <td>3</td>
-                                <td><input type="text" /><span onclick="deleteRow('steps-table',3)">X</span></td>
+                                <td><input type="text" /><span onclick="deleteRow('steps',3)">X</span></td>
                             </tr>
                         </tbody>
                     </table>
-                    <input style="float: right;" type="button" value="+New" onclick="newRow('steps-table')" />
+                    <input style="float: right;" type="button" value="+New" onclick="newRow('steps')" />
                 </div>
             </div>
         </div>
@@ -198,6 +198,7 @@
             <div id="screenshot_popup">
                 <div>
                     <input type="button" value="Save" onclick="saveScreenshots()" />
+                    <input type="button" value="Close" onclick="replaceCurrent('screenshot')" />
                 </div>
                 <div class="screenshot-error">
                     <div id="error">
@@ -211,11 +212,11 @@
                         <tbody>
                             <tr>
                                 <td>1</td>
-                                <td><input type="text" /><span onclick="deleteRow('screenshot-table',1)">X</span></td>
+                                <td><input type="text" /><span onclick="deleteRow('screenshot',1)">X</span></td>
                             </tr>
                         </tbody>
                     </table>
-                    <input style="float: right;" type="button" value="+New" onclick="newRow('screenshot-table')" />
+                    <input style="float: right;" type="button" value="+New" onclick="newRow('screenshot')" />
                 </div>
             </div>
         </div>
@@ -223,6 +224,7 @@
             <div id="video_popup">
                 <div>
                     <input type="button" value="Save" onclick="saveVideos()" />
+                    <input type="button" value="Close" onclick="replaceCurrent('video')" />
                 </div>
                 <div class="video-error">
                     <div id="error">
@@ -236,11 +238,11 @@
                         <tbody>
                             <tr>
                                 <td>1</td>
-                                <td><input type="text" /><span onclick="deleteRow('video-table',1)">X</span></td>
+                                <td><input type="text" /><span onclick="deleteRow('video',1)">X</span></td>
                             </tr>
                         </tbody>
                     </table>
-                    <input style="float: right;" type="button" value="+New" onclick="newRow('video-table')" />
+                    <input style="float: right;" type="button" value="+New" onclick="newRow('video')" />
                 </div>
             </div>
         </div>
