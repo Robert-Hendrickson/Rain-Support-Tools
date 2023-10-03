@@ -97,3 +97,14 @@ div.container.steps_popup, div.container.screenshot_popup,div.container.video_po
     transition-duration: 2s;
     opacity: 100%;
 }
+div#salesforce-calc{
+    width: 40%;
+    float: left;
+}
+div#example-suggestions{
+    width: 60%;
+    float: left;
+}
+div#salesforce-calc ul ul{
+    list-style-type: " - ";
+}
