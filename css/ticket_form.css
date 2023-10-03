@@ -30,7 +30,7 @@ textarea {
 }
 #bug-glitch-ticket {
     min-height: 990px;
-    width: 925px;
+    width: 900px;
 }
 div.reset-popup{
     background-color: #808080;
@@ -96,4 +96,15 @@ div.container.steps_popup, div.container.screenshot_popup,div.container.video_po
 .screenshot-error.active,.video-error.active {
     transition-duration: 2s;
     opacity: 100%;
+}
+div#salesforce-calc{
+    width: 40%;
+    float: left;
+}
+div#example-suggestions{
+    width: 60%;
+    float: left;
+}
+div#salesforce-calc ul ul{
+    list-style-type: " - ";
 }

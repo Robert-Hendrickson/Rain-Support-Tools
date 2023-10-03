@@ -64,6 +64,26 @@
                                             <button onclick="popupControl('open','steps')">Steps</button><span id="number-of-steps" style="margin-left: 10px;">None</span>
                                         </td>
                                     </tr>
+                                    <tr>
+                                        <td>
+                                            <label>
+                                                Screenshots
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <input id="screenshot-input" type="button" value="list" onclick="popupControl('open','screenshot')">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>
+                                                Video
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <input id="video-input" type="button" value="list" onclick="popupControl('open','video')">
+                                        </td>
+                                    </tr>
                                 </tbody>
                             </table>
                             <table>
@@ -86,30 +106,6 @@
                                         </td>
                                         <td>
                                             <textarea id="expectation_input"  placeholder="Expected Results."></textarea>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <table>
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <label>
-                                                Screenshots
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <input id="screenshot-input" type="button" value="list" onclick="popupControl('open','screenshot')">
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <label>
-                                                Video
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <input id="video-input" type="button" value="list" onclick="popupControl('open','video')">
                                         </td>
                                     </tr>
                                 </tbody>
@@ -142,7 +138,7 @@
                             </label>
                         </td>
                         <td>
-                            <textarea style="height: 124px; width: 1032px;" id="description_input" placeholder="Description"></textarea>
+                            <textarea style="height: 124px; width: 738px;" id="description_input" placeholder="Description"></textarea>
                         </td>
                     </tr>
                 </tbody>
@@ -155,6 +151,65 @@
         </div>
         <div id="input_error">
             Please make sure all inputs have something entered, or have a reason that nothing can be entered.(i.e.:No errors in Console)
+        </div>
+        <div id="bug-questions-tips" style="width: 100%">
+            <div id="salesforce-calc">
+                <h2>Salesforce Bug Questions</h2>
+                <p style="color: rgb(255, 112, 112); font-weight: bold;">If you have further questions, please speak to your L2.</p>
+                <ul>VIP Customer?
+                    <ul>
+                        <li>Does this customer have VIP Status: Yes or No</li>
+                    </ul>
+                </ul>
+                <ul>System Area
+                    <ul>
+                        <li>Choose the area of the system where the reported issue is happening. (other if it doesn't show in the list)</li>
+                    </ul>
+                </ul>
+                <ul>Shoppers Affected?
+                    <ul>
+                        <li>Is this affecting the end user(our clients customers) ability to use the system?</li>
+                    </ul>
+                </ul>
+                <ul>Incorrect Data?
+                    <ul>
+                        <li>Is the issue causing data to be wrong or display incorrectly?</li>
+                    </ul>
+                </ul>
+                <ul>Active Development Project?
+                    <ul>
+                        <li>Is this a recently fixed area/or released feature that is causing the issue?</li>
+                    </ul>
+                </ul>
+                <ul>Is Inventory Affected?
+                    <ul>
+                        <li>Is this causing inventory to be tracked incorrectly(inventory was either added or removed incorrectly or makes the inventory unusable)?</li>
+                    </ul>
+                </ul>
+                <ul>Escalated?
+                    <ul>
+                        <li>Is the client Escalated over this issue?</li>
+                    </ul>
+                </ul>
+                <ul>Money: Collecting Incorrect Amounts?
+                    <ul>
+                        <li>Is money being collected in different amounts two what is expected of the available info?(the system says it charged $3 but stripe/adyen/processor shows $4 or $2)</li>
+                    </ul>
+                </ul>
+                <ul>Prevention of Saving in Key Areas?
+                    <ul>
+                        <li>Is the issue causing data to be saved incorrectly or not save at all?</li>
+                    </ul>
+                </ul>
+                <ul>Suitable Workaround Available?
+                    <ul>
+                        <li>Is there a suitable work around for accomplishing the end goal that this issue is currently inhibitting?(suitable meaning that it's still doable within the systems parameters without abusing or misusing other parts of the system to accomplish the task)</li>
+                    </ul>
+                </ul>
+            </div>
+            <div style="display: none;" id="example-suggestions">
+                examples should only have url links if going to someones live site where there's an issue happening so dev doesn't have to search for the page. If the issue is on a report list the report title and the filters/date range used to find the issue
+            </div>
         </div>
         <div style="display: none;" class="container generated_popup">
             <div id="generated_popup">
