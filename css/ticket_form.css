@@ -102,9 +102,13 @@ div#salesforce-calc{
     float: left;
 }
 div#example-suggestions{
-    width: 60%;
+    width: 40%;
     float: left;
+    margin: 0px 100px;
 }
 div#salesforce-calc ul ul{
     list-style-type: " - ";
+}
+div#example-suggestions ol li{
+    padding-top: 10px;
 }
