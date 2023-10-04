@@ -207,8 +207,19 @@
                     </ul>
                 </ul>
             </div>
-            <div style="display: none;" id="example-suggestions">
-                examples should only have url links if going to someones live site where there's an issue happening so dev doesn't have to search for the page. If the issue is on a report list the report title and the filters/date range used to find the issue
+            <div id="example-suggestions">
+                <h2>Ticket info tips:</h2>
+                <p>
+                    Once you've entered data into salesforce there's a third party program that moves the data into another program which is used by dev to see and make notes about fixes. This page has some markup text that it uses to make text styling adjustments to data. This can make some of the data you enter not look correct to the development team. To avoid this please take into consideration the below information.
+                </p>
+                <ol>
+                    <li>
+                        Don't use "#" in your case details. This has two different potentials. If used in front of a number (#1234) it will try and create a link to the case numberd '1234' in the system used by dev. If there is a space between it and text (# text here) the text following it is turned into a header. If the data requires the "#" symbol to be there because it's part of a title or key indicator, wrapping the text in single('') our double("") quotes will keep the formatting from changing the # into other things.
+                    </li>
+                    <li>
+                        Please make sure that you are adding examples into the example area. This should ONLY include URL's to the customers LIVE site if there is a replicable problem on a specific page. If there is an issue with data on a report, please don't add a link to the report. Instead label the name of the report and any filters needed to see the issue(like the date if it's on the EOD Report for a specific day).
+                    </li>
+                </ol>
             </div>
         </div>
         <div style="display: none;" class="container generated_popup">
