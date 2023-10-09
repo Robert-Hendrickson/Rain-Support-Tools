@@ -1,6 +1,10 @@
 //set regex value to be checked against
-let regex_na = new RegExp('^(n|N)\/*(a|A)');
-let regex_local_path = new RegExp('^.*drive\.google\.com\/.*');
+let regex = {
+    "na": new RegExp(/^(n|N)\/*(a|A)/),
+    "googleDrive": new RegExp(/^.*drive\.google\.com\/.*/),
+    "exampleLink": new RegExp(/rainadmin|quiltstorewebsites/g)
+};
+//new regex for 'exampleLink' will return an array of every instance that is found new check can make sure array returned isn't null then display links that need changed.
 function reset() {
     $('#error-borders')[0].innerHTML =''
     $('#steps_input td:last-child button')[0].removeAttribute('style');
@@ -66,21 +70,21 @@ let output_example = '';
 let screenshot_output = '';
 let video_output = '';
 function steps_check(){
-    if($('#steps-table tbody tr').length > 0 && $('#steps-table tbody tr td:last-child input')[0].value != '' && !regex_na.test($('#steps-table tbody tr td:last-child input')[0].value)){
+    if($('#steps-table tbody tr').length > 0 && $('#steps-table tbody tr td:last-child input')[0].value != '' && !regex.na.test($('#steps-table tbody tr td:last-child input')[0].value)){
         return true;
     }else{
         return false;
     }
 }
 function screenshot_check(){
-    if($('#screenshot-table tbody tr').length > 0 && $('#screenshot-table tbody tr td:last-child input')[0].value != '' && !regex_na.test($('#screenshot-table tbody tr td:last-child input')[0].value)){
+    if($('#screenshot-table tbody tr').length > 0 && $('#screenshot-table tbody tr td:last-child input')[0].value != '' && !regex.na.test($('#screenshot-table tbody tr td:last-child input')[0].value)){
         return true;
     }else{
         return false;
     }
 }
 function video_check(){
-    if($('#video-table tbody tr').length > 0 && $('#video-table tbody tr td:last-child input')[0].value != '' && !regex_na.test($('#video-table tbody tr td:last-child input')[0].value)){
+    if($('#video-table tbody tr').length > 0 && $('#video-table tbody tr td:last-child input')[0].value != '' && !regex.na.test($('#video-table tbody tr td:last-child input')[0].value)){
         return true;
     }else{
         return false;
@@ -99,7 +103,7 @@ function checkInputs() {
         "expectation": $('#expectation_input')[0].value,
         "console": $('#console_input')[0].value
     };
-    if(inputs.crm && inputs.area && inputs.replicable && inputs.steps && inputs.description && (inputs.example && !regex_na.test(inputs.example)) && inputs.screenshots && inputs.videos && inputs.expectation && inputs.console){
+    if(inputs.crm && inputs.area && inputs.replicable && inputs.steps && inputs.description && (inputs.example && !regex.na.test(inputs.example)) && inputs.screenshots && inputs.videos && inputs.expectation && inputs.console){
         $('#input_error')[0].classList = '';
         $('#error-borders')[0].innerHTML ='';
         $('#steps_input td:last-child button')[0].removeAttribute('style');
@@ -134,13 +138,13 @@ function checkInputs() {
         if(!inputs.description){
             addBorder('#description_input');
         };
-        if(!inputs.example | regex_na.test(inputs.example)){
+        if(!inputs.example | regex.na.test(inputs.example)){
             addBorder('#example_input');
         };
-        if(!inputs.screenshots | regex_na.test(inputs.screenshots)){
+        if(!inputs.screenshots | regex.na.test(inputs.screenshots)){
             $('#screenshot-input')[0].setAttribute('style','background-color: red;');
         };
-        if(!inputs.videos | regex_na.test(inputs.videos)){
+        if(!inputs.videos | regex.na.test(inputs.videos)){
             $('#video-input')[0].setAttribute('style','background-color: red;');
         };
         if(!inputs.expectation){
@@ -325,7 +329,7 @@ function saveScreenshots(){
         x[i].removeAttribute('style');
     }
     for(i=0;i<x.length;i++){
-        if(!regex_local_path.test(x[i].value)){
+        if(!regex.googleDrive.test(x[i].value)){
             x[i].setAttribute('style','border: red solid 2px');
             result = false;
         }
@@ -351,7 +355,7 @@ function saveVideos(){
         x[i].removeAttribute('style');
     }
     for(i=0;i<x.length;i++){
-        if(!regex_local_path.test(x[i].value)){
+        if(!regex.googleDrive.test(x[i].value)){
             x[i].setAttribute('style','border: red solid 2px');
             result = false;
         }
