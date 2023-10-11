@@ -108,7 +108,14 @@ function video_check(){
         return false;
     }
 }
-//end data checking functions
+function exampleCheck(){
+    if(regex.exampleLink.test($('#example_input')[0].value) == null){
+        return true;
+    }else{
+        return false;
+    }
+}
+//end functions for boollean checks
 //check that inputed data is good before generating ticket info
 function checkInputs() {
     var inputs = {
@@ -123,7 +130,7 @@ function checkInputs() {
         "expectation": $('#expectation_input')[0].value,
         "console": $('#console_input')[0].value
     };
-    if(inputs.crm && inputs.area && inputs.replicable && inputs.steps && inputs.description && (inputs.example && !regex.na.test(inputs.example)) && inputs.screenshots && inputs.videos && inputs.expectation && inputs.console){
+    if(inputs.crm && inputs.area && inputs.replicable && inputs.steps && inputs.description && (inputs.example && !regex.na.test(inputs.example) && exampleCheck()) && inputs.screenshots && inputs.videos && inputs.expectation && inputs.console){
         $('#input_error')[0].classList = '';
         $('#error-borders')[0].innerHTML ='';
         $('#steps_input td:last-child button')[0].removeAttribute('style');
@@ -158,7 +165,7 @@ function checkInputs() {
         if(!inputs.description){
             addBorder('#description_input');
         };
-        if(!inputs.example | regex.na.test(inputs.example)){
+        if(!inputs.example | regex.na.test(inputs.example) | !exampleCheck()){
             addBorder('#example_input');
         };
         if(!inputs.screenshots | regex.na.test(inputs.screenshots)){
