@@ -109,7 +109,7 @@ function video_check(){
     }
 }
 function exampleCheck(){
-    if(regex.exampleLink.test($('#example_input')[0].value) == null){
+    if($('#example_input')[0].value.match(regex.exampleLink) == null){
         return true;
     }else{
         return false;

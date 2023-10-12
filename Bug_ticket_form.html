@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
-    <header>
+    <head>
         <link rel="stylesheet" href="/Rain-Support-Tools/css/ticket_form.css" />
+        <script src="/Rain-Support-Tools/js/ticket_form.js"></script>
         <style id="error-borders">
 
         </style>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-        <script src="/Rain-Support-Tools/js/ticket_form.js"></script>
-    </header>
+    </head>
     <body>
         <div style="display: none;" class="reset-popup">
             <h2>Are you sure you want to clear all reset values?</h2>
@@ -151,6 +151,9 @@
         </div>
         <div id="input_error">
             Please make sure all inputs have something entered, or have a reason that nothing can be entered.(i.e.:No errors in Console)
+        </div>
+        <div id="example_error">
+            Please make sure that any URL's provided as examples point to the customers live site. If there is a problem with data on a report please list the report name and the filters needed to see the issue.
         </div>
         <div id="bug-questions-tips" style="width: 100%">
             <div id="salesforce-calc">
