@@ -24,7 +24,15 @@ textarea {
     transition-duration: 2s;
     translate: 200px -100px;
 }
-#input_error.active{
+#example_error {
+    background-color: #ff000057;
+    color: #000;
+    width: 300px;
+    padding: 10px;
+    transition-duration: 2s;
+    translate: 200px -100px;
+}
+#input_error.active, #example_error.active{
     transition-duration: 2s;
     translate: 200px -22px;
 }
