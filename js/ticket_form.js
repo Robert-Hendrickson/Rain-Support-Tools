@@ -132,6 +132,8 @@ function checkInputs() {
     };
     if(inputs.crm && inputs.area && inputs.replicable && inputs.steps && inputs.description && (inputs.example && !regex.na.test(inputs.example) && exampleCheck()) && inputs.screenshots && inputs.videos && inputs.expectation && inputs.console){
         $('#input_error')[0].classList = '';
+        $('#error-wrapper').removeClass("active");
+        $('#error-wrapper').removeClass("input");
         $('#error-borders')[0].innerHTML ='';
         $('#steps_input td:last-child button')[0].removeAttribute('style');
         $('#video-input')[0].removeAttribute('style');
@@ -141,6 +143,7 @@ function checkInputs() {
         $('#steps_input td:last-child button')[0].removeAttribute('style');
         $('#video-input')[0].removeAttribute('style');
         $('#screenshot-input')[0].removeAttribute('style');
+        $('#error-wrapper').addClass("input");
         let borders = '';
         function addBorder(newborder){
             if(borders){
@@ -167,6 +170,13 @@ function checkInputs() {
         };
         if(!inputs.example | regex.na.test(inputs.example) | !exampleCheck()){
             addBorder('#example_input');
+        };
+        if(exampleCheck()){
+            $('#error-wrapper').removeClass("example");
+            $('#example_error').removeClass("active");
+        }else{
+            $('#error-wrapper').addClass("example");
+            $('#example_error').addClass("active");
         };
         if(!inputs.screenshots | regex.na.test(inputs.screenshots)){
             $('#screenshot-input')[0].setAttribute('style','background-color: red;');
