@@ -16,6 +16,17 @@ textarea {
     height: 75px;
     width: 197px;
 }
+#error-wrapper {
+    height: 0px;
+}
+#error-wrapper.input {
+    transition-duration: 2s;
+    height: 30px;
+}
+#error-wrapper.example {
+    transition-duration: 2s;
+    height: 100px;
+}
 #input_error {
     background-color: #ff000057;
     color: #000;
@@ -24,17 +35,21 @@ textarea {
     transition-duration: 2s;
     translate: 200px -100px;
 }
+#input_error.active{
+    transition-duration: 2s;
+    translate: 200px -22px;
+}
 #example_error {
     background-color: #ff000057;
     color: #000;
-    width: 300px;
+    width: 390px;
     padding: 10px;
     transition-duration: 2s;
-    translate: 200px -100px;
+    translate: 520px -250px;
 }
-#input_error.active, #example_error.active{
+#example_error.active{
     transition-duration: 2s;
-    translate: 200px -22px;
+    translate: 520px -100px;
 }
 #bug-glitch-ticket {
     min-height: 990px;
