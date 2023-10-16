@@ -152,9 +152,9 @@
         <div id="input_error">
             Please make sure all inputs have something entered, or have a reason that nothing can be entered.(i.e.:No errors in Console)
         </div>
-        <div id="example_error">
+        <!--div id="example_error">
             Please make sure that any URL's provided as examples point to the customers live site. If there is a problem with data on a report please list the report name and the filters needed to see the issue.
-        </div>
+        </div-->
         <div id="bug-questions-tips" style="width: 100%">
             <div id="salesforce-calc">
                 <h2>Salesforce Bug Questions</h2>
@@ -217,7 +217,8 @@
                 </p>
                 <ol>
                     <li>
-                        Don't use "#" in your case details. This has two different potentials. If used in front of a number (#1234) it will try and create a link to the case numberd '1234' in the system used by dev. If there is a space between it and text (# text here) the text following it is turned into a header. If the data requires the "#" symbol to be there because it's part of a title or key indicator, wrapping the text in single('') our double("") quotes will keep the formatting from changing the # into other things.
+                        Don't use "#" in your case details. This has two different potentials. If used in front of a number (#1234) it will try and create a link to the case numberd '1234' in the system used by dev. If there is a space between it and text (# text here) the text following it is turned into a header. If the data requires the "#" symbol to be there because it's part of a title or key indicator, wrapping the text in single('') our double("") quotes will keep the formatting from changing the # into other things.<br />
+                        <img src="/Rain-Support-Tools/imgs/hashtag_in_shortcut.png" />
                     </li>
                     <li>
                         Please make sure that you are adding examples into the example area. This should ONLY include URL's to the customers LIVE site if there is a replicable problem on a specific page. If there is an issue with data on a report, please don't add a link to the report. Instead label the name of the report and any filters needed to see the issue(like the date if it's on the EOD Report for a specific day).
