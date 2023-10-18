@@ -177,6 +177,7 @@ function checkInputs() {
         }else{
             $('#error-wrapper').addClass("example");
             $('#example_error').addClass("active");
+            console.error('Unacceptable data entered for examples');
         };
         if(!inputs.screenshots | regex.na.test(inputs.screenshots)){
             $('#screenshot-input')[0].setAttribute('style','background-color: red;');
