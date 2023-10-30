@@ -96,7 +96,9 @@ function steps_check(){
 }
 function screenshot_check(){
     if($('#screenshot-table tbody tr').length > 0 && $('#screenshot-table tbody tr td:last-child input')[0].value != '' && !regex.na.test($('#screenshot-table tbody tr td:last-child input')[0].value)){
-        //check for duplicates
+        let screenshot_data ={}
+        screenshot_data["list"] = $('#screenshot-table tbody');
+        console.log(screenshot_data["list"]);
         return true;
     }else{
         return false;
@@ -105,7 +107,6 @@ function screenshot_check(){
 function video_check(){
     if($('#video-table tbody tr').length > 0 && $('#video-table tbody tr td:last-child input')[0].value != '' && !regex.na.test($('#video-table tbody tr td:last-child input')[0].value)){
         return true;
-        //check for duplicates
     }else{
         return false;
     }
@@ -370,7 +371,29 @@ function screenshotError(e){
     }
 }
 //saves entered data for screenshots and displays an error message if the data to be saved doesn't meet expected criteria
+function screenshotDuplicatesCheck(){
+    let screenshot_data = {
+        "list": $('#screenshot-table table tbody')[0].querySelectorAll('tr'),
+        "_get_links": () => {
+            let url_list = '';
+            for(i=0;i<screenshot_data.list.length;i++){
+                url_list += screenshot_data.list[i].querySelector('td:nth-child(2) input').value + ',';
+            };
+            return url_list;
+        },
+        "pattern": null
+    };
+    screenshot_data['links'] = screenshot_data._get_links();
+    for(i=0;i<screenshot_data.list.length;i++){
+        screenshot_data.pattern = new RegExp(screenshot_data.list[i].querySelector('td:nth-child(2) input').value,'g')
+        if(screenshot_data.links.match(screenshot_data.pattern).length > 1){
+            console.error('duplicate links found');
+        };
+    };
+    console.log(screenshot_data.links);
+}
 function saveScreenshots(){
+    //check for duplicate links
     let x = $('#screenshot-table table tbody tr td:last-child input');
     let result = true;
     for(i=0;i<x.length;i++){
