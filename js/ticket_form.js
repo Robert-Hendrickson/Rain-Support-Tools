@@ -96,6 +96,7 @@ function steps_check(){
 }
 function screenshot_check(){
     if($('#screenshot-table tbody tr').length > 0 && $('#screenshot-table tbody tr td:last-child input')[0].value != '' && !regex.na.test($('#screenshot-table tbody tr td:last-child input')[0].value)){
+        //check for duplicates
         return true;
     }else{
         return false;
@@ -104,6 +105,7 @@ function screenshot_check(){
 function video_check(){
     if($('#video-table tbody tr').length > 0 && $('#video-table tbody tr td:last-child input')[0].value != '' && !regex.na.test($('#video-table tbody tr td:last-child input')[0].value)){
         return true;
+        //check for duplicates
     }else{
         return false;
     }
@@ -130,6 +132,9 @@ function checkInputs() {
         "expectation": $('#expectation_input')[0].value,
         "console": $('#console_input')[0].value
     };
+    //begin check video and screenshot links for duplicates
+
+    //end  check video and screenshot links for duplicates
     if(inputs.crm && inputs.area && inputs.replicable && inputs.steps && inputs.description && (inputs.example && !regex.na.test(inputs.example) && exampleCheck()) && inputs.screenshots && inputs.videos && inputs.expectation && inputs.console){
         $('#input_error')[0].classList = '';
         $('#error-wrapper').removeClass("active");
