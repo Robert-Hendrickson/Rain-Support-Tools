@@ -3,7 +3,9 @@
     Building a page to follow the behavior of the excell spreadsheet to show how the split should be done for payment methods when exported to qb
     <head>
         <style>
-            @import url('https://unpkg.com/css.gg@2.0.0/icons/css/pen.css');
+            #first-method span,#second-method span{
+                cursor: pointer;
+            }
         </style>
     </head>
     <body>
@@ -17,8 +19,9 @@
         <table>
             <thead>
                 <tr>
-                    <td>Totals</td>
-                    <td>Payment method 1<br /><input id="first-method" type="text"><span class="gg-pen">&nbsp;</span></td>
+                    <th>Totals</th>
+                    <th id="first-method">Payment method 1<br /><input disabled type="text"><span>Edit</span></th>
+                    <th id="second-method">Payment method 2<br /><input disabled type="text"><span>Edit</span></th>
                 </tr>
             </thead>
         </table>
