@@ -96,9 +96,6 @@ function steps_check(){
 };
 function screenshot_check(){
     if($('#screenshot-table tbody tr').length > 0 && $('#screenshot-table tbody tr td:last-child input')[0].value != '' && !regex.na.test($('#screenshot-table tbody tr td:last-child input')[0].value)){
-        let screenshot_data ={}
-        screenshot_data["list"] = $('#screenshot-table tbody');
-        console.log(screenshot_data["list"]);
         return true;
     }else{
         return false;
