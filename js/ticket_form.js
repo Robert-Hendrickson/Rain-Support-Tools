@@ -384,34 +384,39 @@ function screenshotDuplicatesCheck(){
         "pattern": null
     };
     screenshot_data['links'] = screenshot_data._get_links();
+    //reset outlines
     for(i=0;i<screenshot_data.list.length;i++){
-        screenshot_data.pattern = new RegExp(screenshot_data.list[i].querySelector('td:nth-child(2) input').value,'g')
+        screenshot_data.list[i].querySelector('td:nth-child(2) input').removeAttribute('style');
+    };
+    for(i=0;i<screenshot_data.list.length;i++){
+        screenshot_data.pattern = new RegExp(screenshot_data.list[i].querySelector('td:nth-child(2) input').value,'g');
         if(screenshot_data.links.match(screenshot_data.pattern).length > 1){
             console.error('duplicate links found');
+            screenshot_data.list[i].querySelector('td:nth-child(2) input').setAttribute('style','border: red solid 2px');
         };
     };
     console.log(screenshot_data.links);
-}
+};
 function saveScreenshots(){
     //check for duplicate links
     let x = $('#screenshot-table table tbody tr td:last-child input');
     let result = true;
     for(i=0;i<x.length;i++){
         x[i].removeAttribute('style');
-    }
+    };
     for(i=0;i<x.length;i++){
         if(!regex.googleDrive.test(x[i].value)){
             x[i].setAttribute('style','border: red solid 2px');
             result = false;
-        }
-    }
+        };
+    };
     if(result){
         screenshotError('hide');
         popupControl('close','screenshot');
     }else{
         screenshotError('show');
-    }
-}
+    };
+};
 //controls error message display for if entered video link data has a bad link or doesn't meet the expected criteria
 function videoError(e){
     if(e === 'show'){
