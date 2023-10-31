@@ -2,6 +2,9 @@
 <html>
     Building a page to follow the behavior of the excell spreadsheet to show how the split should be done for payment methods when exported to qb
     <head>
+        <style>
+            @import url('https://unpkg.com/css.gg@2.0.0/icons/css/pen.css');
+        </style>
     </head>
     <body>
         <div class="menu_links">
@@ -12,7 +15,12 @@
             </ul>
         </div>
         <table>
-            
+            <thead>
+                <tr>
+                    <td>Totals</td>
+                    <td>Payment method 1<br /><input id="first-method" type="text"><span class="gg-pen">&nbsp;</span></td>
+                </tr>
+            </thead>
         </table>
     </body>
 </html>
