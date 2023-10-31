@@ -18,7 +18,7 @@ let video_current;
 let list_current = {
     'screenshot': [],
     'video': []
-}
+};
 //reset function
 function reset() {
     $('#error-borders')[0].innerHTML =''
@@ -81,40 +81,40 @@ CONSOLE ERRORS:`;
 //controls popup for when the reset button is pressed
 function resetCheck(){
     $('div.reset-popup')[0].setAttribute('style','');
-}
+};
 //hides the popup for reset confirmation without reseting the data
 function goBack(){
     $('div.reset-popup')[0].setAttribute('style','display: none;');
-}
+};
 //functions for checking data input used as boollean returns in the checkInputs function
 function steps_check(){
     if($('#steps-table tbody tr').length > 0 && $('#steps-table tbody tr td:last-child input')[0].value != '' && !regex.na.test($('#steps-table tbody tr td:last-child input')[0].value)){
         return true;
     }else{
         return false;
-    }
-}
+    };
+};
 function screenshot_check(){
     if($('#screenshot-table tbody tr').length > 0 && $('#screenshot-table tbody tr td:last-child input')[0].value != '' && !regex.na.test($('#screenshot-table tbody tr td:last-child input')[0].value)){
         return true;
     }else{
         return false;
-    }
-}
+    };
+};
 function video_check(){
     if($('#video-table tbody tr').length > 0 && $('#video-table tbody tr td:last-child input')[0].value != '' && !regex.na.test($('#video-table tbody tr td:last-child input')[0].value)){
         return true;
     }else{
         return false;
-    }
-}
+    };
+};
 function exampleCheck(){
     if($('#example_input')[0].value.match(regex.exampleLink) == null){
         return true;
     }else{
         return false;
-    }
-}
+    };
+};
 //end functions for boollean checks
 //check that inputed data is good before generating ticket info
 function checkInputs() {
@@ -278,7 +278,7 @@ function copyTicket() {
 
     // Alert the copied text
     //console.log("Copied the text: " + copyText.value);
-}
+};
 //controls opening and closing different popup modals
 function popupControl(x,y){
     if(y === 'steps' || y === 'generated'){
@@ -286,22 +286,22 @@ function popupControl(x,y){
             $(`.container.${y}_popup`)[0].setAttribute('style','display: none');
         }else if(x === 'open'){
             $(`.container.${y}_popup`)[0].removeAttribute('style');
-        }
+        };
     }else if(y != 'steps' && y != 'generated'){
         if(x === 'close'){
             $(`.container.${y}_popup`)[0].setAttribute('style','display: none');
         }else if(x === 'open'){
             $(`.container.${y}_popup`)[0].removeAttribute('style');
             holdCurrent(y);
-        }
+        };
         if(y === 'screenshot'){
             screenshotError('hide');
-        }
+        };
         if(y === 'video'){
             videoError('hide');
-        }
-    }
-}
+        };
+    };
+};
 //END popup control script
 //creates new rows to tabels for inputs on replication steps and video/screenshot popups
 function newRow(table){
@@ -344,8 +344,8 @@ function newRow(table){
         td_detail.appendChild(span_delete);
         trow.appendChild(td_detail);
         $(`#${table}-table table tbody`)[0].appendChild(trow);
-    }
-}
+    };
+};
 //END row adding script
 //saves current steps data
 function saveSteps(){
@@ -353,65 +353,65 @@ function saveSteps(){
         $('#number-of-steps')[0].innerText = $('#steps-table table tbody tr').length;
     }else{
         $('#number-of-steps')[0].innerText = 'None';
-    }
+    };
     popupControl('close','steps');
-}
+};
 //controls error message display for if screenshot data has a bad link
 function screenshotError(e){
     if(e === 'show'){
         $('.screenshot-error').addClass('active');
     }else if(e === 'hide'){
         $('.screenshot-error').removeClass('active');
-    }
-}
+    };
+};
 //saves entered data for screenshots and displays an error message if the data to be saved doesn't meet expected criteria
 function saveScreenshots(){
     let x = $('#screenshot-table table tbody tr td:last-child input');
     let result = true;
     for(i=0;i<x.length;i++){
         x[i].removeAttribute('style');
-    }
+    };
     for(i=0;i<x.length;i++){
         if(!regex.googleDrive.test(x[i].value)){
             x[i].setAttribute('style','border: red solid 2px');
             result = false;
-        }
-    }
+        };
+    };
     if(result){
         screenshotError('hide');
         popupControl('close','screenshot');
     }else{
         screenshotError('show');
-    }
-}
+    };
+};
 //controls error message display for if entered video link data has a bad link or doesn't meet the expected criteria
 function videoError(e){
     if(e === 'show'){
         $('.video-error').addClass('active');
     }else if(e === 'hide'){
         $('.video-error').removeClass('active');
-    }
-}
+    };
+};
 //saves entered data for videos and displays an error message if the data to be saved doesn't meet expected criteria
 function saveVideos(){
     let x = $('#video-table table tbody tr td:last-child input');
     let result = true;
     for(i=0;i<x.length;i++){
         x[i].removeAttribute('style');
-    }
+    };
     for(i=0;i<x.length;i++){
         if(!regex.googleDrive.test(x[i].value)){
             x[i].setAttribute('style','border: red solid 2px');
             result = false;
-        }
-    }
+        };
+    };
     if(result){
         videoError('hide');
         popupControl('close','video');
     }else{
         videoError('show');
-    }
-}
+    };
+};
 //remove selected row from a table and renames the remaining rows to be ordered correctly
 function deleteRow(table,row){
     $(`#${table}-table > table > tbody tr:nth-child(${row})`).remove();
@@ -421,16 +421,16 @@ function deleteRow(table,row){
         x[i].querySelector('td:first-child').innerText = y;
         x[i].querySelector('td:last-child > span').setAttribute('onclick',`deleteRow('${table}',${y})`);
         y++;
-    }
-}
+    };
+};
 //saves current data in the table in case the modal is closed with no changes saved
 function holdCurrent(table){
     let list = $(`#${table}-table table tbody tr td:last-child input`);
     list_current[`${table}`] = [];
     for(i=0;i<list.length;i++){
         list_current[`${table}`][i] = list[i].value;
-    }
-}
+    };
+};
 //puts the previously held information back if the modal is closed without saving
 function replaceCurrent(table){
     popupControl('close', `${table}`)
@@ -441,5 +441,5 @@ function replaceCurrent(table){
         let l = i +1;
         newRow(table);
         $(`#${table}-table table tbody tr:nth-child(${l}) td:last-child input`)[0].value = list_current[`${table}`][i];
-    }
-}
+    };
+};
