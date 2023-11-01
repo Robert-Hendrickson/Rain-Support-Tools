@@ -394,7 +394,6 @@ function duplicateLinksCheck(area){
             no_duplicates = false;
         };
     };
-    console.log(area_data.links);
     return no_duplicates;
 };
 function saveScreenshots(){
