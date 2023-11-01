@@ -245,6 +245,7 @@
                 <div>
                     <input type="button" value="Save" onclick="saveSteps()" />
                     <input type="button" value="Close" onclick="popupControl('close','steps')" />
+                    <input type="button" value="+New Line" onclick="newRow('steps')" />
                 </div>
                 <div id="steps-table">
                     <table>
@@ -263,7 +264,6 @@
                             </tr>
                         </tbody>
                     </table>
-                    <input style="float: right;" type="button" value="+New" onclick="newRow('steps')" />
                 </div>
             </div>
         </div>
@@ -272,6 +272,7 @@
                 <div>
                     <input type="button" value="Save" onclick="saveScreenshots()" />
                     <input type="button" value="Close" onclick="replaceCurrent('screenshot')" />
+                    <input type="button" value="+New Line" onclick="newRow('screenshot')" />
                 </div>
                 <div class="screenshot-error">
                     <div id="error">
@@ -289,7 +290,6 @@
                             </tr>
                         </tbody>
                     </table>
-                    <input style="float: right;" type="button" value="+New" onclick="newRow('screenshot')" />
                 </div>
             </div>
         </div>
@@ -298,6 +298,7 @@
                 <div>
                     <input type="button" value="Save" onclick="saveVideos()" />
                     <input type="button" value="Close" onclick="replaceCurrent('video')" />
+                    <input type="button" value="+New Line" onclick="newRow('video')" />
                 </div>
                 <div class="video-error">
                     <div id="error">
@@ -315,7 +316,6 @@
                             </tr>
                         </tbody>
                     </table>
-                    <input style="float: right;" type="button" value="+New" onclick="newRow('video')" />
                 </div>
             </div>
         </div>
