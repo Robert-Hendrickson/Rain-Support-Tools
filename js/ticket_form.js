@@ -115,6 +115,48 @@ function exampleCheck(){
         return false;
     };
 };
+function duplicateLinksCheck(){
+    let all_links_data = {
+        _get_video_links: () =>{
+            let video_input_list = $('#video-table tbody tr > td:nth-child(2) input');
+            let video_list = [];
+            for(i=0;i<video_input_list.length;i++){
+                video_list[i] = video_input_list[i].value;
+            };
+            return video_list;
+        },
+        _get_screenshot_links: () =>{
+            let screenshot_input_list = $('#screenshot-table tbody tr > td:nth-child(2) input');
+            let screenshot_list = [];
+            for(i=0;i<screenshot_input_list.length;i++){
+                screenshot_list[i] = screenshot_input_list[i].value;
+            };
+            return screenshot_list;
+        },
+        _set_compile_list: () =>{
+            let full_list = '';
+            for(i=0;i<$this.screenshot_links.length;i++){
+                full_list += $this.screenshot_links[i];
+            };
+            for(i=0;i<$this.video_links.length;i++){
+                full_list += $this.video_links[i];
+            };
+            return full_list;
+        },
+        "pattern": null
+    };
+    all_links_data["screenshot_links"] = all_links_data._get_screenshot_links();
+    all_links_data["video_links"] = all_links_data._get_video_links();
+    all_links_data["link_list"] = all_links_data._set_compile_list();
+    var duplicates = false;
+    //maybe change the below to find shortest list first and only check it?
+    for(i=0;i<all_links_data.screenshot_links.length;i++){
+        all_links_data.pattern = new RegExp(all_links_data.screenshot_links[i],'g');
+        if((all_links_data.full_list.match(all_links_data.pattern).length > 1) && duplicates != true){
+            duplicates = true;
+        }
+    }
+};
 //end functions for boollean checks
 //check that inputed data is good before generating ticket info
 function checkInputs() {
@@ -368,7 +410,7 @@ function screenshotError(e){
     };
 };
 //saves entered data for screenshots and displays an error message if the data to be saved doesn't meet expected criteria
-function duplicateLinksCheck(area){
+function savedLinksCheck(area){
     let no_duplicates = true;
     let area_data = {
         "list": $(`#${area}-table table tbody`)[0].querySelectorAll('tr'),
@@ -397,7 +439,6 @@ function duplicateLinksCheck(area){
     return no_duplicates;
 };
 function saveScreenshots(){
-    //check for duplicate links
     let x = $('#screenshot-table table tbody tr td:last-child input');
     let result = true;
     for(i=0;i<x.length;i++){
@@ -409,7 +450,7 @@ function saveScreenshots(){
             result = false;
         };
     };
-    if(result && duplicateLinksCheck('screenshot')){
+    if(result && savedLinksCheck('screenshot')){
         screenshotError('hide');
         popupControl('close','screenshot');
     }else{
@@ -437,7 +478,7 @@ function saveVideos(){
             result = false;
         };
     };
-    if(result && duplicateLinksCheck('video')){
+    if(result && savedLinksCheck('video')){
         videoError('hide');
         popupControl('close','video');
     }else{
