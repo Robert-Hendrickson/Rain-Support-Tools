@@ -368,31 +368,34 @@ function screenshotError(e){
     };
 };
 //saves entered data for screenshots and displays an error message if the data to be saved doesn't meet expected criteria
-function screenshotDuplicatesCheck(){
-    let screenshot_data = {
-        "list": $('#screenshot-table table tbody')[0].querySelectorAll('tr'),
+function duplicateLinksCheck(area){
+    let no_duplicates = true;
+    let area_data = {
+        "list": $(`#${area}-table table tbody`)[0].querySelectorAll('tr'),
         "_get_links": () => {
             let url_list = '';
-            for(i=0;i<screenshot_data.list.length;i++){
-                url_list += screenshot_data.list[i].querySelector('td:nth-child(2) input').value + ',';
+            for(i=0;i<area_data.list.length;i++){
+                url_list += area_data.list[i].querySelector('td:nth-child(2) input').value + ',';
             };
             return url_list;
         },
         "pattern": null
     };
-    screenshot_data['links'] = screenshot_data._get_links();
+    area_data['links'] = area_data._get_links();
     //reset outlines
-    for(i=0;i<screenshot_data.list.length;i++){
-        screenshot_data.list[i].querySelector('td:nth-child(2) input').removeAttribute('style');
+    for(i=0;i<area_data.list.length;i++){
+        area_data.list[i].querySelector('td:nth-child(2) input').removeAttribute('style');
     };
-    for(i=0;i<screenshot_data.list.length;i++){
-        screenshot_data.pattern = new RegExp(screenshot_data.list[i].querySelector('td:nth-child(2) input').value,'g');
-        if(screenshot_data.links.match(screenshot_data.pattern).length > 1){
-            console.error('duplicate links found');
-            screenshot_data.list[i].querySelector('td:nth-child(2) input').setAttribute('style','border: red solid 2px');
+    for(i=0;i<area_data.list.length;i++){
+        area_data.pattern = new RegExp(area_data.list[i].querySelector('td:nth-child(2) input').value,'g');
+        if(area_data.links.match(area_data.pattern).length > 1){
+            console.error(`Duplicate links found in the ${area} list`);
+            area_data.list[i].querySelector('td:nth-child(2) input').setAttribute('style','border: red solid 2px');
+            no_duplicates = false;
         };
     };
-    console.log(screenshot_data.links);
+    console.log(area_data.links);
+    return no_duplicates;
 };
 function saveScreenshots(){
     //check for duplicate links
@@ -407,7 +410,7 @@ function saveScreenshots(){
             result = false;
         };
     };
-    if(result){
+    if(result && duplicateLinksCheck('screenshot')){
         screenshotError('hide');
         popupControl('close','screenshot');
     }else{
@@ -435,7 +438,7 @@ function saveVideos(){
             result = false;
         };
     };
-    if(result){
+    if(result && duplicateLinksCheck('video')){
         videoError('hide');
         popupControl('close','video');
     }else{
