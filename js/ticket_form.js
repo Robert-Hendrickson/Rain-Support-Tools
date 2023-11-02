@@ -135,11 +135,11 @@ function duplicateLinksCheck(){
         },
         _set_compile_list: () =>{
             let full_list = '';
-            for(i=0;i<$this.screenshot_links.length;i++){
-                full_list += $this.screenshot_links[i];
+            for(i=0;i<all_links_data.screenshot_links.length;i++){
+                full_list += all_links_data.screenshot_links[i];
             };
-            for(i=0;i<$this.video_links.length;i++){
-                full_list += $this.video_links[i];
+            for(i=0;i<all_links_data.video_links.length;i++){
+                full_list += all_links_data.video_links[i];
             };
             return full_list;
         },
@@ -150,12 +150,22 @@ function duplicateLinksCheck(){
     all_links_data["link_list"] = all_links_data._set_compile_list();
     var duplicates = false;
     //maybe change the below to find shortest list first and only check it?
-    for(i=0;i<all_links_data.screenshot_links.length;i++){
-        all_links_data.pattern = new RegExp(all_links_data.screenshot_links[i],'g');
-        if((all_links_data.full_list.match(all_links_data.pattern).length > 1) && duplicates != true){
-            duplicates = true;
-        }
-    }
+    if(all_links_data.video_links.length <= all_links_data.screenshot_links.length){
+        for(i=0;i<all_links_data.video_links.length;i++){
+            all_links_data.pattern = new RegExp(all_links_data.video_links[i],'g');
+            if(all_links_data.link_list.match(all_links_data.pattern).length > 1){
+                duplicates = true;
+            };
+        };
+    }else{
+        for(i=0;i<all_links_data.screenshot_links.length;i++){
+            all_links_data.pattern = new RegExp(all_links_data.screenshot_links[i],'g');
+            if(all_links_data.link_list.match(all_links_data.pattern).length > 1){
+                duplicates = true;
+            };
+        };
+    };
+    return duplicates;
 };
 //end functions for boollean checks
 //check that inputed data is good before generating ticket info
@@ -170,12 +180,13 @@ function checkInputs() {
         "screenshots": screenshot_check(),
         "videos": video_check(),
         "expectation": $('#expectation_input')[0].value,
-        "console": $('#console_input')[0].value
+        "console": $('#console_input')[0].value,
+        "duplicates": duplicateLinksCheck()
     };
     //begin check video and screenshot links for duplicates
 
     //end  check video and screenshot links for duplicates
-    if(inputs.crm && inputs.area && inputs.replicable && inputs.steps && inputs.description && (inputs.example && !regex.na.test(inputs.example) && exampleCheck()) && inputs.screenshots && inputs.videos && inputs.expectation && inputs.console){
+    if(inputs.crm && inputs.area && inputs.replicable && inputs.steps && inputs.description && (inputs.example && !regex.na.test(inputs.example) && exampleCheck()) && inputs.screenshots && inputs.videos && inputs.expectation && inputs.console && !inputs.duplicates){
         $('#input_error')[0].classList = '';
         $('#error-wrapper').removeClass("active");
         $('#error-wrapper').removeClass("input");
@@ -224,10 +235,10 @@ function checkInputs() {
             $('#example_error').addClass("active");
             console.error('Unacceptable data entered for examples');
         };
-        if(!inputs.screenshots | regex.na.test(inputs.screenshots)){
+        if(!inputs.screenshots || regex.na.test(inputs.screenshots) || inputs.duplicates){
             $('#screenshot-input')[0].setAttribute('style','background-color: red;');
         };
-        if(!inputs.videos | regex.na.test(inputs.videos)){
+        if(!inputs.videos || regex.na.test(inputs.videos) || inputs.duplicates){
             $('#video-input')[0].setAttribute('style','background-color: red;');
         };
         if(!inputs.expectation){
