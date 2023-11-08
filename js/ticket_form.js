@@ -143,7 +143,18 @@ function duplicateLinksCheck(){
             };
             return full_list;
         },
-        "pattern": null
+        "pattern": null,
+        "temp_pattern": (url) => {
+            let temp = '';
+            for(u=0;u<url.length;u++){
+                if(url[u] === '?'){
+                    break;
+                }else{
+                    temp += url[u];
+                };
+            };
+            return temp;
+        }
     };
     all_links_data["screenshot_links"] = all_links_data._get_screenshot_links();
     all_links_data["video_links"] = all_links_data._get_video_links();
@@ -152,14 +163,14 @@ function duplicateLinksCheck(){
     //maybe change the below to find shortest list first and only check it?
     if(all_links_data.video_links.length <= all_links_data.screenshot_links.length){
         for(i=0;i<all_links_data.video_links.length;i++){
-            all_links_data.pattern = new RegExp(all_links_data.video_links[i],'g');
+            all_links_data.pattern = new RegExp(all_links_data.temp_pattern(all_links_data.video_links[i]),'g');
             if(all_links_data.link_list.match(all_links_data.pattern).length > 1){
                 duplicates = true;
             };
         };
     }else{
         for(i=0;i<all_links_data.screenshot_links.length;i++){
-            all_links_data.pattern = new RegExp(all_links_data.screenshot_links[i],'g');
+            all_links_data.pattern = new RegExp(all_links_data.temp_pattern(all_links_data.screenshot_links[i]),'g');
             if(all_links_data.link_list.match(all_links_data.pattern).length > 1){
                 duplicates = true;
             };
@@ -443,7 +454,18 @@ function savedLinksCheck(area){
             };
             return url_list;
         },
-        "pattern": null
+        "pattern": null,
+        "temp_pattern": (url) => {
+            let temp = '';
+            for(u=0;u<url.length;u++){
+                if(url[u] === '?'){
+                    break;
+                }else{
+                    temp += url[u];
+                };
+            };
+            return temp;
+        }
     };
     area_data['links'] = area_data._get_links();
     //reset outlines
@@ -451,9 +473,9 @@ function savedLinksCheck(area){
         area_data.list[i].querySelector('td:nth-child(2) input').removeAttribute('style');
     };
     for(i=0;i<area_data.list.length;i++){
-        area_data.pattern = new RegExp(area_data.list[i].querySelector('td:nth-child(2) input').value,'g');
+        area_data.pattern = new RegExp(area_data.temp_pattern(area_data.list[i].querySelector('td:nth-child(2) input').value),'g');
         if(area_data.links.match(area_data.pattern).length > 1){
-            console.error(`Duplicate links found in the ${area} list`);
+            console.log(`Duplicate links found in the ${area} list`);
             area_data.list[i].querySelector('td:nth-child(2) input').setAttribute('style','border: red solid 2px');
             no_duplicates = false;
         };
