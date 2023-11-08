@@ -21,11 +21,15 @@ textarea {
 }
 #error-wrapper.input {
     transition-duration: 2s;
-    height: 30px;
+    height: 50px;
 }
 #error-wrapper.example {
     transition-duration: 2s;
-    height: 100px;
+    height: 130px;
+}
+#error-wrapper.duplicate {
+    transition-duration: 2s;
+    height: 110px;
 }
 #input_error {
     background-color: #ff000057;
@@ -33,11 +37,11 @@ textarea {
     width: 300px;
     padding: 10px;
     transition-duration: 2s;
-    translate: 200px -100px;
+    translate: 200px -230px;
 }
 #input_error.active{
     transition-duration: 2s;
-    translate: 200px -22px;
+    translate: 200px -128px;
 }
 #example_error {
     background-color: #ff000057;
@@ -45,11 +49,23 @@ textarea {
     width: 390px;
     padding: 10px;
     transition-duration: 2s;
-    translate: 520px -250px;
+    translate: 520px -3600px;
 }
 #example_error.active{
     transition-duration: 2s;
-    translate: 520px -100px;
+    translate: 520px -202px;
+}
+#duplicate_error {
+    background-color: #ff000057;
+    color: #000;
+    width: 180px;
+    padding: 10px;
+    transition-duration: 2s;
+    translate: 0px -155px;
+}
+#duplicate_error.active{
+    transition-duration: 2s;
+    translate: 0px 0px;
 }
 #bug-glitch-ticket {
     min-height: 990px;
