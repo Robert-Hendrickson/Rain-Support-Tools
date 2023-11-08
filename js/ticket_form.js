@@ -241,6 +241,13 @@ function checkInputs() {
         if(!inputs.videos || regex.na.test(inputs.videos) || inputs.duplicates){
             $('#video-input')[0].setAttribute('style','background-color: red;');
         };
+        if(!inputs.duplicates){
+            $('#error-wrapper').removeClass("duplicate");
+            $('#duplicate_error').removeClass('active');
+        }else{
+            $('#error-wrapper').addClass("duplicate");
+            $('#duplicate_error').addClass('active');
+        }
         if(!inputs.expectation){
             addBorder('#expectation_input');
         };
