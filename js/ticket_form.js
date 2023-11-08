@@ -194,6 +194,9 @@ function checkInputs() {
         $('#steps_input td:last-child button')[0].removeAttribute('style');
         $('#video-input')[0].removeAttribute('style');
         $('#screenshot-input')[0].removeAttribute('style');
+        if($('#duplicate_error')[0].classList == "active"){
+            $('#duplicate_error').removeClass('active');
+        };
         generateTicket();
     }else{
         $('#steps_input td:last-child button')[0].removeAttribute('style');
