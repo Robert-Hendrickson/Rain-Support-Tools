@@ -196,6 +196,7 @@ function checkInputs() {
         $('#screenshot-input')[0].removeAttribute('style');
         if($('#duplicate_error')[0].classList == "active"){
             $('#duplicate_error').removeClass('active');
+            $('#error-wrapper').removeClass("duplicate");
         };
         generateTicket();
     }else{
