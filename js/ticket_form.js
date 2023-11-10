@@ -115,6 +115,69 @@ function exampleCheck(){
         return false;
     };
 };
+function duplicateLinksCheck(){
+    let all_links_data = {
+        _get_video_links: () =>{
+            let video_input_list = $('#video-table tbody tr > td:nth-child(2) input');
+            let video_list = [];
+            for(i=0;i<video_input_list.length;i++){
+                video_list[i] = video_input_list[i].value;
+            };
+            return video_list;
+        },
+        _get_screenshot_links: () =>{
+            let screenshot_input_list = $('#screenshot-table tbody tr > td:nth-child(2) input');
+            let screenshot_list = [];
+            for(i=0;i<screenshot_input_list.length;i++){
+                screenshot_list[i] = screenshot_input_list[i].value;
+            };
+            return screenshot_list;
+        },
+        _set_compile_list: () =>{
+            let full_list = '';
+            for(i=0;i<all_links_data.screenshot_links.length;i++){
+                full_list += all_links_data.screenshot_links[i];
+            };
+            for(i=0;i<all_links_data.video_links.length;i++){
+                full_list += all_links_data.video_links[i];
+            };
+            return full_list;
+        },
+        "pattern": null,
+        "temp_pattern": (url) => {
+            let temp = '';
+            for(u=0;u<url.length;u++){
+                if(url[u] === '?'){
+                    break;
+                }else{
+                    temp += url[u];
+                };
+            };
+            return temp;
+        }
+    };
+    all_links_data["screenshot_links"] = all_links_data._get_screenshot_links();
+    all_links_data["video_links"] = all_links_data._get_video_links();
+    all_links_data["link_list"] = all_links_data._set_compile_list();
+    var duplicates = false;
+    //maybe change the below to find shortest list first and only check it?
+    if(all_links_data.video_links.length <= all_links_data.screenshot_links.length){
+        for(i=0;i<all_links_data.video_links.length;i++){
+            all_links_data.pattern = new RegExp(all_links_data.temp_pattern(all_links_data.video_links[i]),'g');
+            if(all_links_data.link_list.match(all_links_data.pattern).length > 1){
+                duplicates = true;
+            };
+        };
+    }else{
+        for(i=0;i<all_links_data.screenshot_links.length;i++){
+            all_links_data.pattern = new RegExp(all_links_data.temp_pattern(all_links_data.screenshot_links[i]),'g');
+            if(all_links_data.link_list.match(all_links_data.pattern).length > 1){
+                duplicates = true;
+            };
+        };
+    };
+    return duplicates;
+};
 //end functions for boollean checks
 //check that inputed data is good before generating ticket info
 function checkInputs() {
@@ -128,9 +191,13 @@ function checkInputs() {
         "screenshots": screenshot_check(),
         "videos": video_check(),
         "expectation": $('#expectation_input')[0].value,
-        "console": $('#console_input')[0].value
+        "console": $('#console_input')[0].value,
+        "duplicates": duplicateLinksCheck()
     };
-    if(inputs.crm && inputs.area && inputs.replicable && inputs.steps && inputs.description && (inputs.example && !regex.na.test(inputs.example) && exampleCheck()) && inputs.screenshots && inputs.videos && inputs.expectation && inputs.console){
+    //begin check video and screenshot links for duplicates
+
+    //end  check video and screenshot links for duplicates
+    if(inputs.crm && inputs.area && inputs.replicable && inputs.steps && inputs.description && (inputs.example && !regex.na.test(inputs.example) && exampleCheck()) && inputs.screenshots && inputs.videos && inputs.expectation && inputs.console && !inputs.duplicates){
         $('#input_error')[0].classList = '';
         $('#error-wrapper').removeClass("active");
         $('#error-wrapper').removeClass("input");
@@ -138,6 +205,10 @@ function checkInputs() {
         $('#steps_input td:last-child button')[0].removeAttribute('style');
         $('#video-input')[0].removeAttribute('style');
         $('#screenshot-input')[0].removeAttribute('style');
+        if($('#duplicate_error')[0].classList == "active"){
+            $('#duplicate_error').removeClass('active');
+            $('#error-wrapper').removeClass("duplicate");
+        };
         generateTicket();
     }else{
         $('#steps_input td:last-child button')[0].removeAttribute('style');
@@ -179,12 +250,19 @@ function checkInputs() {
             $('#example_error').addClass("active");
             console.error('Unacceptable data entered for examples');
         };
-        if(!inputs.screenshots | regex.na.test(inputs.screenshots)){
+        if(!inputs.screenshots || regex.na.test(inputs.screenshots) || inputs.duplicates){
             $('#screenshot-input')[0].setAttribute('style','background-color: red;');
         };
-        if(!inputs.videos | regex.na.test(inputs.videos)){
+        if(!inputs.videos || regex.na.test(inputs.videos) || inputs.duplicates){
             $('#video-input')[0].setAttribute('style','background-color: red;');
         };
+        if(!inputs.duplicates){
+            $('#error-wrapper').removeClass("duplicate");
+            $('#duplicate_error').removeClass('active');
+        }else{
+            $('#error-wrapper').addClass("duplicate");
+            $('#duplicate_error').addClass('active');
+        }
         if(!inputs.expectation){
             addBorder('#expectation_input');
         };
@@ -365,6 +443,45 @@ function screenshotError(e){
     };
 };
 //saves entered data for screenshots and displays an error message if the data to be saved doesn't meet expected criteria
+function savedLinksCheck(area){
+    let no_duplicates = true;
+    let area_data = {
+        "list": $(`#${area}-table table tbody`)[0].querySelectorAll('tr'),
+        "_get_links": () => {
+            let url_list = '';
+            for(i=0;i<area_data.list.length;i++){
+                url_list += area_data.list[i].querySelector('td:nth-child(2) input').value + ',';
+            };
+            return url_list;
+        },
+        "pattern": null,
+        "temp_pattern": (url) => {
+            let temp = '';
+            for(u=0;u<url.length;u++){
+                if(url[u] === '?'){
+                    break;
+                }else{
+                    temp += url[u];
+                };
+            };
+            return temp;
+        }
+    };
+    area_data['links'] = area_data._get_links();
+    //reset outlines
+    for(i=0;i<area_data.list.length;i++){
+        area_data.list[i].querySelector('td:nth-child(2) input').removeAttribute('style');
+    };
+    for(i=0;i<area_data.list.length;i++){
+        area_data.pattern = new RegExp(area_data.temp_pattern(area_data.list[i].querySelector('td:nth-child(2) input').value),'g');
+        if(area_data.links.match(area_data.pattern).length > 1){
+            console.log(`Duplicate links found in the ${area} list`);
+            area_data.list[i].querySelector('td:nth-child(2) input').setAttribute('style','border: red solid 2px');
+            no_duplicates = false;
+        };
+    };
+    return no_duplicates;
+};
 function saveScreenshots(){
     let x = $('#screenshot-table table tbody tr td:last-child input');
     let result = true;
@@ -377,7 +494,7 @@ function saveScreenshots(){
             result = false;
         };
     };
-    if(result){
+    if(result && savedLinksCheck('screenshot')){
         screenshotError('hide');
         popupControl('close','screenshot');
     }else{
@@ -405,7 +522,7 @@ function saveVideos(){
             result = false;
         };
     };
-    if(result){
+    if(result && savedLinksCheck('video')){
         videoError('hide');
         popupControl('close','video');
     }else{
