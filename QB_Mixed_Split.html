@@ -22,9 +22,13 @@
             /*table design*/
             table td{
                 border:2px #6e6c6c solid;
+                width: 120px;
             }
             td input{
                 width: 80%;
+            }
+            #column-totals-row{
+                height: 25px;
             }
         </style>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
@@ -67,7 +71,15 @@
                         <td class="id-account"></td>
                     </tr>
                     <tr id="tax-row">
-                        <td id="total-tax">$<input  /></td>
+                        <td id="total-tax">$<input /></td>
+                        <td class="id-cash"></td>
+                        <td class="id-credit"></td>
+                        <td class="id-debit"></td>
+                        <td class="id-gift-card"></td>
+                        <td class="id-account"></td>
+                    </tr>
+                    <tr id="column-totals-row">
+                        <td id="total-principle2"></td>
                         <td class="id-cash"></td>
                         <td class="id-credit"></td>
                         <td class="id-debit"></td>
@@ -89,7 +101,31 @@
             <input type="button" value="+New?" />
         </div>
         <script>
-
+            function displayColumns(column,checked){
+                if(checked){
+                    $(`.id-${column}`).removeClass('hide');
+                }else{
+                    $(`.id-${column}`).addClass('hide');
+                };
+            };
+            $(window).ready(function(){
+                $('#total-total input')[0].value = '100';
+                $('#total-principle input')[0].value = '90';
+                $('#total-tax input')[0].value = '10';
+            });
+            function test(){
+                let x = $('#total-total input')[0].value;
+                let y = 0;
+                y += parseFloat($('#total-principle input')[0].value);
+                y += parseFloat($('#total-tax input')[0].value);
+                y = y.toFixed(2);
+                console.log(x + ' , ' + y);
+                if(parseFloat(x).toFixed(2) === y){
+                    $('#total-principle2')[0].innerText = "True";
+                }else{
+                    $('#total-principle2')[0].innerText = "False";
+                };
+            };
         </script>
     </body>
 </html>
