@@ -32,6 +32,15 @@
             }
         </style>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+        <script>
+            //function is to set some test values so that I don't have to enter them repeatedly, can be removed on full release.
+            $(window).ready(function(){
+                $('#total-total input')[0].value = '100';
+                $('#total-principle input')[0].value = '90';
+                $('#total-tax input')[0].value = '10';
+                totalsColCalc();
+            });
+        </script>
     </head>
     <body>
         <div class="menu_links">
@@ -49,42 +58,42 @@
                         <th class="id-cash">Cash</th>
                         <th class="id-credit">Credit</th>
                         <th class="id-debit">Debit</th>
-                        <th class="id-gift-card">Gift Card</th>
-                        <th class="id-account">Account</th>
+                        <th class="id-gift-card hide">Gift Card</th>
+                        <th class="id-account hide">Account</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr id="totals-row">
-                        <td id="total-total">$<input /></td>
-                        <td class="id-cash">$<input /></td>
-                        <td class="id-credit">$<input /></td>
-                        <td class="id-debit">$<input /></td>
-                        <td class="id-gift-card">$<input /></td>
-                        <td class="id-account">$<input /></td>
+                        <td id="total-total">$<input onchange="totalsColCalc()" /></td>
+                        <td class="id-cash">$<input onchange="dataUpdate('cash')" /></td>
+                        <td class="id-credit">$<input onchange="dataUpdate('credit')" /></td>
+                        <td class="id-debit">$<input onchange="dataUpdate('debit')" /></td>
+                        <td class="id-gift-card hide">$<input onchange="dataUpdate('gift-card')" /></td>
+                        <td class="id-account hide">$<input onchange="dataUpdate('account')" /></td>
                     </tr>
                     <tr id="principle-row">
-                        <td id="total-principle">$<input /></td>
+                        <td id="total-principle">$<input onchange="totalsColCalc()" /></td>
                         <td class="id-cash"></td>
                         <td class="id-credit"></td>
                         <td class="id-debit"></td>
-                        <td class="id-gift-card"></td>
-                        <td class="id-account"></td>
+                        <td class="id-gift-card hide"></td>
+                        <td class="id-account hide"></td>
                     </tr>
                     <tr id="tax-row">
-                        <td id="total-tax">$<input /></td>
+                        <td id="total-tax">$<input onchange="totalsColCalc()" /></td>
                         <td class="id-cash"></td>
                         <td class="id-credit"></td>
                         <td class="id-debit"></td>
-                        <td class="id-gift-card"></td>
-                        <td class="id-account"></td>
+                        <td class="id-gift-card hide"></td>
+                        <td class="id-account hide"></td>
                     </tr>
                     <tr id="column-totals-row">
                         <td id="total-principle2"></td>
                         <td class="id-cash"></td>
                         <td class="id-credit"></td>
                         <td class="id-debit"></td>
-                        <td class="id-gift-card"></td>
-                        <td class="id-account"></td>
+                        <td class="id-gift-card hide"></td>
+                        <td class="id-account hide"></td>
                     </tr>
                 </tbody>
             </table>
@@ -92,39 +101,75 @@
         <div class="payment_option_list">
             <h2>Payment List Options</h2>
             <ul>
-                <li><input checked type="checkbox" />Cash</li>
-                <li><input checked type="checkbox" />Credit</li>
-                <li><input type="checkbox" />Debit</li>
-                <li><input type="checkbox" />Gift Card</li>
-                <li><input type="checkbox" />Account</li>
+                <li><input checked id="cash" onclick="displayColumns('cash')" type="checkbox" />Cash</li>
+                <li><input checked id="credit" onclick="displayColumns('credit')" type="checkbox" />Credit</li>
+                <li><input checked id="debit" onclick="displayColumns('debit')" type="checkbox" />Debit</li>
+                <li><input id="gift-card" onclick="displayColumns('gift-card')" type="checkbox" />Gift Card</li>
+                <li><input id="account" onclick="displayColumns('account')" type="checkbox" />Account</li>
             </ul>
             <input type="button" value="+New?" />
         </div>
         <script>
-            function displayColumns(column,checked){
+            var totals = {
+                total: 0,
+                principle: 0,
+                tax: 0
+            };
+            /*function controls which columns in calculator are displayed*/
+            function displayColumns(column){
+                let checked = $(`input#${column}`)[0].checked;
                 if(checked){
                     $(`.id-${column}`).removeClass('hide');
                 }else{
                     $(`.id-${column}`).addClass('hide');
                 };
             };
-            $(window).ready(function(){
-                $('#total-total input')[0].value = '100';
-                $('#total-principle input')[0].value = '90';
-                $('#total-tax input')[0].value = '10';
-            });
-            function test(){
-                let x = $('#total-total input')[0].value;
+            //this runs an update for the totals column when a change to one of the values is made
+            function totalsColCalc(){
+                totals.total = parseFloat($('#total-total input')[0].value);
+                totals.principle = parseFloat($('#total-principle input')[0].value);
+                totals.tax = parseFloat($('#total-tax input')[0].value);
                 let y = 0;
-                y += parseFloat($('#total-principle input')[0].value);
-                y += parseFloat($('#total-tax input')[0].value);
+                y += totals.principle + totals.tax;
                 y = y.toFixed(2);
-                console.log(x + ' , ' + y);
-                if(parseFloat(x).toFixed(2) === y){
+                if(totals.total.toFixed(2) === y){
                     $('#total-principle2')[0].innerText = "True";
                 }else{
                     $('#total-principle2')[0].innerText = "False";
                 };
+            };
+            //this updates individual columns when there is a change made to that column using the passed in value to decide which column needs updating
+            function dataUpdate(colName){
+                let entered_amount = parseFloat($(`td.id-${colName}`)[0].querySelector('input').value);
+                if(!isNaN(entered_amount)){
+                    let percentage = entered_amount/totals.total;
+                    let principle = totals.principle * percentage;
+                    let tax = totals.tax * percentage;
+                    principle = principle.toFixed(2);
+                    tax = tax.toFixed(2);
+                    $(`td.id-${colName}`)[1].innerText = principle;
+                    $(`td.id-${colName}`)[2].innerText = tax;
+                    if((parseFloat(principle) + parseFloat(tax)) === entered_amount){
+                        $(`td.id-${colName}`)[3].innerText = 'True';
+                    }else{
+                        $(`td.id-${colName}`)[3].innerText = 'False';
+                    };
+                }else{
+                    $(`td.id-${colName}`)[1].innerText = '';
+                    $(`td.id-${colName}`)[2].innerText = '';
+                    $(`td.id-${colName}`)[3].innerText = '';
+                };
+            };
+            //makes new list element for option list
+            function newList(name){
+                let li = document.createElement('li');
+                let inp = document.createElement('input');
+                inp.setAttribute('type','checkbox');
+                inp.setAttribute('id',`${name}`);
+                inp.setAttribute('checked','');
+                li.append(inp);
+                li.append(`${name}`);
+                $('.payment_option_list ul')[0].append(li);
             };
         </script>
     </body>
