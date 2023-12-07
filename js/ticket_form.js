@@ -21,61 +21,7 @@ let list_current = {
 };
 //reset function
 function reset() {
-    $('#error-borders')[0].innerHTML =''
-    $('#steps_input td:last-child button')[0].removeAttribute('style');
-    $('#input_error')[0].classList = '';
-    var reset_values = ["crm_input", "system_input", "description_input", "example_input", "expectation_input", "console_input"]
-    for(let i = 0; i < reset_values.length; i++){
-        let remove = reset_values[i];
-        $(`#${remove}`)[0].value = '';
-    };
-    //reset steps table
-    console.log('resetting steps');
-    $('#steps-table table tbody').remove();
-    let steps_reset = $(document)[0].createElement('tbody')
-    $('#steps-table table')[0].appendChild(steps_reset);
-    for(i=0;i<3;i++){
-        newRow('steps');
-    };
-    $('#number-of-steps')[0].innerText = 'None';
-    //reset screenshot table
-    console.log('resetting screenshot list');
-    $('#screenshot-table table tbody').remove();
-    let screenshot_reset = $(document)[0].createElement('tbody')
-    $('#screenshot-table table')[0].appendChild(screenshot_reset);
-    newRow('screenshot');
-    console.log("resetting videolist")
-    $('#video-table table tbody').remove();
-    let video_reset = $(document)[0].createElement('tbody')
-    $('#video-table table')[0].appendChild(video_reset);
-    newRow('video');
-    let base_ticket = `**LOCATION:**
-Store ID:
-
-System Area:
-
-Can you recreate the problem on your demo site (if yes please continue, if no use the "Bug - non reproducible" macro)?
-
-STEPS TO REPRODUCE:
-1.
-2.
-3.
-
-ACTUAL RESULTS:(Please be as detailed as possible.)
-
-Description:
-
-Example:(If this pertains to the customer's site, please provide links to the relevant pages.)
-
-Screenshot:
-
-Video:
-
-EXPECTED RESULTS:
-
-CONSOLE ERRORS:`;
-    $('#bug-glitch-ticket')[0].value = base_ticket;
-    $('div.reset-popup')[0].setAttribute('style','display: none;');
+    location.reload();
 };
 //end reset function
 //controls popup for when the reset button is pressed
@@ -362,6 +308,9 @@ function popupControl(x,y){
     if(y === 'steps' || y === 'generated'){
         if(x === 'close'){
             $(`.container.${y}_popup`)[0].setAttribute('style','display: none');
+            if(y ==='generated'){
+                checkReloadCookie();
+            };
         }else if(x === 'open'){
             $(`.container.${y}_popup`)[0].removeAttribute('style');
         };
