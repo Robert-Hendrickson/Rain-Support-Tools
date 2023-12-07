@@ -308,9 +308,6 @@ function popupControl(x,y){
     if(y === 'steps' || y === 'generated'){
         if(x === 'close'){
             $(`.container.${y}_popup`)[0].setAttribute('style','display: none');
-            if(y ==='generated'){
-                checkReloadCookie();
-            };
         }else if(x === 'open'){
             $(`.container.${y}_popup`)[0].removeAttribute('style');
         };
