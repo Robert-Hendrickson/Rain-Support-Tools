@@ -8,9 +8,55 @@
             addr=* -> address being checked
             city=* -> city name
             zip=* -> 5 or 9 digit zip code
+
+            %20 -> urlspace" "
         -->
+        <style>
+            div.addr_input{
+                width: 50%;
+                float: left;
+            }
+            div.tax_output{
+                width: 50%;
+                float: left;
+            }
+            div.addr_input table tr > td{
+                text-align: right;
+            }
+        </style>
     </head>
     <body>
-        
+        <div class="addr_input">
+            <table>
+                <tbody>
+                    <tr>
+                        <td>Address:</td>
+                        <td><input type="text" id="address"/></td>
+                    </tr>
+                    <tr>
+                        <td>City:</td>
+                        <td><input type="text" id="city"/></td>
+                    </tr>
+                    <tr>
+                        <td>Zip:</td>
+                        <td><input type="text" id="zip"/></td>
+                    </tr>
+                </tbody>
+            </table>
+            <input type="button" onclick="getTaxRate()" value="Submit" />
+        </div>
+        <div class="tax_output">
+            <iframe id="output" style="width: 100%;" href=""></iframe>
+        </div>
+        <script>
+            function getTaxRate(){
+                const baseUrl = 'http://webgis.dor.wa.gov/webapi/AddressRates.aspx?output=text';
+                const addr = document.getElementById('address').value.replaceAll(' ','%20');
+                const city = document.getElementById('city').value;
+                const zip = document.getElementById('zip').value;
+                const URL = baseUrl + '&addr=' + addr + '&city=' + city + '&zip=' + zip;
+                document.getElementById('output').setAttribute('src',URL);
+            }
+        </script>
     </body>
 </html>
