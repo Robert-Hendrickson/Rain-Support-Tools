@@ -50,7 +50,7 @@
         </div>
         <script>
             function getTaxRate(){
-                const baseUrl = 'http://webgis.dor.wa.gov/webapi/AddressRates.aspx?output=text';
+                const baseUrl = 'https://webgis.dor.wa.gov/webapi/AddressRates.aspx?output=text';
                 const addr = document.getElementById('address').value.replaceAll(' ','%20');
                 const city = document.getElementById('city').value;
                 const zip = document.getElementById('zip').value;
