@@ -104,6 +104,15 @@ function addRowElement(){
     class_taxable.setAttribute('onchange', `booleanUpdate(${line},'class')`);
     td_taxable.appendChild(class_taxable);
     trow.appendChild(td_taxable);
+    //create new cell for global discount selection
+    const discount_type = $(document)[0].createElement('td');
+    const discount_selection = $(document)[0].createElement('input');
+    Object.assign(discount_selection,{
+        type:'checkbox',
+        id:'test'
+    });
+    discount_type.appendChild(discount_selection);
+    trow.appendChild(discount_type);
     // add row element to the existing table
     $('#table-lines')[0].appendChild(trow);
     line_entries[`row_${number_of_lines}`] = {
