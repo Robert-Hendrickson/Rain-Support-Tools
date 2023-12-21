@@ -25,7 +25,7 @@ input[disabled] {
     border: none !important;
 }
 #inputTable {
-    width:540px;
+    width:600px;
     float: left;
 }
 #btn-totals {
