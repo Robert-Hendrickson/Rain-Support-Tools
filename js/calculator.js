@@ -116,7 +116,7 @@ function addRowElement(){
     setAttributes(discount_selection, {
         'type': 'number',
         'id': 'percent_discount',
-        'onChange': `percentDiscountCalc(${number_of_lines})`
+        'onChange': `lineUpdate(${number_of_lines})`
     });
     discount_type.appendChild(discount_selection);
     trow.appendChild(discount_type);
@@ -291,6 +291,10 @@ function lineUpdate(x){
     ext_input = parseFloat(ext_input.toFixed(2));
     line_entries[`row_${x}`].ext = ext_input;
     $(`#row_${x} #ext`)[0].value = ext_input;
+    //check for percent discount and update if necessary
+    if($(`#row_${x} #percent_discount`)[0].value != '0' || $(`#row_${x} #percent_discount`)[0].value != ''){
+        percentDiscountCalc(x);
+    }
     //get discount amount
     let disc_input = parseFloat($(`#row_${x} #discount`)[0].value);
     line_entries[`row_${x}`].disc = disc_input;
@@ -327,7 +331,6 @@ function lineUpdate(x){
     line_entries[`row_${x}`].total = line_entries[`row_${x}`].ext - line_entries[`row_${x}`].disc + parseFloat(line_entries[`row_${x}`].tax.total.toFixed(2));
     $(`#row_${x} #total`)[0].value = line_entries[`row_${x}`].total;
     calcTotals();
-    
 }
 function reset() {
     line_entries = {};
@@ -375,42 +378,43 @@ function displayBreakdown(x) {
         $('#break-totals textarea')[0].innerText = `${btotals}`;
     }else if(x=='totals' && $('select#shippingtaxed')[0].value == 'no'){
         let btotals = `Totals {
-            SubTotal: ${totals.sub_total}
-            Discount: ${totals.disc}
-            Shipping: ${totals.shipping}
-            Tax: {
-                Material: ${totals.tax.material}
-                Service: ${totals.tax.service}
-                Class: ${totals.tax.class}
-                Total: ${totals.tax.total}
-            }
-            Total: ${totals.total}
-        }`;
-        $('#break-totals textarea')[0].innerText = `${btotals}`;
+    SubTotal: ${totals.sub_total}
+    Discount: ${totals.disc}
+    Shipping: ${totals.shipping}
+    Tax: {
+        Material: ${totals.tax.material}
+        Service: ${totals.tax.service}
+        Class: ${totals.tax.class}
+        Total: ${totals.tax.total}
+    }
+    Total: ${totals.total}
+}
+`;
+        $('#break-totals textarea')[0].innerHTML = btotals;
     }
     //for taxes
     if(x=='lines'){
         let blines = '';
         let test = [1,2,3,4];
         for(let line in line_entries){
-            blines = blines + `
-            ${line} {
-                Price: ${line_entries[line].price}
-                Quantity: ${line_entries[line].qty}
-                Ext Price: ${line_entries[line].ext}
-                Discount: ${line_entries[line].disc}
-                taxable_amount: ${line_entries[line].taxable_amount}
-                tax: {
-                    Mat: ${line_entries[line].tax.mat}
-                    Serv: ${line_entries[line].tax.serv}
-                    Class: ${line_entries[line].tax.class}
-                    Total: ${line_entries[line].tax.total}
-                }
-                total: ${line_entries[line].total}
-            }`;
+            blines += `${line} {
+Price: ${line_entries[line].price}
+Quantity: ${line_entries[line].qty}
+Ext Price: ${line_entries[line].ext}
+Discount: ${line_entries[line].disc}
+taxable_amount: ${line_entries[line].taxable_amount}
+tax: {
+    Mat: ${line_entries[line].tax.mat}
+    Serv: ${line_entries[line].tax.serv}
+    Class: ${line_entries[line].tax.class}
+    Total: ${line_entries[line].tax.total}
+}
+total: ${line_entries[line].total}
+}
+`;
         }
         console.log(blines);
-        $('#break-lines textarea')[0].innerText = `${blines}`;
+        $('#break-lines textarea')[0].innerHTML = blines;
     }
 }
 function breakdown_display(x) {
@@ -443,18 +447,14 @@ function percentDiscountCalc(row) {
     if(percentdisc.value === '0'|| percentdisc.value === ''){
         //true ? remove disable and set value to 0
         linedisc.removeAttribute('disabled');
-        linedisc.value = '0';
     }else{
         //false ? disable discount field and enter calculated discount amount
         linedisc.setAttribute('disabled','true');
         //get ext value
         let ext = parseFloat($(`#row_${row} #ext`)[0].value);
-        console.log(ext);
+        //calculate discount value
         let discval = ext * (parseFloat(percentdisc.value)/100);
-        console.log(discval);
+        //set discount value to row discount rounded to 2 decimals
         linedisc.value = discval.toFixed(2);
     }
-    //update row data once values are switched correctly
-    lineUpdate(row);
-    //need to dupate lineupdate function to calc discount if percentage applied
 }
