@@ -25,6 +25,12 @@ var totals = {
 }
 //Add new lines without removing data.
 function addRowElement(){
+    //internal function for setting multiple attributes in a single call
+    function setAttributes(el, attrs) {
+        for(var key in attrs) {
+            el.setAttribute(key, attrs[key]);
+        }
+    }
     //get row line number to make
     number_of_lines++;
     let line = number_of_lines;
@@ -107,9 +113,10 @@ function addRowElement(){
     //create new cell for global discount selection
     const discount_type = $(document)[0].createElement('td');
     const discount_selection = $(document)[0].createElement('input');
-    Object.assign(discount_selection,{
-        type:'checkbox',
-        id:'test'
+    setAttributes(discount_selection, {
+        'type': 'number',
+        'id': 'percent_discount',
+        'onChange': `percentDiscountCalc(${number_of_lines})`
     });
     discount_type.appendChild(discount_selection);
     trow.appendChild(discount_type);
@@ -426,4 +433,28 @@ function shippingDisplay() {
         $('tr.subrow.ship-tax')[0].setAttribute('style','display: none');
     }
     calcTotals();
+}
+//calculating percantage discount
+    //if a percentage is given to a line the discount box should become disabled to prevent direct editing and update the internal value to be the percentage discount calculated as EXT * {{discount_percentage}} rounded to 2 decimals
+function percentDiscountCalc(row) {
+    console.log(`Updating percent discount of row_${row}`);
+    let linedisc = $(`#row_${row} #discount`)[0];
+    let percentdisc = $(`#row_${row} #percent_discount`)[0];
+    if(percentdisc.value === '0'|| percentdisc.value === ''){
+        //true ? remove disable and set value to 0
+        linedisc.removeAttribute('disabled');
+        linedisc.value = '0';
+    }else{
+        //false ? disable discount field and enter calculated discount amount
+        linedisc.setAttribute('disabled','true');
+        //get ext value
+        let ext = parseFloat($(`#row_${row} #ext`)[0].value);
+        console.log(ext);
+        let discval = ext * (parseFloat(percentdisc.value)/100);
+        console.log(discval);
+        linedisc.value = discval.toFixed(2);
+    }
+    //update row data once values are switched correctly
+    lineUpdate(row);
+    //need to dupate lineupdate function to calc discount if percentage applied
 }
