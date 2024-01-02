@@ -2,14 +2,6 @@
 <html>
     <header>
         <style>
-            /*column setup*/
-            #updates{
-                width: 100%;
-            }
-            #updates-container{
-                width: 30%;
-                margin: 0% auto;
-            }
             /*menu tiles css*/
             .menu h2{
                 text-align: center;
@@ -33,13 +25,22 @@
             /*updates css*/
             #updates{
                 width: 100%;
+            }
+            #updates-container{
+                width: 30%;
+                margin: 0% auto;
+                height: 500px;
+                overflow-y: scroll;
+            }
+            #updates{
+                width: 100%;
                 float: left;
             }
             #updates-container h2{
                 text-align: center;
             }
             .updates-content{
-                width: 100%;
+                width: 99%;
                 border: solid #000 1px;
                 margin-top: 10px;
             }
@@ -47,6 +48,9 @@
                 text-decoration: underline;
                 font-size: large;
                 font-weight: bold;
+            }
+            #updates h2{
+                text-align: center;
             }
         </style>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
@@ -83,8 +87,14 @@
             </div>
         </div>
         <div id="updates">
-            <div id="updates-container">
                 <h2>Tool Updates</h2>
+            <div id="updates-container">
+                <div class="updates-content">
+                    <div class="update-title">Bug Ticket Generator - 1/2/2024</div>
+                    <div class="update-info">
+                        Made a fix to the screenshots and video verification check. This will help make sure that the links provided go to a single image or video instead of a full drive.
+                    </div>
+                </div>
                 <div class="updates-content">
                     <div class="update-title">Transaction Calculator - 12/21/2023</div>
                     <div class="update-info">

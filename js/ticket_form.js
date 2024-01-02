@@ -2,7 +2,7 @@
 //new regex for 'exampleLink' will return an array of every instance that is found new check can make sure array returned isn't null then display links that need changed.
 let regex = {
     "na": new RegExp(/^(n|N)\/*(a|A)/),
-    "googleDrive": new RegExp(/^.*drive\.google\.com\/.*/),
+    "googleDrive": new RegExp(/^.*drive\.google\.com\/.*view/),
     "exampleLink": new RegExp(/rainadmin|quiltstorewebsites/g)
 };
 //base variables to be adjusted later
