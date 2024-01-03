@@ -286,6 +286,7 @@ CONSOLE ERRORS:
 `+ $('#console_input')[0].value;
 $('#bug-glitch-ticket')[0].value = ticket_output;
 popupControl('open','generated');
+$('textarea#bug-glitch-ticket')[0].focus();
 };
 //END script for collecting data from input area's and compiling them into a single text area
 //coppies data from compiled info to computers clipboard

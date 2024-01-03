@@ -93,6 +93,12 @@ div.container.generated_popup{
     border: solid 5px #000;
     background-color: #808080;
 }
+.generated_popup #copy-tips{
+    float:right;
+    width: 370px;
+    background-color: #bdb3b3;
+    padding: 10px;
+}
 /*Number of Steps Popup*/
 div.container.steps_popup, div.container.screenshot_popup,div.container.video_popup{
     position: absolute;
