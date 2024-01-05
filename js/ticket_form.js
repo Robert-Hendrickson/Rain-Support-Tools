@@ -254,6 +254,12 @@ function generateTicket() {
     }else{
         is_replicable = 'ATTEMPTED STEPS TO REPRODUCE:';
     };
+    let console_errors = '';
+    if($('#console_input')[0].value.match('\\\n')){
+        console_errors = '```\n' + $('#console_input')[0].value + '\n```';
+    }else{
+        console_errors = $('#console_input')[0].value;
+    }
     ticket_output = `**LOCATION:**
 Store ID:
 `+ $('#crm_input')[0].value +`
@@ -283,7 +289,7 @@ EXPECTED RESULTS:
 `+ $('#expectation_input')[0].value +`
 
 CONSOLE ERRORS:
-`+ $('#console_input')[0].value;
+${console_errors}`;
 $('#bug-glitch-ticket')[0].value = ticket_output;
 popupControl('open','generated');
 $('textarea#bug-glitch-ticket')[0].focus();
