@@ -40,84 +40,55 @@ function addRowElement(){
     //create row cell for qty, add attributes, and add to the row element
     const td_qty = $(document)[0].createElement("td");
     const in_qty = $(document)[0].createElement("input");
-    in_qty.setAttribute('id', 'qty');
-    in_qty.setAttribute('type', 'number');
-    in_qty.setAttribute('value', '0');
-    in_qty.setAttribute('onchange', `lineUpdate(${line})`);
+    setAttributes(in_qty, {'type': 'number','id': 'qty','value': '0','onchange': `lineUpdate(${line})`});
     td_qty.appendChild(in_qty);
     trow.appendChild(td_qty);
     //create row cell for price, add attributes, and add to the row element
     const td_price = $(document)[0].createElement("td");
     const in_price = $(document)[0].createElement("input");
-    in_price.setAttribute('id', 'price');
-    in_price.setAttribute('type', 'number');
-    in_price.setAttribute('value', '0');
-    in_price.setAttribute('onchange', `lineUpdate(${line})`);
+    setAttributes(in_price, {'type': 'number','id': 'price','value': '0','onchange': `lineUpdate(${line})`});
     td_price.appendChild(in_price);
     trow.appendChild(td_price);
     //create row cell for ext, add attributes, and add to the row element
     const td_ext = $(document)[0].createElement("td");
     const in_ext = $(document)[0].createElement("input");
-    in_ext.setAttribute('id', 'ext');
-    in_ext.setAttribute('type', 'number');
-    in_ext.setAttribute('value', '0');
-    in_ext.setAttribute('onchange', `lineUpdate(${line})`);
-    in_ext.setAttribute('disabled', 'disabled');
+    setAttributes(in_ext, {'type': 'number','id': 'ext','value': '0','disabled': 'disabled'});
     td_ext.appendChild(in_ext);
     trow.appendChild(td_ext);
     //create row cell for disc, add attributes, and add to the row element
     const td_disc = $(document)[0].createElement("td");
     const in_disc = $(document)[0].createElement("input");
-    in_disc.setAttribute('id', 'discount');
-    in_disc.setAttribute('type', 'number');
-    in_disc.setAttribute('value', '0');
-    in_disc.setAttribute('onchange', `lineUpdate(${line})`);
+    setAttributes(in_disc, {'type': 'number','id': 'discount','value': '0','onchange': `lineUpdate(${line})`});
     td_disc.appendChild(in_disc);
     trow.appendChild(td_disc);
     //create row cell for tax, add attributes, and add to the row element
     const td_tax = $(document)[0].createElement("td");
     const in_tax = $(document)[0].createElement("input");
-    in_tax.setAttribute('id', 'tax');
-    in_tax.setAttribute('type', 'number');
-    in_tax.setAttribute('value', '0');
-    in_tax.setAttribute('disabled', `disabled`);
+    setAttributes(in_tax, {'type': 'number','id': 'tax','value': '0','disabled': 'disabled'});
     td_tax.appendChild(in_tax);
     trow.appendChild(td_tax);
     //create row cell for total, add attributes, and add to the row element
     const td_total = $(document)[0].createElement("td");
     const in_total = $(document)[0].createElement("input");
-    in_total.setAttribute('id', 'total');
-    in_total.setAttribute('type', 'number');
-    in_total.setAttribute('value', '0');
-    in_total.setAttribute('disabled', `disabled`);
+    setAttributes(in_total, {'type': 'number','id': 'total','value': '0','disabled': 'disabled'});
     td_total.appendChild(in_total);
     trow.appendChild(td_total);
     //create row cell for taxable choice, add attributes, and add to the row element
     const td_taxable = $(document)[0].createElement("td");
     const mat_taxable = $(document)[0].createElement("input");
-    mat_taxable.setAttribute('type','checkbox');
-    mat_taxable.setAttribute('id',`row_${number_of_lines}_mat`);
-    mat_taxable.setAttribute('onchange', `booleanUpdate(${line},'mat')`);
+    setAttributes(mat_taxable, {'type': 'checkbox','id': `row_${number_of_lines}_mat`,'onChange': `booleanUpdate(${line},'mat')`});
     td_taxable.appendChild(mat_taxable);
     const serv_taxable = $(document)[0].createElement("input");
-    serv_taxable.setAttribute('type','checkbox');
-    serv_taxable.setAttribute('id',`row_${number_of_lines}_serv`);
-    serv_taxable.setAttribute('onchange', `booleanUpdate(${line},'serv')`);
+    setAttributes(serv_taxable, {'type': 'checkbox','id': `row_${number_of_lines}_serv`,'onChange': `booleanUpdate(${line},'serv')`});
     td_taxable.appendChild(serv_taxable);
     const class_taxable = $(document)[0].createElement("input");
-    class_taxable.setAttribute('type','checkbox');
-    class_taxable.setAttribute('id',`row_${number_of_lines}_class`);
-    class_taxable.setAttribute('onchange', `booleanUpdate(${line},'class')`);
+    setAttributes(class_taxable, {'type': 'checkbox','id': `row_${number_of_lines}_class`,'onChange': `booleanUpdate(${line},'class')`});
     td_taxable.appendChild(class_taxable);
     trow.appendChild(td_taxable);
     //create new cell for global discount selection
     const discount_type = $(document)[0].createElement('td');
     const discount_selection = $(document)[0].createElement('input');
-    setAttributes(discount_selection, {
-        'type': 'number',
-        'id': 'percent_discount',
-        'onChange': `lineUpdate(${number_of_lines})`
-    });
+    setAttributes(discount_selection, {'type': 'number','id': 'percent_discount','onChange': `lineUpdate(${number_of_lines})`});
     discount_type.appendChild(discount_selection);
     trow.appendChild(discount_type);
     // add row element to the existing table
