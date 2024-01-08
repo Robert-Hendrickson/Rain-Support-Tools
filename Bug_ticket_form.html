@@ -169,7 +169,8 @@
         </div>
         <div id="bug-questions-tips" style="width: 100%">
             <div id="salesforce-calc">
-                <h2>Salesforce Bug Questions</h2>
+                <h1 style="width: 345px; margin: 0px auto;">Salesforce Bug Questions</h1>
+                <hr>
                 <p style="color: rgb(255, 112, 112); font-weight: bold;">If you have further questions, please speak to your L2.</p>
                 <ul>VIP Customer?
                     <ul>
@@ -223,19 +224,43 @@
                 </ul>
             </div>
             <div id="example-suggestions">
-                <h2>Ticket info tips:</h2>
-                <p>
-                    Once you've entered data into salesforce there's a third party program that moves the data into another program which is used by dev to see and make notes about fixes. This page has some markup text that it uses to make text styling adjustments to data. This can make some of the data you enter not look correct to the development team. To avoid this please take into consideration the below information.
-                </p>
-                <ol>
-                    <li>
-                        Don't use "#" in your case details. This has two different potentials. If used in front of a number (#1234) it will try and create a link to the case numberd '1234' in the system used by dev. If there is a space between it and text (# text here) the text following it is turned into a header. If the data requires the "#" symbol to be there because it's part of a title or key indicator, wrapping the text in single('') our double("") quotes will keep the formatting from changing the # into other things.<br />
-                        <img src="/Rain-Support-Tools/imgs/hashtag_in_shortcut.png" />
-                    </li>
-                    <li>
-                        Please make sure that you are adding examples into the example area. This should ONLY include URL's to the customers LIVE site if there is a replicable problem on a specific page. If there is an issue with data on a report, please don't add a link to the report. Instead label the name of the report and any filters needed to see the issue(like the date if it's on the EOD Report for a specific day).
-                    </li>
-                </ol>
+                <h1 style="width: 210px; margin: 0px auto;">Ticket info tips</h1>
+                <hr>
+                <div id="usable-links">
+                    <h2>Using Links as Examples</h2>
+                    <p>
+                        Links are useful in trying to give examples to area's where the issue is directly visible. Please remember that not all content is available through links alone. <br />
+                        Examples:
+                    </p>
+                    <ol>
+                        <li>
+                            Links to pages where there's a module with bad behaviors or a product page that is displaying incorrect information are good examples of links that are useful. This type of data is the same no matter who loads the page so the info will be the same.
+                        </li>
+                        <li>
+                            Links to online checkout carts, specific Online School Rentals dispalys, or other dynamically displayed data is not useful to have a link alone. This is because the pages themselve rely on more data that is created during the process of getting to the page by either choosing options from dropdowns, or adding items to the cart.
+                        </li>
+                    </ol>
+                    <p>
+                        When trying to decide what links to add as example please ask yourself, "Is the data I'm seeing on this link the same everytime this link is entered into the URL, or did I have to do some extra steps to see what's happening?". This doesn't mean that you shouldn't use a specific link as an example, but it may be necessary to provide more details or steps to see the issue instead of the link alone.
+                    </p>
+                </div>
+                <hr>
+                <div id="special-char-format">
+                    <h2>Special Characters and Formatting:</h2>
+                    <p>
+                        Once you've entered data into salesforce there's a third party program that moves the data into another program which is used by dev to see and make notes about fixes. This page has some markup text that it uses to make text styling adjustments to data. This can make some of the data you enter not look correct to the development team. To avoid this please take into consideration the below information.
+                    </p>
+                    <ol>
+                        <li>
+                            Don't use "#" in your case details. This has two different potentials. If used in front of a number (#1234) it will try and create a link to the case numberd '1234' in the system used by dev. If there is a space between it and text (# text here) the text following it is turned into a header. If the data requires the "#" symbol to be there because it's part of a title or key indicator, wrapping the text in single('') our double("") quotes will keep the formatting from changing the # into other things.<br />
+                            <img src="/Rain-Support-Tools/imgs/hashtag_in_shortcut.png" />
+                        </li>
+                        <li>
+                            Please make sure that you are adding examples into the example area. This should ONLY include URL's to the customers LIVE site if there is a replicable problem on a specific page. If there is an issue with data on a report, please don't add a link to the report. Instead label the name of the report and any filters needed to see the issue(like the date if it's on the EOD Report for a specific day).
+                        </li>
+                    </ol>
+                </div>
+                
             </div>
         </div>
         <div style="display: none;" class="container generated_popup">
