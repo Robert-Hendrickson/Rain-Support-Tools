@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!--
+            This will need an area to allow entering changes for inventory and reserved count with a running tally for each change and an overall amount after all changes.
+        -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+        <style>
+            .history{
+                width: 500px;
+                float: left;
+            }
+            .history-changes{
+                border-spacing: 0px;
+            }
+            .history-changes tr th{
+                border-top: #000 solid 2px;
+                border-bottom: #000 solid 2px;
+                border-right: #000 solid 2px;
+                width: 110px;
+            }
+            .history-changes tr th:first-child{
+                border-left: #000 solid 2px;
+            }
+            .history-changes tr td{
+                border-top: #000 solid 2px;
+                border-bottom: #000 solid 2px;
+                border-right: #000 solid 2px;
+                width: 110px;
+                text-align: right;
+            }
+            .history-changes tr td:first-child{
+                border-left: #000 solid 2px;
+            }
+            .inputs{
+                min-width: 20%;
+                float:left;
+            }
+            .input-values input:not(input[type='button']){
+                width: 60px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="history">
+            <h3>History:</h3>
+            <div>
+                <table class="history-changes">
+                    <thead>
+                        <tr>
+                            <th>
+                                Inventory<br />
+                                Change
+                            </th>
+                            <th>
+                                Reserved<br />
+                                Change
+                            </t>
+                            <th>
+                                Total Reserved<br />
+                                After Change
+                            </t>
+                            <th>
+                                Total Inventory<br />
+                                After Change
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                +1
+                            </td>
+                            <td>
+                                +1
+                            </td>
+                            <td>
+                                1
+                            </td>
+                            <td>
+                                1
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="inputs">
+            <h3>Inputs:</h3>
+            <p>
+                When entering values, please enter a (-) in front of negative values to indicat a quantity needing to be reduced. Values without a leading (-) will be assumed as an increase in the quantity.
+            </p>
+            <div class="input-values">
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>
+                                Inventory
+                            </td>
+                            
+                            <td>
+                                Reserved
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input />
+                            </td>
+                            <td>
+                                <input />
+                            </td>
+                            <td>
+                                <input type="button" value="Submit" />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <h3>Totals:</h3>
+            <div></div>
+        </div>
+    </body>    
+</html>
