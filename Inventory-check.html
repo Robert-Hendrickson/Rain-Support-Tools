@@ -5,46 +5,13 @@
             This will need an area to allow entering changes for inventory and reserved count with a running tally for each change and an overall amount after all changes.
         -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-        <style>
-            .history{
-                width: 500px;
-                float: left;
-            }
-            .history-changes{
-                border-spacing: 0px;
-            }
-            .history-changes tr th{
-                border-top: #000 solid 2px;
-                border-bottom: #000 solid 2px;
-                border-right: #000 solid 2px;
-                width: 110px;
-            }
-            .history-changes tr th:first-child{
-                border-left: #000 solid 2px;
-            }
-            .history-changes tr td{
-                border-top: #000 solid 2px;
-                border-bottom: #000 solid 2px;
-                border-right: #000 solid 2px;
-                width: 110px;
-                text-align: right;
-            }
-            .history-changes tr td:first-child{
-                border-left: #000 solid 2px;
-            }
-            .inputs{
-                width: 30%;
-                float:left;
-            }
-            .input-values input:not(input[type='button']){
-                width: 60px;
-            }
-        </style>
+        <link href="/Rain-Support-Tools/css/inventory_check.css" rel="stylesheet" />
+        <script src="/Rain-Support-Tools/js/inventory_check.js"></script>
     </head>
     <body>
         <div class="history">
             <h3>History:</h3>
-            <div>
+            <div id="history-table">
                 <table class="history-changes">
                     <thead>
                         <tr>
@@ -67,28 +34,18 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>
-                                +1
-                            </td>
-                            <td>
-                                +1
-                            </td>
-                            <td>
-                                1
-                            </td>
-                            <td>
-                                1
-                            </td>
-                        </tr>
                     </tbody>
                 </table>
+            </div>
+            <hr />
+            <div style="text-align: center;">
+                Earliest History changes
             </div>
         </div>
         <div class="inputs">
             <h3>Inputs:</h3>
             <p>
-                When entering values, please enter a (-) in front of negative values to indicat a quantity needing to be reduced. Values without a leading (-) will be assumed as an increase in the quantity.
+                When entering values, please remember that this is designed to mimic the visibility in Rain. New Rows added will be added to the top of the table, meaning the first row created from the buttons will be at the bottom.
             </p>
             <div class="input-values">
                 <table>
@@ -104,13 +61,14 @@
                         </tr>
                         <tr>
                             <td>
-                                <input />
+                                <input id="inventory-change" />
                             </td>
                             <td>
-                                <input />
+                                <input id="reserved-change" />
                             </td>
                             <td>
-                                <input type="button" value="Submit" />
+                                <input type="button" value="Increase" onclick="recordChange('up')" />
+                                <input type="button" value="Reduce" onclick="recordChange('down')" />
                             </td>
                         </tr>
                     </tbody>
@@ -118,8 +76,30 @@
             </div>
             <h3>Totals:</h3>
             <div>
-                <di>
+                <table id="totals">
+                    <thead>
+                        <tr>
+                            <th>
+                                In Stock Qty:
+                            </th>
+                            <th>
+                                Reserved Qty:
+                            </th>
+                            <th>
+                                Total Onhand Qty:
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td id="instock">0</td>
+                            <td id="reserved">0</td>
+                            <td id="onhand">0</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <input type="button" value="reset" onclick="location.pathname = '/Rain-Support-Tools/Inventory-check.html'" />
             </div>
         </div>
-    </body>    
+    </body>
 </html>

@@ -1,0 +1,68 @@
+/*history div*/
+.history > #history-table{
+    max-height: 700px;
+    overflow-y: scroll;
+}
+/*history table*/
+.history{
+    width: 500px;
+    float: left;
+}
+.history-changes{
+    border-spacing: 0px;
+}
+.history-changes tr th{
+    border-top: #000 solid 2px;
+    border-bottom: #000 solid 2px;
+    border-right: #000 solid 2px;
+    width: 110px;
+}
+.history-changes tr th:first-child{
+    border-left: #000 solid 2px;
+}
+.history-changes tr td{
+    border-top: #000 solid 2px;
+    border-bottom: #000 solid 2px;
+    border-right: #000 solid 2px;
+    width: 110px;
+    text-align: right;
+}
+.history-changes tr td:first-child{
+    border-left: #000 solid 2px;
+}
+.history-changes thead{
+    position: sticky;
+    top: 0px;
+    background: #fff;
+}
+/*inputs area*/
+.inputs{
+    width: 30%;
+    float:left;
+}
+.input-values input:not(input[type='button']){
+    width: 60px;
+}
+/*totals table*/
+#totals{
+    border-spacing: 0px;
+}
+#totals tr th{
+    border-top: #000 solid 2px;
+    border-bottom: #000 solid 2px;
+    border-right: #000 solid 2px;
+    width: 110px;
+}
+#totals tr th:first-child{
+    border-left: #000 solid 2px;
+}
+#totals tr td{
+    border-top: #000 solid 2px;
+    border-bottom: #000 solid 2px;
+    border-right: #000 solid 2px;
+    width: 110px;
+    text-align: right;
+}
+#totals tr td:first-child{
+    border-left: #000 solid 2px;
+}
