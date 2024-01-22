@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+    <!--
+        This will be a page with preset boxes, lists, and tables with classes, ids, and other identifiers so that a text box can be used to write css and see how it affects and targets the page.
+    
+    -->
+    <head>
+        <style type="text/css">
+            #userInput{
+                width: 20%;
+                float: left;
+                border: unset;
+            }
+            textarea{
+                width: 300px;
+                height: 300px;
+            }
+            #baseboxes{
+                width: 40%;
+                float: left;
+            }
+            div,ul,table,tbody,tr,td{
+                border: solid 2px #000;
+                padding: 10px;
+            }
+            ul > li {
+                transform: translateX(30px);
+            }
+            tr{
+                display: inline-block;
+            }
+        </style>
+        <style id="new-css" type="text/css"></style>
+    </head>
+    <body>
+        <div id="baseboxes">
+            element = div<br />
+            id = baseboxes
+            <div>
+                element = div<br />
+                <ul class="list">
+                    element = ul<br />
+                    classes = list
+                    <li class="odd item">element = li<br />classes = odd,item</li>
+                    <li class="even item">element = li<br />classes = even,item</li>
+                    <li class="odd item">element = li<br />classes = odd,item</li>
+                </ul>
+            </div>
+            <table>
+                <tbody>
+                    <tr class="apple">
+                        <td>
+                            element = td
+                        </td>
+                        <td>
+                            element = td
+                        </td>
+                        <td>
+                            element = td
+                        </td>
+                    </tr>
+                    <tr class="orange">
+                        <td>
+                            element = td
+                        </td>
+                        <td>
+                            element = td
+                        </td>
+                        <td>
+                            element = td
+                        </td>
+                    </tr>
+                    <tr class="grape">
+                        <td>
+                            element = td
+                        </td>
+                        <td>
+                            element = td
+                        </td>
+                        <td>
+                            element = td
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div id="userInput">
+            <textarea></textarea><br />
+            <input type="button" value="Submit" onclick="updateCSS()" />
+        </div>
+        <script>
+            (function(){
+                let table = document.querySelector('table');
+                let tbody = table.querySelector('tbody').innerHTML;
+                tbody = 'element = tbody<br />' + tbody;
+                table.querySelector('tbody').innerHTML = tbody;
+                table.prepend('element = table');
+                table.querySelectorAll('tr').forEach(function(tr){
+                    let currenthtml = tr.innerHTML;
+                    let newhtml = `element = tr<br />classes = ${tr.classList}` + currenthtml;
+                    tr.innerHTML = newhtml;
+                });
+            })();
+        </script>
+        <script>
+            function updateCSS(){
+                let new_css = document.querySelector('textarea').value.replaceAll('\n','');
+                document.getElementById('new-css').innerHTML = new_css;
+            };
+        </script>
+    </body>
+</html>
