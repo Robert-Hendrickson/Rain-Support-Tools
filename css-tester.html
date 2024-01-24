@@ -4,60 +4,72 @@
         <link href="/Rain-Support-Tools/css/css-tester.css" rel="stylesheet" />
         <!--CSS entered in the side panel will be added to the below style tag to update the page with new styling-->
         <style id="page-css" type="text/css">
-
+            .pgBackground{
+                width: 100%;
+                background: linear-gradient(135deg, #ee7070, #47893d);
+            }
+            h1{
+                text-align: center;
+                color: #ffffff;
+            }
+            .container.content{
+                width: 40%;
+                margin: 0px auto;
+                background-color:#47893d;
+            }
         </style>
     </head>
     <body>
-        <div id="baseboxes">
-            element = div<br />
-            id = baseboxes
-            <div>
-                element = div<br />
-                <ul class="list">
-                    element = ul<br />
-                    classes = list
-                    <li class="odd item">element = li<br />classes = odd,item</li>
-                    <li class="even item">element = li<br />classes = even,item</li>
-                    <li class="odd item">element = li<br />classes = odd,item</li>
-                </ul>
+        <div class="pgBackground">
+            <div class="container content">
+                <h1>Welcome to CSS!</h1>
+                <div>
+                    <ul class="list">
+                        element = ul<br />
+                        classes = list
+                        <li class="odd item">element = li<br />classes = odd,item</li>
+                        <li class="even item">element = li<br />classes = even,item</li>
+                        <li class="odd item">element = li<br />classes = odd,item</li>
+                    </ul>
+                </div>
+                <table>
+                    <tbody>
+                        <tr class="apple">
+                            <td>
+                                element = td
+                            </td>
+                            <td>
+                                element = td
+                            </td>
+                            <td>
+                                element = td
+                            </td>
+                        </tr>
+                        <tr class="orange">
+                            <td>
+                                element = td
+                            </td>
+                            <td>
+                                element = td
+                            </td>
+                            <td>
+                                element = td
+                            </td>
+                        </tr>
+                        <tr class="grape">
+                            <td>
+                                element = td
+                            </td>
+                            <td>
+                                element = td
+                            </td>
+                            <td>
+                                element = td
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
-            <table>
-                <tbody>
-                    <tr class="apple">
-                        <td>
-                            element = td
-                        </td>
-                        <td>
-                            element = td
-                        </td>
-                        <td>
-                            element = td
-                        </td>
-                    </tr>
-                    <tr class="orange">
-                        <td>
-                            element = td
-                        </td>
-                        <td>
-                            element = td
-                        </td>
-                        <td>
-                            element = td
-                        </td>
-                    </tr>
-                    <tr class="grape">
-                        <td>
-                            element = td
-                        </td>
-                        <td>
-                            element = td
-                        </td>
-                        <td>
-                            element = td
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
         </div>
         <div class="closed" id="userInput">
             <div id="panelToggle" onclick="toggleControl()">
