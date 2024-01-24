@@ -1,51 +1,11 @@
 <!DOCTYPE html>
 <html>
-    <!--
-        This will be a page with preset boxes, lists, and tables with classes, ids, and other identifiers so that a text box can be used to write css and see how it affects and targets the page.
-    
-    -->
     <head>
-        <style type="text/css">
-            #userInput{
-                height: 100%;
-                position: absolute;
-                z-index: 2;
-                right: 0px;
-                top: 0px;
-                width: 300px;
-            }
-            #userInput .container{
-                width: 90%;
-                float: right;
-                height: 100%;
-                background-color:antiquewhite;
-            }
-            #userInput #panelToggle{
-                float: left;
-                width: 30px;
-                height: 30px;
-                background-color: #918b8b;
-                cursor: pointer;
-            }
-            #panelToggle hr{
-                background-color: #000;
-                height: 4px;
-                margin: unset;
-            }
-            #userInput.closed{
-                transform: translateX(270px);
-                transition-duration: 1s;
-            }
-            #userInput.open{
-                transform: translateX(0px);
-                transition-duration: 1s;
-            }
-            textarea{
-                width: 100%;
-                height: 95%;
-            }
+        <link href="/Rain-Support-Tools/css/css-tester.css" rel="stylesheet" />
+        <!--CSS entered in the side panel will be added to the below style tag to update the page with new styling-->
+        <style id="page-css" type="text/css">
+
         </style>
-        <style id="new-css" type="text/css"></style>
     </head>
     <body>
         <div id="baseboxes">
@@ -99,29 +59,29 @@
                 </tbody>
             </table>
         </div>
-        <div class="closed" id="userInput" onclick="toggleControl()">
-            <div id="panelToggle">
-                <hr />
-                <hr />
-                <hr />
-                <hr />
+        <div class="closed" id="userInput">
+            <div id="panelToggle" onclick="toggleControl()">
+                <<
             </div>
             <div class="container">
-                <input type="button" value="Submit" onclick="updateCSS()" /><br />
+                <input type="button" value="Submit" onclick="updateCSS()" />
+                <h2 style="margin: unset; display: unset;">Page CSS</h2><br />
                 <textarea></textarea>
             </div>
         </div>
         <script>
             function updateCSS(){
                 let new_css = document.querySelector('textarea').value.replaceAll('\n','');
-                document.getElementById('new-css').innerHTML = new_css;
+                document.getElementById('page-css').innerHTML = new_css;
             };
             function toggleControl(){
                 let current = document.getElementById('userInput').classList[0];
                 if(current === 'closed'){
                     document.getElementById('userInput').classList = 'open';
+                    document.getElementById('panelToggle').innerText = '>>';
                 }else{
                     document.getElementById('userInput').classList = 'closed';
+                    document.getElementById('panelToggle').innerText = '<<';
                 };
             };
         </script>
