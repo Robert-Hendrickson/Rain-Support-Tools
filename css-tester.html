@@ -1,112 +1,146 @@
 <!DOCTYPE html>
 <html>
-    <!--
-        This will be a page with preset boxes, lists, and tables with classes, ids, and other identifiers so that a text box can be used to write css and see how it affects and targets the page.
-    
-    -->
     <head>
-        <style type="text/css">
-            #userInput{
-                width: 20%;
-                float: left;
-                border: unset;
+        <link href="/Rain-Support-Tools/css/css-tester.css" rel="stylesheet" />
+        <!--CSS entered in the side panel will be added to the below style tag to update the page with new styling-->
+        <style id="page-css" type="text/css">
+            .pgBackground{
+                width: 100%;
+                background: linear-gradient(135deg, #ee7070, #47893d);
+                min-height: 800px;
             }
-            textarea{
-                width: 300px;
-                height: 300px;
+            h1,h2,h3,h4,h5{
+                text-align: center;
+                color: #ffffff;
             }
-            #baseboxes{
+            .container.content{
                 width: 40%;
-                float: left;
+                margin: 0px auto;
+                background-color:#47893d;
             }
-            div,ul,table,tbody,tr,td{
-                border: solid 2px #000;
-                padding: 10px;
+            /*list styling*/
+            ul{
+                list-style-type: decimal;
             }
-            ul > li {
-                transform: translateX(30px);
+            .item{
+                font-weight: bold;
             }
-            tr{
-                display: inline-block;
+            .odd{
+                text-decoration: underline;
+            }
+            .even{
+                color: #FFA500;
+            }
+            /*table styling*/
+            th{
+                border: #000 solid 1px;
+                padding: 0px 5px;
+            }
+            th:first-child{
+                border: none;
+            }
+            td{
+                border: #000 solid 1px;
+                text-align: right;
             }
         </style>
-        <style id="new-css" type="text/css"></style>
     </head>
     <body>
-        <div id="baseboxes">
-            element = div<br />
-            id = baseboxes
-            <div>
-                element = div<br />
-                <ul class="list">
-                    element = ul<br />
-                    classes = list
-                    <li class="odd item">element = li<br />classes = odd,item</li>
-                    <li class="even item">element = li<br />classes = even,item</li>
-                    <li class="odd item">element = li<br />classes = odd,item</li>
-                </ul>
+        <div class="pgBackground">
+            <div class="container content">
+                <h1>Welcome to CSS!</h1>
+                <div class="container grocery">
+                    <h3>Grocery List</h3>
+                    <ul class="list">
+                        <li class="odd item">Apples</li>
+                        <li class="even item">Oranges</li>
+                        <li class="odd item">Grapes</li>
+                    </ul>
+                </div>
+                <div class="container stores">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Walmart</th>
+                                <th>Target</th>
+                                <th>Macey's</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="apple">
+                                <td>Apple Prices</td>
+                                <td>
+                                    $3.95
+                                </td>
+                                <td>
+                                    $3.60
+                                </td>
+                                <td>
+                                    $2.86
+                                </td>
+                            </tr>
+                            <tr class="orange">
+                                <td>Orange Prices</td>
+                                <td>
+                                    $4.88
+                                </td>
+                                <td>
+                                    $5.16
+                                </td>
+                                <td>
+                                    $4.65
+                                </td>
+                            </tr>
+                            <tr class="grape">
+                                <td>Grape Prices</td>
+                                <td>
+                                    $1.45
+                                </td>
+                                <td>
+                                    $1.35
+                                </td>
+                                <td>
+                                    $3.99
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-            <table>
-                <tbody>
-                    <tr class="apple">
-                        <td>
-                            element = td
-                        </td>
-                        <td>
-                            element = td
-                        </td>
-                        <td>
-                            element = td
-                        </td>
-                    </tr>
-                    <tr class="orange">
-                        <td>
-                            element = td
-                        </td>
-                        <td>
-                            element = td
-                        </td>
-                        <td>
-                            element = td
-                        </td>
-                    </tr>
-                    <tr class="grape">
-                        <td>
-                            element = td
-                        </td>
-                        <td>
-                            element = td
-                        </td>
-                        <td>
-                            element = td
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
         </div>
-        <div id="userInput">
-            <textarea></textarea><br />
-            <input type="button" value="Submit" onclick="updateCSS()" />
+        <div class="closed" id="userInput">
+            <div id="panelToggle" onclick="toggleControl()">
+                <<
+            </div>
+            <div class="container">
+                <input type="button" value="Submit" onclick="updateCSS()" />
+                <input type="button" value="Reset" onclick="setBaseCSS()" />
+                <h2 style="margin: unset; display: unset;">Page CSS</h2><br />
+                <textarea id="user-css"></textarea>
+            </div>
         </div>
-        <script>
-            (function(){
-                let table = document.querySelector('table');
-                let tbody = table.querySelector('tbody').innerHTML;
-                tbody = 'element = tbody<br />' + tbody;
-                table.querySelector('tbody').innerHTML = tbody;
-                table.prepend('element = table');
-                table.querySelectorAll('tr').forEach(function(tr){
-                    let currenthtml = tr.innerHTML;
-                    let newhtml = `element = tr<br />classes = ${tr.classList}` + currenthtml;
-                    tr.innerHTML = newhtml;
-                });
-            })();
-        </script>
         <script>
             function updateCSS(){
                 let new_css = document.querySelector('textarea').value.replaceAll('\n','');
-                document.getElementById('new-css').innerHTML = new_css;
+                document.getElementById('page-css').innerHTML = new_css;
             };
+            function toggleControl(){
+                let current = document.getElementById('userInput').classList[0];
+                if(current === 'closed'){
+                    document.getElementById('userInput').classList = 'open';
+                    document.getElementById('panelToggle').innerText = '>>';
+                }else{
+                    document.getElementById('userInput').classList = 'closed';
+                    document.getElementById('panelToggle').innerText = '<<';
+                };
+            };
+            let base_css = document.getElementById('page-css').innerHTML.replaceAll(/\n\s*/g,'\n').substring(1);
+            function setBaseCSS(){
+                document.getElementById('user-css').value = base_css;
+                updateCSS();
+            };
+            setBaseCSS();
         </script>
     </body>
 </html>
