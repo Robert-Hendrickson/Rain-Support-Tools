@@ -7,8 +7,9 @@
             .pgBackground{
                 width: 100%;
                 background: linear-gradient(135deg, #ee7070, #47893d);
+                min-height: 800px;
             }
-            h1{
+            h1,h2,h3,h4,h5{
                 text-align: center;
                 color: #ffffff;
             }
@@ -17,58 +18,95 @@
                 margin: 0px auto;
                 background-color:#47893d;
             }
+            /*list styling*/
+            ul{
+                list-style-type: decimal;
+            }
+            .item{
+                font-weight: bold;
+            }
+            .odd{
+                text-decoration: underline;
+            }
+            .even{
+                color: orange;
+            }
+            /*table styling*/
+            th{
+                border: #000 solid 1px;
+                padding: 0px 5px;
+            }
+            th:first-child{
+                border: none;
+            }
+            td{
+                border: #000 solid 1px;
+                text-align: right;
+            }
         </style>
     </head>
     <body>
         <div class="pgBackground">
             <div class="container content">
                 <h1>Welcome to CSS!</h1>
-                <div>
+                <div class="container">
+                    <h3>Grocery List</h3>
                     <ul class="list">
-                        element = ul<br />
-                        classes = list
-                        <li class="odd item">element = li<br />classes = odd,item</li>
-                        <li class="even item">element = li<br />classes = even,item</li>
-                        <li class="odd item">element = li<br />classes = odd,item</li>
+                        <li class="odd item">Apples</li>
+                        <li class="even item">Oranges</li>
+                        <li class="odd item">Grapes</li>
                     </ul>
                 </div>
-                <table>
-                    <tbody>
-                        <tr class="apple">
-                            <td>
-                                element = td
-                            </td>
-                            <td>
-                                element = td
-                            </td>
-                            <td>
-                                element = td
-                            </td>
-                        </tr>
-                        <tr class="orange">
-                            <td>
-                                element = td
-                            </td>
-                            <td>
-                                element = td
-                            </td>
-                            <td>
-                                element = td
-                            </td>
-                        </tr>
-                        <tr class="grape">
-                            <td>
-                                element = td
-                            </td>
-                            <td>
-                                element = td
-                            </td>
-                            <td>
-                                element = td
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="stores">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Walmart</th>
+                                <th>Target</th>
+                                <th>Macey's</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="apple">
+                                <td>Apple Prices</td>
+                                <td>
+                                    $3.95
+                                </td>
+                                <td>
+                                    $3.60
+                                </td>
+                                <td>
+                                    $2.86
+                                </td>
+                            </tr>
+                            <tr class="orange">
+                                <td>Orange Prices</td>
+                                <td>
+                                    $4.88
+                                </td>
+                                <td>
+                                    $5.16
+                                </td>
+                                <td>
+                                    $4.65
+                                </td>
+                            </tr>
+                            <tr class="grape">
+                                <td>Grape Prices</td>
+                                <td>
+                                    $1.45
+                                </td>
+                                <td>
+                                    $1.35
+                                </td>
+                                <td>
+                                    $3.99
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
         <div class="closed" id="userInput">
@@ -77,8 +115,9 @@
             </div>
             <div class="container">
                 <input type="button" value="Submit" onclick="updateCSS()" />
+                <input type="button" value="Reset" onclick="setBaseCSS()" />
                 <h2 style="margin: unset; display: unset;">Page CSS</h2><br />
-                <textarea></textarea>
+                <textarea id="user-css"></textarea>
             </div>
         </div>
         <script>
@@ -96,6 +135,12 @@
                     document.getElementById('panelToggle').innerText = '<<';
                 };
             };
+            let base_css = document.getElementById('page-css').innerHTML.replaceAll(/\n\s*/g,'\n').substring(1);
+            function setBaseCSS(){
+                document.getElementById('user-css').value = base_css;
+                updateCSS();
+            };
+            setBaseCSS();
         </script>
     </body>
 </html>
