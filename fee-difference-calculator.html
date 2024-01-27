@@ -17,7 +17,10 @@
                 float: left;
             }
             div#rates{
-                width: 300px;
+                width: 400px;
+                float: left;
+            }
+            div#rates #rateTables, div#rates #amexSelector{
                 float: left;
             }
             /*table styles*/
@@ -35,6 +38,13 @@
             }
             #rates td input{
                 width: 50px;
+            }
+            /*amex card rates*/
+            .amex{
+                display: none;
+            }
+            .amex.show{
+                display: block;
             }
         </style>
     </head>
@@ -58,41 +68,93 @@
             </table>
         </div>
         <div id="rates">
-            <table id="cardPresent">
-                <thead>
-                    <tr>
-                        <th colspan="2">Card Present</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Fee Rate</td>
-                        <td><input id="cardPresentRate"></td>
-                    </tr>
-                    <tr>
-                        <td>Amount per transaction</td>
-                        <td><input id="cardPresentAmount"></td>
-                    </tr>
-                </tbody>
-            </table>
-            <br />
-            <table id="cardNotPresent">
-                <thead>
-                    <tr>
-                        <th colspan="2">Card Not Present</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Fee Rate</td>
-                        <td><input id="cardNotPresentRate"></td>
-                    </tr>
-                    <tr>
-                        <td>Amount per transaction</td>
-                        <td><input id="cardNotPresentAmount"></td>
-                    </tr>
-                </tbody>
-            </table>
+            <div id="rateTables">
+                <table id="cardPresent">
+                    <thead>
+                        <tr>
+                            <th colspan="2">Card Present</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Fee Rate</td>
+                            <td><input id="cardPresentRate"></td>
+                        </tr>
+                        <tr>
+                            <td>Amount per transaction</td>
+                            <td><input id="cardPresentAmount"></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <br />
+                <table class="amex" id="amexcardPresent">
+                    <thead>
+                        <tr>
+                            <th colspan="2">Amex Card Present</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Fee Rate</td>
+                            <td><input id="amexcardPresentRate"></td>
+                        </tr>
+                        <tr>
+                            <td>Amount per transaction</td>
+                            <td><input id="amexcardPresentAmount"></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <br />
+                <table id="cardNotPresent">
+                    <thead>
+                        <tr>
+                            <th colspan="2">Card Not Present</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Fee Rate</td>
+                            <td><input id="cardNotPresentRate"></td>
+                        </tr>
+                        <tr>
+                            <td>Amount per transaction</td>
+                            <td><input id="cardNotPresentAmount"></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <br />
+                <table class="amex" id="amexcardNotPresent">
+                    <thead>
+                        <tr>
+                            <th colspan="2">Amex Card Not Present</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Fee Rate</td>
+                            <td><input id="amexcardNotPresentRate"></td>
+                        </tr>
+                        <tr>
+                            <td>Amount per transaction</td>
+                            <td><input id="amexcardNotPresentAmount"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div id="amexSelector">
+                <input type="checkbox" id="amexCheck" onclick="amexDisplayToggle()" />Different Amex Rates
+            </div>
         </div>
+        <script>
+            function amexDisplayToggle(){
+                let checked = $('input#amexCheck')[0].checked;
+                if(checked){
+                    $('.amex').addClass('show');
+                };
+                if(!checked){
+                    $('.amex').removeClass('show');
+                };
+            };
+        </script>
     </body>
 </html>
