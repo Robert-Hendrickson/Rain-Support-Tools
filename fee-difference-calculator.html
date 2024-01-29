@@ -10,43 +10,8 @@
     -->
     <head>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-        <style>
-            /*page containers*/
-            div#transactions{
-                width: 720px;
-                float: left;
-            }
-            div#rates{
-                width: 400px;
-                float: left;
-            }
-            div#rates #rateTables, div#rates #amexSelector{
-                float: left;
-            }
-            /*table styles*/
-            table{
-                border-spacing: 0px;
-            }
-            table thead th, table tbody td{
-                border-right: 2px #000 solid;
-                border-top: 2px #000 solid;
-                border-bottom: 2px #000 solid;
-                padding: 4px;
-            }
-            table thead th:first-child, table tbody td:first-child{
-                border-left: 2px #000 solid;
-            }
-            #rates td input{
-                width: 50px;
-            }
-            /*amex card rates*/
-            .amex{
-                display: none;
-            }
-            .amex.show{
-                display: block;
-            }
-        </style>
+        <link rel="stylesheet" href="/Rain-Support-Tools/css/fee-difference-calc.css">
+        <script src="\Rain-Support-Tools\js\fee-difference-calc.js"></script>
     </head>
     <body>
         <div id="transactions">
@@ -142,40 +107,14 @@
                 </table>
             </div>
             <div id="amexSelector">
-                <input type="checkbox" id="amexCheck" onclick="amexDisplayToggle()" />Different Amex Rates
+                <input type="checkbox" id="amexCheck" onclick="amexDisplayToggle()" />Different Amex Rates<br />
+                <input type="button" Value="Import Transactions" onclick="importToggle('open')" />
             </div>
         </div>
-        <script>
-            function amexDisplayToggle(){
-                let checked = $('input#amexCheck')[0].checked;
-                if(checked){
-                    $('.amex').addClass('show');
-                };
-                if(!checked){
-                    $('.amex').removeClass('show');
-                };
-            };
-
-            /*This is a usable regex that will find all occurances from a coppied set of data out of rain.
-            (\d{2}:\d{2}:\d{2} [APMapm]{2})\n(\d+)\n(.*?)\n(.*?)\n([A-Za-z]{3} \d{1,2}, \d{4})\n(-{0,1}\$[\d.,]+)\n(-{0,1}\$[\d.,]+)\n(-{0,1}\$[\d.,]+)\n(-{0,1}\$[\d.,]+)
-
-            can be used with x.match(/regex/g) to find all transactions
-            y[i].split('\n') can find each piece of the lines to create object based variables.
-
-            {
-                dateNum: [0],
-                transaction: [1],
-                atTill: [2],
-                status: [3],
-                dateText: [4],
-                collected: [5],
-                fee: [6],
-                return: [7],
-                totalPayout: [8]
-            }
-
-            test string: should have 5 transactions listed
-04:35:05 AM
+        <div class="popup1 hide">
+            <div class="import">
+                <input type="button" value="Import" /><input type="button" value="Close" onclick="importToggle('close')" />&nbsp;<span>Please paste copied data into the box below.</span><br />
+                <textarea>04:35:05 AM
 1400120209
 Card Not Present
 Completed
@@ -219,8 +158,14 @@ Jan 17, 2024
 $27.60
 -$1.10
 $0.00
-$26.50
-            */
-        </script>
+$26.50</textarea>
+            </div>
+        </div>
+        <div class="popup2 hide">
+            <div class="wait">
+                Your data is being converted. You will be pushed back to the main page when we are done.<br />
+                <input type="range" min="0" max="10" />
+            </div>
+        </div>
     </body>
 </html>
