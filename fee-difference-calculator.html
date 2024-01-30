@@ -113,7 +113,7 @@
         </div>
         <div class="popup1 hide">
             <div class="import">
-                <input type="button" value="Import" /><input type="button" value="Close" onclick="importToggle('close')" />&nbsp;<span>Please paste copied data into the box below.</span><br />
+                <input type="button" value="Import" onclick="checkNumberOfLines()" /><input type="button" value="Close" onclick="importToggle('close')" />&nbsp;<span>Please paste copied data into the box below.</span><br />
                 <textarea>04:35:05 AM
 1400120209
 Card Not Present
@@ -162,10 +162,7 @@ $26.50</textarea>
             </div>
         </div>
         <div class="popup2 hide">
-            <div class="wait">
-                Your data is being converted. You will be pushed back to the main page when we are done.<br />
-                <input type="range" min="0" max="10" />
-            </div>
+            <div class="wait"></div>
         </div>
     </body>
 </html>

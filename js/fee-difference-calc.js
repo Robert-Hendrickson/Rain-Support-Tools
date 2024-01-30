@@ -1,3 +1,6 @@
+//global variable for compiling import data
+var _import = '';
+
 function amexDisplayToggle(){
     let checked = $('input#amexCheck')[0].checked;
     if(checked){
@@ -16,7 +19,32 @@ function importToggle(action){
         $('.popup1').addClass('hide');
     };
 };
-
+//check to see if provided data meets criteria to be used. Criteria: 1. The total number of lines devided by 9 is a whole number (each line should have 9 pieces of data) 2. The number of sets of data found with the regex expression matches the number found from criteria 1(this confirms that all rows belong to an inteded data set and there isn't missing or extra lines that happens to match the 1 criteria math)
+function checkNumberOfLines(){
+    $('.wait')[0].innerHTML = '';
+    $('.popup2').removeClass('hide');
+    messageUpdate("Checking Import Data Integrity.")
+    _import = $('.import textarea')[0].value;
+    let number_of_transactions = _import.split('\n').length/9;
+    if(number_of_transactions.toString().match(/\./)){
+        messageUpdate('Number of estimated rows: ' + number_of_transactions);
+        messageUpdate('The number of lines given is either to many or to few to have all of the information for the lines being imported. Please copy the data over again and retry.');
+        return false;
+    };
+    let split_data = _import.match(/(\d{2}:\d{2}:\d{2} [APMapm]{2})\n(\d+)\n(.*?)\n(.*?)\n([A-Za-z]{3} \d{1,2}, \d{4})\n(-{0,1}\$[\d.,]+)\n(-{0,1}\$[\d.,]+)\n(-{0,1}\$[\d.,]+)\n(-{0,1}\$[\d.,]+)/g);
+    if(number_of_transactions != split_data.length){
+        messageUpdate('Line Sets expected: ' + number_of_transactions);
+        messageUpdate('Line Sets found: ' + split_data.length);
+        messageUpdate("The number of line sets that match imported line data doesn't match the number of line sets there should be. Please copy the data over again and retry.");
+        return false;
+    }
+    messageUpdate("Line sets match the number of lines imported. Converting data into object variable.")
+    return true;
+};
+//gives feedback on status of process to end user incase the process takes longer so they know things are happening
+function messageUpdate(message){
+    $('.wait')[0].append($.parseHTML(`<p>${message}</p>`)[0]);
+};
 /*This is a usable regex that will find all occurances from a coppied set of data out of rain.
 (\d{2}:\d{2}:\d{2} [APMapm]{2})\n(\d+)\n(.*?)\n(.*?)\n([A-Za-z]{3} \d{1,2}, \d{4})\n(-{0,1}\$[\d.,]+)\n(-{0,1}\$[\d.,]+)\n(-{0,1}\$[\d.,]+)\n(-{0,1}\$[\d.,]+)
 
