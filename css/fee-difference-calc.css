@@ -62,16 +62,18 @@ table thead th:first-child, table tbody td:first-child{
     height: 100%;
     z-index: 2;
     position: absolute;
+    background-color: #ffffffd1;
 }
 .wait{
     position: absolute;
     width: 600px;
     min-height: 100px;
     max-height: 300px;
-    overflow-y: scroll;
     top: 30%;
     left: 35%;
     background-color: #d3d3d3;
+    box-shadow: 10px 20px 30px #79797a;
+    padding: 10px;
 }
 .popup2 > input{
     position: absolute;
