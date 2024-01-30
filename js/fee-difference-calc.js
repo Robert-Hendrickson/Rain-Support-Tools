@@ -19,6 +19,9 @@ function importToggle(action){
         $('.popup1').addClass('hide');
     };
 };
+function closeDialogue(){
+    $('.popup2').addClass('hide');
+};
 //check to see if provided data meets criteria to be used. Criteria: 1. The total number of lines devided by 9 is a whole number (each line should have 9 pieces of data) 2. The number of sets of data found with the regex expression matches the number found from criteria 1(this confirms that all rows belong to an inteded data set and there isn't missing or extra lines that happens to match the 1 criteria math)
 function checkNumberOfLines(){
     $('.wait')[0].innerHTML = '';

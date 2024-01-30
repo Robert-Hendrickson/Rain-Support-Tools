@@ -73,3 +73,8 @@ table thead th:first-child, table tbody td:first-child{
     left: 35%;
     background-color: #d3d3d3;
 }
+.popup2 > input{
+    position: absolute;
+    top: 28%;
+    left: 35%;
+}
