@@ -16,7 +16,8 @@ var tableObject = {
                 collected: row[5],
                 fee: row[6],
                 return: row[7],
-                totalPayout: row[8]
+                totalPayout: row[8],
+                row: tableObject.rows
             };
         };
     },
@@ -81,11 +82,15 @@ function buildObject(){
 
 function buildTable(){
     for(const row in tableObject.data){
-        let tr = $.parseHTML(`<tr><td>${tableObject.data[row].dateNum}</td><td>${tableObject.data[row].transaction}</td><td>${tableObject.data[row].atTill}</td><td>${tableObject.data[row].status}</td><td>${tableObject.data[row].dateText}</td><td>${tableObject.data[row].collected}</td><td>${tableObject.data[row].fee}</td><td>${tableObject.data[row].return}</td><td>${tableObject.data[row].totalPayout}</td><td></td>`)[0];
+        let tr = $.parseHTML(`<tr id="${tableObject.data[row].row}"><td>${tableObject.data[row].dateNum}</td><td>${tableObject.data[row].transaction}</td><td>${tableObject.data[row].atTill}</td><td>${tableObject.data[row].status}</td><td>${tableObject.data[row].dateText}</td><td>${tableObject.data[row].collected}</td><td>${tableObject.data[row].fee}</td><td>${tableObject.data[row].return}</td><td>${tableObject.data[row].totalPayout}</td><td></td>`)[0];
         $('#transactions tbody')[0].append(tr);
     };
     closeDialogue();
     importToggle('close');
+};
+
+function calculateDifference(){
+
 };
 /*This is a usable regex that will find all occurances from a coppied set of data out of rain.
 (\d{2}:\d{2}:\d{2} [APMapm]{2})\n(\d+)\n(.*?)\n(.*?)\n([A-Za-z]{3} \d{1,2}, \d{4})\n(-{0,1}\$[\d.,]+)\n(-{0,1}\$[\d.,]+)\n(-{0,1}\$[\d.,]+)\n(-{0,1}\$[\d.,]+)
