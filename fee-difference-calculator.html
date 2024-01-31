@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+    <!--
+        reference for build
+        \Rain-Support-Tools\imgs\feedifferencebase.png
+        quick ideas:
+        1. amex button that hides or displays rate options for amex cards separately
+           a. if amex is separate calculations will need to be run to find rows using amex rates for calculation
+        2. popup import option to paste copied data. Needs to be broken down into a usable object for looping through to create table data. Potentially look into option of uploading a csv spreadsheet version.
+    -->
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+        <link rel="stylesheet" href="/Rain-Support-Tools/css/fee-difference-calc.css">
+        <script src="\Rain-Support-Tools\js\fee-difference-calc.js"></script>
+    </head>
+    <body>
+        <div id="transactions">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Transaction Date</th>
+                        <th>Transactions</th>
+                        <th>Method</th>
+                        <th>Status</th>
+                        <th>Payout</th>
+                        <th>Collected</th>
+                        <th>Fees</th>
+                        <th>Refunds</th>
+                        <th>Net</th>
+                        <th>Difference</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>					
+            </table>
+        </div>
+        <div id="rates">
+            <div id="rateTables">
+                <table id="cardPresent">
+                    <thead>
+                        <tr>
+                            <th colspan="2">Card Present</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Fee Rate</td>
+                            <td><input id="cardPresentRate"></td>
+                        </tr>
+                        <tr>
+                            <td>Amount per transaction</td>
+                            <td><input id="cardPresentAmount"></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <br />
+                <table class="amex" id="amexcardPresent">
+                    <thead>
+                        <tr>
+                            <th colspan="2">Amex Card Present</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Fee Rate</td>
+                            <td><input id="amexcardPresentRate"></td>
+                        </tr>
+                        <tr>
+                            <td>Amount per transaction</td>
+                            <td><input id="amexcardPresentAmount"></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <br />
+                <table id="cardNotPresent">
+                    <thead>
+                        <tr>
+                            <th colspan="2">Card Not Present</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Fee Rate</td>
+                            <td><input id="cardNotPresentRate"></td>
+                        </tr>
+                        <tr>
+                            <td>Amount per transaction</td>
+                            <td><input id="cardNotPresentAmount"></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <br />
+                <table class="amex" id="amexcardNotPresent">
+                    <thead>
+                        <tr>
+                            <th colspan="2">Amex Card Not Present</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Fee Rate</td>
+                            <td><input id="amexcardNotPresentRate"></td>
+                        </tr>
+                        <tr>
+                            <td>Amount per transaction</td>
+                            <td><input id="amexcardNotPresentAmount"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div id="amexSelector">
+                <input type="checkbox" id="amexCheck" onclick="amexDisplayToggle()" />Different Amex Rates<br />
+                <input type="button" Value="Import Transactions" onclick="importToggle('open')" />
+            </div>
+        </div>
+        <div class="popup1 hide">
+            <div class="import">
+                <input type="button" value="Import" onclick="buildObject()" /><input type="button" value="Close" onclick="importToggle('close')" />&nbsp;<span>Please paste copied data into the box below.</span><br />
+                <textarea>04:35:05 AM
+1400120209
+Card Not Present
+Completed
+Jan 17, 2024
+$24.28
+-$1.00
+$0.00
+$23.28
+04:35:05 AM
+1400120210
+Card Not Present
+Completed
+Jan 17, 2024
+$24.28
+-$1.00
+$0.00
+$23.28
+04:35:06 AM
+1400120211
+Card Not Present
+Completed
+Jan 17, 2024
+$27.60
+-$1.10
+$0.00
+$26.50
+04:35:06 AM
+1400120212
+Card Not Present
+Completed
+Jan 17, 2024
+$27.60
+-$1.10
+$0.00
+$26.50
+04:35:09 AM
+1400120213
+Card Not Present
+Completed
+Jan 17, 2024
+$27.60
+-$1.10
+$0.00
+$26.50</textarea>
+            </div>
+        </div>
+        <div class="popup2 hide">
+            <div class="wait">
+                <input id="closeDialogue" class="hide" type="button" value="Close" onclick="closeDialogue()" /><br />
+                <p style="float:left;">Work is being done on the data you gave. Please wait.</p><img src="https://media1.giphy.com/media/RgzryV9nRCMHPVVXPV/giphy.webp?cid=790b7611c78zoxuecx3k2ayi4g3lljttqwh24v314n69ezbk&ep=v1_gifs_search&rid=giphy.webp&ct=g" style="
+                width: 29px;float:left;"><br /><br />
+                <div class="errorMessage"></div>
+            </div>
+        </div>
+    </body>
+</html>
