@@ -75,15 +75,17 @@ function buildObject(){
         console.log('building object');
         let split_data = _import.match(/(\d{2}:\d{2}:\d{2} [APMapm]{2})\n(\d+)\n(.*?)\n(.*?)\n([A-Za-z]{3} \d{1,2}, \d{4})\n(-{0,1}\$[\d.,]+)\n(-{0,1}\$[\d.,]+)\n(-{0,1}\$[\d.,]+)\n(-{0,1}\$[\d.,]+)/g);
         tableObject._addRows(split_data);
+        buildTable();
     };
 };
 
 function buildTable(){
     for(const row in tableObject.data){
-        console.log(row);
-        //let tr = $.parseHTML(`<tr><td>${row.dateNum}</td><td>${row.transaction}</td><td>${row.atTill}</td><td>${row.status}</td><td>${row.dateText}</td><td>${row.collected}</td><td>${row.fee}</td><td>${row.return}</td><td>${row.totalPayout}</td><td></td>`)[0];
-        //$('#transactions tbody')[0].append(tr);
+        let tr = $.parseHTML(`<tr><td>${tableObject.data[row].dateNum}</td><td>${tableObject.data[row].transaction}</td><td>${tableObject.data[row].atTill}</td><td>${tableObject.data[row].status}</td><td>${tableObject.data[row].dateText}</td><td>${tableObject.data[row].collected}</td><td>${tableObject.data[row].fee}</td><td>${tableObject.data[row].return}</td><td>${tableObject.data[row].totalPayout}</td><td></td>`)[0];
+        $('#transactions tbody')[0].append(tr);
     };
+    closeDialogue();
+    importToggle('close');
 };
 /*This is a usable regex that will find all occurances from a coppied set of data out of rain.
 (\d{2}:\d{2}:\d{2} [APMapm]{2})\n(\d+)\n(.*?)\n(.*?)\n([A-Za-z]{3} \d{1,2}, \d{4})\n(-{0,1}\$[\d.,]+)\n(-{0,1}\$[\d.,]+)\n(-{0,1}\$[\d.,]+)\n(-{0,1}\$[\d.,]+)
