@@ -1,5 +1,26 @@
 //global variable for compiling import data
 var _import = '';
+var tableObject = {
+    rows: 0,
+    data: {},
+    _addRows: (array) =>{
+        for(i=0;i<array.length;i++){
+            let row = array[i].split('\n');
+            tableObject.rows++;
+            tableObject.data[`row_${tableObject.rows}`] = {
+                dateNum: row[0],
+                transaction: row[1],
+                atTill: row[2],
+                status: row[3],
+                dateText: row[4],
+                collected: row[5],
+                fee: row[6],
+                return: row[7],
+                totalPayout: row[8]
+            };
+        };
+    },
+};
 
 function amexDisplayToggle(){
     let checked = $('input#amexCheck')[0].checked;
@@ -19,8 +40,11 @@ function importToggle(action){
         $('.popup1').addClass('hide');
     };
 };
+//closes the wait box and removes any existing error message text
 function closeDialogue(){
     $('.popup2').addClass('hide');
+    $('.errorMessage')[0].innerHTML = '';
+    $('#closeDialogue').addClass('hide');
 };
 //check to see if provided data meets criteria to be used. Criteria: 1. The total number of lines devided by 9 is a whole number (each line should have 9 pieces of data) 2. The number of sets of data found with the regex expression matches the number found from criteria 1(this confirms that all rows belong to an inteded data set and there isn't missing or extra lines that happens to match the 1 criteria math)
 function checkNumberOfLines(){
@@ -28,17 +52,38 @@ function checkNumberOfLines(){
     _import = $('.import textarea')[0].value;
     let number_of_transactions = _import.split('\n').length/9;
     if(number_of_transactions.toString().match(/\./)){
+        messageUpdate("The number of lines given doesn't match the number of expected lines for full data. Please make sure the copied data is the full set of data from rows selected and try again.")
+        $('#closeDialogue').removeClass('hide');
         return false;
     };
     let split_data = _import.match(/(\d{2}:\d{2}:\d{2} [APMapm]{2})\n(\d+)\n(.*?)\n(.*?)\n([A-Za-z]{3} \d{1,2}, \d{4})\n(-{0,1}\$[\d.,]+)\n(-{0,1}\$[\d.,]+)\n(-{0,1}\$[\d.,]+)\n(-{0,1}\$[\d.,]+)/g);
     if(number_of_transactions != split_data.length){
+        messageUpdate("The number of found rows doesn't match the number of estimated rows. This means there may be lines that are duplicated or missing. Please make sure the copied data is the full set of data from rows selected and try again.")
+        $('#closeDialogue').removeClass('hide');
         return false;
     }
+    $('#closeDialogue').removeClass('hide');
     return true;
 };
-//gives feedback on status of process to end user incase the process takes longer so they know things are happening
+//this updates the error message box for if there was an issue with the data and why it failed
 function messageUpdate(message){
     $('.errorMessage')[0].append($.parseHTML(`<p>${message}</p>`)[0]);
+};
+
+function buildObject(){
+    if(checkNumberOfLines()){
+        console.log('building object');
+        let split_data = _import.match(/(\d{2}:\d{2}:\d{2} [APMapm]{2})\n(\d+)\n(.*?)\n(.*?)\n([A-Za-z]{3} \d{1,2}, \d{4})\n(-{0,1}\$[\d.,]+)\n(-{0,1}\$[\d.,]+)\n(-{0,1}\$[\d.,]+)\n(-{0,1}\$[\d.,]+)/g);
+        tableObject._addRows(split_data);
+    };
+};
+
+function buildTable(){
+    for(const row in tableObject.data){
+        console.log(row);
+        //let tr = $.parseHTML(`<tr><td>${row.dateNum}</td><td>${row.transaction}</td><td>${row.atTill}</td><td>${row.status}</td><td>${row.dateText}</td><td>${row.collected}</td><td>${row.fee}</td><td>${row.return}</td><td>${row.totalPayout}</td><td></td>`)[0];
+        //$('#transactions tbody')[0].append(tr);
+    };
 };
 /*This is a usable regex that will find all occurances from a coppied set of data out of rain.
 (\d{2}:\d{2}:\d{2} [APMapm]{2})\n(\d+)\n(.*?)\n(.*?)\n([A-Za-z]{3} \d{1,2}, \d{4})\n(-{0,1}\$[\d.,]+)\n(-{0,1}\$[\d.,]+)\n(-{0,1}\$[\d.,]+)\n(-{0,1}\$[\d.,]+)

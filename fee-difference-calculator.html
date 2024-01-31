@@ -29,7 +29,8 @@
                         <th>Net</th>
                         <th>Difference</th>
                     </tr>
-                </thead>					
+                </thead>
+                <tbody></tbody>					
             </table>
         </div>
         <div id="rates">
@@ -113,7 +114,7 @@
         </div>
         <div class="popup1 hide">
             <div class="import">
-                <input type="button" value="Import" onclick="checkNumberOfLines()" /><input type="button" value="Close" onclick="importToggle('close')" />&nbsp;<span>Please paste copied data into the box below.</span><br />
+                <input type="button" value="Import" onclick="buildObject()" /><input type="button" value="Close" onclick="importToggle('close')" />&nbsp;<span>Please paste copied data into the box below.</span><br />
                 <textarea>04:35:05 AM
 1400120209
 Card Not Present
@@ -163,7 +164,7 @@ $26.50</textarea>
         </div>
         <div class="popup2 hide">
             <div class="wait">
-                <input id="closeDialogue" type="button" value="Close" onclick="closeDialogue()" /><br />
+                <input id="closeDialogue" class="hide" type="button" value="Close" onclick="closeDialogue()" /><br />
                 <p style="float:left;">Work is being done on the data you gave. Please wait.</p><img src="https://media1.giphy.com/media/RgzryV9nRCMHPVVXPV/giphy.webp?cid=790b7611c78zoxuecx3k2ayi4g3lljttqwh24v314n69ezbk&ep=v1_gifs_search&rid=giphy.webp&ct=g" style="
                 width: 29px;float:left;"><br /><br />
                 <div class="errorMessage"></div>
