@@ -27,10 +27,11 @@
                         <th>Fees</th>
                         <th>Refunds</th>
                         <th>Net</th>
+                        <th>New Fee</th>
                         <th>Difference</th>
                     </tr>
                 </thead>
-                <tbody></tbody>					
+                <tbody></tbody>
             </table>
         </div>
         <div id="rates">
@@ -106,11 +107,36 @@
                         </tr>
                     </tbody>
                 </table>
+                <br />
             </div>
             <div id="amexSelector">
                 <input type="checkbox" id="amexCheck" onclick="amexDisplayToggle()" />Different Amex Rates<br />
                 <input type="button" Value="Import Transactions" onclick="importToggle('open')" /><br />
                 <input type="button" value="Run Calculations" onclick="calculateDifference()" />
+            </div>
+            <div id="totals">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>
+                                Fees Collected
+                            </th>
+                            <th>
+                                Total fees calculated
+                            </th>
+                            <th>
+                                Total Difference
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>$0.00</td>
+                            <td>$0.00</td>
+                            <td>$0.00</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
         <div class="popup1 hide">

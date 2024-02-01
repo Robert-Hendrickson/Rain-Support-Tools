@@ -1,6 +1,6 @@
 /*page containers*/
 div#transactions{
-    width: 720px;
+    width: 900px;
     float: left;
     margin: 0px 5px;
 }
@@ -10,6 +10,9 @@ div#rates{
 }
 div#rates #rateTables, div#rates #amexSelector{
     float: left;
+}
+div#totals{
+    width: 100%;
 }
 /*table styles*/
 table{
@@ -26,6 +29,9 @@ table thead th:first-child, table tbody td:first-child{
 }
 #rates td input{
     width: 50px;
+}
+#transactions th:nth-child(3), td:nth-child(3) {
+    width: 30px;
 }
 /*amex card rates*/
 .amex{
