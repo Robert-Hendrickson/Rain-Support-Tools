@@ -88,6 +88,13 @@ function buildTable(){
     importToggle('close');
 };
 
+//takes a string from rates boxes and converts it to a usable decimal for calculation
+function precentToDecimal(value){
+    value = '0.0' + value.replace('.','');
+    value = parseFloat(value);
+    return value;
+};
+
 function calculateDifference(){
     let rates = {};
     //collect and store card rates and fees
@@ -96,14 +103,31 @@ function calculateDifference(){
     rates['cardp'] = [precentToDecimal($('#cardPresentRate')[0].value),parseFloat($('#cardPresentAmount')[0].value)];
     rates['cardnp'] = [precentToDecimal($('#cardNotPresentRate')[0].value),parseFloat($('#cardNotPresentAmount')[0].value)];
     console.log(rates);
+    let table_data = $('#transactions tbody tr');
+    for(i=0;i<table_data.length;i++){
+        temp_row = table_data[i];
+        if(temp_row.querySelector('td:nth-child(3)').innerText === 'Card Not Present'){
+            temp_rates = rates.cardp;
+            let temp_collected = temp_row.querySelector('td:nth-child(6)').innerText.replace('$','');
+            if($('#amexCheck')[0].checked){
+                //needs to check if rate used on row matches non-amex rates if it does do nothing. if it doesn't then we need to update temp_rates to use amex present rates instead.
+                let check_rate = rates.cardnp;
+                let check_fee = parseFloat(temp_collected);
+                check_fee *= check_rate[0];
+                check_fee += check_rate[1];
+                if(check_fee.toFixed(2) === temp_row.querySelector('td:nth-child(7)').innerText.replace('-$','')){
+                    temp_rates = rates.amexp;
+                };
+            };
+            let temp_fee = parseFloat(temp_collected) * temp_rates[0];
+            temp_fee += temp_rates[1];
+            let difference = parseFloat(temp_row.querySelector('td:nth-child(7)').innerText.replace('$',''));
+            difference += temp_fee;
+            temp_row.querySelector('td:last-child').innerText = '$' + difference.toFixed(2);
+        };
+    };
 };
 
-//takes a string from rates boxes and converts it to a usable decimal for calculation
-function precentToDecimal(value){
-    value = '0.0' + value.replace('.','');
-    value = parseFloat(value);
-    return value;
-};
 /*This is a usable regex that will find all occurances from a coppied set of data out of rain.
 (\d{2}:\d{2}:\d{2} [APMapm]{2})\n(\d+)\n(.*?)\n(.*?)\n([A-Za-z]{3} \d{1,2}, \d{4})\n(-{0,1}\$[\d.,]+)\n(-{0,1}\$[\d.,]+)\n(-{0,1}\$[\d.,]+)\n(-{0,1}\$[\d.,]+)
 
