@@ -73,7 +73,6 @@ function messageUpdate(message){
 
 function buildObject(){
     if(checkNumberOfLines()){
-        console.log('building object');
         let split_data = _import.match(/(\d{2}:\d{2}:\d{2} [APMapm]{2})\n(\d+)\n(.*?)\n(.*?)\n([A-Za-z]{3} \d{1,2}, \d{4})\n(-{0,1}\$[\d.,]+)\n(-{0,1}\$[\d.,]+)\n(-{0,1}\$[\d.,]+)\n(-{0,1}\$[\d.,]+)/g);
         tableObject._addRows(split_data);
         buildTable();
@@ -90,7 +89,20 @@ function buildTable(){
 };
 
 function calculateDifference(){
+    let rates = {};
+    //collect and store card rates and fees
+    rates['amexp'] = [precentToDecimal($('#amexcardPresentRate')[0].value),parseFloat($('#amexcardPresentAmount')[0].value)];
+    rates['amexnp'] = [precentToDecimal($('#amexcardNotPresentRate')[0].value),parseFloat($('#amexcardNotPresentAmount')[0].value)];
+    rates['cardp'] = [precentToDecimal($('#cardPresentRate')[0].value),parseFloat($('#cardPresentAmount')[0].value)];
+    rates['cardnp'] = [precentToDecimal($('#cardNotPresentRate')[0].value),parseFloat($('#cardNotPresentAmount')[0].value)];
+    console.log(rates);
+};
 
+//takes a string from rates boxes and converts it to a usable decimal for calculation
+function precentToDecimal(value){
+    value = '0.0' + value.replace('.','');
+    value = parseFloat(value);
+    return value;
 };
 /*This is a usable regex that will find all occurances from a coppied set of data out of rain.
 (\d{2}:\d{2}:\d{2} [APMapm]{2})\n(\d+)\n(.*?)\n(.*?)\n([A-Za-z]{3} \d{1,2}, \d{4})\n(-{0,1}\$[\d.,]+)\n(-{0,1}\$[\d.,]+)\n(-{0,1}\$[\d.,]+)\n(-{0,1}\$[\d.,]+)
