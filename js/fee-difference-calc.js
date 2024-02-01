@@ -16,7 +16,8 @@ var tableObject = {
                 collected: row[5],
                 fee: row[6],
                 return: row[7],
-                totalPayout: row[8]
+                totalPayout: row[8],
+                row: tableObject.rows
             };
         };
     },
@@ -72,7 +73,6 @@ function messageUpdate(message){
 
 function buildObject(){
     if(checkNumberOfLines()){
-        console.log('building object');
         let split_data = _import.match(/(\d{2}:\d{2}:\d{2} [APMapm]{2})\n(\d+)\n(.*?)\n(.*?)\n([A-Za-z]{3} \d{1,2}, \d{4})\n(-{0,1}\$[\d.,]+)\n(-{0,1}\$[\d.,]+)\n(-{0,1}\$[\d.,]+)\n(-{0,1}\$[\d.,]+)/g);
         tableObject._addRows(split_data);
         buildTable();
@@ -81,12 +81,53 @@ function buildObject(){
 
 function buildTable(){
     for(const row in tableObject.data){
-        let tr = $.parseHTML(`<tr><td>${tableObject.data[row].dateNum}</td><td>${tableObject.data[row].transaction}</td><td>${tableObject.data[row].atTill}</td><td>${tableObject.data[row].status}</td><td>${tableObject.data[row].dateText}</td><td>${tableObject.data[row].collected}</td><td>${tableObject.data[row].fee}</td><td>${tableObject.data[row].return}</td><td>${tableObject.data[row].totalPayout}</td><td></td>`)[0];
+        let tr = $.parseHTML(`<tr id="${tableObject.data[row].row}"><td>${tableObject.data[row].dateNum}</td><td>${tableObject.data[row].transaction}</td><td>${tableObject.data[row].atTill}</td><td>${tableObject.data[row].status}</td><td>${tableObject.data[row].dateText}</td><td>${tableObject.data[row].collected}</td><td>${tableObject.data[row].fee}</td><td>${tableObject.data[row].return}</td><td>${tableObject.data[row].totalPayout}</td><td></td>`)[0];
         $('#transactions tbody')[0].append(tr);
     };
     closeDialogue();
     importToggle('close');
 };
+
+//takes a string from rates boxes and converts it to a usable decimal for calculation
+function precentToDecimal(value){
+    value = '0.0' + value.replace('.','');
+    value = parseFloat(value);
+    return value;
+};
+
+function calculateDifference(){
+    let rates = {};
+    //collect and store card rates and fees
+    rates['amexp'] = [precentToDecimal($('#amexcardPresentRate')[0].value),parseFloat($('#amexcardPresentAmount')[0].value)];
+    rates['amexnp'] = [precentToDecimal($('#amexcardNotPresentRate')[0].value),parseFloat($('#amexcardNotPresentAmount')[0].value)];
+    rates['cardp'] = [precentToDecimal($('#cardPresentRate')[0].value),parseFloat($('#cardPresentAmount')[0].value)];
+    rates['cardnp'] = [precentToDecimal($('#cardNotPresentRate')[0].value),parseFloat($('#cardNotPresentAmount')[0].value)];
+    console.log(rates);
+    let table_data = $('#transactions tbody tr');
+    for(i=0;i<table_data.length;i++){
+        temp_row = table_data[i];
+        if(temp_row.querySelector('td:nth-child(3)').innerText === 'Card Not Present'){
+            temp_rates = rates.cardp;
+            let temp_collected = temp_row.querySelector('td:nth-child(6)').innerText.replace('$','');
+            if($('#amexCheck')[0].checked){
+                //needs to check if rate used on row matches non-amex rates if it does do nothing. if it doesn't then we need to update temp_rates to use amex present rates instead.
+                let check_rate = rates.cardnp;
+                let check_fee = parseFloat(temp_collected);
+                check_fee *= check_rate[0];
+                check_fee += check_rate[1];
+                if(check_fee.toFixed(2) != temp_row.querySelector('td:nth-child(7)').innerText.replace('-$','')){
+                    temp_rates = rates.amexp;
+                };
+            };
+            let temp_fee = parseFloat(temp_collected) * temp_rates[0];
+            temp_fee += temp_rates[1];
+            let difference = parseFloat(temp_row.querySelector('td:nth-child(7)').innerText.replace('$',''));
+            difference += temp_fee;
+            temp_row.querySelector('td:last-child').innerText = '$' + difference.toFixed(2);
+        };
+    };
+};
+
 /*This is a usable regex that will find all occurances from a coppied set of data out of rain.
 (\d{2}:\d{2}:\d{2} [APMapm]{2})\n(\d+)\n(.*?)\n(.*?)\n([A-Za-z]{3} \d{1,2}, \d{4})\n(-{0,1}\$[\d.,]+)\n(-{0,1}\$[\d.,]+)\n(-{0,1}\$[\d.,]+)\n(-{0,1}\$[\d.,]+)
 
