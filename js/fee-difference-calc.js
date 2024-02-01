@@ -81,7 +81,7 @@ function buildObject(){
 
 function buildTable(){
     for(const row in tableObject.data){
-        let tr = $.parseHTML(`<tr id="${tableObject.data[row].row}"><td>${tableObject.data[row].dateNum}</td><td>${tableObject.data[row].transaction}</td><td>${tableObject.data[row].atTill}</td><td>${tableObject.data[row].status}</td><td>${tableObject.data[row].dateText}</td><td>${tableObject.data[row].collected}</td><td>${tableObject.data[row].fee}</td><td>${tableObject.data[row].return}</td><td>${tableObject.data[row].totalPayout}</td><td></td>`)[0];
+        let tr = $.parseHTML(`<tr id="${tableObject.data[row].row}"><td>${tableObject.data[row].dateNum}</td><td>${tableObject.data[row].transaction}</td><td>${tableObject.data[row].atTill}</td><td>${tableObject.data[row].status}</td><td>${tableObject.data[row].dateText}</td><td>${tableObject.data[row].collected}</td><td>${tableObject.data[row].fee}</td><td>${tableObject.data[row].return}</td><td>${tableObject.data[row].totalPayout}</td><td></td><td></td>`)[0];
         $('#transactions tbody')[0].append(tr);
     };
     closeDialogue();
@@ -123,9 +123,26 @@ function calculateDifference(){
             temp_fee += temp_rates[1];
             let difference = parseFloat(temp_row.querySelector('td:nth-child(7)').innerText.replace('$',''));
             difference += temp_fee;
+            temp_row.querySelector('td:nth-child(10)').innerText = '$' + temp_fee.toFixed(2);
             temp_row.querySelector('td:last-child').innerText = '$' + difference.toFixed(2);
         };
     };
+    calculateTotals(table_data);
+};
+
+function calculateTotals(table){
+    let total_fees = 0;
+    let total_calculated_fees = 0;
+    let total_difference = 0;
+    for(i=0;i<table.length;i++){
+        total_fees += parseFloat(table[i].querySelector('td:nth-child(7)').innerText.replace('$',''));
+        total_calculated_fees += parseFloat(table[i].querySelector('td:nth-child(10)').innerText.replace('$',''));
+        total_difference += parseFloat(table[i].querySelector('td:nth-child(11)').innerText.replace('$',''));
+    };
+    let total_table = $('#totals tbody tr')[0];
+    total_table.querySelector('td:nth-child(1)').innerText = `$${total_fees.toFixed(2)}`;
+    total_table.querySelector('td:nth-child(2)').innerText = `$${total_calculated_fees.toFixed(2)}`;
+    total_table.querySelector('td:nth-child(3)').innerText = `$${total_difference.toFixed(2)}`;
 };
 
 /*This is a usable regex that will find all occurances from a coppied set of data out of rain.
