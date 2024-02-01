@@ -115,7 +115,7 @@ function calculateDifference(){
                 let check_fee = parseFloat(temp_collected);
                 check_fee *= check_rate[0];
                 check_fee += check_rate[1];
-                if(check_fee.toFixed(2) === temp_row.querySelector('td:nth-child(7)').innerText.replace('-$','')){
+                if(check_fee.toFixed(2) != temp_row.querySelector('td:nth-child(7)').innerText.replace('-$','')){
                     temp_rates = rates.amexp;
                 };
             };
