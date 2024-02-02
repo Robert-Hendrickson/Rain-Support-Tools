@@ -14,6 +14,12 @@
         <script src="\Rain-Support-Tools\js\fee-difference-calc.js"></script>
     </head>
     <body>
+        <div style="float: left; width: 100%;">
+            <a style="text-decoration: unset;" href="/Rain-Support-Tools/">
+                <input type="button" value="Home" />
+            </a>
+            <input type="button" value="Video Walkthrough" onclick="videoToggle('open')" />
+        </div>
         <div id="transactions">
             <table>
                 <thead>
@@ -45,11 +51,11 @@
                     <tbody>
                         <tr>
                             <td>Fee Rate</td>
-                            <td><input id="cardPresentRate" value="1.95" /></td>
+                            <td><input id="cardPresentRate" /></td>
                         </tr>
                         <tr>
                             <td>Amount per transaction</td>
-                            <td><input id="cardPresentAmount" value="0.07" /></td>
+                            <td><input id="cardPresentAmount" /></td>
                         </tr>
                     </tbody>
                 </table>
@@ -63,11 +69,11 @@
                     <tbody>
                         <tr>
                             <td>Fee Rate</td>
-                            <td><input id="amexcardPresentRate" value="2.1" /></td>
+                            <td><input id="amexcardPresentRate" /></td>
                         </tr>
                         <tr>
                             <td>Amount per transaction</td>
-                            <td><input id="amexcardPresentAmount" value="0.15" /></td>
+                            <td><input id="amexcardPresentAmount" /></td>
                         </tr>
                     </tbody>
                 </table>
@@ -81,11 +87,11 @@
                     <tbody>
                         <tr>
                             <td>Fee Rate</td>
-                            <td><input id="cardNotPresentRate" value="2.9" /></td>
+                            <td><input id="cardNotPresentRate" /></td>
                         </tr>
                         <tr>
                             <td>Amount per transaction</td>
-                            <td><input id="cardNotPresentAmount" value="0.3" /></td>
+                            <td><input id="cardNotPresentAmount" /></td>
                         </tr>
                     </tbody>
                 </table>
@@ -99,11 +105,11 @@
                     <tbody>
                         <tr>
                             <td>Fee Rate</td>
-                            <td><input id="amexcardNotPresentRate" value="3.2" /></td>
+                            <td><input id="amexcardNotPresentRate" /></td>
                         </tr>
                         <tr>
                             <td>Amount per transaction</td>
-                            <td><input id="amexcardNotPresentAmount" value="0.35" /></td>
+                            <td><input id="amexcardNotPresentAmount" /></td>
                         </tr>
                     </tbody>
                 </table>
@@ -112,7 +118,8 @@
             <div id="amexSelector">
                 <input type="checkbox" id="amexCheck" onclick="amexDisplayToggle()" />Different Amex Rates<br />
                 <input type="button" Value="Import Transactions" onclick="importToggle('open')" /><br />
-                <input type="button" value="Run Calculations" onclick="calculateDifference()" />
+                <input type="button" value="Run Calculations" onclick="calculateDifference()" /><br />
+                <input type="button" value="Clear Table" onclick="resetTable()" />
             </div>
             <div id="totals">
                 <table>
@@ -142,51 +149,7 @@
         <div class="popup1 hide">
             <div class="import">
                 <input type="button" value="Import" onclick="buildObject()" /><input type="button" value="Close" onclick="importToggle('close')" />&nbsp;<span>Please paste copied data into the box below.</span><br />
-                <textarea>04:35:05 AM
-1400120209
-Card Not Present
-Completed
-Jan 17, 2024
-$24.28
--$1.00
-$0.00
-$23.28
-04:35:05 AM
-1400120210
-Card Not Present
-Amex
-Jan 17, 2024
-$24.28
--$1.13
-$0.00
-$23.28
-04:35:06 AM
-1400120211
-Card Not Present
-Completed
-Jan 17, 2024
-$27.60
--$1.10
-$0.00
-$26.50
-04:35:06 AM
-1400120212
-Card Not Present
-Completed
-Jan 17, 2024
-$27.60
--$1.10
-$0.00
-$26.50
-04:35:09 AM
-1400120213
-Card Not Present
-Completed
-Jan 17, 2024
-$27.60
--$1.10
-$0.00
-$26.50</textarea>
+                <textarea></textarea>
             </div>
         </div>
         <div class="popup2 hide">
@@ -195,6 +158,26 @@ $26.50</textarea>
                 <p style="float:left;">Work is being done on the data you gave. Please wait.</p><img src="https://media1.giphy.com/media/RgzryV9nRCMHPVVXPV/giphy.webp?cid=790b7611c78zoxuecx3k2ayi4g3lljttqwh24v314n69ezbk&ep=v1_gifs_search&rid=giphy.webp&ct=g" style="
                 width: 29px;float:left;"><br /><br />
                 <div class="errorMessage"></div>
+            </div>
+        </div>
+        <div class="video hide">
+            <div class="my-player">
+                <input type="button" value="Close" onclick="videoToggle('close')" /><br />
+                <video 
+                id="my-player"
+                class="video-js"
+                controls
+                preload="auto"
+                data-setup="{}">
+                <source src="\Rain-Support-Tools\videos\feecalculatoroverview.mp4" type="video/mp4"></source>
+                <p class="vjs-no-js">
+                    To view this video please enable JavaScript, and consider upgrading to a
+                    web browser that
+                    <a href="https://videojs.com/html5-video-support/" target="_blank">
+                    supports HTML5 video
+                    </a>
+                </p>
+                </video>
             </div>
         </div>
     </body>
