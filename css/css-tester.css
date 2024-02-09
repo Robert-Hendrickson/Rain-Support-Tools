@@ -45,3 +45,7 @@ body{
 #userInput .container h2{
     color: #000;
 }
+.container input[type="color"]{
+    width: 50px;
+    height: 50px;
+}

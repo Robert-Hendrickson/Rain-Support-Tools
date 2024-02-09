@@ -26,6 +26,12 @@
                 margin: 0px auto;
                 padding: 5px;
             }
+            /*****Color Picker*****/
+            .userColor p{
+                width: 60%;
+                margin: 0px auto;
+                background-color: #457eee;
+            }
             /*****list styling*****/
             ul{
                 list-style-type: decimal;
@@ -69,6 +75,12 @@
                 <h1>Welcome to CSS!</h1>
                 <div class="container summary">
                     This page is for the purpose of being able to test targeting css. On the right side there is a button (<<). Clicking this will open a side panel which will display the current css being used for the webpage. Editing this data will allow you to change, add, or remove css to see how it affects the page.
+                </div>
+                <div class="container userColor">
+                    <h3>Try making your own color to use!</h3>
+                    <p>You can either enter a hex color code into the text box to see what the color will look like before applying it to the page or you can use the color box to the left to use a color picker to find a color you like and then copy the hex code out of the text box.</p>
+                    <input type="color" value="#457e96" onchange="getColor()" />
+                    <input type="text" value="#457e96" onchange="checkColor()"/>
                 </div>
                 <div class="container grocery">
                     <h3>Grocery List</h3>
@@ -175,6 +187,13 @@
                 updateCSS();
             };
             setBaseCSS();
+            //this is for the color getter to display the hex color code easily
+            function getColor(){
+                document.querySelector('.container input[type="text"]').value = document.querySelector('.container input[type="color"]').value;
+            };
+            function checkColor(){
+                document.querySelector('.container input[type="color"]').value = document.querySelector('.container input[type="text"]').value;
+            };
         </script>
     </body>
 </html>
