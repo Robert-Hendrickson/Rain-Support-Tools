@@ -1,5 +1,9 @@
 body{
     overflow-x: hidden;
+    margin: unset;
+}
+div.pgBackground{
+    display: inline-block;
 }
 #userInput{
     height: 100%;
