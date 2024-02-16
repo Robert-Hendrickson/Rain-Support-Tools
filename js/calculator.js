@@ -28,73 +28,8 @@ function addRowElement(){
     //get row line number to make
     number_of_lines++;
     let line = number_of_lines;
-    let new_row = $.parseHTML(`<tr id='row_${line}'><td><input type='number' id='qty' value='0' onchange='lineUpdate(${line})' /></td><td><input type='number' id='price' value='0' onchange='lineUpdate(${line})' /></td><td><input type='number' id='ext' value='0' disabled /></td><td><input type='number' id='discount' value='0' onchange='lineUpdate(${line})' /></td><td><input type='number' id='tax' value='0' disabled /></td><td><input type='number' id='total' value='0' disabled /></td><td><input type='checkbox' id='row_${line}_mat' onchange='booleanUpdate(1, "mat")' /><input type='checkbox' id='row_${line}_serv' onchange='booleanUpdate(1, "serv")' /><input type='checkbox' id='row_${line}_class' onchange='bolleanUpdate(1, "class")' /></td><td><input type='number' id='percent_discount' onchange='lineUpdate(${line})' /></td></tr>`)[0];
-    /*
-    //internal function for setting multiple attributes in a single call
-    function setAttributes(el, attrs) {
-        for(var key in attrs) {
-            el.setAttribute(key, attrs[key]);
-        }
-    };
-    //create table row element amd add id attribute
-    const  trow = $(document)[0].createElement("tr");
-    trow.setAttribute('id', `row_${line}`);
-    //create row cell for qty, add attributes, and add to the row element
-    const td_qty = $(document)[0].createElement("td");
-    const in_qty = $(document)[0].createElement("input");
-    setAttributes(in_qty, {'type': 'number','id': 'qty','value': '0','onchange': `lineUpdate(${line})`});
-    td_qty.appendChild(in_qty);
-    trow.appendChild(td_qty);
-    //create row cell for price, add attributes, and add to the row element
-    const td_price = $(document)[0].createElement("td");
-    const in_price = $(document)[0].createElement("input");
-    setAttributes(in_price, {'type': 'number','id': 'price','value': '0','onchange': `lineUpdate(${line})`});
-    td_price.appendChild(in_price);
-    trow.appendChild(td_price);
-    //create row cell for ext, add attributes, and add to the row element
-    const td_ext = $(document)[0].createElement("td");
-    const in_ext = $(document)[0].createElement("input");
-    setAttributes(in_ext, {'type': 'number','id': 'ext','value': '0','disabled': 'disabled'});
-    td_ext.appendChild(in_ext);
-    trow.appendChild(td_ext);
-    //create row cell for disc, add attributes, and add to the row element
-    const td_disc = $(document)[0].createElement("td");
-    const in_disc = $(document)[0].createElement("input");
-    setAttributes(in_disc, {'type': 'number','id': 'discount','value': '0','onchange': `lineUpdate(${line})`});
-    td_disc.appendChild(in_disc);
-    trow.appendChild(td_disc);
-    //create row cell for tax, add attributes, and add to the row element
-    const td_tax = $(document)[0].createElement("td");
-    const in_tax = $(document)[0].createElement("input");
-    setAttributes(in_tax, {'type': 'number','id': 'tax','value': '0','disabled': 'disabled'});
-    td_tax.appendChild(in_tax);
-    trow.appendChild(td_tax);
-    //create row cell for total, add attributes, and add to the row element
-    const td_total = $(document)[0].createElement("td");
-    const in_total = $(document)[0].createElement("input");
-    setAttributes(in_total, {'type': 'number','id': 'total','value': '0','disabled': 'disabled'});
-    td_total.appendChild(in_total);
-    trow.appendChild(td_total);
-    //create row cell for taxable choice, add attributes, and add to the row element
-    const td_taxable = $(document)[0].createElement("td");
-    const mat_taxable = $(document)[0].createElement("input");
-    setAttributes(mat_taxable, {'type': 'checkbox','id': `row_${number_of_lines}_mat`,'onChange': `booleanUpdate(${line},'mat')`});
-    td_taxable.appendChild(mat_taxable);
-    const serv_taxable = $(document)[0].createElement("input");
-    setAttributes(serv_taxable, {'type': 'checkbox','id': `row_${number_of_lines}_serv`,'onChange': `booleanUpdate(${line},'serv')`});
-    td_taxable.appendChild(serv_taxable);
-    const class_taxable = $(document)[0].createElement("input");
-    setAttributes(class_taxable, {'type': 'checkbox','id': `row_${number_of_lines}_class`,'onChange': `booleanUpdate(${line},'class')`});
-    td_taxable.appendChild(class_taxable);
-    trow.appendChild(td_taxable);
-    //create new cell for global discount selection
-    const discount_type = $(document)[0].createElement('td');
-    const discount_selection = $(document)[0].createElement('input');
-    setAttributes(discount_selection, {'type': 'number','id': 'percent_discount','onChange': `lineUpdate(${number_of_lines})`});
-    discount_type.appendChild(discount_selection);
-    trow.appendChild(discount_type);
+    let new_row = $.parseHTML(`<tr id='row_${line}'><td><input type='number' id='qty' value='0' onchange='lineUpdate(${line})' /></td><td><input type='number' id='price' value='0' onchange='lineUpdate(${line})' /></td><td><input type='number' id='ext' value='0' disabled /></td><td><input type='number' id='discount' value='0' onchange='lineUpdate(${line})' /></td><td><input type='number' id='tax' value='0' disabled /></td><td><input type='number' id='total' value='0' disabled /></td><td><input type='checkbox' id='row_${line}_mat' onchange='booleanUpdate(1, "mat")' checked /><input type='checkbox' id='row_${line}_serv' onchange='booleanUpdate(1, "serv")' /><input type='checkbox' id='row_${line}_class' onchange='bolleanUpdate(1, "class")' /></td><td><input type='number' id='percent_discount' onchange='lineUpdate(${line})' /></td></tr>`)[0];
     // add row element to the existing table
-    */
     $('#table-lines')[0].appendChild(new_row);
     line_entries[`row_${number_of_lines}`] = {
         "qty": 0,
@@ -110,13 +45,11 @@ function addRowElement(){
         "taxable_amount": 0,
         "total": 0,
         "taxable":{
-            'mat': false,
+            'mat': true,
             'serv': false,
             'class': false
         }
     };
-    $(`#row_${number_of_lines}_mat`)[0].checked = true;
-    line_entries[`row_${number_of_lines}`].taxable.mat = true;
 }
 function booleanUpdate(x,y) {
     let row = line_entries[`row_${x}`];
