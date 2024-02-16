@@ -25,15 +25,17 @@ var totals = {
 }
 //Add new lines without removing data.
 function addRowElement(){
+    //get row line number to make
+    number_of_lines++;
+    let line = number_of_lines;
+    let new_row = $.parseHTML(`<tr id='row_${line}'><td><input type='number' id='qty' value='0' onchange='lineUpdate(${line})' /></td><td><input type='number' id='price' value='0' onchange='lineUpdate(${line})' /></td><td><input type='number' id='ext' value='0' disabled /></td><td><input type='number' id='discount' value='0' onchange='lineUpdate(${line})' /></td><td><input type='number' id='tax' value='0' disabled /></td><td><input type='number' id='total' value='0' disabled /></td><td><input type='checkbox' id='row_${line}_mat' onchange='booleanUpdate(1, "mat")' /><input type='checkbox' id='row_${line}_serv' onchange='booleanUpdate(1, "serv")' /><input type='checkbox' id='row_${line}_class' onchange='bolleanUpdate(1, "class")' /></td><td><input type='number' id='percent_discount' onchange='lineUpdate(${line})' /></td></tr>`)[0];
+    /*
     //internal function for setting multiple attributes in a single call
     function setAttributes(el, attrs) {
         for(var key in attrs) {
             el.setAttribute(key, attrs[key]);
         }
-    }
-    //get row line number to make
-    number_of_lines++;
-    let line = number_of_lines;
+    };
     //create table row element amd add id attribute
     const  trow = $(document)[0].createElement("tr");
     trow.setAttribute('id', `row_${line}`);
@@ -92,7 +94,8 @@ function addRowElement(){
     discount_type.appendChild(discount_selection);
     trow.appendChild(discount_type);
     // add row element to the existing table
-    $('#table-lines')[0].appendChild(trow);
+    */
+    $('#table-lines')[0].appendChild(new_row);
     line_entries[`row_${number_of_lines}`] = {
         "qty": 0,
         "price": 0,
@@ -136,15 +139,15 @@ function multiLineAdd() {
     console.log('Added 1 Line');
     }else if(x != '') {
         x = parseInt($('#lines-to-add')[0].value);
-        if(x <= 20 ){
+        //if(x <= 20 ){
             let y = parseInt($('#lines-to-add')[0].value);
             for (i = 0; i < y; i++){
                 addRowElement();
             };
             console.log(`Added ${y} Lines`);
-        }else{
+        /*}else{
             console.error('To keep the system from getting stuck in a large loop, please enter a number between 1 and 20');
-        };
+        };*/
     };
 };
 function lineAddCheck() {
