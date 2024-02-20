@@ -22,77 +22,15 @@ var totals = {
         'total':0
     },
     'total': 0
-}
+};
 //Add new lines without removing data.
 function addRowElement(){
-    //internal function for setting multiple attributes in a single call
-    function setAttributes(el, attrs) {
-        for(var key in attrs) {
-            el.setAttribute(key, attrs[key]);
-        }
-    }
     //get row line number to make
     number_of_lines++;
     let line = number_of_lines;
-    //create table row element amd add id attribute
-    const  trow = $(document)[0].createElement("tr");
-    trow.setAttribute('id', `row_${line}`);
-    //create row cell for qty, add attributes, and add to the row element
-    const td_qty = $(document)[0].createElement("td");
-    const in_qty = $(document)[0].createElement("input");
-    setAttributes(in_qty, {'type': 'number','id': 'qty','value': '0','onchange': `lineUpdate(${line})`});
-    td_qty.appendChild(in_qty);
-    trow.appendChild(td_qty);
-    //create row cell for price, add attributes, and add to the row element
-    const td_price = $(document)[0].createElement("td");
-    const in_price = $(document)[0].createElement("input");
-    setAttributes(in_price, {'type': 'number','id': 'price','value': '0','onchange': `lineUpdate(${line})`});
-    td_price.appendChild(in_price);
-    trow.appendChild(td_price);
-    //create row cell for ext, add attributes, and add to the row element
-    const td_ext = $(document)[0].createElement("td");
-    const in_ext = $(document)[0].createElement("input");
-    setAttributes(in_ext, {'type': 'number','id': 'ext','value': '0','disabled': 'disabled'});
-    td_ext.appendChild(in_ext);
-    trow.appendChild(td_ext);
-    //create row cell for disc, add attributes, and add to the row element
-    const td_disc = $(document)[0].createElement("td");
-    const in_disc = $(document)[0].createElement("input");
-    setAttributes(in_disc, {'type': 'number','id': 'discount','value': '0','onchange': `lineUpdate(${line})`});
-    td_disc.appendChild(in_disc);
-    trow.appendChild(td_disc);
-    //create row cell for tax, add attributes, and add to the row element
-    const td_tax = $(document)[0].createElement("td");
-    const in_tax = $(document)[0].createElement("input");
-    setAttributes(in_tax, {'type': 'number','id': 'tax','value': '0','disabled': 'disabled'});
-    td_tax.appendChild(in_tax);
-    trow.appendChild(td_tax);
-    //create row cell for total, add attributes, and add to the row element
-    const td_total = $(document)[0].createElement("td");
-    const in_total = $(document)[0].createElement("input");
-    setAttributes(in_total, {'type': 'number','id': 'total','value': '0','disabled': 'disabled'});
-    td_total.appendChild(in_total);
-    trow.appendChild(td_total);
-    //create row cell for taxable choice, add attributes, and add to the row element
-    const td_taxable = $(document)[0].createElement("td");
-    const mat_taxable = $(document)[0].createElement("input");
-    setAttributes(mat_taxable, {'type': 'checkbox','id': `row_${number_of_lines}_mat`,'onChange': `booleanUpdate(${line},'mat')`});
-    td_taxable.appendChild(mat_taxable);
-    const serv_taxable = $(document)[0].createElement("input");
-    setAttributes(serv_taxable, {'type': 'checkbox','id': `row_${number_of_lines}_serv`,'onChange': `booleanUpdate(${line},'serv')`});
-    td_taxable.appendChild(serv_taxable);
-    const class_taxable = $(document)[0].createElement("input");
-    setAttributes(class_taxable, {'type': 'checkbox','id': `row_${number_of_lines}_class`,'onChange': `booleanUpdate(${line},'class')`});
-    td_taxable.appendChild(class_taxable);
-    trow.appendChild(td_taxable);
-    //create new cell for global discount selection
-    const discount_type = $(document)[0].createElement('td');
-    const discount_selection = $(document)[0].createElement('input');
-    setAttributes(discount_selection, {'type': 'number','id': 'percent_discount','onChange': `lineUpdate(${number_of_lines})`});
-    discount_type.appendChild(discount_selection);
-    trow.appendChild(discount_type);
+    let new_row = $.parseHTML(`<tr id='row_${line}'><td><input type='number' id='qty' value='0' onchange='lineUpdate(${line})' /></td><td><input type='number' id='price' value='0' onchange='lineUpdate(${line})' /></td><td><input type='number' id='ext' value='0' disabled /></td><td><input type='number' id='discount' value='0' onchange='lineUpdate(${line})' /></td><td><input type='number' id='tax' value='0' disabled /></td><td><input type='number' id='total' value='0' disabled /></td><td><input type='checkbox' id='row_${line}_mat' onchange='booleanUpdate(1, "mat")' checked /><input type='checkbox' id='row_${line}_serv' onchange='booleanUpdate(1, "serv")' /><input type='checkbox' id='row_${line}_class' onchange='bolleanUpdate(1, "class")' /></td><td><input type='number' id='percent_discount' onchange='lineUpdate(${line})' /></td></tr>`)[0];
     // add row element to the existing table
-    $('#table-lines')[0].appendChild(trow);
+    $('#table-lines')[0].appendChild(new_row);
     line_entries[`row_${number_of_lines}`] = {
         "qty": 0,
         "price": 0,
@@ -107,14 +45,12 @@ function addRowElement(){
         "taxable_amount": 0,
         "total": 0,
         "taxable":{
-            'mat': false,
+            'mat': true,
             'serv': false,
             'class': false
         }
     };
-    $(`#row_${number_of_lines}_mat`)[0].checked = true;
-    line_entries[`row_${number_of_lines}`].taxable.mat = true;
-}
+};
 function booleanUpdate(x,y) {
     let row = line_entries[`row_${x}`];
     if($(`#row_${x}_${y}`)[0].checked){
@@ -123,11 +59,9 @@ function booleanUpdate(x,y) {
         row.taxable[`${y}`] = false;
     }
     lineUpdate(x);
-}
+};
 //sets a default first line
 $(document).ready(function(){addRowElement();});
-function taxableLine(){
-};
 //test function for making more than one line at a time
 function multiLineAdd() {
     let x = $('#lines-to-add')[0].value;
@@ -136,31 +70,12 @@ function multiLineAdd() {
     console.log('Added 1 Line');
     }else if(x != '') {
         x = parseInt($('#lines-to-add')[0].value);
-        if(x <= 20 ){
-            let y = parseInt($('#lines-to-add')[0].value);
-            for (i = 0; i < y; i++){
-                addRowElement();
-            };
-            console.log(`Added ${y} Lines`);
-        }else{
-            console.error('To keep the system from getting stuck in a large loop, please enter a number between 1 and 20');
+        for (i = 0; i < x; i++){
+            addRowElement();
         };
+        console.log(`Added ${x} Lines`);
     };
 };
-function lineAddCheck() {
-    let y = parseInt($('#lines-to-add')[0].value);
-    if(y > 20){
-        $('#lines-to-add').css('border', 'red solid 2px');
-        $('#lines-to-add').css('color', 'red');
-        $('#addline-error').css('display', 'block');
-        console.error('Cannot add more than 20 lines at a time.');
-    }
-    if(y <= 20){
-        $('#lines-to-add').css('border', '');
-        $('#lines-to-add').css('color', '');
-        $('#addline-error').css('display', 'none');
-    }
-}
 function updateTax(){
     tm = parseFloat($('#material-rate')[0].value);
     tm = tm/100;
@@ -216,7 +131,7 @@ function calcTotals() {
         totals.tax.material = totals.tax.material + line_entries[`${line}`].tax.mat;
         totals.tax.service = totals.tax.service + line_entries[`${line}`].tax.serv;
         totals.tax.class = totals.tax.class + line_entries[`${line}`].tax.class;
-    }
+    };
     
     if($('select#shippingtaxed')[0].value == 'yes'){
         let rate = parseFloat($('#material-rate')[0].value);
@@ -228,7 +143,7 @@ function calcTotals() {
         $('#tax-shipping')[0].value = totals.tax.shipping;
     }else{
         $('#tax-shipping')[0].value = 0
-    }
+    };
     totals.sub_total = parseFloat(totals.sub_total.toFixed(2));
     totals.tax.material = parseFloat(totals.tax.material.toFixed(2));
     totals.tax.service = parseFloat(totals.tax.service.toFixed(2));
@@ -247,7 +162,7 @@ function calcTotals() {
     $('#tax-material')[0].value = totals.tax.material;
     $('#tax-service')[0].value = totals.tax.service;
     $('#tax-class')[0].value = totals.tax.class;
-}
+};
 function lineUpdate(x){
     let row = line_entries[`row_${x}`];
     console.log('Begin line update');
@@ -265,7 +180,7 @@ function lineUpdate(x){
     //check for percent discount and update if necessary
     if($(`#row_${x} #percent_discount`)[0].value != '0' || $(`#row_${x} #percent_discount`)[0].value != ''){
         percentDiscountCalc(x);
-    }
+    };
     //get discount amount
     let disc_input = parseFloat($(`#row_${x} #discount`)[0].value);
     line_entries[`row_${x}`].disc = disc_input;
@@ -280,7 +195,7 @@ function lineUpdate(x){
     } else{
         let t = 0;
         row.tax.mat = row.taxable_amount * t;
-    }
+    };
     if(row.taxable.serv){
         let ts = parseFloat($(`#service-rate`)[0].value);
         ts = ts/100;
@@ -288,7 +203,7 @@ function lineUpdate(x){
     } else{
         let t = 0;
         row.tax.serv = row.taxable_amount * t;
-    }
+    };
     if(row.taxable.class){
         let tc = parseFloat($(`#class-rate`)[0].value);
         tc = tc/100;
@@ -296,13 +211,13 @@ function lineUpdate(x){
     } else{
         let t = 0;
         row.tax.class = row.taxable_amount * t;
-    }
+    };
     row.tax.total = row.tax.mat + row.tax.serv + row.tax.class;
     $(`#row_${x} #tax`)[0].value = row.tax.total;
     line_entries[`row_${x}`].total = line_entries[`row_${x}`].ext - line_entries[`row_${x}`].disc + parseFloat(line_entries[`row_${x}`].tax.total.toFixed(2));
     $(`#row_${x} #total`)[0].value = line_entries[`row_${x}`].total;
     calcTotals();
-}
+};
 function reset() {
     line_entries = {};
     number_of_lines = 0;
@@ -316,7 +231,7 @@ function reset() {
             'total':0
         },
         'total': 0
-    }
+    };
     $('#table-lines')[0].innerHTML = '';
     $('#total-sub')[0].value = 0;
     $('#total-disc')[0].value = 0;
@@ -362,7 +277,7 @@ function displayBreakdown(x) {
 }
 `;
         $('#break-totals textarea')[0].innerHTML = btotals;
-    }
+    };
     //for taxes
     if(x=='lines'){
         let blines = '';
@@ -383,32 +298,32 @@ tax: {
 total: ${line_entries[line].total}
 }
 `;
-        }
+        };
         console.log(blines);
         $('#break-lines textarea')[0].innerHTML = blines;
-    }
-}
+    };
+};
 function breakdown_display(x) {
     if(x=="totals"){
         $('div#break-lines')[0].classList = 'breakdown-hide';
         $('div#break-totals')[0].classList = 'breakdown-hide active';
         console.log('switched to totals');
-    }
+    };
     if(x=="lines"){
         $('div#break-totals')[0].classList = 'breakdown-hide';
         $('div#break-lines')[0].classList = 'breakdown-hide active';
         console.log('switched to taxes');
-    }
-}
+    };
+};
 function shippingDisplay() {
     if($('select#shippingtaxed')[0].value == 'yes'){
         $('tr.subrow.ship-tax')[0].setAttribute('style','');
-    }
+    };
     if($('select#shippingtaxed')[0].value == 'no'){
         $('tr.subrow.ship-tax')[0].setAttribute('style','display: none');
-    }
+    };
     calcTotals();
-}
+};
 //calculating percantage discount
     //if a percentage is given to a line the discount box should become disabled to prevent direct editing and update the internal value to be the percentage discount calculated as EXT * {{discount_percentage}} rounded to 2 decimals
 function percentDiscountCalc(row) {
@@ -427,5 +342,5 @@ function percentDiscountCalc(row) {
         let discval = ext * (parseFloat(percentdisc.value)/100);
         //set discount value to row discount rounded to 2 decimals
         linedisc.value = discval.toFixed(2);
-    }
-}
+    };
+};
