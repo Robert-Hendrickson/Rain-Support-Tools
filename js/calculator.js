@@ -22,7 +22,7 @@ var totals = {
         'total':0
     },
     'total': 0
-}
+};
 //Add new lines without removing data.
 function addRowElement(){
     //get row line number to make
@@ -50,7 +50,7 @@ function addRowElement(){
             'class': false
         }
     };
-}
+};
 function booleanUpdate(x,y) {
     let row = line_entries[`row_${x}`];
     if($(`#row_${x}_${y}`)[0].checked){
@@ -59,11 +59,9 @@ function booleanUpdate(x,y) {
         row.taxable[`${y}`] = false;
     }
     lineUpdate(x);
-}
+};
 //sets a default first line
 $(document).ready(function(){addRowElement();});
-function taxableLine(){
-};
 //test function for making more than one line at a time
 function multiLineAdd() {
     let x = $('#lines-to-add')[0].value;
@@ -72,31 +70,12 @@ function multiLineAdd() {
     console.log('Added 1 Line');
     }else if(x != '') {
         x = parseInt($('#lines-to-add')[0].value);
-        //if(x <= 20 ){
-            let y = parseInt($('#lines-to-add')[0].value);
-            for (i = 0; i < y; i++){
-                addRowElement();
-            };
-            console.log(`Added ${y} Lines`);
-        /*}else{
-            console.error('To keep the system from getting stuck in a large loop, please enter a number between 1 and 20');
-        };*/
+        for (i = 0; i < x; i++){
+            addRowElement();
+        };
+        console.log(`Added ${x} Lines`);
     };
 };
-function lineAddCheck() {
-    let y = parseInt($('#lines-to-add')[0].value);
-    if(y > 20){
-        $('#lines-to-add').css('border', 'red solid 2px');
-        $('#lines-to-add').css('color', 'red');
-        $('#addline-error').css('display', 'block');
-        console.error('Cannot add more than 20 lines at a time.');
-    }
-    if(y <= 20){
-        $('#lines-to-add').css('border', '');
-        $('#lines-to-add').css('color', '');
-        $('#addline-error').css('display', 'none');
-    }
-}
 function updateTax(){
     tm = parseFloat($('#material-rate')[0].value);
     tm = tm/100;
@@ -152,7 +131,7 @@ function calcTotals() {
         totals.tax.material = totals.tax.material + line_entries[`${line}`].tax.mat;
         totals.tax.service = totals.tax.service + line_entries[`${line}`].tax.serv;
         totals.tax.class = totals.tax.class + line_entries[`${line}`].tax.class;
-    }
+    };
     
     if($('select#shippingtaxed')[0].value == 'yes'){
         let rate = parseFloat($('#material-rate')[0].value);
@@ -164,7 +143,7 @@ function calcTotals() {
         $('#tax-shipping')[0].value = totals.tax.shipping;
     }else{
         $('#tax-shipping')[0].value = 0
-    }
+    };
     totals.sub_total = parseFloat(totals.sub_total.toFixed(2));
     totals.tax.material = parseFloat(totals.tax.material.toFixed(2));
     totals.tax.service = parseFloat(totals.tax.service.toFixed(2));
@@ -183,7 +162,7 @@ function calcTotals() {
     $('#tax-material')[0].value = totals.tax.material;
     $('#tax-service')[0].value = totals.tax.service;
     $('#tax-class')[0].value = totals.tax.class;
-}
+};
 function lineUpdate(x){
     let row = line_entries[`row_${x}`];
     console.log('Begin line update');
@@ -201,7 +180,7 @@ function lineUpdate(x){
     //check for percent discount and update if necessary
     if($(`#row_${x} #percent_discount`)[0].value != '0' || $(`#row_${x} #percent_discount`)[0].value != ''){
         percentDiscountCalc(x);
-    }
+    };
     //get discount amount
     let disc_input = parseFloat($(`#row_${x} #discount`)[0].value);
     line_entries[`row_${x}`].disc = disc_input;
@@ -216,7 +195,7 @@ function lineUpdate(x){
     } else{
         let t = 0;
         row.tax.mat = row.taxable_amount * t;
-    }
+    };
     if(row.taxable.serv){
         let ts = parseFloat($(`#service-rate`)[0].value);
         ts = ts/100;
@@ -224,7 +203,7 @@ function lineUpdate(x){
     } else{
         let t = 0;
         row.tax.serv = row.taxable_amount * t;
-    }
+    };
     if(row.taxable.class){
         let tc = parseFloat($(`#class-rate`)[0].value);
         tc = tc/100;
@@ -232,13 +211,13 @@ function lineUpdate(x){
     } else{
         let t = 0;
         row.tax.class = row.taxable_amount * t;
-    }
+    };
     row.tax.total = row.tax.mat + row.tax.serv + row.tax.class;
     $(`#row_${x} #tax`)[0].value = row.tax.total;
     line_entries[`row_${x}`].total = line_entries[`row_${x}`].ext - line_entries[`row_${x}`].disc + parseFloat(line_entries[`row_${x}`].tax.total.toFixed(2));
     $(`#row_${x} #total`)[0].value = line_entries[`row_${x}`].total;
     calcTotals();
-}
+};
 function reset() {
     line_entries = {};
     number_of_lines = 0;
@@ -252,7 +231,7 @@ function reset() {
             'total':0
         },
         'total': 0
-    }
+    };
     $('#table-lines')[0].innerHTML = '';
     $('#total-sub')[0].value = 0;
     $('#total-disc')[0].value = 0;
@@ -298,7 +277,7 @@ function displayBreakdown(x) {
 }
 `;
         $('#break-totals textarea')[0].innerHTML = btotals;
-    }
+    };
     //for taxes
     if(x=='lines'){
         let blines = '';
@@ -319,32 +298,32 @@ tax: {
 total: ${line_entries[line].total}
 }
 `;
-        }
+        };
         console.log(blines);
         $('#break-lines textarea')[0].innerHTML = blines;
-    }
-}
+    };
+};
 function breakdown_display(x) {
     if(x=="totals"){
         $('div#break-lines')[0].classList = 'breakdown-hide';
         $('div#break-totals')[0].classList = 'breakdown-hide active';
         console.log('switched to totals');
-    }
+    };
     if(x=="lines"){
         $('div#break-totals')[0].classList = 'breakdown-hide';
         $('div#break-lines')[0].classList = 'breakdown-hide active';
         console.log('switched to taxes');
-    }
-}
+    };
+};
 function shippingDisplay() {
     if($('select#shippingtaxed')[0].value == 'yes'){
         $('tr.subrow.ship-tax')[0].setAttribute('style','');
-    }
+    };
     if($('select#shippingtaxed')[0].value == 'no'){
         $('tr.subrow.ship-tax')[0].setAttribute('style','display: none');
-    }
+    };
     calcTotals();
-}
+};
 //calculating percantage discount
     //if a percentage is given to a line the discount box should become disabled to prevent direct editing and update the internal value to be the percentage discount calculated as EXT * {{discount_percentage}} rounded to 2 decimals
 function percentDiscountCalc(row) {
@@ -363,5 +342,5 @@ function percentDiscountCalc(row) {
         let discval = ext * (parseFloat(percentdisc.value)/100);
         //set discount value to row discount rounded to 2 decimals
         linedisc.value = discval.toFixed(2);
-    }
-}
+    };
+};
