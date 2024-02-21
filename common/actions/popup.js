@@ -1,5 +1,7 @@
 let growl = new Vue({
     el: '#test',
-    data: 'test',
-    message: 'test'
+    data: {
+        test: 'test',
+        message: 'test'
+    }
 });
