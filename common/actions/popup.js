@@ -1,7 +1,10 @@
-let growl = new Vue({
-    el: '#test',
-    data: {
-        test: 'test',
-        message: 'test'
-    }
-});
+let growl;
+function test(){
+    growl= new Vue({
+        el: '#test',
+        data: {
+            test: 'This is test content',
+            message: 'test'
+        }
+    });
+};
