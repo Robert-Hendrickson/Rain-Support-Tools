@@ -1,5 +1,5 @@
-let growl;
-function popup_growl(error_object){
+let error_growl;
+function popup_error_growl(error_object){
     //set an empty html string to be edited later
     let template_html = '';
     //loop through object to make the template based on object data
@@ -8,21 +8,18 @@ function popup_growl(error_object){
     };
     //if the target element has a mount running, unmount it (likely to be moved to a different function later for closing popup)
     if($('#error_message')[0].__vue_app__){
-        growl.unmount();
+        error_growl.unmount();
     };
     //create vue app with template and data return points
-    growl = Vue.createApp({
+    error_growl = Vue.createApp({
         template: template_html,
         data() {
             return error_object
         }
     });
     //mount the vue app
-    growl.mount('#error_message');
+    error_growl.mount('#error_message');
 };
+function Close_error_growl(){
 
-/*
-This change will require a new set of checks for each field that will potentially prompt this new script. This can get imported into other script files to be used.
-thoughts:
-CRM field should require one of two formats crm1234 or 1234. This regex will check that values match one of those two types ^((c|C)(r|R)(m|M)){0,1}\d{3,}
-*/
+};

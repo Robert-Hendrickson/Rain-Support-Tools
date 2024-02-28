@@ -1,0 +1,12 @@
+#error_message{
+    position: absolute;
+    top: 10%;
+    left: 40%;
+    z-index: 1000;
+    width: 400px;
+    box-shadow: 2px 2px #ff000063;
+    background-color: #ff000063;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #000;
+}

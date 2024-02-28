@@ -228,7 +228,7 @@ function checkInputs() {
             ${borders} {
                 border-color: red !important;
             }`;
-        popup_growl(error_list);
+        popup_error_growl(error_list);
     };
 };
 //end check that inputed data is good before generating ticket info
