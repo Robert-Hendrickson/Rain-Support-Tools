@@ -157,6 +157,7 @@ function checkInputs() {
         };
         generateTicket();
     }else{
+        let error_list = {};
         $('#steps_input td:last-child button')[0].removeAttribute('style');
         $('#video-input')[0].removeAttribute('style');
         $('#screenshot-input')[0].removeAttribute('style');
@@ -172,21 +173,26 @@ function checkInputs() {
         $('#input_error')[0].classList = 'active';
         if(!inputs.crm){
             addBorder('#crm_input');
+            error_list['crm'] = 'The CRM is Missing.';
         };
         if(!inputs.area){
             addBorder('#system_input');
+            error_list['area'] = 'System Area Decleration is missing.';
         };
         if(!inputs.replicable){
             addBorder('#replication_input');
         };
         if(!inputs.steps){
             $('#steps_input td:last-child button')[0].setAttribute('style','background-color: red;');
+            error_list['steps'] = 'Reproduction steps are missing.';
         };
         if(!inputs.description){
             addBorder('#description_input');
+            error_list['description'] = 'Please fill out the description box.';
         };
         if(!inputs.example | regex.na.test(inputs.example) | !exampleCheck()){
             addBorder('#example_input');
+            error_list['example'] = `Please make sure that the data in examples meet the expected criteria. 1. Cannot be blank 2. Cannot be N/A 3. Given links cannot point back to admin domains (rainadmin.com/quiltstorewebsites.com)`;
         };
         if(exampleCheck()){
             $('#error-wrapper').removeClass("example");
@@ -198,6 +204,7 @@ function checkInputs() {
         };
         if(!inputs.screenshots || regex.na.test(inputs.screenshots) || inputs.duplicates){
             $('#screenshot-input')[0].setAttribute('style','background-color: red;');
+            error_list['screenshot'] = `There appears to be a link provided being used for both videos and screenshots. Please make sure that all provided links are being used only once.`;
         };
         if(!inputs.videos || regex.na.test(inputs.videos) || inputs.duplicates){
             $('#video-input')[0].setAttribute('style','background-color: red;');
@@ -211,14 +218,17 @@ function checkInputs() {
         }
         if(!inputs.expectation){
             addBorder('#expectation_input');
+            error_list['expect'] = 'The Expected behavior is missing.';
         };
         if(!inputs.console){
             addBorder('#console_input');
+            error_list['console'] = 'The Console Errors is blank.';
         };
         $('#error-borders')[0].innerHTML = `
             ${borders} {
                 border-color: red !important;
             }`;
+        popup_growl(error_list);
     };
 };
 //end check that inputed data is good before generating ticket info
