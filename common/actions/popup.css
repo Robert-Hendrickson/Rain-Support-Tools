@@ -4,11 +4,12 @@
     left: 40%;
     z-index: 1000;
     width: 400px;
-    box-shadow: 2px 2px #ff8181;
-    background-color: #ff8181;
+    box-shadow: 2px 2px #F2DEDE;
+    background-color: #F2DEDE;
     border-style: solid;
     border-width: 1px;
     border-color: #000;
+    color: #AD4E4C;
 }
 #error_message.hide{
     display: none;
@@ -20,7 +21,12 @@
 }
 #error_message > ul{
     list-style: decimal;
+    padding-left: 20px;
 }
 #error_message ul{
     margin: unset;
+}
+#error_message ul ul{
+    list-style-type: disc;
+    padding-left: 15px;
 }
