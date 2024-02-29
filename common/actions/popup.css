@@ -4,9 +4,23 @@
     left: 40%;
     z-index: 1000;
     width: 400px;
-    box-shadow: 2px 2px #ff000063;
-    background-color: #ff000063;
+    box-shadow: 2px 2px #ff8181;
+    background-color: #ff8181;
     border-style: solid;
     border-width: 1px;
     border-color: #000;
+}
+#error_message.hide{
+    display: none;
+}
+#error_message > span{
+    float: right;
+    cursor: pointer;
+    padding: 0px 5px;
+}
+#error_message > ul{
+    list-style: decimal;
+}
+#error_message ul{
+    margin: unset;
 }
