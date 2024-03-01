@@ -145,22 +145,16 @@ function checkInputs() {
     //end  check video and screenshot links for duplicates
     if(inputs.crm && inputs.area && inputs.replicable && inputs.steps && inputs.description && (inputs.example && !regex.na.test(inputs.example) && exampleCheck()) && inputs.screenshots && inputs.videos && inputs.expectation && inputs.console && !inputs.duplicates){
         $('#input_error')[0].classList = '';
-        $('#error-wrapper').removeClass("active");
-        $('#error-wrapper').removeClass("input");
         $('#error-borders')[0].innerHTML ='';
         $('#steps_input td:last-child button')[0].removeAttribute('style');
         $('#video-input')[0].removeAttribute('style');
         $('#screenshot-input')[0].removeAttribute('style');
-        if($('#duplicate_error')[0].classList == "active"){
-            $('#duplicate_error').removeClass('active');
-            $('#error-wrapper').removeClass("duplicate");
-        };
         generateTicket();
     }else{
+        let error_list = {};
         $('#steps_input td:last-child button')[0].removeAttribute('style');
         $('#video-input')[0].removeAttribute('style');
         $('#screenshot-input')[0].removeAttribute('style');
-        $('#error-wrapper').addClass("input");
         let borders = '';
         function addBorder(newborder){
             if(borders){
@@ -169,56 +163,49 @@ function checkInputs() {
                 borders = borders +`${newborder}`;
             };
         };
-        $('#input_error')[0].classList = 'active';
         if(!inputs.crm){
             addBorder('#crm_input');
+            error_list['crm'] = 'The CRM is Missing.';
         };
         if(!inputs.area){
             addBorder('#system_input');
+            error_list['area'] = 'System Area Decleration is missing.';
         };
         if(!inputs.replicable){
             addBorder('#replication_input');
         };
         if(!inputs.steps){
             $('#steps_input td:last-child button')[0].setAttribute('style','background-color: red;');
+            error_list['steps'] = 'Reproduction steps are missing.';
         };
         if(!inputs.description){
             addBorder('#description_input');
+            error_list['description'] = 'Please fill out the description box.';
         };
         if(!inputs.example | regex.na.test(inputs.example) | !exampleCheck()){
             addBorder('#example_input');
-        };
-        if(exampleCheck()){
-            $('#error-wrapper').removeClass("example");
-            $('#example_error').removeClass("active");
-        }else{
-            $('#error-wrapper').addClass("example");
-            $('#example_error').addClass("active");
-            console.error('Unacceptable data entered for examples');
+            error_list['example'] = true;
         };
         if(!inputs.screenshots || regex.na.test(inputs.screenshots) || inputs.duplicates){
             $('#screenshot-input')[0].setAttribute('style','background-color: red;');
+            error_list['screenshot'] = `There appears to be a link provided being used for both videos and screenshots. Please make sure that all provided links are being used only once.`;
         };
         if(!inputs.videos || regex.na.test(inputs.videos) || inputs.duplicates){
             $('#video-input')[0].setAttribute('style','background-color: red;');
         };
-        if(!inputs.duplicates){
-            $('#error-wrapper').removeClass("duplicate");
-            $('#duplicate_error').removeClass('active');
-        }else{
-            $('#error-wrapper').addClass("duplicate");
-            $('#duplicate_error').addClass('active');
-        }
         if(!inputs.expectation){
             addBorder('#expectation_input');
+            error_list['expect'] = 'The Expected behavior is missing.';
         };
         if(!inputs.console){
             addBorder('#console_input');
+            error_list['consoleerrors'] = 'The Console Errors is blank.';
         };
         $('#error-borders')[0].innerHTML = `
             ${borders} {
                 border-color: red !important;
             }`;
+        popup_error_growl(error_list);
     };
 };
 //end check that inputed data is good before generating ticket info

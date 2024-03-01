@@ -3,6 +3,9 @@
     <head>
         <link rel="stylesheet" href="/Rain-Support-Tools/css/ticket_form.css" />
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+        <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+        <script src="/Rain-Support-Tools/common/actions/popup.js"></script>
         <script src="/Rain-Support-Tools/js/ticket_form.js"></script>
         <script src="/Rain-Support-Tools/js/test_data.js"></script>
         <style id="error-borders">
@@ -156,18 +159,7 @@
             <a href="/Rain-Support-Tools/"><input type="button" value="Home" /></a>
             <input type="button" value="Example" onclick="popupControl('open','example')" />
         </div>
-        <div id="error-wrapper">
-            <div id="duplicate_error">
-                One of the links provided for screenshots or videos is being used in both lists. Please make sure that each link is being used only once.
-            </div>
-            <div id="input_error">
-                Please make sure all inputs have something entered, or have a reason that nothing can be entered.(i.e.:No errors in Console)
-            </div>
-            <div id="example_error">
-                Example links cannot include links using the "rainadmin" or "quiltstorewebsites" domains.<br /><br />
-                Please make sure that any URL's provided as examples point to the customers live site. If there is a problem with data on a report please list the report name and the filters needed to see the issue.
-            </div>
-        </div>
+        <div id="error_message" class="hide"></div>
         <div id="bug-questions-tips" style="width: 100%">
             <div id="salesforce-calc">
                 <h1 style="width: 345px; margin: 0px auto;">Salesforce Bug Questions</h1>
