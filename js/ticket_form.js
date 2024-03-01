@@ -184,7 +184,7 @@ function checkInputs() {
         };
         if(!inputs.example | regex.na.test(inputs.example) | !exampleCheck()){
             addBorder('#example_input');
-            error_list['example'] = `Please make sure that the data in examples meet the expected criteria. 1.Cannot be blank. 2.Cannot be N/A 3.Given links cannot point back to admin domains (rainadmin.com/quiltstorewebsites.com)`;
+            error_list['example'] = true;
         };
         if(!inputs.screenshots || regex.na.test(inputs.screenshots) || inputs.duplicates){
             $('#screenshot-input')[0].setAttribute('style','background-color: red;');

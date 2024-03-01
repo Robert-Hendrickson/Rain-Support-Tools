@@ -10,7 +10,7 @@ function setTestData(){
     saveScreenshots();
     $('div#video-table tbody td:nth-child(2) input')[0].value = 'drive.google.com/view2';
     saveVideos();
-    //$('textarea#example_input')[0].value = 'test';
+    $('textarea#example_input')[0].value = 'test';
     $('textarea#expectation_input')[0].value = 'test';
     $('textarea#console_input')[0].value = 'test';
     $('textarea#description_input')[0].value = 'test';

@@ -4,7 +4,11 @@ function popup_error_growl(error_object){
     let template_html = 'These are the issues found with the data provided:<span onclick="Close_error_growl()">X</span><ul>';
     //loop through object to make the template based on object data
     for (const error in error_object) {
-        template_html += `<li>{{${error}}}</li><br />`;
+        if(error === 'example'){
+            template_html +=`<li v-if='example'>Please make sure that the data in examples meet the expected criteria.<ul><li>Cannot be blank</li><li>Cannot be N/A</li><li>Given links cannot point back to admin domains (rainadmin.com/quiltstorewebsites.com)</li></ul></li>`
+        }else{
+            template_html += `<li>{{${error}}}</li>`;
+        };
     };
     //close ul element
     template_html += `</ul>`;
@@ -14,10 +18,10 @@ function popup_error_growl(error_object){
     };
     //create vue app with template and data return points
     error_growl = Vue.createApp({
-        template: template_html,
+        template: template_html/*,
         data() {
             return error_object
-        }
+        }*/
     });
     //mount the vue app
     error_growl.mount('#error_message');
