@@ -79,7 +79,7 @@ div.reset-popup{
     z-index: 3;
 }
 /*Generated Ticket Popup*/
-div.container.generated_popup{
+div.container.generated_popup, div.container.example_popup{
     position: absolute;
     z-index: 2;
     top: 0px;
@@ -87,7 +87,7 @@ div.container.generated_popup{
     height: 100%;
     background-color: #808080db;
 }
-.container.generated_popup > #generated_popup{
+.container.generated_popup > #generated_popup, .container.example_popup > #example_ticket{
     width:80%;
     margin: 0px auto;
     border: solid 5px #000;
