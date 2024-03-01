@@ -322,7 +322,7 @@ function copyTicket() {
 };
 //controls opening and closing different popup modals
 function popupControl(x,y){
-    if(y === 'steps' || y === 'generated'){
+    if(y === 'steps' || y === 'generated' || y == 'example'){
         if(x === 'close'){
             $(`.container.${y}_popup`)[0].setAttribute('style','display: none');
         }else if(x === 'open'){
