@@ -18,10 +18,10 @@ function popup_error_growl(error_object){
     };
     //create vue app with template and data return points
     error_growl = Vue.createApp({
-        template: template_html/*,
+        template: template_html,
         data() {
             return error_object
-        }*/
+        }
     });
     //mount the vue app
     error_growl.mount('#error_message');
