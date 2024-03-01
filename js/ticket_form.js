@@ -145,23 +145,16 @@ function checkInputs() {
     //end  check video and screenshot links for duplicates
     if(inputs.crm && inputs.area && inputs.replicable && inputs.steps && inputs.description && (inputs.example && !regex.na.test(inputs.example) && exampleCheck()) && inputs.screenshots && inputs.videos && inputs.expectation && inputs.console && !inputs.duplicates){
         $('#input_error')[0].classList = '';
-        $('#error-wrapper').removeClass("active");
-        $('#error-wrapper').removeClass("input");
         $('#error-borders')[0].innerHTML ='';
         $('#steps_input td:last-child button')[0].removeAttribute('style');
         $('#video-input')[0].removeAttribute('style');
         $('#screenshot-input')[0].removeAttribute('style');
-        if($('#duplicate_error')[0].classList == "active"){
-            $('#duplicate_error').removeClass('active');
-            $('#error-wrapper').removeClass("duplicate");
-        };
         generateTicket();
     }else{
         let error_list = {};
         $('#steps_input td:last-child button')[0].removeAttribute('style');
         $('#video-input')[0].removeAttribute('style');
         $('#screenshot-input')[0].removeAttribute('style');
-        $('#error-wrapper').addClass("input");
         let borders = '';
         function addBorder(newborder){
             if(borders){
@@ -170,7 +163,6 @@ function checkInputs() {
                 borders = borders +`${newborder}`;
             };
         };
-        $('#input_error')[0].classList = 'active';
         if(!inputs.crm){
             addBorder('#crm_input');
             error_list['crm'] = 'The CRM is Missing.';
@@ -194,14 +186,6 @@ function checkInputs() {
             addBorder('#example_input');
             error_list['example'] = `Please make sure that the data in examples meet the expected criteria. 1.Cannot be blank. 2.Cannot be N/A 3.Given links cannot point back to admin domains (rainadmin.com/quiltstorewebsites.com)`;
         };
-        if(exampleCheck()){
-            $('#error-wrapper').removeClass("example");
-            $('#example_error').removeClass("active");
-        }else{
-            $('#error-wrapper').addClass("example");
-            $('#example_error').addClass("active");
-            console.error('Unacceptable data entered for examples');
-        };
         if(!inputs.screenshots || regex.na.test(inputs.screenshots) || inputs.duplicates){
             $('#screenshot-input')[0].setAttribute('style','background-color: red;');
             error_list['screenshot'] = `There appears to be a link provided being used for both videos and screenshots. Please make sure that all provided links are being used only once.`;
@@ -209,13 +193,6 @@ function checkInputs() {
         if(!inputs.videos || regex.na.test(inputs.videos) || inputs.duplicates){
             $('#video-input')[0].setAttribute('style','background-color: red;');
         };
-        if(!inputs.duplicates){
-            $('#error-wrapper').removeClass("duplicate");
-            $('#duplicate_error').removeClass('active');
-        }else{
-            $('#error-wrapper').addClass("duplicate");
-            $('#duplicate_error').addClass('active');
-        }
         if(!inputs.expectation){
             addBorder('#expectation_input');
             error_list['expect'] = 'The Expected behavior is missing.';
