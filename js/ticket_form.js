@@ -312,7 +312,7 @@ function copyTicket() {
 };
 //controls opening and closing different popup modals
 function popupControl(x,y){
-    if(y === 'steps' || y === 'generated'){
+    if(y === 'steps' || y === 'generated' || y == 'example'){
         if(x === 'close'){
             $(`.container.${y}_popup`)[0].setAttribute('style','display: none');
         }else if(x === 'open'){
@@ -512,4 +512,8 @@ function replaceCurrent(table){
         newRow(table);
         $(`#${table}-table table tbody tr:nth-child(${l}) td:last-child input`)[0].value = list_current[`${table}`][i];
     };
+};
+
+function displayExample(){
+
 };

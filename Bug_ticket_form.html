@@ -150,10 +150,11 @@
                 Instead make sure you are writing out a description that directly addresses the issue being seen and can be understood by someone reading it for the first time without needing clarification on missing info or info provided. 
             </span>
         </div>
-        <div style="width: 190px;" id="buttons">
+        <div style="width: 260px;" id="buttons">
             <input type="button" value="Generate" onclick="checkInputs()" />
             <input type="button" value="Reset" onclick="resetCheck()" />
             <a href="/Rain-Support-Tools/"><input type="button" value="Home" /></a>
+            <input type="button" value="Example" onclick="popupControl('open','example')" />
         </div>
         <div id="error-wrapper">
             <div id="duplicate_error">
@@ -355,6 +356,45 @@
                         </tbody>
                     </table>
                 </div>
+            </div>
+        </div>
+        <div style="display: none;" class="container example_popup">
+            <div id="example_ticket">
+            <input type="button" value="Close" onclick="popupControl('close','example')" /><br />
+                **LOCATION:**<br />
+Store ID:<br />
+6085<br />
+System Area:<br />
+Web Pages<br />
+<br />
+Can you recreate the problem on your demo site (if yes please continue, if no use the "Bug - non reproducible" macro)?<br />
+Yes<br />
+<br />
+STEPS TO REPRODUCE:<br />
+1. Open the list of website pages from navigation menu<br />
+2. Open the last page of the list of pages<br />
+3. Click the >> button<br />
+<br />
+<br />
+ACTUAL RESULTS:(Please be as detailed as possible.)<br />
+Description:<br />
+Clicking the >> next button on the last page of web pages loads a blank page that doesn't have any navigation buttons.<br />
+<br />
+Example:(If this pertains to the customer's site, please provide links to the relevant pages.)<br />
+See Video<br />
+<br /><br />
+Screenshot:<br />
+<a href="https://drive.google.com/file/d/1O4Q4xePcOj75VIg5rK5ihzkDi1NMi0nj/view?usp=drivesdk">https://drive.google.com/file/d/1O4Q4xePcOj75VIg5rK5ihzkDi1NMi0nj/view?usp=drivesdk</a><br />
+<a href="https://drive.google.com/file/d/1rFZx4mKJealwg_BfZjJ7PGODnANhbNZL/view?usp=drivesdk">https://drive.google.com/file/d/1rFZx4mKJealwg_BfZjJ7PGODnANhbNZL/view?usp=drivesdk</a><br />
+<br /><br />
+Video:<br />
+<a href="https://drive.google.com/file/d/1-kPbUkZDQhikmDP-b0_yIOqTJmd_r_K6/view?usp=drivesdk">https://drive.google.com/file/d/1-kPbUkZDQhikmDP-b0_yIOqTJmd_r_K6/view?usp=drivesdk</a>
+<br /><br />
+EXPECTED RESULTS:<br />
+Clicking the >> button shouldn't move to a new page if your are on the last page<br />
+<br />
+CONSOLE ERRORS:<br />
+No Console Errors
             </div>
         </div>
     </body>
