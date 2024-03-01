@@ -513,7 +513,3 @@ function replaceCurrent(table){
         $(`#${table}-table table tbody tr:nth-child(${l}) td:last-child input`)[0].value = list_current[`${table}`][i];
     };
 };
-
-function displayExample(){
-
-};
