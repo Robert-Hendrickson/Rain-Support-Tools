@@ -144,7 +144,6 @@ function checkInputs() {
 
     //end  check video and screenshot links for duplicates
     if(inputs.crm && inputs.area && inputs.replicable && inputs.steps && inputs.description && (inputs.example && !regex.na.test(inputs.example) && exampleCheck()) && inputs.screenshots && inputs.videos && inputs.expectation && inputs.console && !inputs.duplicates){
-        $('#input_error')[0].classList = '';
         $('#error-borders')[0].innerHTML ='';
         $('#steps_input td:last-child button')[0].removeAttribute('style');
         $('#video-input')[0].removeAttribute('style');
