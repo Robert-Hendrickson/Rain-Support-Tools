@@ -214,15 +214,9 @@ function generateTicket() {
     replication_steps = '';
     entered_info = $('#steps-table tbody tr td:last-child input');
     for(var i=0; i<entered_info.length; i++){
-        let z = i + 1;
-        replication_steps = replication_steps + `${z}. ${entered_info[i].value}\n`;
+        replication_steps = replication_steps + `${i + 1}. ${entered_info[i].value}\n`;
     };
-    output_example = '';
-    entered_info = $('#example_input')[0].value;
-    split_info = entered_info.split('\n');
-    for(var i=0; i<split_info.length; i++){
-        output_example = output_example + `${split_info[i]}\n`;
-    };
+    output_example = $('#example_input')[0].value.replaceAll('\n','\n\n');
     screenshot_output = '';
     entered_info = $('#screenshot-table tbody tr td:last-child input');
     for(var i=0; i<entered_info.length; i++){
@@ -233,11 +227,8 @@ function generateTicket() {
     for(var i=0; i<entered_info.length; i++){
         video_output = video_output + `${entered_info[i].value}\n`;
     };
-    let is_replicable = '';
-    let replicable_input = $('#replicable_input')[0].value;
-    if(replicable_input === 'Yes'){
-        is_replicable = 'STEPS TO REPRODUCE:';
-    }else{
+    let is_replicable = 'STEPS TO REPRODUCE:';
+    if($('#replicable_input')[0].value != 'Yes'){
         is_replicable = 'ATTEMPTED STEPS TO REPRODUCE:';
     };
     let console_errors = '';
@@ -323,43 +314,11 @@ function popupControl(x,y){
 //creates new rows to tabels for inputs on replication steps and video/screenshot popups
 function newRow(table){
     if($(`#${table}-table > table > tbody tr`).length > 0){
-        let x = parseInt($(`#${table}-table > table > tbody > tr:last-child > td:first-child`)[0].innerText);
-        x++;
-        //create table row element
-        const  trow = $(document)[0].createElement("tr");
-        //create row cell step number
-        const td_num = $(document)[0].createElement("td");
-        td_num.innerText = x;
-        trow.appendChild(td_num);
-        //create row cell for step details
-        const td_detail = $(document)[0].createElement("td");
-        const in_detail = $(document)[0].createElement("input");
-        in_detail.setAttribute('type', 'text');
-        td_detail.appendChild(in_detail);
-        const span_delete = $(document)[0].createElement("span");
-        span_delete.innerText = "X";
-        span_delete.setAttribute('onclick', `deleteRow('${table}',${x})`);
-        td_detail.appendChild(span_delete);
-        trow.appendChild(td_detail);
-        $(`#${table}-table table tbody`)[0].appendChild(trow);
+        let x = parseInt($(`#${table}-table > table > tbody > tr:last-child > td:first-child`)[0].innerText)+1;
+        const trow = $.parseHTML(`<tr><td>${x}</td><td><input type="text" /><span onclick="deleteRow('${table}',${x})">X</span></td></tr>`)[0];
+        $(`#${table}-table table tbody`)[0].append(trow);
     }else{
-        //set's row one if no row's are currently there
-        //create table row element
-        const  trow = $(document)[0].createElement("tr");
-        //create row cell step number
-        const td_num = $(document)[0].createElement("td");
-        td_num.innerText = '1';
-        trow.appendChild(td_num);
-        //create row cell for step details
-        const td_detail = $(document)[0].createElement("td");
-        const in_detail = $(document)[0].createElement("input");
-        in_detail.setAttribute('type', 'text');
-        td_detail.appendChild(in_detail);
-        const span_delete = $(document)[0].createElement("span");
-        span_delete.innerText = "X";
-        span_delete.setAttribute('onclick', `deleteRow('${table}',1)`);
-        td_detail.appendChild(span_delete);
-        trow.appendChild(td_detail);
+        const trow = $.parseHTML(`<tr><td>1</td><td><input type="text" /><span onclick="deleteRow('${table}',1)">X</span></td></tr>`)[0];
         $(`#${table}-table table tbody`)[0].appendChild(trow);
     };
 };
