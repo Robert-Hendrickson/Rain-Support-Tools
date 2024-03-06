@@ -217,6 +217,7 @@ function generateTicket() {
         replication_steps = replication_steps + `${i + 1}. ${entered_info[i].value}\n`;
     };
     output_example = $('#example_input')[0].value.replaceAll('\n','\n\n');
+    output_example = scrubCharacters('#',output_example);
     screenshot_output = '';
     entered_info = $('#screenshot-table tbody tr td:last-child input');
     for(var i=0; i<entered_info.length; i++){
@@ -251,7 +252,7 @@ ${replication_steps}
 
 ACTUAL RESULTS:(Please be as detailed as possible.)
 Description:
-`+ $('#description_input')[0].value +`
+`+ scrubCharacters('#',$('#description_input')[0].value) +`
 
 Example:(If this pertains to the customer's site, please provide links to the relevant pages.)
 ${output_example}
@@ -457,4 +458,8 @@ function replaceCurrent(table){
         newRow(table);
         $(`#${table}-table table tbody tr:nth-child(${l}) td:last-child input`)[0].value = list_current[`${table}`][i];
     };
+};
+//goes through given info and removes specific characters from the input
+function scrubCharacters(character_removed,string_edited){
+    return string_edited.replaceAll(character_removed, '');
 };
