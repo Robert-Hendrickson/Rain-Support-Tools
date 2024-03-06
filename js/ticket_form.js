@@ -216,8 +216,7 @@ function generateTicket() {
     for(var i=0; i<entered_info.length; i++){
         replication_steps = replication_steps + `${i + 1}. ${entered_info[i].value}\n`;
     };
-    output_example = $('#example_input')[0].value.replaceAll('\n','\n\n');
-    output_example = scrubCharacters('#',output_example);
+    output_example = scrubCharacters('#',$('#example_input')[0].value.replaceAll('\n','\n\n'));
     screenshot_output = '';
     entered_info = $('#screenshot-table tbody tr td:last-child input');
     for(var i=0; i<entered_info.length; i++){
