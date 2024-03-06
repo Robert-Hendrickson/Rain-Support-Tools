@@ -216,7 +216,7 @@ function generateTicket() {
     for(var i=0; i<entered_info.length; i++){
         replication_steps = replication_steps + `${i + 1}. ${entered_info[i].value}\n`;
     };
-    output_example = scrubCharacters('#',$('#example_input')[0].value.replaceAll('\n','\n\n'));
+    output_example = scrubCharacters(['#'],$('#example_input')[0].value.replaceAll('\n','\n\n'));
     screenshot_output = '';
     entered_info = $('#screenshot-table tbody tr td:last-child input');
     for(var i=0; i<entered_info.length; i++){
@@ -251,7 +251,7 @@ ${replication_steps}
 
 ACTUAL RESULTS:(Please be as detailed as possible.)
 Description:
-`+ scrubCharacters('#',$('#description_input')[0].value) +`
+`+ scrubCharacters(['#'],$('#description_input')[0].value) +`
 
 Example:(If this pertains to the customer's site, please provide links to the relevant pages.)
 ${output_example}
@@ -459,6 +459,9 @@ function replaceCurrent(table){
     };
 };
 //goes through given info and removes specific characters from the input
-function scrubCharacters(character_removed,string_edited){
-    return string_edited.replaceAll(character_removed, '');
+function scrubCharacters(character_array,string_edited){
+    for(removed=0;removed<character_array.length;removed++){
+        string_edited = string_edited.replaceAll(character_array[removed],'')
+    };
+    return string_edited;
 };
