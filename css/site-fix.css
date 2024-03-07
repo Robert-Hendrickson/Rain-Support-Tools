@@ -1,0 +1,102 @@
+@import '/Rain-Support-Tools/common/actions/popup.css';
+#input-values {
+    border: #000 5px solid;
+    min-height: 277px;
+    background-color: white;
+    position: relative;
+    z-index: 2;
+}
+#input-values > table table {
+    float: left;
+}
+.bug-glitch-ticket {
+    width: 100%;
+    float: left;
+}
+textarea {
+    height: 75px;
+    width: 197px;
+}
+#bug-glitch-ticket {
+    min-height: 990px;
+    width: 900px;
+}
+/*Generated Ticket Popup*/
+div.container.generated_popup{
+    position: absolute;
+    z-index: 2;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    background-color: #808080db;
+}
+.container.generated_popup > #generated_popup, .container.example_popup > #example_ticket{
+    width:80%;
+    margin: 0px auto;
+    border: solid 5px #000;
+    background-color: #808080;
+}
+.generated_popup #copy-tips{
+    float:right;
+    width: 370px;
+    background-color: #bdb3b3;
+    padding: 10px;
+}
+/*Number of Steps Popup*/
+div.container.steps_popup, div.container.screenshot_popup,div.container.video_popup{
+    position: absolute;
+    z-index: 2;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    background-color: #808080db;
+}
+.container.steps_popup > #steps_popup, .container.screenshot_popup > #screenshot_popup,.container.video_popup > #video_popup{
+    width:80%;
+    margin: 0px auto;
+    border: solid 5px #000;
+    background-color: #808080;
+    top: 115px;
+    position: relative;
+    min-height: 400px;
+}
+/*steps table*/
+#steps-table,#screenshot-table,#video-table{
+    width: 40%;
+    background-color: #fff;
+    margin: 10px auto;
+}
+#steps-table > table,#screenshot-table > table,#video-table > table{
+    width: 100%;
+}
+#steps-table > table tr td:nth-child(2) input,#screenshot-table > table tr td:nth-child(2) input,#video-table > table tr td:nth-child(2) input {
+    width: 90%;
+}
+#steps-table > table tr td:last-child span,#screenshot-table > table tr td:last-child span,#video-table > table tr td:last-child span{
+    cursor: pointer;
+}
+.screenshot-error,.video-error {
+    background-color: #ff0000bd;
+    width: 28%;
+    float: left;
+    opacity: 0%;
+}
+.screenshot-error.active,.video-error.active {
+    transition-duration: 2s;
+    opacity: 100%;
+}
+div#salesforce-calc{
+    width: 40%;
+    float: left;
+}
+div#example-suggestions{
+    width: 40%;
+    float: left;
+    margin: 0px 100px;
+}
+div#salesforce-calc ul ul{
+    list-style-type: " - ";
+}
+div#example-suggestions ol li{
+    padding-top: 10px;
+}

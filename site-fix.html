@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="/Rain-Support-Tools/css/site-fix.css" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+        <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+        <script src="/Rain-Support-Tools/common/actions/popup.js"></script>
+    </head>
+    <body>
+        <div id="input-values">
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <label>
+                                                CRM
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <input id="crm_input" type="text" placeholder="Store ID" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>
+                                                System Area
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <input id="system_input" type="text" placeholder="Trouble Area" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>
+                                                Replicable
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <select name="replicable" id="replicable_input">
+                                                <Option value="Yes">Yes</Option>
+                                                <Option value="No">No</Option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr id="steps_input">
+                                        <td>
+                                            <label>
+                                                (Attempted)Steps<br /> to Reproduce
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <button onclick="popupControl('open','steps')">Steps</button><span id="number-of-steps" style="margin-left: 10px;">None</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>
+                                                Screenshots
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <input id="screenshot-input" type="button" value="list" onclick="popupControl('open','screenshot')">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>
+                                                Video
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <input id="video-input" type="button" value="list" onclick="popupControl('open','video')">
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <label>
+                                                Example
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <textarea id="example_input"  placeholder="links or Data. Please seperate using returns"></textarea>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>
+                                                Expected
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <textarea id="expectation_input"  placeholder="Expected Results."></textarea>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <label>
+                                                Console <br /> Errors
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <textarea style="height: 164px; width: 182px;" id="console_input"  placeholder="Errors found in the console that relate to the issue being reported"></textarea>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <label>
+                                Description
+                            </label>
+                        </td>
+                        <td>
+                            <textarea style="height: 124px; width: 738px;" id="description_input" placeholder="Description"></textarea>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </body>
+</html>
