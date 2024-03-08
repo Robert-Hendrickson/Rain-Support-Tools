@@ -40,3 +40,8 @@ div.container.generated_popup{
     border: solid 5px #000;
     background-color: #808080;
 }
+label{
+    display: block;
+    width: 100%;
+    text-align: right;
+}

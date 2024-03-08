@@ -34,19 +34,20 @@
                                         </td>
                                         <td>
                                             <select name="replicable" id="replicable_input">
-                                                <Option value="Yes">Site Fix</Option>
-                                                <Option value="No">Custom Code</Option>
+                                                <option>Select an Option:</option>
+                                                <option value="fix">Site Fix</option>
+                                                <option value="custom">Custom Code</option>
                                             </select>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
                                             <label>
-                                                Quick Description
+                                                Quick<br />Description
                                             </label>
                                         </td>
                                         <td>
-                                            <textarea></textarea>
+                                            <textarea maxlength="75" placeholder="Character limit 75"></textarea>
                                         </td>
                                     </tr>
                                     <tr>
@@ -72,7 +73,7 @@
                                     <tr>
                                         <td>
                                             <label>
-                                                Page(s) needing work
+                                                Page(s)<br />needing work
                                             </label>
                                         </td>
                                         <td>
@@ -99,6 +100,11 @@
                     </tr>
                 </tbody>
             </table>
+        </div>
+        <div style="width: 260px;" id="buttons">
+            <input type="button" value="Generate" onclick="checkInputs()" />
+            <input type="button" value="Reset" onclick="resetCheck()" />
+            <a href="/Rain-Support-Tools/"><input type="button" value="Home" /></a>
         </div>
         <div class="container generated_popup hide">
             <div id="generated_popup">
