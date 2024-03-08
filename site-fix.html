@@ -29,11 +29,24 @@
                                     <tr>
                                         <td>
                                             <label>
-                                                Screenshots
+                                                Fix/Custom?
                                             </label>
                                         </td>
                                         <td>
-                                            <input id="screenshot-input" type="button" value="list" onclick="popupControl('open','screenshot')">
+                                            <select name="replicable" id="replicable_input">
+                                                <Option value="Yes">Site Fix</Option>
+                                                <Option value="No">Custom Code</Option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>
+                                                Quick Description
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <textarea></textarea>
                                         </td>
                                     </tr>
                                     <tr>
@@ -44,6 +57,16 @@
                                         </td>
                                         <td>
                                             <input id="video-input" type="button" value="list" onclick="popupControl('open','video')">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>
+                                                Screenshots
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <input id="screenshot-input" type="button" value="list" onclick="popupControl('open','screenshot')">
                                         </td>
                                     </tr>
                                     <tr>
