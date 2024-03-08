@@ -9,7 +9,7 @@
 #input-values > table table {
     float: left;
 }
-.bug-glitch-ticket {
+.site-fix-ticket {
     width: 100%;
     float: left;
 }
@@ -17,8 +17,8 @@ textarea {
     height: 75px;
     width: 197px;
 }
-#bug-glitch-ticket {
-    min-height: 790px;
+#site-fix-ticket {
+    min-height: 590px;
     width: 900px;
 }
 /*Generated Ticket Popup*/
@@ -32,18 +32,8 @@ div.container.generated_popup{
     background-color: #808080db;
 }
 .container.generated_popup > #generated_popup{
-    width:80%;
-    margin: 0px auto;
+    width:60%;
+    margin: 30px auto;
     border: solid 5px #000;
     background-color: #808080;
-}
-.screenshot-error,.video-error {
-    background-color: #ff0000bd;
-    width: 28%;
-    float: left;
-    opacity: 0%;
-}
-.screenshot-error.active,.video-error.active {
-    transition-duration: 2s;
-    opacity: 100%;
 }
