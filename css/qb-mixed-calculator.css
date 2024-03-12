@@ -2,9 +2,11 @@
 .payment_option_list ul{
     list-style: none;
     border: 2px #000 solid;
+    padding: unset;
 }
 .payment_option_list{
     width: 10%;
+    min-width: 90px;
     float: right;
 }
 /*Calculator full display*/
