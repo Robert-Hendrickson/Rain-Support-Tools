@@ -1,11 +1,13 @@
 @import '/Rain-Support-Tools/common/actions/popup.css';
+body{
+    background-color: #808080;
+}
 .hide{
     display: none;
 }
 #input-values {
     border: #000 5px solid;
     min-height: 277px;
-    background-color: white;
     position: relative;
     z-index: 2;
 }
@@ -40,8 +42,22 @@ div.container.generated_popup{
     border: solid 5px #000;
     background-color: #808080;
 }
-label{
+/*basic info*/
+table#store_info label{
     display: block;
     width: 100%;
     text-align: right;
+}
+/*page info*/
+table#pages_info label{
+    display: block;
+    width: 100%;
+    text-align: center;
+}
+table#page_list textarea{
+    width: 500px;
+    height: 50px;
+}
+table#page_list input[type="button"]{
+    position: absolute;
 }

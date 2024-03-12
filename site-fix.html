@@ -10,96 +10,78 @@
     </head>
     <body>
         <div id="input-values">
-            <table>
+            <table id="store_info">
                 <tbody>
                     <tr>
                         <td>
-                            <table>
+                            <label>
+                                CRM
+                            </label>
+                        </td>
+                        <td>
+                            <input id="crm_input" type="text" placeholder="Store ID" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>
+                                Fix/Custom?
+                            </label>
+                        </td>
+                        <td>
+                            <select id="fix_or_custom">
+                                <option value="none">Select an Option:</option>
+                                <option value="fix">Site Fix</option>
+                                <option value="custom">Custom Code</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr id="videos">
+                        <td>
+                            <label>
+                                Video
+                            </label>
+                        </td>
+                        <td>
+                            <textarea id="video" placeholder="Optional"></textarea>
+                        </td>
+                    </tr>
+                    <tr id="screenshots">
+                        <td>
+                            <label>
+                                Screenshots
+                            </label>
+                        </td>
+                        <td>
+                            <textarea id="screenshot" placeholder="At least one required"></textarea>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table id="pages_info">
+                <tbody>
+                    <tr>
+                        <td colspan="2">
+                            <label>
+                                Page(s) needing work
+                            </label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Page URL</td>
+                        <td>Description of work needed</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <table id="page_list">
                                 <tbody>
-                                    <tr>
-                                        <td>
-                                            <label>
-                                                CRM
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <input id="crm_input" type="text" placeholder="Store ID" />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <label>
-                                                Fix/Custom?
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <select name="replicable" id="replicable_input">
-                                                <option>Select an Option:</option>
-                                                <option value="fix">Site Fix</option>
-                                                <option value="custom">Custom Code</option>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <label>
-                                                Quick<br />Description
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <textarea maxlength="75" placeholder="Character limit 75"></textarea>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <label>
-                                                Video
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <input id="video-input" type="button" value="list" onclick="popupControl('open','video')">
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <label>
-                                                Screenshots
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <input id="screenshot-input" type="button" value="list" onclick="popupControl('open','screenshot')">
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <label>
-                                                Page(s)<br />needing work
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <textarea placeholder="Please enter ur'ls, spearate by commas if necessary"></textarea>
-                                        </td>
-                                    </tr>
                                 </tbody>
                             </table>
                         </td>
                     </tr>
                 </tbody>
             </table>
-            <table>
-                <tbody>
-                    <tr>
-                        <td>
-                            <label>
-                                Description
-                            </label>
-                        </td>
-                        <td>
-                            <textarea style="height: 124px; width: 738px;" id="description_input" placeholder="Description"></textarea>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            <input type="button" value="New Line" onclick="addPageLine()" />
         </div>
         <div style="width: 260px;" id="buttons">
             <input type="button" value="Generate" onclick="checkInputs()" />
@@ -117,5 +99,10 @@
                 </div>
             </div>
         </div>
+        <script>
+            $(document).ready(function(){
+                addPageLine();
+            });
+        </script>
     </body>
 </html>
