@@ -20,6 +20,26 @@ function lineReadjust(){
         temp[i].querySelector('td:nth-child(2) input').setAttribute('onclick',`removePageLine(${x})`);
     };
 };
+/*generate ticket information*/
+function generateTicket(ticket_info){
+    console.log(ticket_info);
+    let ticket_output = `**Site Fix Ticket**
+Store ID: ${ticket_info.crm.value}
+
+Type of Work: ${ticket_info.type.value}
+
+Screenshots: ${ticket_info.screenshot.value}
+
+`;
+    if(ticket_info.video.value != ''){
+        ticket_output += `Video Explination: ${ticket_info.video.value}
+    
+    `;
+    };
+    //need to compile table data from page info
+    $('textarea#site-fix-ticket')[0].value = ticket_output;
+    $('.container.generated_popup').removeClass('hide');
+};
 /*verify required info is present*/
 function authenticateDate(){
     let check_data = {
@@ -28,18 +48,21 @@ function authenticateDate(){
             'value': $('input#crm_input')[0].value
         },
         'type': {
-            'boolean': ()=>{if($('select#fix_or_custom')[0].value){return true;}else{return false}},
+            'boolean': ()=>{if($('select#fix_or_custom')[0].value != 'none'){return true;}else{return false}},
             'value': $('select#fix_or_custom')[0].value
         },
         'video':{
-            'boolean': ()=>{if($('textarea#video')[0].value){return true;}else{return false}},
+            'boolean': ()=>{return true},
             'value': $('textarea#video')[0].value
         },
         'screenshot': {
             'boolean': ()=>{if($('textarea#screenshot')[0].value){return true;}else{return false}},
             'value': $('textarea#screenshot')[0].value
-        },//need to set a boolean check for pages
-        'pages': $('table#page_list > tbody tr')
+        },
+        'pages': {
+            'boolean': ()=>{if($('table#page_list > tbody tr')[0]){return true;}else{return false}},
+            'value': $('table#page_list > tbody tr')
+        }
     };
     let ready = true;
     for(let check in check_data){
@@ -48,7 +71,7 @@ function authenticateDate(){
         };
     };
     if(ready){
-        console.log('good to go');
+        generateTicket(check_data);
     }else{
         console.log('not ready');
     };

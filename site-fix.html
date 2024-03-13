@@ -31,8 +31,8 @@
                         <td>
                             <select id="fix_or_custom">
                                 <option value="none">Select an Option:</option>
-                                <option value="fix">Site Fix</option>
-                                <option value="custom">Custom Code</option>
+                                <option value="Site Fix">Site Fix</option>
+                                <option value="Custom Work">Custom Code</option>
                             </select>
                         </td>
                     </tr>
@@ -84,7 +84,7 @@
             <input type="button" value="New Line" onclick="addPageLine()" />
         </div>
         <div style="width: 260px;" id="buttons">
-            <input type="button" value="Generate" onclick="checkInputs()" />
+            <input type="button" value="Generate" onclick="authenticateDate()" />
             <input type="button" value="Reset" onclick="resetCheck()" />
             <a href="/Rain-Support-Tools/"><input type="button" value="Home" /></a>
         </div>
@@ -92,7 +92,7 @@
             <div id="generated_popup">
                 <div>
                     <input type="button" value="Copy" onclick="copyTicket()" />
-                    <input type="button" value="Close" onclick="popupControl('close','generated')" />
+                    <input type="button" value="Close" onclick="$('.container.generated_popup').addClass('hide');" />
                 </div>
                 <div>
                     <textarea id="site-fix-ticket"></textarea>
