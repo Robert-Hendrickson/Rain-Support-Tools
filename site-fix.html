@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="/Rain-Support-Tools/css/site-fix.css" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+        <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+        <script src="/Rain-Support-Tools/common/actions/popup.js"></script>
+        <script src="/Rain-Support-Tools/js/site-fix.js"></script>
+    </head>
+    <body>
+        <div id="input-values">
+            <table id="store_info">
+                <tbody>
+                    <tr>
+                        <td>
+                            <label>
+                                CRM
+                            </label>
+                        </td>
+                        <td>
+                            <input id="crm_input" type="text" placeholder="Store ID" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>
+                                Fix/Custom?
+                            </label>
+                        </td>
+                        <td>
+                            <select id="fix_or_custom">
+                                <option value="none">Select an Option:</option>
+                                <option value="fix">Site Fix</option>
+                                <option value="custom">Custom Code</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr id="videos">
+                        <td>
+                            <label>
+                                Video
+                            </label>
+                        </td>
+                        <td>
+                            <textarea id="video" placeholder="Optional"></textarea>
+                        </td>
+                    </tr>
+                    <tr id="screenshots">
+                        <td>
+                            <label>
+                                Screenshots
+                            </label>
+                        </td>
+                        <td>
+                            <textarea id="screenshot" placeholder="At least one required"></textarea>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table id="pages_info">
+                <tbody>
+                    <tr>
+                        <td colspan="2">
+                            <label>
+                                Page(s) needing work
+                            </label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Page URL</td>
+                        <td>Description of work needed</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <table id="page_list">
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <input type="button" value="New Line" onclick="addPageLine()" />
+        </div>
+        <div style="width: 260px;" id="buttons">
+            <input type="button" value="Generate" onclick="checkInputs()" />
+            <input type="button" value="Reset" onclick="resetCheck()" />
+            <a href="/Rain-Support-Tools/"><input type="button" value="Home" /></a>
+        </div>
+        <div class="container generated_popup hide">
+            <div id="generated_popup">
+                <div>
+                    <input type="button" value="Copy" onclick="copyTicket()" />
+                    <input type="button" value="Close" onclick="popupControl('close','generated')" />
+                </div>
+                <div>
+                    <textarea id="site-fix-ticket"></textarea>
+                </div>
+            </div>
+        </div>
+        <script>
+            $(document).ready(function(){
+                addPageLine();
+            });
+        </script>
+    </body>
+</html>
