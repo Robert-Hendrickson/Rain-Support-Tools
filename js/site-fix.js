@@ -2,7 +2,7 @@ var number_of_pages = 0;
 /*add new row for pages*/
 function addPageLine(){
     number_of_pages++;
-    $('table#page_list > tbody')[0].append($.parseHTML(`<tr id='page_${number_of_pages}'><td>${number_of_pages}.<input type='text' /></td><td><textarea></textarea><input type='button' value='Delete' onclick='removePageLine(${number_of_pages})' /></td></tr>`)[0]);
+    $('table#page_list > tbody')[0].append($.parseHTML(`<tr id='page_${number_of_pages}'><td>${number_of_pages}.</td><td><table><tbody><tr><td><input id='url' placeholder='URL' /></td><td><textarea placeholder='Description' id='description'></textarea></td></tr><tr><td><input placeholder='Screenshot' id='screenshot' /></td><td><input placeholder='Video(optional)' id='video' /></tr></tbody></table><input type='button' value='Delete' onclick='removePageLine(${number_of_pages})' /></td></tr>`)[0]);
 };
 /*remove row from pages*/
 function removePageLine(row){
@@ -10,14 +10,14 @@ function removePageLine(row){
     $(`tr#page_${row}`).remove();
     lineReadjust();
 };
-/*make sure existing rows have correct numbers*/
+/*make sure remaining rows have correct numbers*/
 function lineReadjust(){
-    let temp = $('table#page_list > tbody tr');
+    let temp = $('table#page_list > tbody > tr');
     for(i=0;i<temp.length;i++){
         let x = i + 1;
         temp[i].setAttribute('id',`page_${x}`);
-        temp[i].querySelector('td:first-child').innerHTML = `${x}.<input type='text' />`;
-        temp[i].querySelector('td:nth-child(2) input').setAttribute('onclick',`removePageLine(${x})`);
+        temp[i].querySelector('td:first-child').innerText = `${x}.`;
+        temp[i].querySelector('td:nth-child(2) > input[type="button"]').setAttribute('onclick',`removePageLine(${x})`);
     };
 };
 /*generate ticket information*/
@@ -28,17 +28,37 @@ Store ID: ${ticket_info.crm.value}
 
 Type of Work: ${ticket_info.type.value}
 
-Screenshots: ${ticket_info.screenshot.value}
+`;
+    for(i=0;i<ticket_info.pages.value.length;i++){
+        ticket_output += `*****Page ${i+1}*****
+URL: ${ticket_info.pages.value[i].querySelector('input#url').value}
+
+Screenshot: ${ticket_info.pages.value[i].querySelector('input#screenshot').value}
 
 `;
-    if(ticket_info.video.value != ''){
-        ticket_output += `Video Explination: ${ticket_info.video.value}
-    
-    `;
+        if(ticket_info.pages.value[i].querySelector('input#video').value != ''){
+            ticket_output += `Video: ${ticket_info.pages.value[i].querySelector('input#video').value}\n\n`;
+        };
+        ticket_output += `Description: ${ticket_info.pages.value[i].querySelector('textarea#description').value}\n\n`;
     };
     //need to compile table data from page info
     $('textarea#site-fix-ticket')[0].value = ticket_output;
     $('.container.generated_popup').removeClass('hide');
+
+    /*
+**Site Fix Ticket**
+Store ID: 
+
+Type of Work: 
+
+Page 1:
+URL:
+description:
+
+screenshot:
+
+video: optional
+*/
 };
 /*verify required info is present*/
 function authenticateDate(){
@@ -51,17 +71,9 @@ function authenticateDate(){
             'boolean': ()=>{if($('select#fix_or_custom')[0].value != 'none'){return true;}else{return false}},
             'value': $('select#fix_or_custom')[0].value
         },
-        'video':{
-            'boolean': ()=>{return true},
-            'value': $('textarea#video')[0].value
-        },
-        'screenshot': {
-            'boolean': ()=>{if($('textarea#screenshot')[0].value){return true;}else{return false}},
-            'value': $('textarea#screenshot')[0].value
-        },
         'pages': {
             'boolean': ()=>{if($('table#page_list > tbody tr')[0]){return true;}else{return false}},
-            'value': $('table#page_list > tbody tr')
+            'value': $('table#page_list > tbody > tr')
         }
     };
     let ready = true;
