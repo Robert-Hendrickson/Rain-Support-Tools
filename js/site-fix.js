@@ -29,62 +29,80 @@ Store ID: ${ticket_info.crm.value}
 Type of Work: ${ticket_info.type.value}
 
 `;
-    for(i=0;i<ticket_info.pages.value.length;i++){
+    for(i=0;i<ticket_info.pages.length;i++){
         ticket_output += `*****Page ${i+1}*****
-URL: ${ticket_info.pages.value[i].querySelector('input#url').value}
+URL: ${ticket_info.pages[i].querySelector('input#url').value}
 
-Screenshot: ${ticket_info.pages.value[i].querySelector('input#screenshot').value}
+Screenshot: ${ticket_info.pages[i].querySelector('input#screenshot').value}
 
 `;
-        if(ticket_info.pages.value[i].querySelector('input#video').value != ''){
-            ticket_output += `Video: ${ticket_info.pages.value[i].querySelector('input#video').value}\n\n`;
+        if(ticket_info.pages[i].querySelector('input#video').value != ''){
+            ticket_output += `Video: ${ticket_info.pages[i].querySelector('input#video').value}\n\n`;
         };
-        ticket_output += `Description: ${ticket_info.pages.value[i].querySelector('textarea#description').value}\n\n`;
+        ticket_output += `Description: ${ticket_info.pages[i].querySelector('textarea#description').value}\n\n`;
     };
     //need to compile table data from page info
     $('textarea#site-fix-ticket')[0].value = ticket_output;
     $('.container.generated_popup').removeClass('hide');
-
-    /*
-**Site Fix Ticket**
-Store ID: 
-
-Type of Work: 
-
-Page 1:
-URL:
-description:
-
-screenshot:
-
-video: optional
-*/
+    $('textarea#site-fix-ticket')[0].focus();
 };
 /*verify required info is present*/
 function authenticateDate(){
-    let check_data = {
-        'crm': {
-            'boolean': ()=>{if($('input#crm_input')[0].value){return true;}else{return false}},
-            'value': $('input#crm_input')[0].value
-        },
-        'type': {
-            'boolean': ()=>{if($('select#fix_or_custom')[0].value != 'none'){return true;}else{return false}},
-            'value': $('select#fix_or_custom')[0].value
-        },
-        'pages': {
-            'boolean': ()=>{if($('table#page_list > tbody tr')[0]){return true;}else{return false}},
-            'value': $('table#page_list > tbody > tr')
-        }
-    };
     let ready = true;
-    for(let check in check_data){
-        if(!check_data[check].boolean()){
+    let check_data = {
+        'crm': $('input#crm_input')[0],
+        'type': $('select#fix_or_custom')[0],
+        'pages': $('table#page_list > tbody > tr')
+    };
+    if(!check_data.crm.value.match(/([Cc][Rr][Mm]){0,1}\d{3,}/)){
+        ready = false;
+        check_data.crm.setAttribute('style','border: 2px red solid');
+    }else{
+        check_data.crm.removeAttribute('style');
+    };
+    if(check_data.type.value === 'none'){
+        ready = false;
+        check_data.type.setAttribute('style','border: 2px red solid');
+    }else{
+        check_data.type.removeAttribute('style');
+    };
+    for(row = 0;row<check_data.pages.length;row++){
+        if(check_data.pages[row].querySelector('input#url').value === ''){
             ready = false;
+            check_data.pages[row].querySelector('input#url').setAttribute('style','border: 2px red solid');
+        }else{
+            check_data.pages[row].querySelector('input#url').removeAttribute('style');
+        };
+        if(check_data.pages[row].querySelector('textarea#description').value === ''){
+            ready = false;
+            check_data.pages[row].querySelector('textarea#description').setAttribute('style','border: 2px red solid');
+        }else{
+            check_data.pages[row].querySelector('textarea#description').removeAttribute('style');
+        };
+        if(check_data.pages[row].querySelector('input#screenshot').value === ''){
+            ready = false;
+            check_data.pages[row].querySelector('input#screenshot').setAttribute('style','border: 2px red solid');
+        }else{
+            check_data.pages[row].querySelector('input#screenshot').removeAttribute('style');
         };
     };
     if(ready){
         generateTicket(check_data);
     }else{
-        console.log('not ready');
+        $('#error_message').removeClass('hide');
     };
+};
+function copyTicket() {
+    // Get the text field
+    var copyText = document.getElementById("site-fix-ticket");
+
+    // Select the text field
+    copyText.select();
+    copyText.setSelectionRange(0, 99999); // For mobile devices
+
+    // Copy the text inside the text field
+    navigator.clipboard.writeText(copyText.value);
+
+    // Alert the copied text
+    //console.log("Copied the text: " + copyText.value);
 };

@@ -68,6 +68,32 @@
             <input type="button" value="Reset" onclick="resetCheck()" />
             <a href="/Rain-Support-Tools/"><input type="button" value="Home" /></a>
         </div>
+        <div id="error_message" class="hide">
+            <span onclick="$('#error_message').addClass('hide');">X</span>
+            The following criteria must be met before generating ticket info:
+            <ul>
+                <li>
+                    Store CRM must be filled out.
+                </li>
+                <li>
+                    Type of work to be done
+                </li>
+                <li>
+                    For each page needing work the following is required:
+                    <ul>
+                        <li>
+                            Page URL
+                        </li>
+                        <li>
+                            Description of work
+                        </li>
+                        <li>
+                            Screenshot of area
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
         <div class="container generated_popup hide">
             <div id="generated_popup">
                 <div>
