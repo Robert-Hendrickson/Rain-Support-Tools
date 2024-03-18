@@ -88,6 +88,9 @@ function authenticateDate(){
     };
     if(ready){
         generateTicket(check_data);
+        if(!$('#error_message')[0].classList.value.match(/hide/)){
+            $('#error_message').addClass('hide');
+        };
     }else{
         $('#error_message').removeClass('hide');
     };
