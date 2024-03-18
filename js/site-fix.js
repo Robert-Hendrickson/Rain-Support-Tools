@@ -1,3 +1,8 @@
+//regex object to use when checking values
+let regex = {
+    "googleDrive": new RegExp(/^.*drive\.google\.com\/.*view/)
+};
+//tracks number of pages used. Sets as 0 then is increased for each new line added
 var number_of_pages = 0;
 /*add new row for pages*/
 function addPageLine(){
@@ -79,7 +84,7 @@ function authenticateDate(){
         }else{
             check_data.pages[row].querySelector('textarea#description').removeAttribute('style');
         };
-        if(check_data.pages[row].querySelector('input#screenshot').value === ''){
+        if(check_data.pages[row].querySelector('input#screenshot').value === '' || !regex.googleDrive.test(check_data.pages[row].querySelector('input#screenshot').value)){
             ready = false;
             check_data.pages[row].querySelector('input#screenshot').setAttribute('style','border: 2px red solid');
         }else{
