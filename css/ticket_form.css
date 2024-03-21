@@ -1,4 +1,5 @@
 @import '/Rain-Support-Tools/common/actions/popup.css';
+@import '/Rain-Support-Tools/css/default.css';
 #input-values {
     border: #000 5px solid;
     min-height: 277px;

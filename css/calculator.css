@@ -1,3 +1,4 @@
+@import '/Rain-Support-Tools/css/default.css';
 input[type="checkbox"]{
     width: 13px;
     float: left;
@@ -29,7 +30,7 @@ input[disabled] {
     float: left;
 }
 #btn-totals {
-    width: 155px;
+    width: 165px;
     float: left;
     margin-top: 40px;
     margin-left: 40px;

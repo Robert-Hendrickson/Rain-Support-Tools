@@ -1,0 +1,8 @@
+body{
+    background-image: linear-gradient(135deg, #337AB7, #17234B);
+    min-height: 98vh;
+}
+table {
+    background: #fff;
+    margin: 10px;
+}
