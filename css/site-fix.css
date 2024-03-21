@@ -62,3 +62,6 @@ table#page_list textarea{
 table#page_list input[type="button"]{
     position: absolute;
 }
+span.delete-btn:hover{
+    cursor: pointer;
+}

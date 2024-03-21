@@ -69,6 +69,7 @@ ul#breakdowns li{
     float: left;
     border:#000 solid 2px;
     border-bottom-width: 0px;
+    background-color: #fff;
 }
 div.breakdown-nav{
     width: 100%;
