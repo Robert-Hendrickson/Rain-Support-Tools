@@ -1,8 +1,10 @@
+@import '/Rain-Support-Tools/css/default.css';
 /*Options list style*/
 .payment_option_list ul{
     list-style: none;
-    border: 2px #000 solid;
+    border: 3px #898787 solid;
     padding: unset;
+    background-color: #fff;
 }
 .payment_option_list{
     width: 10%;

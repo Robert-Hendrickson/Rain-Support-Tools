@@ -1,4 +1,5 @@
 @import '/Rain-Support-Tools/common/actions/popup.css';
+@import '/Rain-Support-Tools/css/default.css';
 body{
     background-color: #808080;
 }
@@ -60,4 +61,7 @@ table#page_list textarea{
 }
 table#page_list input[type="button"]{
     position: absolute;
+}
+span.delete-btn:hover{
+    cursor: pointer;
 }

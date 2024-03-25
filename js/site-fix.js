@@ -7,7 +7,7 @@ var number_of_pages = 0;
 /*add new row for pages*/
 function addPageLine(){
     number_of_pages++;
-    $('table#page_list > tbody')[0].append($.parseHTML(`<tr id='page_${number_of_pages}'><td>${number_of_pages}.</td><td><table><tbody><tr><td><input id='url' placeholder='URL' /></td><td><textarea placeholder='Description' id='description'></textarea></td></tr><tr><td><input placeholder='Screenshot' id='screenshot' /></td><td><input placeholder='Video(optional)' id='video' /></tr></tbody></table><input type='button' value='Delete' onclick='removePageLine(${number_of_pages})' /></td></tr>`)[0]);
+    $('table#page_list > tbody')[0].append($.parseHTML(`<tr id='page_${number_of_pages}'><td>${number_of_pages}.</td><td><table><tbody><tr><td><input id='url' placeholder='URL' /></td><td><textarea placeholder='Description' id='description'></textarea></td></tr><tr><td><input placeholder='Screenshot' id='screenshot' /></td><td><input placeholder='Video(optional)' id='video' /></tr></tbody></table><span class="delete-btn" onclick='removePageLine(${number_of_pages})'>X</span></td></tr>`)[0]);
 };
 /*remove row from pages*/
 function removePageLine(row){
@@ -22,7 +22,7 @@ function lineReadjust(){
         let x = i + 1;
         temp[i].setAttribute('id',`page_${x}`);
         temp[i].querySelector('td:first-child').innerText = `${x}.`;
-        temp[i].querySelector('td:nth-child(2) > input[type="button"]').setAttribute('onclick',`removePageLine(${x})`);
+        temp[i].querySelector('td:nth-child(2) > span').setAttribute('onclick',`removePageLine(${x})`);
     };
 };
 /*generate ticket information*/
