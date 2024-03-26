@@ -57,21 +57,19 @@
             }
         </style>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+        <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
         <script src="/Rain-Support-Tools/js/updates-log.js"></script>
-        <script>
-            function redirect(x){
-                location.pathname = x;
-            }
-            function riley_gradient(){
-                location.pathname = '/Rain-Support-Tools/riley/riley.html';
-            }
-        </script>
     </header>
     <body>
         <div class="menu">
             <h2>Support Tools</h2>
             <div class="menu_links">
                 <div class="toolButtonsList">
+                    <div v-for="x in nav_list" class="toolButton">
+                        <a v-bind:href="x.url">
+                            <button>{{x.name}}</button>
+                        </a>
+                    </div>
                 </div>
                 <script src="/Rain-Support-Tools/js/nav-builder.js"></script>
             </div>
