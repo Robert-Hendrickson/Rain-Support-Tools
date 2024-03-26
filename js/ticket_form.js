@@ -200,11 +200,12 @@ function checkInputs() {
             addBorder('#console_input');
             error_list['consoleerrors'] = 'The Console Errors is blank.';
         };
-        $('#error-borders')[0].innerHTML = `
-            ${borders} {
-                border-color: red !important;
-            }`;
-        popup_error_growl(error_list);
+        $('#error-borders')[0].innerHTML = `${borders} {border-color: red !important;}`;
+        let error = {
+            type: 'generate',
+            list: error_list
+        };
+        popup_error_growl(error);
     };
 };
 //end check that inputed data is good before generating ticket info
@@ -320,6 +321,14 @@ function newRow(table){
     }else{
         const trow = $.parseHTML(`<tr><td>1</td><td><input type="text" /><span onclick="deleteRow('${table}',1)">X</span></td></tr>`)[0];
         $(`#${table}-table table tbody`)[0].appendChild(trow);
+    };
+    console.log($(`#${table}-table > table > tbody tr`).length);
+    if($(`#${table}-table > table > tbody tr`).length === 5){
+        let error_message = {
+            type : 'list',
+            message : {message: true}
+        };
+        popup_error_growl(error_message);
     };
 };
 //END row adding script
