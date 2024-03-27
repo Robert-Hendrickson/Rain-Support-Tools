@@ -9,7 +9,8 @@ const app = Vue.createApp({
             {name:'Fee Difference Calculator', url: 'fee-difference-calculator.html'},
             {name:'QB Payment Split', url: 'QB_Mixed_Split.html'},
             {name:'Inventory Check', url: 'Inventory-check.html'},
-            {name:'CSS Sandbox', url: 'css-tester.html'}
+            {name:'CSS Sandbox', url: 'css-tester.html'},
+            {name:"Riley's Secret", url: 'riley/riley.html', target:'blank'}
         ]};
     }
 });

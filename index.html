@@ -66,7 +66,7 @@
             <div class="menu_links">
                 <div class="toolButtonsList">
                     <div v-for="x in nav_list" class="toolButton">
-                        <a v-bind:href="x.url">
+                        <a v-bind:href="x.url" v-bind:target="x.target">
                             <button>{{x.name}}</button>
                         </a>
                     </div>

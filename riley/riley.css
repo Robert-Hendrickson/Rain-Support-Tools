@@ -1,7 +1,8 @@
 body {
   position: relative;
   overflow: hidden;
-  
+  margin: unset;
+
   &::after {
     content: "";
     position: absolute;

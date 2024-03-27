@@ -52,7 +52,7 @@ class App {
     
     this.setUpVars()
     this.setUpListeners()
-    // this.setUpGui()
+    //this.setUpGui()
     this.update()
   }
 
@@ -149,7 +149,7 @@ class App {
     if (t) {
       let shiftNeeded = false
       this.timestamp = t / 5000
-      this.angle += 0.001
+      this.angle += 0.01
       
       this.layers.forEach(layer => {
         layer.progress += 0.001
