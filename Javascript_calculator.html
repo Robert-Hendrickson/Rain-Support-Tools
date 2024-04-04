@@ -35,10 +35,14 @@
                     <a href="/Rain-Support-Tools/"><input type="button" value="Home" /></a>
                     <br />
                 </div>
-                <div>
+                <div id="taxes-container">
+                    <!--
+                        let's update this section to have the ability to do more complex tax jurisdiction. We'll keep the material, service, and class types.
+                        Visible box will look the same, with an edit box that will display the jurisdiction breakdown so that multiple jurisdictions for each type can be added.
+                    -->
                     <table id="tax-rates">
                         <thead>
-                            <td colspan="3" Style="text-align: center; width: 100%;">Tax Rates</td>
+                            <th colspan="3" Style="text-align: center;">Tax Rates<input style="float: right;" type="button" value="Edit" onclick="$('.tax-rate-container').removeClass('hide');" /></th>
                         </thead>
                         <tbody>
                             <tr>
@@ -74,6 +78,37 @@
                             </tr>
                         </tbody>
                     </table>
+                    <div class="tax-rate-container">
+                        <div class="tax-rate-editor">
+                            <input type="button" value="Save" onclick="$('.tax-rate-container').addClass('hide');" />
+                            <div>
+                                <div style="width: 100%; text-align: center;">
+                                    Tax Rates by type
+                                </div>
+                                <table id="rates-breakdown">
+                                    <thead>
+                                        <td>
+                                            Materials<br><input type="button" value="-" onclick="addNewRate('mat', 'decrease')"/><input type="button" value="+" onclick="addNewRate('mat', 'increase')" />
+                                        </td>
+                                        <td>
+                                            Services<br><input type="button" value="-" onclick="addNewRate('ser', 'decrease')"/><input type="button" value="+" onclick="addNewRate('ser', 'increase')" />
+                                        </td>
+                                        <td>
+                                            Classes<br><input type="button" value="-" onclick="addNewRate('clas', 'decrease')"/><input type="button" value="+" onclick="addNewRate('clas', 'increase')" />
+                                        </td>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td id="mat"><ul><li><input value="0"/></li></ul></td>
+                                            <td id="ser"><ul><li><input value="0"/></li></ul></td>
+                                            <td id="clas"><ul><li><input value="0"/></li></ul></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                        </div>
+                    </div>
                 </div>
                 <table id="btn-totals">
                     <tbody>

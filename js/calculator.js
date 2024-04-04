@@ -344,3 +344,12 @@ function percentDiscountCalc(row) {
         linedisc.value = discval.toFixed(2);
     };
 };
+//add rows to rate table by type
+function addNewRate(type, direction){
+    if(direction === 'increase'){
+        $(`table#rates-breakdown tbody td#${type} ul`)[0].appendChild($.parseHTML(`<li><input value="0" /></li>`)[0]);
+    };
+    if(direction === 'decrease'){
+        $(`table#rates-breakdown tbody td#${type} ul li`).last().remove();
+    }
+}
