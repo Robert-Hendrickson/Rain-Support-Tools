@@ -23,6 +23,17 @@ var totals = {
     },
     'total': 0
 };
+var taxRates = {
+    mat: {
+        1: 0
+    },
+    ser: {
+        1: 0
+    },
+    clas: {
+        1: 0
+    }
+};
 //Add new lines without removing data.
 function addRowElement(){
     //get row line number to make
@@ -352,4 +363,38 @@ function addNewRate(type, direction){
     if(direction === 'decrease'){
         $(`table#rates-breakdown tbody td#${type} ul li`).last().remove();
     }
-}
+};
+function updateTaxRates(){
+    let rate_list = $('table#rates-breakdown tbody tr td > ul');
+    rate_list.each(function (ul){
+        let rate_option;
+        switch (ul) {
+            case 0:
+                rate_option = 'mat';
+                break;
+            case 1:
+                rate_option = 'ser';
+                break;
+            case 2:
+                rate_option = 'clas';
+                break;
+            default:
+                break;
+        };
+        //get all input options for tax column
+        let list = rate_list[ul].querySelectorAll('li > input');
+        if(list.length < 1){//if no option listed set rate to zero
+            taxRates[rate_option][1] = 0;
+        }else{//else get correct rate values
+            for(i=0;i<list.length;i++){
+                taxRates[rate_option][i+1] = parseFloat(list[i].value)/100;
+            };
+        };
+        //taxRates: object name for rates
+    });
+    //material-rate, service-rate, class-rate id's for input boxes to display total rate amount
+    console.log('Rates Updated');
+    console.log(taxRates);
+    $('.tax-rate-container').addClass('hide');
+    //needs to update lines after saving new rates
+};

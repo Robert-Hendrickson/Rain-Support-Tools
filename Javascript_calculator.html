@@ -61,13 +61,13 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <input id="material-rate" type="number" onchange="updateTax()" value="0" />
+                                    <input disabled id="material-rate" type="number" onchange="updateTax()" value="0" />
                                 </td>
                                 <td>
-                                    <input id="service-rate" type="number" onchange="updateTax()" value="0" />
+                                    <input disabled id="service-rate" type="number" onchange="updateTax()" value="0" />
                                 </td>
                                 <td>
-                                    <input id="class-rate" type="number" onchange="updateTax()" value="0" />
+                                    <input disabled id="class-rate" type="number" onchange="updateTax()" value="0" />
                                 </td>
                                 <td>
                                     <select id="shippingtaxed" onchange="shippingDisplay()">
@@ -80,7 +80,7 @@
                     </table>
                     <div class="tax-rate-container">
                         <div class="tax-rate-editor">
-                            <input type="button" value="Save" onclick="$('.tax-rate-container').addClass('hide');" />
+                            <input type="button" value="Save" onclick="updateTaxRates()" />
                             <div>
                                 <div style="width: 100%; text-align: center;">
                                     Tax Rates by type
