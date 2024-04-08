@@ -24,14 +24,14 @@ var totals = {
     'total': 0
 };
 var taxRates = {
-    mat: {
-        1: 0
+    material: {
+        '1': 0
     },
-    ser: {
-        1: 0
+    service: {
+        '1': 0
     },
-    clas: {
-        1: 0
+    class: {
+        '1': 0
     }
 };
 //Add new lines without removing data.
@@ -370,19 +370,21 @@ function updateTaxRates(){
         let rate_option;
         switch (ul) {
             case 0:
-                rate_option = 'mat';
+                rate_option = 'material';
                 break;
             case 1:
-                rate_option = 'ser';
+                rate_option = 'service';
                 break;
             case 2:
-                rate_option = 'clas';
+                rate_option = 'class';
                 break;
             default:
                 break;
         };
         //get all input options for tax column
         let list = rate_list[ul].querySelectorAll('li > input');
+        //empties current tax rates so new ones can be saved
+        taxRates[rate_option] = {};
         if(list.length < 1){//if no option listed set rate to zero
             taxRates[rate_option][1] = 0;
         }else{//else get correct rate values
@@ -392,7 +394,14 @@ function updateTaxRates(){
         };
         //taxRates: object name for rates
     });
-    //material-rate, service-rate, class-rate id's for input boxes to display total rate amount
+    for(const rate_type in taxRates){
+        let temp_rate = 0;
+        for(const type_row in taxRates[rate_type]){
+            temp_rate += taxRates[rate_type][type_row];
+        };
+        temp_rate = temp_rate * 100;
+        $(`input#${rate_type}-rate`)[0].value = temp_rate;
+    };
     console.log('Rates Updated');
     console.log(taxRates);
     $('.tax-rate-container').addClass('hide');
