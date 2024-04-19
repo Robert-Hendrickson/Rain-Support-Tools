@@ -1,3 +1,6 @@
+//define beta flag tests
+let complex_tax_test = false;
+//beta flag end
 var number_of_lines = 0;
 let template = {
         "qty": 0,
@@ -22,6 +25,17 @@ var totals = {
         'total':0
     },
     'total': 0
+};
+var taxRates = {
+    material: {
+        '1': 0
+    },
+    service: {
+        '1': 0
+    },
+    class: {
+        '1': 0
+    }
 };
 //Add new lines without removing data.
 function addRowElement(){
@@ -77,31 +91,64 @@ function multiLineAdd() {
     };
 };
 function updateTax(){
-    tm = parseFloat($('#material-rate')[0].value);
-    tm = tm/100;
-    ts = parseFloat($('#service-rate')[0].value);
-    ts = ts/100;
-    tc = parseFloat($('#class-rate')[0].value);
-    tc = tc/100;
+    if(complex_tax_test){
+        tm = taxRates.material;
+        ts = taxRates.service;
+        tc = taxRates.class;
+    } else {
+        tm = parseFloat($('#material-rate')[0].value);
+        tm = tm/100;
+        ts = parseFloat($('#service-rate')[0].value);
+        ts = ts/100;
+        tc = parseFloat($('#class-rate')[0].value);
+        tc = tc/100;
+    };
     let lines = number_of_lines;
-    console.log('Material rate is ' + tm);
-    console.log('Service rate is ' + ts);
-    console.log('Class rate is ' + tc);
+    //console.log('Material rate is ' + tm);
+    //console.log('Service rate is ' + ts);
+    //console.log('Class rate is ' + tc);
     for(let i = 1; i < (lines + 1); i++){
         console.log('updating lines');
         let z = line_entries[`row_${i}`];
         if (z.taxable.mat){
-            z.tax.mat = tm * z.taxable_amount;
+            if(complex_tax_test){
+                //zero out current tax amount
+                z.tax.mat = 0;
+                //loop through rates given and increase tax amount by each
+                for(var rate in tm){
+                    z.tax.mat += tm[rate] * z.taxable_amount
+                }
+            } else {
+                z.tax.mat = tm * z.taxable_amount;
+            }
         } else if(!z.taxable.mat){
             z.tax.mat - 0 * z.taxable_amount;
         }
         if (z.taxable.serv){
-            z.tax.serv = ts * z.taxable_amount;
+            if(complex_tax_test){
+                //zero out current tax amount
+                z.tax.serv = 0;
+                //loop through rates given and increase tax amount by each
+                for(var rate in ts){
+                    z.tax.serv += ts[rate] * z.taxable_amount
+                }
+            } else {
+                z.tax.serv = ts * z.taxable_amount;
+            }
         } else if(!z.taxable.serv){
             z.tax.serv - 0 * z.taxable_amount;
         }
         if (z.taxable.class){
-            z.tax.class = tc * z.taxable_amount;
+            if(complex_tax_test){
+                //zero out current tax amount
+                z.tax.class = 0;
+                //loop through rates given and increase tax amount by each
+                for(var rates in tc){
+                    z.tax.class += ts[rate] * z.taxable_amount;
+                }
+            } else {
+                z.tax.class = tc * z.taxable_amount;
+            }
         } else if(!z.taxable.class){
             z.tax.class - 0 * z.taxable_amount;
         }
@@ -343,4 +390,57 @@ function percentDiscountCalc(row) {
         //set discount value to row discount rounded to 2 decimals
         linedisc.value = discval.toFixed(2);
     };
+};
+//add rows to rate table by type
+function addNewRate(type, direction){
+    if(direction === 'increase'){
+        $(`table#rates-breakdown tbody td#${type} ul`)[0].appendChild($.parseHTML(`<li><input value="0" /></li>`)[0]);
+    };
+    if(direction === 'decrease'){
+        $(`table#rates-breakdown tbody td#${type} ul li`).last().remove();
+    }
+};
+function updateTaxRates(){
+    let rate_list = $('table#rates-breakdown tbody tr td > ul');
+    rate_list.each(function (ul){
+        let rate_option;
+        switch (ul) {
+            case 0:
+                rate_option = 'material';
+                break;
+            case 1:
+                rate_option = 'service';
+                break;
+            case 2:
+                rate_option = 'class';
+                break;
+            default:
+                break;
+        };
+        //get all input options for tax column
+        let list = rate_list[ul].querySelectorAll('li > input');
+        //empties current tax rates so new ones can be saved
+        taxRates[rate_option] = {};
+        if(list.length < 1){//if no option listed set rate to zero
+            taxRates[rate_option][1] = 0;
+        }else{//else get correct rate values
+            for(i=0;i<list.length;i++){
+                taxRates[rate_option][i+1] = parseFloat(list[i].value)/100;
+            };
+        };
+        //taxRates: object name for rates
+    });
+    for(const rate_type in taxRates){
+        let temp_rate = 0;
+        for(const type_row in taxRates[rate_type]){
+            temp_rate += taxRates[rate_type][type_row];
+        };
+        temp_rate = temp_rate * 100;
+        $(`input#${rate_type}-rate`)[0].value = temp_rate;
+    };
+    console.log('Rates Updated');
+    console.log(taxRates);
+    $('.tax-rate-container').addClass('hide');
+    updateTax();
+    //needs to update lines after saving new rates
 };
