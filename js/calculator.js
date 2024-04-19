@@ -1,3 +1,6 @@
+//define beta flag tests
+let complex_tax_test = false;
+//beta flag end
 var number_of_lines = 0;
 let template = {
         "qty": 0,
@@ -88,31 +91,64 @@ function multiLineAdd() {
     };
 };
 function updateTax(){
-    tm = parseFloat($('#material-rate')[0].value);
-    tm = tm/100;
-    ts = parseFloat($('#service-rate')[0].value);
-    ts = ts/100;
-    tc = parseFloat($('#class-rate')[0].value);
-    tc = tc/100;
+    if(complex_tax_test){
+        tm = taxRates.material;
+        ts = taxRates.service;
+        tc = taxRates.class;
+    } else {
+        tm = parseFloat($('#material-rate')[0].value);
+        tm = tm/100;
+        ts = parseFloat($('#service-rate')[0].value);
+        ts = ts/100;
+        tc = parseFloat($('#class-rate')[0].value);
+        tc = tc/100;
+    };
     let lines = number_of_lines;
-    console.log('Material rate is ' + tm);
-    console.log('Service rate is ' + ts);
-    console.log('Class rate is ' + tc);
+    //console.log('Material rate is ' + tm);
+    //console.log('Service rate is ' + ts);
+    //console.log('Class rate is ' + tc);
     for(let i = 1; i < (lines + 1); i++){
         console.log('updating lines');
         let z = line_entries[`row_${i}`];
         if (z.taxable.mat){
-            z.tax.mat = tm * z.taxable_amount;
+            if(complex_tax_test){
+                //zero out current tax amount
+                z.tax.mat = 0;
+                //loop through rates given and increase tax amount by each
+                for(var rate in tm){
+                    z.tax.mat += tm[rate] * z.taxable_amount
+                }
+            } else {
+                z.tax.mat = tm * z.taxable_amount;
+            }
         } else if(!z.taxable.mat){
             z.tax.mat - 0 * z.taxable_amount;
         }
         if (z.taxable.serv){
-            z.tax.serv = ts * z.taxable_amount;
+            if(complex_tax_test){
+                //zero out current tax amount
+                z.tax.serv = 0;
+                //loop through rates given and increase tax amount by each
+                for(var rate in ts){
+                    z.tax.serv += ts[rate] * z.taxable_amount
+                }
+            } else {
+                z.tax.serv = ts * z.taxable_amount;
+            }
         } else if(!z.taxable.serv){
             z.tax.serv - 0 * z.taxable_amount;
         }
         if (z.taxable.class){
-            z.tax.class = tc * z.taxable_amount;
+            if(complex_tax_test){
+                //zero out current tax amount
+                z.tax.class = 0;
+                //loop through rates given and increase tax amount by each
+                for(var rates in tc){
+                    z.tax.class += ts[rate] * z.taxable_amount;
+                }
+            } else {
+                z.tax.class = tc * z.taxable_amount;
+            }
         } else if(!z.taxable.class){
             z.tax.class - 0 * z.taxable_amount;
         }
@@ -405,5 +441,6 @@ function updateTaxRates(){
     console.log('Rates Updated');
     console.log(taxRates);
     $('.tax-rate-container').addClass('hide');
+    updateTax();
     //needs to update lines after saving new rates
 };

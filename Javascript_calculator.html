@@ -4,6 +4,7 @@
         <link rel="stylesheet" href="/Rain-Support-Tools/css/calculator.css"/>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
         <script src="/Rain-Support-Tools/js/calculator.js"></script>
+        <script src="/Rain-Support-Tools/js/beta.js"></script>
     </head>
     <body>
         <table id="inputTable">
@@ -42,7 +43,7 @@
                     -->
                     <table id="tax-rates">
                         <thead>
-                            <th colspan="3" Style="text-align: center;">Tax Rates<input style="float: right;" type="button" value="Edit" onclick="$('.tax-rate-container').removeClass('hide');" /></th>
+                            <th colspan="3" Style="text-align: center;">Tax Rates<input style="float: right;" type="button" value="Edit" onclick="enableComplexTax()" /></th>
                         </thead>
                         <tbody>
                             <tr>
@@ -61,13 +62,13 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <input disabled id="material-rate" type="number" onchange="updateTax()" value="0" />
+                                    <input id="material-rate" type="number" onchange="updateTax()" value="0" />
                                 </td>
                                 <td>
-                                    <input disabled id="service-rate" type="number" onchange="updateTax()" value="0" />
+                                    <input id="service-rate" type="number" onchange="updateTax()" value="0" />
                                 </td>
                                 <td>
-                                    <input disabled id="class-rate" type="number" onchange="updateTax()" value="0" />
+                                    <input id="class-rate" type="number" onchange="updateTax()" value="0" />
                                 </td>
                                 <td>
                                     <select id="shippingtaxed" onchange="shippingDisplay()">
@@ -78,7 +79,7 @@
                             </tr>
                         </tbody>
                     </table>
-                    <div class="tax-rate-container">
+                    <div class="tax-rate-container hide">
                         <div class="tax-rate-editor">
                             <input type="button" value="Save" onclick="updateTaxRates()" />
                             <div>
