@@ -65,9 +65,9 @@
             <h2>Support Tools</h2>
             <div class="menu_links">
                 <div class="toolButtonsList">
-                    <div v-for="x in nav_list" class="toolButton">
-                        <a v-bind:href="x.url" v-bind:target="x.target">
-                            <button>{{x.name}}</button>
+                    <div v-for="nav_item in nav_list" class="toolButton">
+                        <a v-bind:href="nav_item.url" v-bind:target="nav_item.target">
+                            <button>{{nav_item.name}}</button>
                         </a>
                     </div>
                 </div>
