@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!--
+            This will allow pasting a list of emails and then running a check that will separate good emails from potential bad emails in the list.
+
+            regex - ^[\w\-\_\+]+@[\w\-]{2,}(\.[\w]{2,})+$
+            test list - 35 total 17 should come back good from regex
+            13528849392@163.com
+            aebarlow@ucdavis
+            bjt@lcc-inc.cim
+            bunsterof3@hotmailcom
+            CathyVan910@icloud.co
+            crrwebinfo@gmail.co
+            drosas916@gmailcom
+            Grandmagerry @sncglobal.net
+            jeanmail@earthlink.net; JKNIESE@COMCAST.NET
+            jholmes@221bbakerstreet
+            jlarson67rsss@icloud.om
+            joy@blackcat@amas.com
+            kdeliramich@yahoo.co
+            kleger@csu@chico.edu
+            lauramara@peoplepc.co
+            Mickeys54@gmail
+            mmpblack@yahoo .com
+            momofbnw@yahoo.co
+            motomxmarissa@gmail.co
+            nrloezburton@ucdavisedu
+            Purtillk@yahoo.cm
+            rbconnelly@frontiernetnet
+            rosemu@sbcglobal.et
+            sandraross6051@sbcglobalnet
+            sensei@pinewood Kante.com
+            sflynn6892@aol.co
+            slfillo77@gmail.co
+            smccutler@gmail.om
+            snowbird86@hotmail.co
+            sofiab@sbservices.co
+            tboyd8@yahoo
+            unionhackett@comcast..net
+            westcoastwool@gmail.co
+            wunderwomen2@hotmail
+            yas2@say@aol.com
+        -->
+        <link rel="stylesheet" href="/Rain-Support-Tools/css/email-list-checker.css" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+        <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+        <script src="/Rain-Support-Tools/js/test_data.js"></script>
+        <script src="/Rain-Support-Tools/js/email-list-checker.js"></script>
+    </head>
+    <body>
+        <div class="mainContainer">
+            <h1 style="text-align: center;">Email List Checker</h1>
+            <div class="controls">
+                <input type="button" value="Home" />
+                <input type="button" value="Clear" />
+                <input type="button" value="Check" onclick="runCheck()" />
+                <input type="button" value="Import" />
+            </div>
+            <div class="mainContent">
+                <div class="inputList">
+                    <h2>Imported List</h2>
+                    <p>&nbsp;</p>
+                    <textarea></textarea>
+                </div>
+                <div class="goodList">
+                    <h2>Good Emails</h2>
+                    <p>Found <count>0</count></p>
+                    <textarea></textarea>
+                </div>
+                <div class="badList">
+                    <h2>Potentially Bad Emails</h2>
+                    <p>Found <count>0</count></p>
+                    <textarea></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="import">
+            <div>
+                <input type="button" value="Run" />
+            </div>
+            <textarea></textarea>
+        </div>
+    </body>
+</html>
