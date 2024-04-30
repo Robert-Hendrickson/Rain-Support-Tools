@@ -10,8 +10,22 @@
     top: 10%;
 
     textarea{
-        width: 95%;
+        margin-left: 10px;
+        width: 45%;
         height: 90%;
+        float: left;
+    }
+    #get-email-list-code{
+        width: 40%;
+        margin-left: 10px;
+        float: left;
+        
+        xmp{
+            margin: unset;
+            white-space: unset;
+            background-color: #000;
+            color: #fff;
+        }
     }
 }
 .mainContainer{

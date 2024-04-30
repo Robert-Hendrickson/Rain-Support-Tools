@@ -10,6 +10,7 @@ const app = Vue.createApp({
             {name:'QB Payment Split', url: 'QB_Mixed_Split.html'},
             {name:'Inventory Check', url: 'Inventory-check.html'},
             {name:'CSS Sandbox', url: 'css-tester.html'},
+            {name:'Email List Checker', url: 'email-list-checker.html'},
             {name:"Riley's Secret", url: 'riley/riley.html', target:'blank'}
         ]};
     }
