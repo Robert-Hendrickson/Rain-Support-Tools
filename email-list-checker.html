@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="/Rain-Support-Tools/css/email-list-checker.css" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+        <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+        <script src="/Rain-Support-Tools/js/test_data.js"></script>
+        <script src="/Rain-Support-Tools/js/email-list-checker.js"></script>
+    </head>
+    <body>
+        <div class="mainContainer">
+            <h1 style="text-align: center;">Email List Checker</h1>
+            <div class="controls">
+                <a href="/Rain-Support-Tools/"><input type="button" value="Home" /></a>
+                <input type="button" value="Clear" onclick="clearData()" />
+                <input type="button" value="Check" onclick="runCheck()" />
+                <input type="button" value="Import" onclick="$('.import').removeClass('hide')" />
+            </div>
+            <div class="mainContent">
+                <div class="inputList">
+                    <h2>Imported List</h2>
+                    <p>List count <count>0</count></p>
+                    <textarea></textarea>
+                </div>
+                <div class="goodList">
+                    <h2>Good Emails</h2>
+                    <p>Found <count>0</count></p>
+                    <textarea></textarea>
+                </div>
+                <div class="badList">
+                    <h2>Potentially Bad Emails</h2>
+                    <p>Found <count>0</count></p>
+                    <textarea></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="import hide">
+            <div>
+                <input type="button" value="Run" onclick="importList()" />
+                <input type="button" value="Close" onclick="$('.import').addClass('hide')" />
+            </div>
+            <textarea></textarea>
+            <div id="get-email-list-code">
+                <p>
+                    Run the below code on the email list page in and this will collect the list of emails from the table.<br>
+                    <br>
+                    After running the code, click the copy link that appears and paste the content into the box to the left.
+                </p>
+                <xmp>
+                    let email_list = $('table > tbody tr td:first-child');
+                    let email_list_string = '';
+                    for(i=0;i<email_list.length;i++){
+                        email_list_string += email_list[i].innerText + '\n';
+                    };
+                    email_list_string.substring(6, email_list_string.length -1);
+                </xmp>
+                <br>
+                <video
+                controls
+                style="width: 400px;"
+                controlslist="nodownload"
+            >
+                <source src="\Rain-Support-Tools\videos\email-list-checker-overview.mp4" type="video/mp4"></source>
+                <p class="vjs-no-js">
+                    To view this video please enable JavaScript, and consider upgrading to a
+                    web browser that
+                    <a href="https://videojs.com/html5-video-support/" target="_blank">
+                    supports HTML5 video
+                    </a>
+                </p>
+            </video>
+            </div>
+        </div>
+    </body>
+</html>
