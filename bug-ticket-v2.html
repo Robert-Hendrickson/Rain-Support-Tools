@@ -13,22 +13,45 @@
             <div class="container" base-info>
                 <h2>Basic Info</h2>
                 <div class="content">
-                    CRM
-                    System Area Affect
-                    Can you replicate this on a test site?
+                    CRM: <input id="crm" type="text" style="width: 100px;" /><br>
+                    System Area Affected: <input id="systemArea" type="text" style="width: 150px;" /><br>
+                    Can you replicate this on a test site?<select id="replicable"><option value="yes">Yes</option><option value="no">No</option></select>
                 </div>
             </div>
             <div class="container" reproduction-steps>
                 <h2>Reproduction Steps</h2>
                 <div class="content">
-                    Reproduction Steps
+                    <div>
+                        <input type="button" value="Add Row" />
+                        <input type="button" value="Remove Row" />
+                    </div>
+                    <table id="steps">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    1:<input type="text" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    2:<input type="text" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    3:<input type="text" />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
             <div class="container" description-expectation>
                 <h2>Description/Expectation</h2>
                 <div class="content">
-                    Description
-                    expected behavior
+                    Description: <textarea id="description" style="width: 820px; height: 130px;"></textarea>
+                    <br>
+                    Expected Behavior: <textarea id="expected" style="width: 750px; height: 130px;"></textarea>
                 </div>
             </div>
             <div class="container" screenshots>
@@ -46,13 +69,13 @@
             <div class="container" examples>
                 <h2>Examples</h2>
                 <div class="content">
-                    examples
+                    Examples: <textarea id="examples" style="width: 500px; height: 130px;"></textarea>
                 </div>
             </div>
             <div class="container" console-errors>
                 <h2>Console Errors</h2>
                 <div class="content">
-                    console errors
+                    Console Errors: <textarea id="errors" style="width: 500px; height: 130px;"></textarea>
                 </div>
             </div>
         </div>

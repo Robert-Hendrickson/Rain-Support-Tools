@@ -7,6 +7,7 @@ h1,h2{
 h2{
     font-size: 30px;
     border: 3px solid #000;
+    border-style: grooved;
     background: #d2d2d2;
     margin: unset;
 }
@@ -33,3 +34,19 @@ h2.open::after{
     display: block;
 }
 */
+
+.content{
+    width: 99%;
+    margin: 0 auto;
+    text-align: center;
+    font-size: 24px;
+    background-color: #fff;
+    padding: 5px 0;
+}
+
+.content table{
+    margin: 0 auto;
+    td input{
+        width: 300px;
+    }
+}
