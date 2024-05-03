@@ -1,4 +1,4 @@
-let email_check = new RegExp(/^[\w\-\_\+\.]+@[\w\-]{2,}(\.[\w]{2,})+$/gm);
+let email_check = new RegExp(/^[\w\-\_\+\.]+@[\w\-]{2,}(?:\.[\w]{2,})+$/gm);
 
 function runCheck(){
     let email_lists = {
