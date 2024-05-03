@@ -1,0 +1,35 @@
+@import '/Rain-Support-Tools/css/default.css';
+
+h1,h2{
+    text-align: center;
+}
+
+h2{
+    font-size: 30px;
+    border: 3px solid #000;
+    background: #d2d2d2;
+    margin: unset;
+}
+
+h2::after{
+    content: '\02C3';
+}
+
+h2.open::after{
+    content: '\02C5';
+}
+
+.body-container{
+    width: 60%;
+    margin: 0 auto;
+}
+
+/* these will hide all content until the header clicked on is open
+.container .content{
+    display: none;
+}
+
+.container h2.open + .content{
+    display: block;
+}
+*/
