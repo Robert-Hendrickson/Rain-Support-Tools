@@ -8,6 +8,18 @@ function openTab(el){
 }
 
 
+function displayTab(el){
+    let section = el.target.id;
+    $(`.container-2 div`).removeClass('active');
+    $('#info-tabs div').removeClass('active');
+    $(`.container-2 #${section}`).addClass('active');
+    el.target.classList.value = 'active';
+}
+
+$(window).ready(function(){
+    $('#info-tabs div').on('click', displayTab);
+})
+
 $(window).ready(function (){
     $('.container > h2').on('click', openTab);
 })

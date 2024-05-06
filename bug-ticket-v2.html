@@ -13,6 +13,126 @@
             <div id="nav">
                 <a href="/Rain-Support-Tools/"><input type="button" value="Home" /></a>
             </div>
+            <div id="info-tabs">
+                <div id="basic" class="active">
+                    Basic
+                </div>
+                <div id="steps">
+                    Steps
+                </div>
+                <div id="description">
+                    Desc/Expect
+                </div>
+                <div id="screenshots">
+                    Screenshot
+                </div>
+                <div id="video">
+                    Video
+                </div>
+                <div id="examples">
+                    Examples
+                </div>
+                <div id="errors">
+                    Errors
+                </div>
+            </div>
+            <div class="container-2">
+                <div id="basic" class="active">
+                    CRM: <input id="crm" type="text" style="width: 100px;" /><br>
+                    System Area Affected: <input id="systemArea" type="text" style="width: 150px;" /><br>
+                    Can you replicate this on a test site?<select id="replicable"><option value="yes">Yes</option><option value="no">No</option></select>
+                </div>
+                <div id="steps">
+                    <div>
+                        <input type="button" value="Add Row" />
+                        <input type="button" value="Remove Row" />
+                    </div>
+                    <table id="steps-table">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    1:<input type="text" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    2:<input type="text" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    3:<input type="text" />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div id="description">
+                    Description: <br>
+                    <textarea id="description" style="width: 820px; height: 130px;"></textarea>
+                    <br>
+                    Expected Behavior: <br>
+                    <textarea id="expected" style="width: 750px; height: 130px;"></textarea>
+                </div>
+                <div id="screenshots">
+                    <div>
+                        <input type="button" value="Add Row" />
+                        <input type="button" value="Remove Row" />
+                    </div>
+                    <table id="screenshot-table">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    1:<input type="text" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    2:<input type="text" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    3:<input type="text" />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div id="video">
+                    <div>
+                        <input type="button" value="Add Row" />
+                        <input type="button" value="Remove Row" />
+                    </div>
+                    <table id="video-table">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    1:<input type="text" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    2:<input type="text" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    3:<input type="text" />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div id="examples">
+                    Examples: <br>
+                    <textarea id="examples" style="width: 500px; height: 130px;"></textarea>
+                </div>
+                <div id="errors">
+                    Console Errors: <br>
+                    <textarea id="errors" style="width: 500px; height: 130px;"></textarea>
+                </div>
+            </div>
             <div class="container" base-info>
                 <h2>Basic Info</h2>
                 <div class="content">
@@ -28,7 +148,7 @@
                         <input type="button" value="Add Row" />
                         <input type="button" value="Remove Row" />
                     </div>
-                    <table id="steps">
+                    <table id="steps-table">
                         <tbody>
                             <tr>
                                 <td>

@@ -43,9 +43,60 @@ h2.open::after{
     padding: 5px 0;
 }
 
-.content table{
+/*version 1 and 2 table format*/
+.content table,.container-2 > div > table{
     margin: 0 auto;
     td input{
         width: 300px;
+    }
+}
+
+/*tabs formatting*/
+div#info-tabs{
+    height: 50px;
+}
+
+div#info-tabs div{
+    float: left;
+    border-left: #000 solid 1px;
+    border-right: #000 solid 1px;
+    border-top: #000 solid 1px;
+    border-radius: 7px 7px 0px 0px;
+    font-size: 35px;
+    margin: 5px 5px 0px 5px;
+    cursor: pointer;
+}
+
+div#info-tabs div.active{
+    background-color: #fff;
+}
+
+.container-2{
+    width: 99%;
+    margin: 0 auto;
+    text-align: center;
+    font-size: 24px;
+    background-color: #fff;
+    padding: 5px 0;
+    > div{
+        display: none;
+    }
+}
+.container-2 .active{
+    display: block;
+}
+
+#description textarea,#examples textarea,#errors textarea{
+    margin: 0px auto;
+}
+
+@media(max-width: 1494px){
+    div#info-tabs{
+        height: 100px;
+    }
+}
+@media(max-width: 884px){
+    div#info-tabs{
+        height: 150px;
     }
 }
