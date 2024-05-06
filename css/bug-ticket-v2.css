@@ -25,7 +25,7 @@ h2.open::after{
     margin: 0 auto;
 }
 
-/* these will hide all content until the header clicked on is open
+
 .container .content{
     display: none;
 }
@@ -33,7 +33,6 @@ h2.open::after{
 .container h2.open + .content{
     display: block;
 }
-*/
 
 .content{
     width: 99%;
