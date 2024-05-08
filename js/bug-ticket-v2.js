@@ -7,7 +7,7 @@ function nextStep(){
     $(`[data='${current_step}']`)[0].classList.value = '';
     $(`[data='${current_step + 1}']`)[0].classList.value = 'active';
     if(current_step === 1){
-        $('button[prev]').attr('disabled',false);
+        $('button[prev]').removeClass('hide');
     }
     if(current_step === 4){
         $('button[next]').addClass('hide');
@@ -18,7 +18,7 @@ function nextStep(){
 function previousStep(){
     let current_step = parseInt($('#info-tabs .active')[0].getAttribute('step'));
     if(current_step === 2){
-        $('button[prev]').attr('disabled',true);
+        $('button[prev]').addClass('hide');
     }
     if(current_step === 5){
         $('button[finish]').addClass('hide');
@@ -31,3 +31,14 @@ function previousStep(){
     $(`[data='${current_step}']`)[0].classList.value = '';
     $(`[data='${current_step - 1}']`)[0].classList.value = 'active';
 }
+
+function selectReplicability(el){
+    $('div[replicable].selected').removeClass('selected');
+    el.target.classList.value = 'selected';
+}
+
+$(window).ready(function (){
+    $('div[replicable]').on('click',selectReplicability);
+});
+
+

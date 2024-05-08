@@ -14,15 +14,15 @@
         </div>
         <div class="body-container">
             <div id="info-tabs">
-                <div id="basic" step="1" class="active">
+                <div id="basic" step="1" class="complete">
                     <div class="step-circle">1</div>
                     Basic
                 </div>
-                <div id="steps" step="2">
+                <div id="steps" step="2" class="complete">
                     <div class="step-circle">2</div>
                     Steps
                 </div>
-                <div id="description" step="3">
+                <div id="description" step="3" class="active">
                     <div class="step-circle">3</div>
                     Desc./Exp
                 </div>
@@ -36,7 +36,7 @@
                 </div>
             </div>
             <div class="container">
-                <div id="basic" data="1" class="active">
+                <div id="basic" data="1" class="">
                         CRM<br>
                         <input id="crm" type="text" placeholder="Enter a CRM" />
                         <br>
@@ -44,83 +44,78 @@
                         <input id="systemArea" type="text" placeholder="Enter Part of the System Affected" />
                         <br>
                         Can you replicate this on a test site?<br>
-                        <select id="replicable"><option value="yes">Yes</option><option value="no">No</option></select>
+                        <div replicable-selector>
+                            <div replicable='yes'>Yes</div>
+                            <div replicable='no'>No</div>
+                        </div>
                 </div>
-                <div id="steps" data="2">
-                    <div>
-                        <input type="button" value="Add Row" />
-                        <input type="button" value="Remove Row" />
+                <div id="steps" data="2" class="">
+                    <div table-controls>
+                        <button class="add">Add Row</button>
+                        <button class="remove">Remove Row</button>
                     </div>
                     <table id="steps-table">
                         <tbody>
                             <tr>
                                 <td>
-                                    1:<input type="text" />
+                                    Step 1<input placeholder="Enter Step 1" type="text" />
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    2:<input type="text" />
+                                    Step 2<input placeholder="Enter Step 2" type="text" />
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    3:<input type="text" />
+                                    Step 3<input placeholder="Enter Step 3" type="text" />
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-                <div id="description" data="3">
+                <div id="description" data="3" class="active">
                     Description: <br>
-                    <textarea id="description" style="width: 820px; height: 130px;"></textarea>
+                    <textarea placeholder="Enter a Description" id="description"></textarea>
                     <br>
                     Expected Behavior: <br>
-                    <textarea id="expected" style="width: 750px; height: 130px;"></textarea>
+                    <textarea placeholder="Enter the Expected Behavior" id="expected"></textarea>
                 </div>
                 <div id="links" data="4">
-                    <div>
-                        <input type="button" value="Add Row" />
-                        <input type="button" value="Remove Row" />
+                    <h2>Screenshots</h2>
+                    <div table-controls>
+                        <button>Add Row</button>
+                        <button>Remove Row</button>
                     </div>
                     <table id="screenshot-table">
                         <tbody>
                             <tr>
                                 <td>
-                                    1:<input type="text" />
+                                    Step 1<input type="text" />
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    2:<input type="text" />
+                                    Step 2<input type="text" />
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    3:<input type="text" />
+                                    Step 3<input type="text" />
                                 </td>
                             </tr>
                         </tbody>
                     </table>
-                    <div>
-                        <input type="button" value="Add Row" />
-                        <input type="button" value="Remove Row" />
+                    <h2>Videos</h2>
+                    <div table-controls>
+                        <button>Add Row</button>
+                        <button>Remove Row</button>
                     </div>
                     <table id="video-table">
                         <tbody>
                             <tr>
                                 <td>
-                                    1:<input type="text" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    2:<input type="text" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    3:<input type="text" />
+                                    Step 1<input type="text" />
                                 </td>
                             </tr>
                         </tbody>
@@ -128,14 +123,14 @@
                 </div>
                 <div id="examples-errors" data="5">
                     Examples: <br>
-                    <textarea id="examples" style="width: 500px; height: 130px;"></textarea>
+                    <textarea id="examples"></textarea>
                     <br>
                     Console Errors: <br>
-                    <textarea id="errors" style="width: 500px; height: 130px;"></textarea>
+                    <textarea id="errors"></textarea>
                 </div>
             </div>
-            <div>
-                <button prev disabled="disabled" style="font-size: 12px;" onclick="previousStep()">Previous</button>
+            <div flow-controls>
+                <button prev class="" style="font-size: 12px;" onclick="previousStep()">Previous</button>
                 <button finish style="float: right;" class="hide" onclick="">Finish</button>
                 <button next style="float: right;" onclick="nextStep()">Next</button>
             </div>
