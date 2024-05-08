@@ -1,25 +1,33 @@
-function openTab(el){
-    if(el.target.classList.value.match(/open/)){
-        el.target.classList.value = '';
-    } else {
-        $('.container > h2').removeClass('open');
-        el.target.classList.value = 'open';
+function nextStep(){
+    let current_step = parseInt($('#info-tabs .active')[0].getAttribute('step'));
+    //set step display changes
+    $(`[step='${current_step}']`)[0].classList.value = 'complete';
+    $(`[step='${current_step + 1}']`)[0].classList.value = 'active';
+    //set data display changes
+    $(`[data='${current_step}']`)[0].classList.value = '';
+    $(`[data='${current_step + 1}']`)[0].classList.value = 'active';
+    if(current_step === 1){
+        $('button[prev]').attr('disabled',false);
+    }
+    if(current_step === 4){
+        $('button[next]').addClass('hide');
+        $('button[finish]').removeClass('hide');
     }
 }
 
-
-function displayTab(el){
-    let section = el.target.id;
-    $(`.container-2 div`).removeClass('active');
-    $('#info-tabs div').removeClass('active');
-    $(`.container-2 #${section}`).addClass('active');
-    el.target.classList.value = 'active';
+function previousStep(){
+    let current_step = parseInt($('#info-tabs .active')[0].getAttribute('step'));
+    if(current_step === 2){
+        $('button[prev]').attr('disabled',true);
+    }
+    if(current_step === 5){
+        $('button[finish]').addClass('hide');
+        $('button[next]').removeClass('hide');
+    }
+    //set step display changes
+    $(`[step='${current_step}']`)[0].classList.value = '';
+    $(`[step='${current_step - 1}']`)[0].classList.value = 'active';
+    //set data display changes
+    $(`[data='${current_step}']`)[0].classList.value = '';
+    $(`[data='${current_step - 1}']`)[0].classList.value = 'active';
 }
-
-$(window).ready(function(){
-    $('#info-tabs div').on('click', displayTab);
-})
-
-$(window).ready(function (){
-    $('.container > h2').on('click', openTab);
-})

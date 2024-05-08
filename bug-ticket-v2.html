@@ -9,40 +9,44 @@
         <h1>
             Bug Ticket Form Generator
         </h1>
+        <div id="nav">
+            <a href="/Rain-Support-Tools/"><input type="button" value="Home" /></a>
+        </div>
         <div class="body-container">
-            <div id="nav">
-                <a href="/Rain-Support-Tools/"><input type="button" value="Home" /></a>
-            </div>
             <div id="info-tabs">
-                <div id="basic" class="active">
+                <div id="basic" step="1" class="active">
+                    <div class="step-circle">1</div>
                     Basic
                 </div>
-                <div id="steps">
+                <div id="steps" step="2">
+                    <div class="step-circle">2</div>
                     Steps
                 </div>
-                <div id="description">
-                    Desc/Expect
+                <div id="description" step="3">
+                    <div class="step-circle">3</div>
+                    Desc./Exp
                 </div>
-                <div id="screenshots">
-                    Screenshot
+                <div id="links" step="4">
+                    <div class="step-circle">4</div>
+                    Screenshots
                 </div>
-                <div id="video">
-                    Video
-                </div>
-                <div id="examples">
+                <div id="examples-errors" step="5">
+                    <div class="step-circle">5</div>
                     Examples
                 </div>
-                <div id="errors">
-                    Errors
-                </div>
             </div>
-            <div class="container-2">
-                <div id="basic" class="active">
-                    CRM: <input id="crm" type="text" style="width: 100px;" /><br>
-                    System Area Affected: <input id="systemArea" type="text" style="width: 150px;" /><br>
-                    Can you replicate this on a test site?<select id="replicable"><option value="yes">Yes</option><option value="no">No</option></select>
+            <div class="container">
+                <div id="basic" data="1" class="active">
+                        CRM<br>
+                        <input id="crm" type="text" placeholder="Enter a CRM" />
+                        <br>
+                        System Area Affected<br>
+                        <input id="systemArea" type="text" placeholder="Enter Part of the System Affected" />
+                        <br>
+                        Can you replicate this on a test site?<br>
+                        <select id="replicable"><option value="yes">Yes</option><option value="no">No</option></select>
                 </div>
-                <div id="steps">
+                <div id="steps" data="2">
                     <div>
                         <input type="button" value="Add Row" />
                         <input type="button" value="Remove Row" />
@@ -67,14 +71,14 @@
                         </tbody>
                     </table>
                 </div>
-                <div id="description">
+                <div id="description" data="3">
                     Description: <br>
                     <textarea id="description" style="width: 820px; height: 130px;"></textarea>
                     <br>
                     Expected Behavior: <br>
                     <textarea id="expected" style="width: 750px; height: 130px;"></textarea>
                 </div>
-                <div id="screenshots">
+                <div id="links" data="4">
                     <div>
                         <input type="button" value="Add Row" />
                         <input type="button" value="Remove Row" />
@@ -98,8 +102,6 @@
                             </tr>
                         </tbody>
                     </table>
-                </div>
-                <div id="video">
                     <div>
                         <input type="button" value="Add Row" />
                         <input type="button" value="Remove Row" />
@@ -124,126 +126,18 @@
                         </tbody>
                     </table>
                 </div>
-                <div id="examples">
+                <div id="examples-errors" data="5">
                     Examples: <br>
                     <textarea id="examples" style="width: 500px; height: 130px;"></textarea>
-                </div>
-                <div id="errors">
+                    <br>
                     Console Errors: <br>
                     <textarea id="errors" style="width: 500px; height: 130px;"></textarea>
                 </div>
             </div>
-            <div class="container" base-info>
-                <h2>Basic Info</h2>
-                <div class="content">
-                    CRM: <input id="crm" type="text" style="width: 100px;" /><br>
-                    System Area Affected: <input id="systemArea" type="text" style="width: 150px;" /><br>
-                    Can you replicate this on a test site?<select id="replicable"><option value="yes">Yes</option><option value="no">No</option></select>
-                </div>
-            </div>
-            <div class="container" reproduction-steps>
-                <h2>Reproduction Steps</h2>
-                <div class="content">
-                    <div>
-                        <input type="button" value="Add Row" />
-                        <input type="button" value="Remove Row" />
-                    </div>
-                    <table id="steps-table">
-                        <tbody>
-                            <tr>
-                                <td>
-                                    1:<input type="text" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    2:<input type="text" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    3:<input type="text" />
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="container" description-expectation>
-                <h2>Description/Expectation</h2>
-                <div class="content">
-                    Description: <textarea id="description" style="width: 820px; height: 130px;"></textarea>
-                    <br>
-                    Expected Behavior: <textarea id="expected" style="width: 750px; height: 130px;"></textarea>
-                </div>
-            </div>
-            <div class="container" screenshots>
-                <h2>Screenshots</h2>
-                <div class="content">
-                    <div>
-                        <input type="button" value="Add Row" />
-                        <input type="button" value="Remove Row" />
-                    </div>
-                    <table id="steps">
-                        <tbody>
-                            <tr>
-                                <td>
-                                    1:<input type="text" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    2:<input type="text" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    3:<input type="text" />
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="container" video>
-                <h2>Video(s)</h2>
-                <div class="content">
-                    <div>
-                        <input type="button" value="Add Row" />
-                        <input type="button" value="Remove Row" />
-                    </div>
-                    <table id="steps">
-                        <tbody>
-                            <tr>
-                                <td>
-                                    1:<input type="text" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    2:<input type="text" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    3:<input type="text" />
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="container" examples>
-                <h2>Examples</h2>
-                <div class="content">
-                    Examples: <textarea id="examples" style="width: 500px; height: 130px;"></textarea>
-                </div>
-            </div>
-            <div class="container" console-errors>
-                <h2>Console Errors</h2>
-                <div class="content">
-                    Console Errors: <textarea id="errors" style="width: 500px; height: 130px;"></textarea>
-                </div>
+            <div>
+                <button prev disabled="disabled" style="font-size: 12px;" onclick="previousStep()">Previous</button>
+                <button finish style="float: right;" class="hide" onclick="">Finish</button>
+                <button next style="float: right;" onclick="nextStep()">Next</button>
             </div>
         </div>
     </body>
