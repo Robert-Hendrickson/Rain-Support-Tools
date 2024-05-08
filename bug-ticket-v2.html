@@ -14,15 +14,15 @@
         </div>
         <div class="body-container">
             <div id="info-tabs">
-                <div id="basic" step="1" class="complete">
+                <div id="basic" step="1" class="active">
                     <div class="step-circle">1</div>
                     Basic
                 </div>
-                <div id="steps" step="2" class="complete">
+                <div id="steps" step="2">
                     <div class="step-circle">2</div>
                     Steps
                 </div>
-                <div id="description" step="3" class="active">
+                <div id="description" step="3">
                     <div class="step-circle">3</div>
                     Desc./Exp
                 </div>
@@ -36,7 +36,7 @@
                 </div>
             </div>
             <div class="container">
-                <div id="basic" data="1" class="">
+                <div id="basic" data="1" class="active">
                         CRM<br>
                         <input id="crm" type="text" placeholder="Enter a CRM" />
                         <br>
@@ -49,7 +49,7 @@
                             <div replicable='no'>No</div>
                         </div>
                 </div>
-                <div id="steps" data="2" class="">
+                <div id="steps" data="2">
                     <div table-controls>
                         <button class="add">Add Row</button>
                         <button class="remove">Remove Row</button>
@@ -74,7 +74,7 @@
                         </tbody>
                     </table>
                 </div>
-                <div id="description" data="3" class="active">
+                <div id="description" data="3">
                     Description: <br>
                     <textarea placeholder="Enter a Description" id="description"></textarea>
                     <br>
@@ -91,17 +91,17 @@
                         <tbody>
                             <tr>
                                 <td>
-                                    Step 1<input type="text" />
+                                    Step 1<input placeholder="Enter Screenshot Link" type="text" />
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    Step 2<input type="text" />
+                                    Step 2<input placeholder="Enter Screenshot Link" type="text" />
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    Step 3<input type="text" />
+                                    Step 3<input placeholder="Enter Screenshot Link" type="text" />
                                 </td>
                             </tr>
                         </tbody>
@@ -115,7 +115,7 @@
                         <tbody>
                             <tr>
                                 <td>
-                                    Step 1<input type="text" />
+                                    Step 1<input placeholder="Enter Screenshot Link" type="text" />
                                 </td>
                             </tr>
                         </tbody>
@@ -123,10 +123,10 @@
                 </div>
                 <div id="examples-errors" data="5">
                     Examples: <br>
-                    <textarea id="examples"></textarea>
+                    <textarea placeholder="Enter example data. This can be links to web pages where things are wrong or id's of products, RTO's, etc." id="examples"></textarea>
                     <br>
                     Console Errors: <br>
-                    <textarea id="errors"></textarea>
+                    <textarea placeholder="Enter any console errors that appear during the issue" id="errors"></textarea>
                 </div>
             </div>
             <div flow-controls>
