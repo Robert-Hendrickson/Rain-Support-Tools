@@ -14,29 +14,29 @@
         </div>
         <div class="body-container">
             <div id="info-tabs">
-                <div id="basic" step="1" class="active">
+                <div id="basic-tab" step="1" class="complete">
                     <div class="step-circle">1</div>
                     Basic
                 </div>
-                <div id="steps" step="2">
+                <div id="steps-tab" step="2" class="complete">
                     <div class="step-circle">2</div>
                     Steps
                 </div>
-                <div id="description" step="3">
+                <div id="description-tab" step="3" class="complete">
                     <div class="step-circle">3</div>
                     Desc./Exp
                 </div>
-                <div id="links" step="4">
+                <div id="links-tab" step="4" class="complete">
                     <div class="step-circle">4</div>
                     Screenshots
                 </div>
-                <div id="examples-errors" step="5">
+                <div id="examples-errors-tab" step="5" class="active">
                     <div class="step-circle">5</div>
                     Examples
                 </div>
             </div>
             <div class="container">
-                <div id="basic" data="1" class="active">
+                <div id="basic-content" data="1" >
                         CRM<br>
                         <input id="crm" type="text" placeholder="Enter a CRM" />
                         <br>
@@ -49,10 +49,10 @@
                             <div replicable='no'>No</div>
                         </div>
                 </div>
-                <div id="steps" data="2">
+                <div id="steps-content" data="2">
                     <div table-controls>
-                        <button class="add">Add Row</button>
-                        <button class="remove">Remove Row</button>
+                        <button onclick="addTableRow('steps-table')">Add Row</button>
+                        <button onclick="removeTableRow('steps-table')">Remove Row</button>
                     </div>
                     <table id="steps-table">
                         <tbody>
@@ -74,18 +74,18 @@
                         </tbody>
                     </table>
                 </div>
-                <div id="description" data="3">
+                <div id="description-content" data="3">
                     Description: <br>
                     <textarea placeholder="Enter a Description" id="description"></textarea>
                     <br>
                     Expected Behavior: <br>
                     <textarea placeholder="Enter the Expected Behavior" id="expected"></textarea>
                 </div>
-                <div id="links" data="4">
+                <div id="links-content" data="4">
                     <h2>Screenshots</h2>
                     <div table-controls>
-                        <button>Add Row</button>
-                        <button>Remove Row</button>
+                        <button onclick="addTableRow('screenshot-table')">Add Row</button>
+                        <button onclick="removeTableRow('screenshot-table')">Remove Row</button>
                     </div>
                     <table id="screenshot-table">
                         <tbody>
@@ -108,8 +108,8 @@
                     </table>
                     <h2>Videos</h2>
                     <div table-controls>
-                        <button>Add Row</button>
-                        <button>Remove Row</button>
+                        <button onclick="addTableRow('video-table')">Add Row</button>
+                        <button onclick="removeTableRow('video-table')">Remove Row</button>
                     </div>
                     <table id="video-table">
                         <tbody>
@@ -121,7 +121,7 @@
                         </tbody>
                     </table>
                 </div>
-                <div id="examples-errors" data="5">
+                <div id="examples-errors-content" data="5" class="active">
                     Examples: <br>
                     <textarea placeholder="Enter example data. This can be links to web pages where things are wrong or id's of products, RTO's, etc." id="examples"></textarea>
                     <br>
@@ -131,8 +131,8 @@
             </div>
             <div flow-controls>
                 <button prev class="" style="font-size: 12px;" onclick="previousStep()">Previous</button>
-                <button finish style="float: right;" class="hide" onclick="">Finish</button>
-                <button next style="float: right;" onclick="nextStep()">Next</button>
+                <button finish style="float: right;" onclick="validateData()">Finish</button>
+                <button next style="float: right;" class="hide" onclick="validateData()">Next</button>
             </div>
         </div>
     </body>
