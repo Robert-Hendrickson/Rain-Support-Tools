@@ -8,7 +8,7 @@ function validateData(){
     switch (current_step) {
         case 1:
             let crm = $('#crm')[0].value != '' && $('#crm')[0].value.match(/^(?:[c|C][r|R][m|M])?\d{3,}$/);
-            let system = $('#systemArea')[0].value != '' && $('#systemArea')[0].value.match(/^\w{4,}$/);
+            let system = $('#systemArea')[0].value != '';
             let replicable = $('[replicable].selected').length;
 
             if(crm && system && replicable) {
