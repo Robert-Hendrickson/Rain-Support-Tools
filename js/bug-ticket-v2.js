@@ -1,4 +1,9 @@
 function validateData(){
+    Close_error_growl();
+    let bad_object = {
+        type: 'generate',
+        list: {}
+    };
     let current_step = parseInt($('#info-tabs .active')[0].getAttribute('step'));
     switch (current_step) {
         case 1:
@@ -9,7 +14,20 @@ function validateData(){
             if(crm && system && replicable) {
                 nextStep(current_step);
             } else {
-                console.error('something is missing');
+                let bad_object = {
+                    type: 'generate',
+                    list: {}
+                };
+                if(!crm){
+                    bad_object.list['crm'] = 'The CRM needs to be a valid CRM.(3 digits or more)';
+                }
+                if(!system){
+                    bad_object.list['system'] = 'Please enter the area of the system that is affected.';
+                }
+                if(!replicable){
+                    bad_object.list['replicable'] = 'Please select if this is replicable or not.';
+                }
+                popup_error_growl(bad_object);
                 //this will pass the elements that didn't succeed to another function to list the area's needing fixed before moving on
             };
             break;
@@ -17,12 +35,15 @@ function validateData(){
             let number_of_steps = $('#steps-table tbody tr').length > 0;
             let steps_true = true;
             $('#steps-table tbody tr input').each(function (){
-                if($(this)[0].value === null){
+                if($(this)[0].value === ''){
                     steps_true = false;
                 }
             });
             if(number_of_steps && steps_true){
                 nextStep(current_step);
+            } else {
+                bad_object.list['steps'] = 'Please make sure all available rows have data. If there are any blank rows use the "Remove Row" button to remove unnecessary rows.';
+                popup_error_growl(bad_object);
             };
             break;
         case 3:
@@ -42,6 +63,14 @@ function validateData(){
             }
             if(description.value && expected.value){
                 nextStep(current_step);
+            } else {
+                if(!description.value){
+                    bad_object.list['description'] = 'Description cannot be empty or n/a. Please describe in detail what is happening.';
+                }
+                if(!expected.value){
+                    bad_object.list['expected'] = 'Expectation cannot be empty or n/a. Please describe the expected outcome that is not being met.';
+                }
+                popup_error_growl(bad_object);
             }
             break;
         case 4:
@@ -77,6 +106,18 @@ function validateData(){
             })
             if(screenshot_ready && video_ready && !duplicates){
                 nextStep(current_step);
+            } else {
+                if(!screenshot_ready){
+                    bad_object.list['screenshot'] = 'Please make sure you have at least one screenshot of the trouble area showing what is wrong.';
+                }
+                if(!video_ready){
+                    bad_object.list['video'] = 'Please make sure you have at least one video of the trouble area showing what is wrong.';
+                }
+                if(duplicates){
+                    bad_object.list['duplicates'] = 'One or more of the links provided is being used twice, or you have a blank row. Please make sure all links are unique and that there are no blank rows before moving on.';
+                }
+                bad_object.list['reminder'] = 'Make sure that all links point to a google drive file that is shared with all Rain Emails so that they can be seen by the Dev/Prod teams.';
+                popup_error_growl(bad_object);
             };
             break;
         case 5:
@@ -97,6 +138,14 @@ function validateData(){
             }
             if(examples_ready && errors_ready){
                 generateTicket();
+            } else {
+                if(!examples_ready){
+                    bad_object.list['examples'] = 'Examples cannot be blank or say n/a. Please make sure that all links do not point to an admin domain such as rainadmin.com. If there is a report or a product that is an issue please write the report name and filters used to find the issue or any unique ids needed to find the data.';
+                }
+                if(!errors_ready){
+                    bad_object.list['errors'] = 'Errors box cannot be blank or n/a. If there are no visible errors associated with the problem behavior, please write "No Console Errors Seen".';
+                }
+                popup_error_growl(bad_object);
             }
             break;
         default:
@@ -233,6 +282,12 @@ function previousStep(){
     $(`[data='${current_step - 1}']`)[0].classList.value = 'active';
 }
 
+function start_new_ticket(){
+    if(window.confirm('This action is not reversible. Continuing will clear all current data and start a new ticket.\n\n Do you want to continue?')){
+        window.location.reload();
+    }
+}
+
 function selectReplicability(el){
     $('div[replicable].selected').removeClass('selected');
     el.target.classList.value = 'selected';
@@ -241,5 +296,3 @@ function selectReplicability(el){
 $(window).ready(function (){
     $('div[replicable]').on('click',selectReplicability);
 });
-
-

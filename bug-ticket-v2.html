@@ -2,13 +2,17 @@
 <html>
     <head>
         <link rel="stylesheet" href="/Rain-Support-Tools/css/bug-ticket-v2.css" />
+        <link rel="stylesheet" href="/Rain-Support-Tools/common/actions/popup.css" />
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+        <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
         <script src="/Rain-Support-Tools/js/bug-ticket-v2.js"></script>
         <script src="/Rain-Support-Tools/js/test_data.js"></script>
+        <script src="/Rain-Support-Tools/common/actions/popup.js"></script>
     </head>
     <body>
         <h1>
-            Bug Ticket Form Generator
+            Bug Ticket Form Generator - Design by Russel Lee
         </h1>
         <div id="nav">
             <a href="/Rain-Support-Tools/"><input type="button" value="Home" /></a>
@@ -140,10 +144,12 @@
             <div>
                 <textarea></textarea>
                 <div ticket-buttons>
+                    <button style="float: left;" class="btn terciary" onclick="start_new_ticket()">New Case</button>
                     <button class="btn secondary" onclick="$('#ticket-container').addClass('hide')">Close</button>
                     <button class="btn primary" onclick="copyTicket()">Copy</button>
                 </div>
             </div>
         </div>
+        <div id="error_message" class="hide"></div>
     </body>
 </html>

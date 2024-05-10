@@ -27,3 +27,6 @@ table {
     background: #FFFFFF;
     color: #000000;
 }
+.btn.terciary{
+    background: #ff0000ab;
+}
