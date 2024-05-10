@@ -20,7 +20,21 @@ function setTestData(){
     if(path.match(/email-list-checker/)){
         $('.inputList > textarea')[0].value = '13528849392@163.com\naebarlow@ucdavis\nbjt@lcc-inc.cim\nbunsterof3@hotmailcom\nCathyVan910@icloud.co\ncrrwebinfo@gmail.co\ndrosas916@gmailcom\nGrandmagerry @sncglobal.net\njeanmail@earthlink.net; JKNIESE@COMCAST.NET\njholmes@221bbakerstreet\njlarson67rsss@icloud.om\njoy@blackcat@amas.com\nkdeliramich@yahoo.co\nkleger@csu@chico.edu\nlauramara@peoplepc.co\nMickeys54@gmail\nmmpblack@yahoo .com\nmomofbnw@yahoo.co\nmotomxmarissa@gmail.co\nnrloezburton@ucdavisedu\nPurtillk@yahoo.cm\nrbconnelly@frontiernetnet\nrosemu@sbcglobal.et\nsandraross6051@sbcglobalnet\nsensei@pinewood Kante.com\nsflynn6892@aol.co\nslfillo77@gmail.co\nsmccutler@gmail.om\nsnowbird86@hotmail.co\nsofiab@sbservices.co\ntboyd8@yahoo\nunionhackett@comcast..net\nwestcoastwool@gmail.co\nwunderwomen2@hotmail\nyas2@say@aol.com';
     }
-    
+    if(path.match(/bug-ticket-v2/)){
+        $('#crm')[0].value = '6085';
+        $('#systemArea')[0].value = 'till';
+        $('[replicable="yes"]')[0].click();
+        $('#steps-table tr input').each(function (){
+            $(this)[0].value = 'test step';
+        });
+        $('#description')[0].value = 'test description';
+        $('#expected')[0].value = 'test expectation';
+        $('#links-content tr input').each(function (index){
+            $(this)[0].value = 'drive.google.com/file/d/test/view?' + index;
+        });
+        $('#examples')[0].value = 'robstestsite.com';
+        $('#errors')[0].value = 'No errors';
+    }
 }
 $(window).ready(function(){
     if(location.href.match('localhost')){

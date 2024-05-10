@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="/Rain-Support-Tools/css/bug-ticket-v2.css" />
+        <link rel="stylesheet" href="/Rain-Support-Tools/common/actions/popup.css" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+        <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+        <script src="/Rain-Support-Tools/js/bug-ticket-v2.js"></script>
+        <script src="/Rain-Support-Tools/js/test_data.js"></script>
+        <script src="/Rain-Support-Tools/common/actions/popup.js"></script>
+    </head>
+    <body>
+        <h1>
+            Bug Ticket Form Generator - Design by Russel Lee
+        </h1>
+        <div id="nav">
+            <a href="/Rain-Support-Tools/"><input type="button" value="Home" /></a>
+        </div>
+        <div class="body-container">
+            <div id="info-tabs">
+                <div id="basic-tab" step="1" class="active">
+                    <div class="step-circle">1</div>
+                    Basic
+                </div>
+                <div id="steps-tab" step="2">
+                    <div class="step-circle">2</div>
+                    Steps
+                </div>
+                <div id="description-tab" step="3">
+                    <div class="step-circle">3</div>
+                    Desc./Exp
+                </div>
+                <div id="links-tab" step="4">
+                    <div class="step-circle">4</div>
+                    Screenshots
+                </div>
+                <div id="examples-errors-tab" step="5">
+                    <div class="step-circle">5</div>
+                    Examples
+                </div>
+            </div>
+            <div class="container">
+                <div id="basic-content" data="1"  class="active">
+                        CRM<br>
+                        <input id="crm" type="text" placeholder="Enter a CRM" />
+                        <br>
+                        System Area Affected<br>
+                        <input id="systemArea" type="text" placeholder="Enter Part of the System Affected" />
+                        <br>
+                        Can you replicate this on a test site?<br>
+                        <div replicable-selector>
+                            <div replicable='yes'>Yes</div>
+                            <div replicable='no'>No</div>
+                        </div>
+                </div>
+                <div id="steps-content" data="2">
+                    <div table-controls>
+                        <button class="btn secondary" onclick="addTableRow('steps-table')">Add Row</button>
+                        <button class="btn secondary" onclick="removeTableRow('steps-table')">Remove Row</button>
+                    </div>
+                    <table id="steps-table">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    Step 1<input placeholder="Enter Step 1" type="text" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Step 2<input placeholder="Enter Step 2" type="text" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Step 3<input placeholder="Enter Step 3" type="text" />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div id="description-content" data="3">
+                    Description: <br>
+                    <textarea placeholder="Enter a Description" id="description"></textarea>
+                    <br>
+                    Expected Behavior: <br>
+                    <textarea placeholder="Enter the Expected Behavior" id="expected"></textarea>
+                </div>
+                <div id="links-content" data="4">
+                    <h2>Screenshots</h2>
+                    <div table-controls>
+                        <button class="btn secondary" onclick="addTableRow('screenshot-table')">Add Row</button>
+                        <button class="btn secondary" onclick="removeTableRow('screenshot-table')">Remove Row</button>
+                    </div>
+                    <table id="screenshot-table">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    Step 1<input placeholder="Enter Screenshot Link" type="text" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Step 2<input placeholder="Enter Screenshot Link" type="text" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Step 3<input placeholder="Enter Screenshot Link" type="text" />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <h2>Videos</h2>
+                    <div table-controls>
+                        <button class="btn secondary" onclick="addTableRow('video-table')">Add Row</button>
+                        <button class="btn secondary" onclick="removeTableRow('video-table')">Remove Row</button>
+                    </div>
+                    <table id="video-table">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    Step 1<input placeholder="Enter Screenshot Link" type="text" />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div id="examples-errors-content" data="5">
+                    Examples: <br>
+                    <textarea placeholder="Enter example data. This can be links to web pages where things are wrong or id's of products, RTO's, etc." id="examples"></textarea>
+                    <br>
+                    Console Errors: <br>
+                    <textarea placeholder="Enter any console errors that appear during the issue" id="errors"></textarea>
+                </div>
+            </div>
+            <div flow-controls>
+                <button prev class="btn secondary hide" style="font-size: 12px;" onclick="previousStep()">Previous</button>
+                <button class="btn primary hide" finish style="float: right;" onclick="validateData()">Finish</button>
+                <button class="btn primary" next style="float: right;" onclick="validateData()">Next</button>
+            </div>
+        </div>
+        <div id="ticket-container" class="hide">
+            <div>
+                <textarea></textarea>
+                <div ticket-buttons>
+                    <button style="float: left;" class="btn terciary" onclick="start_new_ticket()">New Case</button>
+                    <button class="btn secondary" onclick="$('#ticket-container').addClass('hide')">Close</button>
+                    <button class="btn primary" onclick="copyTicket()">Copy</button>
+                </div>
+            </div>
+        </div>
+        <div id="error_message" class="hide"></div>
+    </body>
+</html>

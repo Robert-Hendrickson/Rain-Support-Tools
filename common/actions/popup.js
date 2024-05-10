@@ -48,6 +48,8 @@ function popup_error_growl(error_object){
     };
 };
 function Close_error_growl(){
-    error_growl.unmount();
-    $('#error_message').addClass('hide');
+    if($('#error_message')[0].__vue_app__){
+        error_growl.unmount();
+        $('#error_message').addClass('hide');
+    }
 };
