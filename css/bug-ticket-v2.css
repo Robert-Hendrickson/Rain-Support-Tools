@@ -146,13 +146,6 @@ div[replicable].selected{
 
 div[table-controls]{
     text-align: center;
-    button{
-        background-color: #FFFFFF;
-        border: #DDDDDD solid 1px;
-        border-radius: 4px;
-        padding: 6px 12px;
-        cursor: pointer;
-    }
 }
 
 table{
@@ -163,12 +156,29 @@ div[flow-controls]{
     height: 30px;
 }
 
-div[flow-controls] button{
-    background: #337ab7;
-    color: #fff;
-    border: unset;
-    border-radius: 4px;
-    width: 60px;
-    height: 35px;
-    cursor: pointer;
+/*ticket styling*/
+div#ticket-container{
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    width: 99%;
+    height: 99%;
+}
+
+#ticket-container > div{
+    width: 620px;
+    margin: 60px auto;
+    background-color: #ffffff;
+    padding: 8px 16px;
+    border-radius: 10px;
+    border: #DDDDDD solid 1px;
+}
+
+#ticket-container > div textarea{
+    width: 615px;
+    height: 600px;
+}
+
+[ticket-buttons]{
+    text-align: right;
 }

@@ -120,6 +120,93 @@ function nextStep(current_step){
     }
 }
 
+function generateTicket(){
+    let data = {
+        crm: $('#crm')[0].value,
+        area: $('#systemArea')[0].value,
+        replicable: $('[replicable].selected').attr('replicable'),
+        steps: () => {
+            let string = '';
+            $('#steps-table tr input').each(function (index){
+                let step = index + 1;
+                string += `${index + 1}. ` + $(this)[0].value + '\n';
+            });
+            return string;
+        },
+        description: $('#description')[0].value,
+        expected: $('#expected')[0].value,
+        screenshots: () => {
+            let string = '';
+            $('#screenshot-table tr input').each(function (){
+                string += $(this)[0].value + '\n\n';
+            });
+            return string;
+        },
+        videos: () => {
+            let string = '';
+            $('#video-table tr input').each(function (){
+                string += $(this)[0].value + '\n\n';
+            });
+            return string;
+        },
+        examples: $('#examples')[0].value,
+        errors: $('#errors')[0].value
+    };
+    $('#ticket-container > div > textarea')[0].value = `**LOCATION**
+Store ID:
+${data.crm}
+
+System Area:
+${data.replicable}
+
+Can you recreate the problem on your demo site (if yes please continue, if no use the "Bug - non reproducible" macro)?
+
+STEPS TO REPRODUCE:
+${data.steps()}
+
+ACTUAL RESULTS:(Please be as detailed as possible.)
+
+Description:
+${data.description}
+
+Example:(If this pertains to the customer's site, please provide links to the relevant pages.)
+${data.examples}
+
+Screenshot:
+${data.screenshots()}
+
+Video:
+${data.videos()}
+
+Console Info:
+
+EXPECTED RESULTS:
+${data.expected}
+
+CONSOLE ERRORS:
+\`\`\`
+${data.errors}
+\`\`\`
+`;
+    $('#ticket-container').removeClass('hide');
+    $('#ticket-container > div > textarea')[0].focus();
+}
+
+function copyTicket() {
+    // Get the text field
+    var copyText = $('#ticket-container > div > textarea')[0];
+
+    // Select the text field
+    copyText.select();
+    copyText.setSelectionRange(0, 99999); // For mobile devices
+
+    // Copy the text inside the text field
+    navigator.clipboard.writeText(copyText.value);
+
+    // Alert the copied text
+    //console.log("Copied the text: " + copyText.value);
+};
+
 function addTableRow(table){
     let new_row_number = $(`#${table} tbody tr`).length + 1;
     $(`#${table} tbody`).append(`<tr><td>Step ${new_row_number}<input placeholder="Enter Step ${new_row_number}" type="text" /></td></tr>`)

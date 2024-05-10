@@ -4,6 +4,7 @@
         <link rel="stylesheet" href="/Rain-Support-Tools/css/bug-ticket-v2.css" />
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
         <script src="/Rain-Support-Tools/js/bug-ticket-v2.js"></script>
+        <script src="/Rain-Support-Tools/js/test_data.js"></script>
     </head>
     <body>
         <h1>
@@ -14,29 +15,29 @@
         </div>
         <div class="body-container">
             <div id="info-tabs">
-                <div id="basic-tab" step="1" class="complete">
+                <div id="basic-tab" step="1" class="active">
                     <div class="step-circle">1</div>
                     Basic
                 </div>
-                <div id="steps-tab" step="2" class="complete">
+                <div id="steps-tab" step="2">
                     <div class="step-circle">2</div>
                     Steps
                 </div>
-                <div id="description-tab" step="3" class="complete">
+                <div id="description-tab" step="3">
                     <div class="step-circle">3</div>
                     Desc./Exp
                 </div>
-                <div id="links-tab" step="4" class="complete">
+                <div id="links-tab" step="4">
                     <div class="step-circle">4</div>
                     Screenshots
                 </div>
-                <div id="examples-errors-tab" step="5" class="active">
+                <div id="examples-errors-tab" step="5">
                     <div class="step-circle">5</div>
                     Examples
                 </div>
             </div>
             <div class="container">
-                <div id="basic-content" data="1" >
+                <div id="basic-content" data="1"  class="active">
                         CRM<br>
                         <input id="crm" type="text" placeholder="Enter a CRM" />
                         <br>
@@ -51,8 +52,8 @@
                 </div>
                 <div id="steps-content" data="2">
                     <div table-controls>
-                        <button onclick="addTableRow('steps-table')">Add Row</button>
-                        <button onclick="removeTableRow('steps-table')">Remove Row</button>
+                        <button class="btn secondary" onclick="addTableRow('steps-table')">Add Row</button>
+                        <button class="btn secondary" onclick="removeTableRow('steps-table')">Remove Row</button>
                     </div>
                     <table id="steps-table">
                         <tbody>
@@ -84,8 +85,8 @@
                 <div id="links-content" data="4">
                     <h2>Screenshots</h2>
                     <div table-controls>
-                        <button onclick="addTableRow('screenshot-table')">Add Row</button>
-                        <button onclick="removeTableRow('screenshot-table')">Remove Row</button>
+                        <button class="btn secondary" onclick="addTableRow('screenshot-table')">Add Row</button>
+                        <button class="btn secondary" onclick="removeTableRow('screenshot-table')">Remove Row</button>
                     </div>
                     <table id="screenshot-table">
                         <tbody>
@@ -108,8 +109,8 @@
                     </table>
                     <h2>Videos</h2>
                     <div table-controls>
-                        <button onclick="addTableRow('video-table')">Add Row</button>
-                        <button onclick="removeTableRow('video-table')">Remove Row</button>
+                        <button class="btn secondary" onclick="addTableRow('video-table')">Add Row</button>
+                        <button class="btn secondary" onclick="removeTableRow('video-table')">Remove Row</button>
                     </div>
                     <table id="video-table">
                         <tbody>
@@ -121,7 +122,7 @@
                         </tbody>
                     </table>
                 </div>
-                <div id="examples-errors-content" data="5" class="active">
+                <div id="examples-errors-content" data="5">
                     Examples: <br>
                     <textarea placeholder="Enter example data. This can be links to web pages where things are wrong or id's of products, RTO's, etc." id="examples"></textarea>
                     <br>
@@ -130,9 +131,18 @@
                 </div>
             </div>
             <div flow-controls>
-                <button prev class="" style="font-size: 12px;" onclick="previousStep()">Previous</button>
-                <button finish style="float: right;" onclick="validateData()">Finish</button>
-                <button next style="float: right;" class="hide" onclick="validateData()">Next</button>
+                <button prev class="btn secondary hide" style="font-size: 12px;" onclick="previousStep()">Previous</button>
+                <button class="btn primary hide" finish style="float: right;" onclick="validateData()">Finish</button>
+                <button class="btn primary" next style="float: right;" onclick="validateData()">Next</button>
+            </div>
+        </div>
+        <div id="ticket-container" class="hide">
+            <div>
+                <textarea></textarea>
+                <div ticket-buttons>
+                    <button class="btn secondary" onclick="$('#ticket-container').addClass('hide')">Close</button>
+                    <button class="btn primary" onclick="copyTicket()">Copy</button>
+                </div>
             </div>
         </div>
     </body>
