@@ -201,7 +201,7 @@ function generateTicket(){
         examples: $('#examples')[0].value,
         errors: $('#errors')[0].value
     };
-    $('#ticket-container > div > textarea')[0].value = `**LOCATION**
+    $('#ticket-container > div > textarea')[0].value = `**LOCATION:**
 Store ID:
 ${data.crm}
 
