@@ -58,14 +58,18 @@
                     <br>
                     After running the code, click the copy link that appears and paste the content into the box to the left.
                 </p>
-                <xmp>
-                    let email_list = $('table > tbody tr td:first-child');
-                    let email_list_string = '';
-                    for(i=0;i<email_list.length;i++){
-                        email_list_string += email_list[i].innerText + '\n';
-                    };
-                    email_list_string.substring(6, email_list_string.length -1);
-                </xmp>
+                <div class="code-display">
+                    <pre>
+                        <code>
+let email_list = $('table > tbody tr td:first-child');
+let email_list_string = '';
+for(i=0;i&#60;email_list.length;i++){
+email_list_string += email_list[i].innerText + '\n';
+};
+email_list_string.substring(6, email_list_string.length -1);
+                        </code>
+                    </pre>
+                </div>
                 <br>
                 <video
                 controls

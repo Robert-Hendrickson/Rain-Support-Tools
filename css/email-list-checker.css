@@ -16,16 +16,19 @@
         float: left;
     }
     #get-email-list-code{
-        width: 40%;
+        width: 45%;
         margin-left: 10px;
         float: left;
-        
-        xmp{
-            margin: unset;
-            white-space: unset;
-            background-color: #000;
-            color: #fff;
-        }
+    }
+}
+.code-display{
+    margin: unset;
+    white-space: unset;
+    background-color: #000;
+    color: #fff;
+    pre{
+        text-wrap: wrap;
+        margin: unset;
     }
 }
 .mainContainer{
