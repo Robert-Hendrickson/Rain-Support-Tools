@@ -206,9 +206,10 @@ Store ID:
 ${data.crm}
 
 System Area:
-${data.replicable}
+${data.area}
 
 Can you recreate the problem on your demo site (if yes please continue, if no use the "Bug - non reproducible" macro)?
+${data.replicable}
 
 STEPS TO REPRODUCE:
 ${data.steps()}
