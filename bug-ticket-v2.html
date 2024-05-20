@@ -159,5 +159,22 @@
             </div>
         </div>
         <div id="error_message" class="hide"></div>
+        <div class="secondary_menu_links">
+            <div onclick="toggleNav()" id="nav-toggle">
+                Nav
+            </div>
+            <div class="toolButtonsList">
+                <ul>
+                    <li v-for="nav_item in nav_list" class="toolButton">
+                        <a v-bind:href="nav_item.url" v-bind:target="nav_item.target">
+                            <div>
+                                {{nav_item.name}}
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <script src="/Rain-Support-Tools/js/nav-builder.js"></script>
+        </div>
     </body>
 </html>

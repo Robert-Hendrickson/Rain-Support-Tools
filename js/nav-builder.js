@@ -17,3 +17,11 @@ const app = Vue.createApp({
     }
 });
 app.mount('.toolButtonsList');
+
+function toggleNav(){
+    if($('.secondary_menu_links')[0].classList.value.match(/active/) != null){
+        $('.secondary_menu_links').removeClass('active');
+    } else {
+        $('.secondary_menu_links').addClass('active');
+    }
+}
