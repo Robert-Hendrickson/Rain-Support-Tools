@@ -1,8 +1,8 @@
 const app = Vue.createApp({
     data() {
         return {nav_list : [
-            {name:'Bug Ticket Form', url: 'Bug_ticket_form.html'},
-            {name: 'Bug Ticket v2', url: 'bug-ticket-v2.html', target: 'blank'},
+            //{name:'Bug Ticket Form', url: 'Bug_ticket_form.html'},
+            {name: 'Bug Ticket v2', url: 'bug-ticket-v2.html'},
             {name:'Site Fix Ticket', url: 'site-fix.html'},
             {name:'Transaction Calculator', url: 'Javascript_calculator.html'},
             {name:'Transaction Calculator (Tax Inclusive: Australia)', url: 'Tax-Inclusive-Calculator.html'},
