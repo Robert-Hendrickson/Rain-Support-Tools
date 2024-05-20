@@ -7,6 +7,7 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
         <link href="/Rain-Support-Tools/css/inventory_check.css" rel="stylesheet" />
         <script src="/Rain-Support-Tools/js/inventory_check.js"></script>
+        <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     </head>
     <body>
         <div class="history">
@@ -115,6 +116,23 @@
                     </a>
                 </p>
             </video>
+        </div>
+        <div class="secondary_menu_links">
+            <div onclick="toggleNav()" id="nav-toggle">
+                Nav
+            </div>
+            <div class="toolButtonsList">
+                <ul>
+                    <li v-for="nav_item in nav_list" class="toolButton">
+                        <a v-bind:href="nav_item.url" v-bind:target="nav_item.target">
+                            <div>
+                                {{nav_item.name}}
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <script src="/Rain-Support-Tools/js/nav-builder.js"></script>
         </div>
     </body>
 </html>

@@ -23,7 +23,6 @@
         <div class="mainContainer">
             <h1 style="text-align: center;">Email List Checker</h1>
             <div class="controls">
-                <a href="/Rain-Support-Tools/"><input type="button" value="Home" /></a>
                 <input type="button" value="Clear" onclick="clearData()" />
                 <input type="button" value="Check" onclick="runCheck()" />
                 <input type="button" value="Import" onclick="$('.import').removeClass('hide')" />
@@ -86,6 +85,23 @@ email_list_string.substring(6, email_list_string.length -1);
                 </p>
             </video>
             </div>
+        </div>
+        <div class="secondary_menu_links">
+            <div onclick="toggleNav()" id="nav-toggle">
+                Nav
+            </div>
+            <div class="toolButtonsList">
+                <ul>
+                    <li v-for="nav_item in nav_list" class="toolButton">
+                        <a v-bind:href="nav_item.url" v-bind:target="nav_item.target">
+                            <div>
+                                {{nav_item.name}}
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <script src="/Rain-Support-Tools/js/nav-builder.js"></script>
         </div>
     </body>
 </html>
