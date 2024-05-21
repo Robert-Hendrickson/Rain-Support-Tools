@@ -169,6 +169,11 @@ function nextStep(current_step){
     }
 }
 
+function markdownScrubbing(string_data){
+    let characters_to_adjust = new RegExp(/#/g);
+    return string_data.replaceAll(characters_to_adjust, "$& ");
+}
+
 function generateTicket(){
     let data = {
         crm: $('#crm')[0].value,
@@ -217,10 +222,10 @@ ${data.steps()}
 ACTUAL RESULTS:(Please be as detailed as possible.)
 
 Description:
-${data.description}
+${markdownScrubbing(data.description)}
 
 Example:(If this pertains to the customer's site, please provide links to the relevant pages.)
-${data.examples}
+${markdownScrubbing(data.examples)}
 
 Screenshot:
 ${data.screenshots()}
@@ -231,7 +236,7 @@ ${data.videos()}
 Console Info:
 
 EXPECTED RESULTS:
-${data.expected}
+${markdownScrubbing(data.expected)}
 
 CONSOLE ERRORS:
 \`\`\`
