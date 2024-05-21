@@ -100,7 +100,7 @@ function validateData(){
             $('#links-content tr input').each(function (){
                 
                 let temp_regex = new RegExp($(this)[0].value.replace(/[\?\\]/g,"\\\$&"));
-                if(link_list.match(temp_regex) != null && link_list.match(temp_regex).length > 1){
+                if(link_list.match(temp_regex).length > 1){
                     duplicates = true;
                 }
             })
@@ -108,10 +108,10 @@ function validateData(){
                 nextStep(current_step);
             } else {
                 if(!screenshot_ready){
-                    bad_object.list['screenshot'] = 'Please make sure you have at least one screenshot of the trouble area showing what is wrong.';
+                    bad_object.list['screenshot'] = 'One (or more) of the screenshots provided are not an expected domain or is empty.';
                 }
                 if(!video_ready){
-                    bad_object.list['video'] = 'Please make sure you have at least one video of the trouble area showing what is wrong.';
+                    bad_object.list['video'] = 'One (or more) of the videos provided are not an expected domain or is empty.';
                 }
                 if(duplicates){
                     bad_object.list['duplicates'] = 'One or more of the links provided is being used twice, or you have a blank row. Please make sure all links are unique and that there are no blank rows before moving on.';
