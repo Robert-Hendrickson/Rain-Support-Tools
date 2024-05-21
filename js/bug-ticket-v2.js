@@ -99,8 +99,8 @@ function validateData(){
             })
             $('#links-content tr input').each(function (){
                 
-                let temp_regex = new RegExp($(this)[0].value.replaceAll('?','\\\?'),'g');
-                if(link_list.match(temp_regex).length > 1){
+                let temp_regex = new RegExp($(this)[0].value.replace(/[\?\\]/g,"\\\$&"));
+                if(link_list.match(temp_regex) != null && link_list.match(temp_regex).length > 1){
                     duplicates = true;
                 }
             })
