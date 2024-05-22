@@ -34,15 +34,29 @@ function validateData(){
         case 2:
             let number_of_steps = $('#steps-table tbody tr').length > 0;
             let steps_true = true;
+            let uncertain_steps = {
+                                    value: false,
+                                    reg: new RegExp(/^[iI][fF]\s/)
+            }
             $('#steps-table tbody tr input').each(function (){
-                if($(this)[0].value === ''){
-                    steps_true = false;
+                if($(this)[0].value === '' || $(this)[0].value.match(uncertain_steps.reg) != null){
+                    if($(this)[0].value === '' && steps_true != false){
+                        steps_true = false;
+                    }
+                    if($(this)[0].value.match(uncertain_steps.reg) != null && uncertain_steps.value != true){
+                        uncertain_steps.value = true;
+                    }
                 }
             });
-            if(number_of_steps && steps_true){
+            if(number_of_steps && steps_true && !uncertain_steps.value){
                 nextStep(current_step);
             } else {
-                bad_object.list['steps'] = 'Please make sure all available rows have data. If there are any blank rows use the "Remove Row" button to remove unnecessary rows.';
+                if(!number_of_steps || !steps_true){
+                    bad_object.list['steps'] = 'Please make sure all available rows have data. If there are any blank rows use the "Remove Row" button to remove unnecessary rows.';
+                }
+                if(uncertain_steps.value){
+                    bad_object.list['uncertain'] = 'One or more of the steps provided start with the word "If". Please use concise language and list only steps that you have taken or were taken to produce the behavior being reported. If you have concerns about a step please speak with an L2 or L3.';
+                }
                 popup_error_growl(bad_object);
             };
             break;
