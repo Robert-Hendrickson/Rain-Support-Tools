@@ -1,6 +1,7 @@
 const app = Vue.createApp({
     data() {
         return {nav_list : [
+            {name: 'Home', url: '/Rain-Support-Tools/'},
             //{name:'Bug Ticket Form', url: 'Bug_ticket_form.html'},
             {name: 'Bug Ticket v2', url: 'bug-ticket-v2.html'},
             {name:'Site Fix Ticket', url: 'site-fix.html'},
