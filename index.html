@@ -11,18 +11,49 @@
             .menu .menu_links{
                 width: 30%;
                 margin: 0px auto;
+                height: 330px;
             }
             .toolButtonsList{
-                width: 100%;
+                width: 400px;
+                height: 100%;
+                float: left;
+                padding: 8px;
+                border: 1px solid #000;
             }
             .toolButtonsList .toolButton{
-                width: 23%;
+                width: 22%;
                 float: left;
                 padding: 5px;
             }
             .toolButton button{
                 width: 100%;
                 height: 100px;
+            }
+            .toolButton button:hover{
+                cursor: pointer;
+            }
+            #menu_tabs{
+                width: 98px;
+                height: 100%;
+                border: 1px solid #000;
+                float: left;
+                margin: 0px 8px;
+                padding: 8px 0;
+                background-color: #dddddd;
+                ul{
+                    margin: unset;
+                    list-style: none;
+                    padding: unset;
+                    text-align: center;
+                    li{
+                        padding: 4px 0;
+                        cursor: pointer;
+                    }
+                }
+            }
+            li.active{
+                background-color: #ffffff;
+                font-weight: bold;
             }
             /*updates css*/
             #updates{
@@ -56,12 +87,6 @@
             #updates h2{
                 text-align: center;
             }
-            .toolButton button:hover{
-                cursor: pointer;
-            }
-            .toolButton:first-child{
-                display: none;
-            }
         </style>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
         <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
@@ -71,11 +96,34 @@
         <div class="menu">
             <h2>Support Tools</h2>
             <div class="menu_links">
+                <div id="menu_tabs">
+                    <ul>
+                        <li list="support" class="active" onclick="updateNavButtons($(this))">Support Tools</li>
+                        <li list="system" onclick="updateNavButtons($(this))">System Tools</li>
+                        <li list="misc" onclick="updateNavButtons($(this))">Misc Tools</li>
+                    </ul>
+                </div>
                 <div class="toolButtonsList">
-                    <div v-for="nav_item in nav_list" class="toolButton">
-                        <a v-bind:href="nav_item.url" v-bind:target="nav_item.target">
-                            <button>{{nav_item.name}}</button>
-                        </a>
+                    <div id="support">
+                        <div v-for="nav_item in nav_list.support" class="toolButton">
+                            <a v-bind:href="nav_item.url" v-bind:target="nav_item.target">
+                                <button>{{nav_item.name}}</button>
+                            </a>
+                        </div>
+                    </div>
+                    <div id="system" style="display: none;">
+                        <div v-for="nav_item in nav_list.system" class="toolButton">
+                            <a v-bind:href="nav_item.url" v-bind:target="nav_item.target">
+                                <button>{{nav_item.name}}</button>
+                            </a>
+                        </div>
+                    </div>
+                    <div id="misc" style="display: none;">
+                        <div v-for="nav_item in nav_list.misc" class="toolButton">
+                            <a v-bind:href="nav_item.url" v-bind:target="nav_item.target">
+                                <button>{{nav_item.name}}</button>
+                            </a>
+                        </div>
                     </div>
                 </div>
                 <script src="/Rain-Support-Tools/js/nav-builder.js"></script>
@@ -87,5 +135,16 @@
             </div>
         </div>
         <script>buildUpdates('recent')</script>
+        <script>
+            function updateNavButtons(obj){
+                //change the active selection for list type
+                $('li').removeClass('active');
+                obj.addClass('active');
+                //change visible list of links
+                $('.toolButtonsList > div').hide();
+                $(`#${obj.attr('list')}`).show();
+                console.log(obj.attr('list'));
+            }
+        </script>
     </body>
 </html>
