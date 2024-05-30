@@ -1,3 +1,7 @@
+function _urlRegEx(url_string){
+    url_string = url_string.replace(/[\?\\\/]/g,"\\\$&");
+    return new RegExp(url_string, 'g');
+}
 function validateData(){
     Close_error_growl();
     let bad_object = {
@@ -93,7 +97,7 @@ function validateData(){
                 screenshot_ready = true;
             }
             $('#screenshot-table tr input').each(function (){
-                if($(this)[0].value === '' || $(this)[0].value.match(/^(?:https?:\/\/)?drive\.google\.com\/file\/d\/.*\/view(?:\?.+)?$/) === null){
+                if($(this)[0].value === '' || $(this)[0].value.match(/^(?:https?:\/\/)drive\.google\.com\/file\/d\/.*\/view(?:\?.+)?$/) === null){
                     screenshot_ready = false;
                 }
             });
@@ -102,18 +106,67 @@ function validateData(){
                 video_ready = true;
             }
             $('#video-table tr input').each(function (){
-                if($(this)[0].value === '' || $(this)[0].value.match(/^(?:https?:\/\/)?drive\.google\.com\/file\/d\/.*\/view(?:\?.+)?$/) === null){
+                if($(this)[0].value === '' || $(this)[0].value.match(/^(?:https?:\/\/)drive\.google\.com\/file\/d\/.*\/view(?:\?.+)?$/) === null){
                     video_ready = false;
                 }
             });
+            if(screenshot_ready){
+                $('#screenshot-table tr input').each(function (){
+                    if($(this)[0].value.match(/https?/g).length > 1){
+                        //found more than one potential link in a line
+                        //get index for second beginning
+                        let dup_link_check = {
+                            times_iterated: 0,
+                            itterator: $(this)[0].value.matchAll(/https?/g),
+                            _constructor: () => {
+                                for(match of dup_link_check.itterator){
+                                    dup_link_check.times_iterated ++;
+                                    dup_link_check[`match_${dup_link_check.times_iterated}`] = match.index;
+                                }
+                            }
+                        }
+                        dup_link_check._constructor();
+                        let first_link = $(this)[0].value.substr(0, dup_link_check.match_2);
+                        if ($(this)[0].value.match(_urlRegEx(first_link)).length > 1) {
+                            $(this)[0].value = first_link;
+                        } else {
+                            screenshot_ready = false;
+                        }
+                    }
+                });
+            }
+            if(video_ready){
+                $('#video-table tr input').each(function (){
+                    if($(this)[0].value.match(/https?/g).length > 1){
+                        //found more than one potential link in a line
+                        //get index for second beginning
+                        let dup_link_check = {
+                            times_iterated: 0,
+                            itterator: $(this)[0].value.matchAll(/https?/g),
+                            _constructor: () => {
+                                for(match of dup_link_check.itterator){
+                                    dup_link_check.times_iterated ++;
+                                    dup_link_check[`match_${dup_link_check.times_iterated}`] = match.index;
+                                }
+                            }
+                        }
+                        dup_link_check._constructor();
+                        let first_link = $(this)[0].value.substr(0, dup_link_check.match_2);
+                        if ($(this)[0].value.match(_urlRegEx(first_link)).length > 1) {
+                            $(this)[0].value = first_link;
+                        } else {
+                            video_ready = false;
+                        }
+                    }
+                });
+            }
             let duplicates = false;
             let link_list = '';
             $('#links-content tr input').each(function (){
                 link_list += $(this)[0].value + ',';
             })
             $('#links-content tr input').each(function (){
-                
-                let temp_regex = new RegExp($(this)[0].value.replace(/[\?\\]/g,"\\\$&"));
+                let temp_regex = new RegExp($(this)[0].value.replace(/[\?\\\/]/g,"\\\$&"), 'g');
                 if(link_list.match(temp_regex).length > 1){
                     duplicates = true;
                 }
@@ -122,10 +175,10 @@ function validateData(){
                 nextStep(current_step);
             } else {
                 if(!screenshot_ready){
-                    bad_object.list['screenshot'] = 'One (or more) of the screenshots provided are not an expected domain or is empty.';
+                    bad_object.list['screenshot'] = 'One (or more) of the screenshots provided are not an expected domain, is empty, or there are potentially more than one link in the same line.';
                 }
                 if(!video_ready){
-                    bad_object.list['video'] = 'One (or more) of the videos provided are not an expected domain or is empty.';
+                    bad_object.list['video'] = 'One (or more) of the videos provided are not an expected domain, is empty, or there are potentially more than one link in the same line.';
                 }
                 if(duplicates){
                     bad_object.list['duplicates'] = 'One or more of the links provided is being used twice, or you have a blank row. Please make sure all links are unique and that there are no blank rows before moving on.';
