@@ -30,7 +30,7 @@ function setTestData(){
         $('#description')[0].value = 'test description';
         $('#expected')[0].value = 'test expectation';
         $('#links-content tr input').each(function (index){
-            $(this)[0].value = 'drive.google.com/file/d/test/view?' + index;
+            $(this)[0].value = 'https://drive.google.com/file/d/test/view?' + index;
         });
         $('#examples')[0].value = 'robstestsite.com';
         $('#errors')[0].value = 'No errors';
