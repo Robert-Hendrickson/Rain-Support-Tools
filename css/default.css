@@ -20,6 +20,7 @@ table {
     ul{
         list-style: none;
         padding: unset;
+        margin: 4px 0 16px 0;
         li {
             text-align: center;
             margin: 5px 0;
@@ -54,6 +55,14 @@ table {
 .secondary_menu_links.active{
     transition-duration: 1s;
     translate: none;
+}
+.toolButtonsList ul:first-child{
+    margin-top: 16px;
+}
+.nav-header{
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
 }
 .readableBg{
     background-color: #fff;

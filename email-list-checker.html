@@ -92,7 +92,37 @@ email_list_string.substring(6, email_list_string.length -1);
             </div>
             <div class="toolButtonsList">
                 <ul>
-                    <li v-for="nav_item in nav_list" class="toolButton">
+                    <li v-for="nav_item in nav_list.home" class="toolButton">
+                        <a v-bind:href="nav_item.url" v-bind:target="nav_item.target">
+                            <div>
+                                {{nav_item.name}}
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+                <div class="nav-header">Support Tools</div>
+                <ul>
+                    <li v-for="nav_item in nav_list.support" class="toolButton">
+                        <a v-bind:href="nav_item.url" v-bind:target="nav_item.target">
+                            <div>
+                                {{nav_item.name}}
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+                <div class="nav-header">System Tools</div>
+                <ul>
+                    <li v-for="nav_item in nav_list.system" class="toolButton">
+                        <a v-bind:href="nav_item.url" v-bind:target="nav_item.target">
+                            <div>
+                                {{nav_item.name}}
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+                <div class="nav-header">Misc Tools</div>
+                <ul>
+                    <li v-for="nav_item in nav_list.misc" class="toolButton">
                         <a v-bind:href="nav_item.url" v-bind:target="nav_item.target">
                             <div>
                                 {{nav_item.name}}
