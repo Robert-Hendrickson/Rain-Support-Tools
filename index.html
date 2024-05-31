@@ -17,8 +17,6 @@
                 width: 400px;
                 height: 100%;
                 float: left;
-                padding: 8px;
-                border: 1px solid #000;
             }
             .toolButtonsList .toolButton{
                 width: 22%;
@@ -28,18 +26,20 @@
             .toolButton button{
                 width: 100%;
                 height: 100px;
+                background-color: #ffffff;
             }
             .toolButton button:hover{
                 cursor: pointer;
+                background-color: #eeeeee;
             }
             #menu_tabs{
                 width: 98px;
-                height: 100%;
                 border: 1px solid #000;
                 float: left;
                 margin: 0px 8px;
-                padding: 8px 0;
-                background-color: #dddddd;
+                padding: 8px;
+                background-color: #ffffff;
+                border-radius: 8px;
                 ul{
                     margin: unset;
                     list-style: none;
@@ -51,8 +51,11 @@
                     }
                 }
             }
+            li:hover{
+                background-color: #eeeeee;
+            }
             li.active{
-                background-color: #ffffff;
+                background-color: #ffffff !important;
                 font-weight: bold;
             }
             /*updates css*/
@@ -107,21 +110,21 @@
                     <div id="support">
                         <div v-for="nav_item in nav_list.support" class="toolButton">
                             <a v-bind:href="nav_item.url" v-bind:target="nav_item.target">
-                                <button>{{nav_item.name}}</button>
+                                <button>{{nav_item.name}} {{nav_item.subTitle}}</button>
                             </a>
                         </div>
                     </div>
                     <div id="system" style="display: none;">
                         <div v-for="nav_item in nav_list.system" class="toolButton">
                             <a v-bind:href="nav_item.url" v-bind:target="nav_item.target">
-                                <button>{{nav_item.name}}</button>
+                                <button>{{nav_item.name}} {{nav_item.subTitle}}</button>
                             </a>
                         </div>
                     </div>
                     <div id="misc" style="display: none;">
                         <div v-for="nav_item in nav_list.misc" class="toolButton">
                             <a v-bind:href="nav_item.url" v-bind:target="nav_item.target">
-                                <button>{{nav_item.name}}</button>
+                                <button>{{nav_item.name}} {{nav_item.subTitle}}</button>
                             </a>
                         </div>
                     </div>
@@ -143,7 +146,6 @@
                 //change visible list of links
                 $('.toolButtonsList > div').hide();
                 $(`#${obj.attr('list')}`).show();
-                console.log(obj.attr('list'));
             }
         </script>
     </body>
