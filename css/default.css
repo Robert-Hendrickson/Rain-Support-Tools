@@ -7,62 +7,72 @@ table {
     background: #fff;
     margin: 10px;
 }
+#nav-toggle{
+    position: absolute;
+    left: 15px;
+    top: 10px;
+    height: 20px;
+    width: 30px;
+    background-color: #fff;
+    text-align: center;
+    border: 1px solid #000;
+    padding-top: 5px;
+    border-radius: 10px;
+    cursor: pointer;
+}
 .secondary_menu_links{
     position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
+    top: 45px;
+    left: 15px;
     width: 350px;
     background-color: #FFFFFF;
-    translate: -350px;
+    box-shadow: #dddddd 6px 6px;
+    border: #000 solid 1px;
+    border-radius: 10px;
+    translate: -410px;
     transition-duration: 1s;
+    padding: 16px;
     z-index: 2;
     ul{
         list-style: none;
         padding: unset;
-        margin: 4px 0 16px 0;
+        margin: unset;
         li {
-            text-align: center;
             margin: 5px 0;
-            border-top: #000000 solid 1px;
-            border-bottom: #000000 solid 1px;
             a{
             color: #000000;
             text-decoration: unset;
             }
         }
     }
-    #nav-toggle{
-        position: absolute;
-        right: -40px;
-        top: 10px;
-        height: 25px;
-        width: 40px;
-        background-color: #fff;
-        text-align: center;
-        border-top: 1px solid #000;
-        border-bottom: 1px solid #000;
-        border-right: 1px solid #000;
-        padding-top: 5px;
-        border-radius: 0 10px 10px 0;
-        cursor: pointer;
-    }
 }
-.secondary_menu_links li:hover{
+.toolButton > a > div{
+    padding: 6px;
+    border-radius: 4px;
+}
+.toolButton > a > div:hover{
     background-color: #EEEEEE;
-    font-weight: 700;
+}
+.toolButton > a > div > span:first-child{
+    width: 20px;
+}
+.sub-title{
+    padding-left: 8px;
+    color: #7B7B7B;
 }
 .secondary_menu_links.active{
-    transition-duration: 1s;
     translate: none;
 }
-.toolButtonsList ul:first-child{
-    margin-top: 16px;
+.current-page div{
+    background-color: #337AB6 !important;
+    color: #fff !important;
+}
+.current-page div .sub-title{
+    color: #fff;
 }
 .nav-header{
-    text-align: center;
-    font-size: 18px;
-    font-weight: bold;
+    font-size: 16px;
+    color: #7B7B7B;
 }
 .readableBg{
     background-color: #fff;
