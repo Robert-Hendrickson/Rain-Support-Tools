@@ -12,13 +12,16 @@ table {
     left: 15px;
     top: 10px;
     height: 20px;
-    width: 30px;
+    width: 18px;
     background-color: #fff;
     text-align: center;
     border: 1px solid #000;
-    padding-top: 5px;
+    padding: 5px;
     border-radius: 10px;
     cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .secondary_menu_links{
     position: absolute;
@@ -26,11 +29,10 @@ table {
     left: 15px;
     width: 350px;
     background-color: #FFFFFF;
-    box-shadow: #dddddd 6px 6px;
     border: #000 solid 1px;
     border-radius: 10px;
     translate: -410px;
-    transition-duration: 1s;
+    transition-duration: 0.7s;
     padding: 16px;
     z-index: 2;
     ul{

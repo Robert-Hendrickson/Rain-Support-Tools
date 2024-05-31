@@ -10,7 +10,7 @@ body{
     border: #000 5px solid;
     min-height: 277px;
     position: relative;
-    z-index: 2;
+    /*z-index: 2;*/
 }
 #input-values > table table {
     float: left;

@@ -5,6 +5,7 @@
         <title>Bug v2</title>
         <link rel="stylesheet" href="/Rain-Support-Tools/css/bug-ticket-v2.css" />
         <link rel="stylesheet" href="/Rain-Support-Tools/common/actions/popup.css" />
+        <script src="https://kit.fontawesome.com/8e52a98e38.js" crossorigin="anonymous"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
         <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
         <script src="/Rain-Support-Tools/js/bug-ticket-v2.js"></script>
@@ -158,22 +159,54 @@
             </div>
         </div>
         <div id="error_message" class="hide"></div>
-        <div class="secondary_menu_links">
+        <div class="menu-wrapper">
             <div onclick="toggleNav()" id="nav-toggle">
-                Nav
+                <span class="fa-solid fa-bars"></span>
             </div>
-            <div class="toolButtonsList">
-                <ul>
-                    <li v-for="nav_item in nav_list" class="toolButton">
-                        <a v-bind:href="nav_item.url" v-bind:target="nav_item.target">
-                            <div>
-                                {{nav_item.name}}
-                            </div>
-                        </a>
-                    </li>
-                </ul>
+            <div class="secondary_menu_links">
+                <div class="toolButtonsList">
+                    <ul>
+                        <li v-for="nav_item in nav_list.home" class="toolButton">
+                            <a v-bind:href="nav_item.url" v-bind:target="nav_item.target">
+                                <div>
+                                    <span v-bind:class="nav_item.icon"></span>{{nav_item.name}}<span class="sub-title">{{nav_item.subTitle}}</span>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="nav-header">Support Tools</div>
+                    <ul>
+                        <li v-for="nav_item in nav_list.support" class="toolButton">
+                            <a v-bind:href="nav_item.url" v-bind:target="nav_item.target">
+                                <div>
+                                    <span v-bind:class="nav_item.icon"></span>{{nav_item.name}}<span class="sub-title">{{nav_item.subTitle}}</span>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="nav-header">System Tools</div>
+                    <ul>
+                        <li v-for="nav_item in nav_list.system" class="toolButton">
+                            <a v-bind:href="nav_item.url" v-bind:target="nav_item.target">
+                                <div>
+                                    <span v-bind:class="nav_item.icon"></span>{{nav_item.name}}<span class="sub-title">{{nav_item.subTitle}}</span>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="nav-header">Misc Tools</div>
+                    <ul>
+                        <li v-for="nav_item in nav_list.misc" class="toolButton">
+                            <a v-bind:href="nav_item.url" v-bind:target="nav_item.target">
+                                <div>
+                                    <span v-bind:class="nav_item.icon"></span>{{nav_item.name}}<span class="sub-title">{{nav_item.subTitle}}</span>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <script src="/Rain-Support-Tools/js/nav-builder.js"></script>
             </div>
-            <script src="/Rain-Support-Tools/js/nav-builder.js"></script>
         </div>
     </body>
 </html>
