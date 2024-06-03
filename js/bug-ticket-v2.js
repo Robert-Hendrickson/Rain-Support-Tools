@@ -2,6 +2,9 @@ function _urlRegEx(url_string){
     url_string = url_string.replace(/[\?\\\/]/g,"\\\$&");
     return new RegExp(url_string, 'g');
 }
+function hasSlackLink(string){
+    return new RegExp(/(?:https?\/\/)?raindev\.slack\.com\/archives\//).test(string);    
+}
 function validateData(){
     Close_error_growl();
     let bad_object = {
@@ -79,11 +82,19 @@ function validateData(){
             if(expected.el.value === '' || expected.el.value.match(/^[n|N](?:\/|\\)?[a|A]/) != null){
                 expected.value = false;
             }
+            if(hasSlackLink(description.el.value)){
+                description.value = false;
+            }
             if(description.value && expected.value){
                 nextStep(current_step);
             } else {
                 if(!description.value){
-                    bad_object.list['description'] = 'Description cannot be empty or n/a. Please describe in detail what is happening.';
+                    if (!hasSlackLink(description.el.value)) {
+                        bad_object.list['description'] = 'Description cannot be empty or n/a. Please describe in detail what is happening.';
+                    } else {
+                        bad_object.list['description'] = "Please don't use slack links in your description. Instead describe in your own words the details of the issue that is happening.";
+                    }
+                    
                 }
                 if(!expected.value){
                     bad_object.list['expected'] = 'Expectation cannot be empty or n/a. Please describe the expected outcome that is not being met.';
