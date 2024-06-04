@@ -171,33 +171,24 @@ function validateData(){
             };
             break;
         case 5:
-            //This still needs refactored!
             //check examples box
             let examples = $('#examples')[0].value;
-            let examples_ready = true;
-            if(examples.match(/rainadmin|quiltstorewebsites|jewel360|musicshop360/) != null){
-                examples_ready = false;
+            if(RegExp(/rainadmin|quiltstorewebsites|jewel360|musicshop360/).test(examples)){
+                bad_object.list['examples_links'] = 'Please make sure that all links do not point to an admin domain such as rainadmin.com. If there is a report or a product that has an issue please write the report name and filters used to find the issue or and unique ids needed to find the data.';
             }
-            if(examples.match(/^[nN](?:\\|\/)?[aA]/) != null || examples === ''){
-                examples_ready = false;
+            if(RegExp(/^[nN](?:\\|\/)?[aA]/).test(examples) || examples === ''){
+                bad_object.list['examples_blank'] = 'Examples cannot be blank or say n/a.';
             }
             //check errors box
             let errors = $('#errors')[0].value;
-            let errors_ready = true;
-            if(errors.match(/^[nN](?:\\|\/)?[aA]/) != null || errors === ''){
-                errors_ready = false;
+            if(RegExp(/^[nN](?:\\|\/)?[aA]/).test(errors) || errors === ''){
+                bad_object.list['errors'] = 'Errors box cannot be blank or n/a. If there are no visible errors associated with the problem behavior, please write "No Console Errors Seen".';
             }
-            if(examples_ready && errors_ready){
-                generateTicket();
-            } else {
-                if(!examples_ready){
-                    bad_object.list['examples'] = 'Examples cannot be blank or say n/a. Please make sure that all links do not point to an admin domain such as rainadmin.com. If there is a report or a product that is an issue please write the report name and filters used to find the issue or any unique ids needed to find the data.';
-                }
-                if(!errors_ready){
-                    bad_object.list['errors'] = 'Errors box cannot be blank or n/a. If there are no visible errors associated with the problem behavior, please write "No Console Errors Seen".';
-                }
+            if (Object.entries(bad_object.list).length) {
                 popup_error_growl(bad_object);
-            }
+            } else {
+                generateTicket();
+            };
             break;
         default:
             break;
