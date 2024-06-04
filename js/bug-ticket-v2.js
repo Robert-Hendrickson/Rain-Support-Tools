@@ -14,95 +14,67 @@ function validateData(){
     let current_step = parseInt($('#info-tabs .active')[0].getAttribute('step'));
     switch (current_step) {
         case 1:
-            let crm = $('#crm')[0].value != '' && $('#crm')[0].value.match(/^(?:[c|C][r|R][m|M])?\d{3,}$/);
-            let system = $('#systemArea')[0].value != '';
-            let replicable = $('[replicable].selected').length;
-
-            if(crm && system && replicable) {
-                nextStep(current_step);
-            } else {
-                let bad_object = {
-                    type: 'generate',
-                    list: {}
-                };
-                if(!crm){
-                    bad_object.list['crm'] = 'The CRM needs to be a valid CRM.(3 digits or more)';
-                }
-                if(!system){
-                    bad_object.list['system'] = 'Please enter the area of the system that is affected.';
-                }
-                if(!replicable){
-                    bad_object.list['replicable'] = 'Please select if this is replicable or not.';
-                }
+            if($('#crm')[0].value === '' || !RegExp(/^(?:[c|C][r|R][m|M])?\d{3,}$/).test($('#crm')[0].value)){
+                bad_object.list['crm'] = 'The CRM needs to be a valid CRM.(3 digits or more)';
+            }
+            if ($('#systemArea')[0].value === '') {
+                bad_object.list['system'] = 'Please enter the area of the system that is affected.';
+            }
+            if (!$('[replicable].selected').length) {
+                bad_object.list['replicable'] = 'Please select if this is replicable or not.';
+            }
+            if (Object.entries(bad_object.list).length) {
                 popup_error_growl(bad_object);
-                //this will pass the elements that didn't succeed to another function to list the area's needing fixed before moving on
+            } else {
+                nextStep(current_step);
             };
             break;
         case 2:
-            let number_of_steps = $('#steps-table tbody tr').length > 0;
             let steps_true = true;
+            if($('#steps-table tbody tr').length < 1){
+                bad_object.list['steps'] = 'Please make sure all available rows have data. If there are any blank rows use the "Remove Row" button to remove unnecessary rows.';
+                steps_true = false;
+            }
             let uncertain_steps = {
                                     value: false,
                                     reg: new RegExp(/^[iI][fF]\s/)
             }
             $('#steps-table tbody tr input').each(function (){
-                if($(this)[0].value === '' || $(this)[0].value.match(uncertain_steps.reg) != null){
+                if($(this)[0].value === '' || uncertain_steps.reg.test($(this)[0].value)){
                     if($(this)[0].value === '' && steps_true != false){
+                        bad_object.list['steps'] = 'Please make sure all available rows have data. If there are any blank rows use the "Remove Row" button to remove unnecessary rows.';
                         steps_true = false;
                     }
-                    if($(this)[0].value.match(uncertain_steps.reg) != null && uncertain_steps.value != true){
+                    if(uncertain_steps.reg.test($(this)[0].value) && uncertain_steps.value != true){
+                        bad_object.list['uncertain'] = 'One or more of the steps provided start with the word "If". Please use concise language and list only steps that you have taken or were taken to produce the behavior being reported. If you have concerns about a step please speak with an L2 or L3.';
                         uncertain_steps.value = true;
                     }
                 }
             });
-            if(number_of_steps && steps_true && !uncertain_steps.value){
-                nextStep(current_step);
-            } else {
-                if(!number_of_steps || !steps_true){
-                    bad_object.list['steps'] = 'Please make sure all available rows have data. If there are any blank rows use the "Remove Row" button to remove unnecessary rows.';
-                }
-                if(uncertain_steps.value){
-                    bad_object.list['uncertain'] = 'One or more of the steps provided start with the word "If". Please use concise language and list only steps that you have taken or were taken to produce the behavior being reported. If you have concerns about a step please speak with an L2 or L3.';
-                }
+            if (Object.entries(bad_object.list).length) {
                 popup_error_growl(bad_object);
+            } else {
+                nextStep(current_step);
             };
             break;
         case 3:
-            let description = {
-                el :$('#description')[0],
-                value: true
-            };
-            let expected = {
-                el: $('#expected')[0],
-                value: true
-            };
-            if(description.el.value === '' || description.el.value.match(/^[n|N](?:\/|\\)?[a|A]/) != null){
-                description.value = false;
+            if($('#description')[0].value === '' || RegExp(/^[n|N](?:\/|\\)?[a|A]/).test($('#description')[0].value)){
+                bad_object.list['description'] = 'Description cannot be empty or n/a. Please describe in detail what is happening.';
             }
-            if(expected.el.value === '' || expected.el.value.match(/^[n|N](?:\/|\\)?[a|A]/) != null){
-                expected.value = false;
+            if (hasSlackLink($('#description')[0].value)) {
+                bad_object.list['descriptionSlack'] = "Please don't use slack links in your description. Instead describe in your own words the details of the issue that is happening.";
             }
-            if(hasSlackLink(description.el.value)){
-                description.value = false;
+            if($('#expected')[0].value === '' || RegExp(/^[n|N](?:\/|\\)?[a|A]/).test($('#expected')[0].value)){
+                bad_object.list['expected'] = 'Expectation cannot be empty or n/a. Please describe the expected outcome that is not being met.';
             }
-            if(description.value && expected.value){
-                nextStep(current_step);
-            } else {
-                if(!description.value){
-                    if (!hasSlackLink(description.el.value)) {
-                        bad_object.list['description'] = 'Description cannot be empty or n/a. Please describe in detail what is happening.';
-                    } else {
-                        bad_object.list['description'] = "Please don't use slack links in your description. Instead describe in your own words the details of the issue that is happening.";
-                    }
-                    
-                }
-                if(!expected.value){
-                    bad_object.list['expected'] = 'Expectation cannot be empty or n/a. Please describe the expected outcome that is not being met.';
-                }
+            if (Object.entries(bad_object.list).length) {
                 popup_error_growl(bad_object);
-            }
+            } else {
+                nextStep(current_step);
+            };
             break;
         case 4:
+            //This still needs refactored!
             let screenshot_ready = false;
             if($('#screenshot-table tr input').length > 0){
                 screenshot_ready = true;
@@ -199,6 +171,7 @@ function validateData(){
             };
             break;
         case 5:
+            //This still needs refactored!
             //check examples box
             let examples = $('#examples')[0].value;
             let examples_ready = true;
