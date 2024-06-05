@@ -5,6 +5,59 @@ function _urlRegEx(url_string){
 function hasSlackLink(string){
     return new RegExp(/(?:https?\/\/)?raindev\.slack\.com\/archives\//).test(string);    
 }
+function checkLinkList(list){
+    return_value = false;
+    //check that there are rows to look through
+    if (list.length < 1) {
+        return_value = true;
+    } else {
+        list.each(function (){
+            if($(this)[0].value != ''){//if there is data in the row, check how many links are in it
+                if($(this)[0].value.match(/https?/g).length > 1){
+                    //found more than one potential link in a line
+                    //get index for second beginning
+                    let dup_link_check = {
+                        times_iterated: 0,
+                        itterator: $(this)[0].value.matchAll(/https?/g),
+                        _constructor: () => {
+                            for(match of dup_link_check.itterator){
+                                dup_link_check.times_iterated ++;
+                                dup_link_check[`match_${dup_link_check.times_iterated}`] = match.index;
+                            }
+                        }
+                    }
+                    dup_link_check._constructor();
+                    let first_link = $(this)[0].value.substr(0, dup_link_check.match_2);
+                    if ($(this)[0].value.match(_urlRegEx(first_link)).length > 1) {
+                        $(this)[0].value = first_link;
+                    } else {
+                        return_value = true;
+                    }
+                }
+            }
+        });
+        list.each(function (){
+            if($(this)[0].value === '' || !RegExp(/^(?:https?:\/\/)drive\.google\.com\/file\/d\/.*\/view(?:\?.+)?$/).test($(this)[0].value)){
+                return_value = true;
+            }
+        });
+    }
+    return return_value;
+}
+function duplicateLinksFound(){
+    let duplicates = false;
+    let link_list = '';
+    $('#links-content tr input').each(function (){
+        link_list += $(this)[0].value + ',';
+    })
+    $('#links-content tr input').each(function (){
+        let temp_regex = new RegExp($(this)[0].value.replace(/[\?\\\/]/g,"\\\$&"), 'g');
+        if(link_list.match(temp_regex).length > 1){
+            duplicates = true;
+        }
+    })
+    return duplicates;
+}
 function validateData(){
     Close_error_growl();
     let bad_object = {
@@ -14,217 +67,104 @@ function validateData(){
     let current_step = parseInt($('#info-tabs .active')[0].getAttribute('step'));
     switch (current_step) {
         case 1:
-            let crm = $('#crm')[0].value != '' && $('#crm')[0].value.match(/^(?:[c|C][r|R][m|M])?\d{3,}$/);
-            let system = $('#systemArea')[0].value != '';
-            let replicable = $('[replicable].selected').length;
-
-            if(crm && system && replicable) {
-                nextStep(current_step);
-            } else {
-                let bad_object = {
-                    type: 'generate',
-                    list: {}
-                };
-                if(!crm){
-                    bad_object.list['crm'] = 'The CRM needs to be a valid CRM.(3 digits or more)';
-                }
-                if(!system){
-                    bad_object.list['system'] = 'Please enter the area of the system that is affected.';
-                }
-                if(!replicable){
-                    bad_object.list['replicable'] = 'Please select if this is replicable or not.';
-                }
+            if($('#crm')[0].value === '' || !RegExp(/^(?:[c|C][r|R][m|M])?\d{3,}$/).test($('#crm')[0].value)){
+                bad_object.list['crm'] = 'The CRM needs to be a valid CRM.(3 digits or more)';
+            }
+            if ($('#systemArea')[0].value === '') {
+                bad_object.list['system'] = 'Please enter the area of the system that is affected.';
+            }
+            if (!$('[replicable].selected').length) {
+                bad_object.list['replicable'] = 'Please select if this is replicable or not.';
+            }
+            if (Object.entries(bad_object.list).length) {
                 popup_error_growl(bad_object);
-                //this will pass the elements that didn't succeed to another function to list the area's needing fixed before moving on
+            } else {
+                nextStep(current_step);
             };
             break;
         case 2:
-            let number_of_steps = $('#steps-table tbody tr').length > 0;
             let steps_true = true;
+            if($('#steps-table tbody tr').length < 1){
+                bad_object.list['steps'] = 'Please make sure all available rows have data. If there are any blank rows use the "Remove Row" button to remove unnecessary rows.';
+                steps_true = false;
+            }
             let uncertain_steps = {
                                     value: false,
                                     reg: new RegExp(/^[iI][fF]\s/)
             }
             $('#steps-table tbody tr input').each(function (){
-                if($(this)[0].value === '' || $(this)[0].value.match(uncertain_steps.reg) != null){
+                if($(this)[0].value === '' || uncertain_steps.reg.test($(this)[0].value)){
                     if($(this)[0].value === '' && steps_true != false){
+                        bad_object.list['steps'] = 'Please make sure all available rows have data. If there are any blank rows use the "Remove Row" button to remove unnecessary rows.';
                         steps_true = false;
                     }
-                    if($(this)[0].value.match(uncertain_steps.reg) != null && uncertain_steps.value != true){
+                    if(uncertain_steps.reg.test($(this)[0].value) && uncertain_steps.value != true){
+                        bad_object.list['uncertain'] = 'One or more of the steps provided start with the word "If". Please use concise language and list only steps that you have taken or were taken to produce the behavior being reported. If you have concerns about a step please speak with an L2 or L3.';
                         uncertain_steps.value = true;
                     }
                 }
             });
-            if(number_of_steps && steps_true && !uncertain_steps.value){
-                nextStep(current_step);
-            } else {
-                if(!number_of_steps || !steps_true){
-                    bad_object.list['steps'] = 'Please make sure all available rows have data. If there are any blank rows use the "Remove Row" button to remove unnecessary rows.';
-                }
-                if(uncertain_steps.value){
-                    bad_object.list['uncertain'] = 'One or more of the steps provided start with the word "If". Please use concise language and list only steps that you have taken or were taken to produce the behavior being reported. If you have concerns about a step please speak with an L2 or L3.';
-                }
+            if (Object.entries(bad_object.list).length) {
                 popup_error_growl(bad_object);
+            } else {
+                nextStep(current_step);
             };
             break;
         case 3:
-            let description = {
-                el :$('#description')[0],
-                value: true
-            };
-            let expected = {
-                el: $('#expected')[0],
-                value: true
-            };
-            if(description.el.value === '' || description.el.value.match(/^[n|N](?:\/|\\)?[a|A]/) != null){
-                description.value = false;
+            if($('#description')[0].value === '' || RegExp(/^[n|N](?:\/|\\)?[a|A]/).test($('#description')[0].value)){
+                bad_object.list['description'] = 'Description cannot be empty or n/a. Please describe in detail what is happening.';
             }
-            if(expected.el.value === '' || expected.el.value.match(/^[n|N](?:\/|\\)?[a|A]/) != null){
-                expected.value = false;
+            if (hasSlackLink($('#description')[0].value)) {
+                bad_object.list['descriptionSlack'] = "Please don't use slack links in your description. Instead describe in your own words the details of the issue that is happening.";
             }
-            if(hasSlackLink(description.el.value)){
-                description.value = false;
+            if($('#expected')[0].value === '' || RegExp(/^[n|N](?:\/|\\)?[a|A]/).test($('#expected')[0].value)){
+                bad_object.list['expected'] = 'Expectation cannot be empty or n/a. Please describe the expected outcome that is not being met.';
             }
-            if(description.value && expected.value){
-                nextStep(current_step);
-            } else {
-                if(!description.value){
-                    if (!hasSlackLink(description.el.value)) {
-                        bad_object.list['description'] = 'Description cannot be empty or n/a. Please describe in detail what is happening.';
-                    } else {
-                        bad_object.list['description'] = "Please don't use slack links in your description. Instead describe in your own words the details of the issue that is happening.";
-                    }
-                    
-                }
-                if(!expected.value){
-                    bad_object.list['expected'] = 'Expectation cannot be empty or n/a. Please describe the expected outcome that is not being met.';
-                }
+            if (Object.entries(bad_object.list).length) {
                 popup_error_growl(bad_object);
-            }
+            } else {
+                nextStep(current_step);
+            };
             break;
         case 4:
-            let screenshot_ready = false;
-            if($('#screenshot-table tr input').length > 0){
-                screenshot_ready = true;
+            //This still needs refactored!
+            //screenshot
+            if(checkLinkList($('#screenshot-table tr input'))){
+                bad_object.list['screenshot'] = 'One (or more) of the screenshots provided are not an expected domain, is empty, or there are potentially more than one link in the same line.';
             }
-            $('#screenshot-table tr input').each(function (){
-                if($(this)[0].value === '' || $(this)[0].value.match(/^(?:https?:\/\/)drive\.google\.com\/file\/d\/.*\/view(?:\?.+)?$/) === null){
-                    screenshot_ready = false;
-                }
-            });
-            let video_ready = false;
-            if($('#video-table tr input').length > 0){
-                video_ready = true;
+            //video
+            if(checkLinkList($('#video-table tr input'))){
+                bad_object.list['video'] = 'One (or more) of the videos provided are not an expected domain, is empty, or there are potentially more than one link in the same line.';
             }
-            $('#video-table tr input').each(function (){
-                if($(this)[0].value === '' || $(this)[0].value.match(/^(?:https?:\/\/)drive\.google\.com\/file\/d\/.*\/view(?:\?.+)?$/) === null){
-                    video_ready = false;
-                }
-            });
-            if(screenshot_ready){
-                $('#screenshot-table tr input').each(function (){
-                    if($(this)[0].value.match(/https?/g).length > 1){
-                        //found more than one potential link in a line
-                        //get index for second beginning
-                        let dup_link_check = {
-                            times_iterated: 0,
-                            itterator: $(this)[0].value.matchAll(/https?/g),
-                            _constructor: () => {
-                                for(match of dup_link_check.itterator){
-                                    dup_link_check.times_iterated ++;
-                                    dup_link_check[`match_${dup_link_check.times_iterated}`] = match.index;
-                                }
-                            }
-                        }
-                        dup_link_check._constructor();
-                        let first_link = $(this)[0].value.substr(0, dup_link_check.match_2);
-                        if ($(this)[0].value.match(_urlRegEx(first_link)).length > 1) {
-                            $(this)[0].value = first_link;
-                        } else {
-                            screenshot_ready = false;
-                        }
-                    }
-                });
+            if(duplicateLinksFound()){
+                bad_object.list['duplicates'] = 'One or more of the links provided is being used twice. Please make sure all links are unique.';
             }
-            if(video_ready){
-                $('#video-table tr input').each(function (){
-                    if($(this)[0].value.match(/https?/g).length > 1){
-                        //found more than one potential link in a line
-                        //get index for second beginning
-                        let dup_link_check = {
-                            times_iterated: 0,
-                            itterator: $(this)[0].value.matchAll(/https?/g),
-                            _constructor: () => {
-                                for(match of dup_link_check.itterator){
-                                    dup_link_check.times_iterated ++;
-                                    dup_link_check[`match_${dup_link_check.times_iterated}`] = match.index;
-                                }
-                            }
-                        }
-                        dup_link_check._constructor();
-                        let first_link = $(this)[0].value.substr(0, dup_link_check.match_2);
-                        if ($(this)[0].value.match(_urlRegEx(first_link)).length > 1) {
-                            $(this)[0].value = first_link;
-                        } else {
-                            video_ready = false;
-                        }
-                    }
-                });
-            }
-            let duplicates = false;
-            let link_list = '';
-            $('#links-content tr input').each(function (){
-                link_list += $(this)[0].value + ',';
-            })
-            $('#links-content tr input').each(function (){
-                let temp_regex = new RegExp($(this)[0].value.replace(/[\?\\\/]/g,"\\\$&"), 'g');
-                if(link_list.match(temp_regex).length > 1){
-                    duplicates = true;
-                }
-            })
-            if(screenshot_ready && video_ready && !duplicates){
-                nextStep(current_step);
-            } else {
-                if(!screenshot_ready){
-                    bad_object.list['screenshot'] = 'One (or more) of the screenshots provided are not an expected domain, is empty, or there are potentially more than one link in the same line.';
-                }
-                if(!video_ready){
-                    bad_object.list['video'] = 'One (or more) of the videos provided are not an expected domain, is empty, or there are potentially more than one link in the same line.';
-                }
-                if(duplicates){
-                    bad_object.list['duplicates'] = 'One or more of the links provided is being used twice, or you have a blank row. Please make sure all links are unique and that there are no blank rows before moving on.';
-                }
+            if (Object.entries(bad_object.list).length) {
                 bad_object.list['reminder'] = 'Make sure that all links point to a google drive file that is shared with all Rain Emails so that they can be seen by the Dev/Prod teams.';
                 popup_error_growl(bad_object);
+            } else {
+                nextStep(current_step);
             };
             break;
         case 5:
             //check examples box
             let examples = $('#examples')[0].value;
-            let examples_ready = true;
-            if(examples.match(/rainadmin|quiltstorewebsites|jewel360|musicshop360/) != null){
-                examples_ready = false;
+            if(RegExp(/rainadmin|quiltstorewebsites|jewel360|musicshop360/).test(examples)){
+                bad_object.list['examples_links'] = 'Please make sure that all links do not point to an admin domain such as rainadmin.com. If there is a report or a product that has an issue please write the report name and filters used to find the issue or and unique ids needed to find the data.';
             }
-            if(examples.match(/^[nN](?:\\|\/)?[aA]/) != null || examples === ''){
-                examples_ready = false;
+            if(RegExp(/^[nN](?:\\|\/)?[aA]/).test(examples) || examples === ''){
+                bad_object.list['examples_blank'] = 'Examples cannot be blank or say n/a.';
             }
             //check errors box
             let errors = $('#errors')[0].value;
-            let errors_ready = true;
-            if(errors.match(/^[nN](?:\\|\/)?[aA]/) != null || errors === ''){
-                errors_ready = false;
+            if(RegExp(/^[nN](?:\\|\/)?[aA]/).test(errors) || errors === ''){
+                bad_object.list['errors'] = 'Errors box cannot be blank or n/a. If there are no visible errors associated with the problem behavior, please write "No Console Errors Seen".';
             }
-            if(examples_ready && errors_ready){
-                generateTicket();
-            } else {
-                if(!examples_ready){
-                    bad_object.list['examples'] = 'Examples cannot be blank or say n/a. Please make sure that all links do not point to an admin domain such as rainadmin.com. If there is a report or a product that is an issue please write the report name and filters used to find the issue or any unique ids needed to find the data.';
-                }
-                if(!errors_ready){
-                    bad_object.list['errors'] = 'Errors box cannot be blank or n/a. If there are no visible errors associated with the problem behavior, please write "No Console Errors Seen".';
-                }
+            if (Object.entries(bad_object.list).length) {
                 popup_error_growl(bad_object);
-            }
+            } else {
+                generateTicket();
+            };
             break;
         default:
             break;
