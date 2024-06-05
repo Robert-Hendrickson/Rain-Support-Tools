@@ -5,6 +5,59 @@ function _urlRegEx(url_string){
 function hasSlackLink(string){
     return new RegExp(/(?:https?\/\/)?raindev\.slack\.com\/archives\//).test(string);    
 }
+function checkLinkList(list){
+    return_value = false;
+    //check that there are rows to look through
+    if (list.length < 1) {
+        return_value = true;
+    } else {
+        list.each(function (){
+            if($(this)[0].value != ''){//if there is data in the row, check how many links are in it
+                if($(this)[0].value.match(/https?/g).length > 1){
+                    //found more than one potential link in a line
+                    //get index for second beginning
+                    let dup_link_check = {
+                        times_iterated: 0,
+                        itterator: $(this)[0].value.matchAll(/https?/g),
+                        _constructor: () => {
+                            for(match of dup_link_check.itterator){
+                                dup_link_check.times_iterated ++;
+                                dup_link_check[`match_${dup_link_check.times_iterated}`] = match.index;
+                            }
+                        }
+                    }
+                    dup_link_check._constructor();
+                    let first_link = $(this)[0].value.substr(0, dup_link_check.match_2);
+                    if ($(this)[0].value.match(_urlRegEx(first_link)).length > 1) {
+                        $(this)[0].value = first_link;
+                    } else {
+                        return_value = true;
+                    }
+                }
+            }
+        });
+        list.each(function (){
+            if($(this)[0].value === '' || !RegExp(/^(?:https?:\/\/)drive\.google\.com\/file\/d\/.*\/view(?:\?.+)?$/).test($(this)[0].value)){
+                return_value = true;
+            }
+        });
+    }
+    return return_value;
+}
+function duplicateLinksFound(){
+    let duplicates = false;
+    let link_list = '';
+    $('#links-content tr input').each(function (){
+        link_list += $(this)[0].value + ',';
+    })
+    $('#links-content tr input').each(function (){
+        let temp_regex = new RegExp($(this)[0].value.replace(/[\?\\\/]/g,"\\\$&"), 'g');
+        if(link_list.match(temp_regex).length > 1){
+            duplicates = true;
+        }
+    })
+    return duplicates;
+}
 function validateData(){
     Close_error_growl();
     let bad_object = {
@@ -75,99 +128,22 @@ function validateData(){
             break;
         case 4:
             //This still needs refactored!
-            let screenshot_ready = false;
-            if($('#screenshot-table tr input').length > 0){
-                screenshot_ready = true;
+            //screenshot
+            if(checkLinkList($('#screenshot-table tr input'))){
+                bad_object.list['screenshot'] = 'One (or more) of the screenshots provided are not an expected domain, is empty, or there are potentially more than one link in the same line.';
             }
-            $('#screenshot-table tr input').each(function (){
-                if($(this)[0].value === '' || $(this)[0].value.match(/^(?:https?:\/\/)drive\.google\.com\/file\/d\/.*\/view(?:\?.+)?$/) === null){
-                    screenshot_ready = false;
-                }
-            });
-            let video_ready = false;
-            if($('#video-table tr input').length > 0){
-                video_ready = true;
+            //video
+            if(checkLinkList($('#video-table tr input'))){
+                bad_object.list['video'] = 'One (or more) of the videos provided are not an expected domain, is empty, or there are potentially more than one link in the same line.';
             }
-            $('#video-table tr input').each(function (){
-                if($(this)[0].value === '' || $(this)[0].value.match(/^(?:https?:\/\/)drive\.google\.com\/file\/d\/.*\/view(?:\?.+)?$/) === null){
-                    video_ready = false;
-                }
-            });
-            if(screenshot_ready){
-                $('#screenshot-table tr input').each(function (){
-                    if($(this)[0].value.match(/https?/g).length > 1){
-                        //found more than one potential link in a line
-                        //get index for second beginning
-                        let dup_link_check = {
-                            times_iterated: 0,
-                            itterator: $(this)[0].value.matchAll(/https?/g),
-                            _constructor: () => {
-                                for(match of dup_link_check.itterator){
-                                    dup_link_check.times_iterated ++;
-                                    dup_link_check[`match_${dup_link_check.times_iterated}`] = match.index;
-                                }
-                            }
-                        }
-                        dup_link_check._constructor();
-                        let first_link = $(this)[0].value.substr(0, dup_link_check.match_2);
-                        if ($(this)[0].value.match(_urlRegEx(first_link)).length > 1) {
-                            $(this)[0].value = first_link;
-                        } else {
-                            screenshot_ready = false;
-                        }
-                    }
-                });
+            if(duplicateLinksFound()){
+                bad_object.list['duplicates'] = 'One or more of the links provided is being used twice. Please make sure all links are unique.';
             }
-            if(video_ready){
-                $('#video-table tr input').each(function (){
-                    if($(this)[0].value.match(/https?/g).length > 1){
-                        //found more than one potential link in a line
-                        //get index for second beginning
-                        let dup_link_check = {
-                            times_iterated: 0,
-                            itterator: $(this)[0].value.matchAll(/https?/g),
-                            _constructor: () => {
-                                for(match of dup_link_check.itterator){
-                                    dup_link_check.times_iterated ++;
-                                    dup_link_check[`match_${dup_link_check.times_iterated}`] = match.index;
-                                }
-                            }
-                        }
-                        dup_link_check._constructor();
-                        let first_link = $(this)[0].value.substr(0, dup_link_check.match_2);
-                        if ($(this)[0].value.match(_urlRegEx(first_link)).length > 1) {
-                            $(this)[0].value = first_link;
-                        } else {
-                            video_ready = false;
-                        }
-                    }
-                });
-            }
-            let duplicates = false;
-            let link_list = '';
-            $('#links-content tr input').each(function (){
-                link_list += $(this)[0].value + ',';
-            })
-            $('#links-content tr input').each(function (){
-                let temp_regex = new RegExp($(this)[0].value.replace(/[\?\\\/]/g,"\\\$&"), 'g');
-                if(link_list.match(temp_regex).length > 1){
-                    duplicates = true;
-                }
-            })
-            if(screenshot_ready && video_ready && !duplicates){
-                nextStep(current_step);
-            } else {
-                if(!screenshot_ready){
-                    bad_object.list['screenshot'] = 'One (or more) of the screenshots provided are not an expected domain, is empty, or there are potentially more than one link in the same line.';
-                }
-                if(!video_ready){
-                    bad_object.list['video'] = 'One (or more) of the videos provided are not an expected domain, is empty, or there are potentially more than one link in the same line.';
-                }
-                if(duplicates){
-                    bad_object.list['duplicates'] = 'One or more of the links provided is being used twice, or you have a blank row. Please make sure all links are unique and that there are no blank rows before moving on.';
-                }
+            if (Object.entries(bad_object.list).length) {
                 bad_object.list['reminder'] = 'Make sure that all links point to a google drive file that is shared with all Rain Emails so that they can be seen by the Dev/Prod teams.';
                 popup_error_growl(bad_object);
+            } else {
+                nextStep(current_step);
             };
             break;
         case 5:
