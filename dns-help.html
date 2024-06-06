@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="/Rain-Support-Tools/css/dns-help.css" />
+        <link rel="stylesheet" href="/Rain-Support-Tools/common/actions/popup.css" />
+        <!--don't need font awesome at the moment. Might add later
+        <script src="https://kit.fontawesome.com/8e52a98e38.js" crossorigin="anonymous"></script>-->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+        <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+        <script src="/Rain-Support-Tools/js/dns-help.js"></script>
+        <script src="/Rain-Support-Tools/js/test_data.js"></script>
+        <script src="/Rain-Support-Tools/common/actions/popup.js"></script>
+    </head>
+    <body>
+        <h1>
+            DNS Help Tool - Design by Russell Lee
+        </h1>
+        <div class="body-container">
+            <div id="info-tabs">
+                <div id="action-tab" step="1" class="active">
+                    <div class="step-circle">1</div>
+                    Action Type
+                </div>
+                <div id="records-tab" step="2">
+                    <div class="step-circle">2</div>
+                    Record Data
+                </div>
+                <div id="confirmation-tab" step="3">
+                    <div class="step-circle">3</div>
+                    Confirm Information
+                </div>
+            </div>
+            <div class="container">
+                <div id="basic-content" data="1"  class="active">
+                    <p>Select the action that needs to happen with Records:</p><br>
+                    <br>
+                    <div action-selector>
+                        <div action='add-record'>Add Record(s)</div>
+                        <div action='correct-record'>Correct Existing Record(s)</div>
+                        <div action='remove-record'>Remove Record(s)</div>
+                    </div>
+                </div>
+                <div id="add-record" data="2">
+                    <div table-controls>
+                        <button class="btn secondary" onclick="addTableRow('steps-table')">Add Row</button>
+                        <button class="btn secondary" onclick="removeTableRow('steps-table')">Remove Row</button>
+                    </div>
+                    <table id="steps-table">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    Step 1<input placeholder="Enter Step 1" type="text" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Step 2<input placeholder="Enter Step 2" type="text" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Step 3<input placeholder="Enter Step 3" type="text" />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div id="correct-record" data="3">
+                    <div table-controls>
+                        <button class="btn secondary" onclick="addTableRow('steps-table')">Add Row</button>
+                        <button class="btn secondary" onclick="removeTableRow('steps-table')">Remove Row</button>
+                    </div>
+                    <table id="steps-table">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    Step 1<input placeholder="Enter Step 1" type="text" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Step 2<input placeholder="Enter Step 2" type="text" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Step 3<input placeholder="Enter Step 3" type="text" />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div id="remove-record" data="4">
+                    <div table-controls>
+                        <button class="btn secondary" onclick="addTableRow('steps-table')">Add Row</button>
+                        <button class="btn secondary" onclick="removeTableRow('steps-table')">Remove Row</button>
+                    </div>
+                    <table id="steps-table">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    Step 1<input placeholder="Enter Step 1" type="text" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Step 2<input placeholder="Enter Step 2" type="text" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Step 3<input placeholder="Enter Step 3" type="text" />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div id="confirm" data="5">
+                    <div table-controls>
+                        <button class="btn secondary" onclick="addTableRow('steps-table')">Add Row</button>
+                        <button class="btn secondary" onclick="removeTableRow('steps-table')">Remove Row</button>
+                    </div>
+                </div>
+            </div>
+            <div flow-controls>
+                <button prev class="btn secondary hide" style="font-size: 12px;" onclick="previousStep()">Previous</button>
+                <button class="btn primary hide" finish style="float: right;" onclick="validateData()">Finish</button>
+                <button class="btn primary" next style="float: right;" onclick="validateData()">Next</button>
+            </div>
+        </div>
+        <div id="ticket-container" class="hide">
+            <div>
+                <textarea></textarea>
+                <div ticket-buttons>
+                    <button style="float: left;" class="btn terciary" onclick="start_new_ticket()">New Case</button>
+                    <button class="btn secondary" onclick="$('#ticket-container').addClass('hide')">Close</button>
+                    <button class="btn primary" onclick="copyTicket()">Copy</button>
+                </div>
+            </div>
+        </div>
+        <div id="error_message" class="hide"></div>
+        <!--nav menu, can be added after everything is working.
+        <div class="menu-wrapper">
+            <div onclick="toggleNav()" id="nav-toggle">
+                <span class="fa-solid fa-bars"></span>
+            </div>
+            <div class="secondary_menu_links">
+                <div class="toolButtonsList">
+                    <ul>
+                        <li v-for="nav_item in nav_list.home" class="toolButton">
+                            <a v-bind:href="nav_item.url" v-bind:target="nav_item.target">
+                                <div>
+                                    <span v-bind:class="nav_item.icon"></span>{{nav_item.name}}<span class="sub-title">{{nav_item.subTitle}}</span>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="nav-header">Support Tools</div>
+                    <ul>
+                        <li v-for="nav_item in nav_list.support" class="toolButton">
+                            <a v-bind:href="nav_item.url" v-bind:target="nav_item.target">
+                                <div>
+                                    <span v-bind:class="nav_item.icon"></span>{{nav_item.name}}<span class="sub-title">{{nav_item.subTitle}}</span>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="nav-header">System Tools</div>
+                    <ul>
+                        <li v-for="nav_item in nav_list.system" class="toolButton">
+                            <a v-bind:href="nav_item.url" v-bind:target="nav_item.target">
+                                <div>
+                                    <span v-bind:class="nav_item.icon"></span>{{nav_item.name}}<span class="sub-title">{{nav_item.subTitle}}</span>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="nav-header">Misc Tools</div>
+                    <ul>
+                        <li v-for="nav_item in nav_list.misc" class="toolButton">
+                            <a v-bind:href="nav_item.url" v-bind:target="nav_item.target">
+                                <div>
+                                    <span v-bind:class="nav_item.icon"></span>{{nav_item.name}}<span class="sub-title">{{nav_item.subTitle}}</span>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <script src="/Rain-Support-Tools/js/nav-builder.js"></script>
+            </div>
+        </div>
+        -->
+    </body>
+</html>

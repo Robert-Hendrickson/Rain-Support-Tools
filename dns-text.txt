@@ -1,0 +1,33 @@
+### Add Record(s)
+
+Copy and Paste this form into the Description of the case for each record needed, and ensure that you are filling out all sections not marked optional.
+
+> Action Needed: Add Record
+Record Type:
+Record Name:
+Record Value:
+Record Priority (MX Only):
+Requested TTL (Optional):
+> 
+
+### Correct Record(s)
+
+Copy and Paste this form into the Description of the case for each correction needed, and ensure that you are filling out all sections not marked optional. *Ensure that the name matches exactly with the name on file. You can see this on the Hosted Zone page.*
+
+> Action Needed: Correct Existing Record
+Record Type:
+Record Name:
+Record Value:
+Record Priority (MX Only):
+Requested TTL (Optional):
+> 
+
+### Remove Record(s)
+
+Copy and Paste this form into the Description of the case for each record needing deletion, and ensure that you are filling out all sections. *Make sure to include all values needing to be removed, as a request for this filled for only one value will cause the record to still exist with the remaining values.*
+
+> Action Needed: Remove Record
+Record Type:
+Record Name:
+Record Value:
+>
