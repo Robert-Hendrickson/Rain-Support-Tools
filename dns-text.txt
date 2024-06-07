@@ -31,3 +31,27 @@ Record Type:
 Record Name:
 Record Value:
 >
+
+
+
+record types needed for dropdown selection
+> A
+> AAAA
+> CNAME
+> MX
+> TXT
+> PTR
+> SRV
+> SPF
+> NAPTR
+> CAA
+> NS?
+> DS
+
+//for record entry look into these options
+    1. simple entry text box (trust user to enter data correctly)
+    2. basic boxes for record name and value with js control to disable unecessary boxes based on record type
+    3. edit button on values that opens a popup panel with necessary input boxes based on record type that allows individual entry of data (or simple entry for users comfortable?) that once submitted will update the record box value in the row that was edited (vue panels could be used here to enter data already in a box or leave blank if blank data?)
+
+MX needs priority value for each value [Format: [priority] [mail server host name]}
+SRV [Enter multiple values on separate lines. Format: [priority] [weight] [port] [server host name]]
