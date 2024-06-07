@@ -32,90 +32,96 @@
             </div>
             <div class="container">
                 <div id="basic-content" data="1"  class="active">
-                    <p>Select the action that needs to happen with Records:</p><br>
-                    <br>
+                    <p>Enter Domain being worked on:</p>
+                    <input id="domain" type="text" placeholder="(sub.)websiteUrl.com" />
+                    <p>Select the action that needs to happen with Records:</p>
                     <div action-selector>
                         <div action='add-record'>Add Record(s)</div>
                         <div action='correct-record'>Correct Existing Record(s)</div>
                         <div action='remove-record'>Remove Record(s)</div>
                     </div>
                 </div>
-                <div id="add-record" data="2">
-                    <div table-controls>
-                        <button class="btn secondary" onclick="addTableRow('steps-table')">Add Row</button>
-                        <button class="btn secondary" onclick="removeTableRow('steps-table')">Remove Row</button>
+                <div data="2">
+                    <div id="add-record" style="display:none;">
+                        <h2>Records to Add:</h2>
+                        <div table-controls>
+                            <button class="btn secondary" onclick="addTableRow('steps-table')">Add Row</button>
+                            <button class="btn secondary" onclick="removeTableRow('steps-table')">Remove Row</button>
+                        </div>
+                        <table id="steps-table">
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        Step 1<input placeholder="Enter Step 1" type="text" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Step 2<input placeholder="Enter Step 2" type="text" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Step 3<input placeholder="Enter Step 3" type="text" />
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
-                    <table id="steps-table">
-                        <tbody>
-                            <tr>
-                                <td>
-                                    Step 1<input placeholder="Enter Step 1" type="text" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    Step 2<input placeholder="Enter Step 2" type="text" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    Step 3<input placeholder="Enter Step 3" type="text" />
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div id="correct-record" data="3">
-                    <div table-controls>
-                        <button class="btn secondary" onclick="addTableRow('steps-table')">Add Row</button>
-                        <button class="btn secondary" onclick="removeTableRow('steps-table')">Remove Row</button>
+                    <div id="correct-record" style="display:none;">
+                        <h2>Records to Correct:</h2>
+                        <div table-controls>
+                            <button class="btn secondary" onclick="addTableRow('steps-table')">Add Row</button>
+                            <button class="btn secondary" onclick="removeTableRow('steps-table')">Remove Row</button>
+                        </div>
+                        <table id="steps-table">
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        Step 1<input placeholder="Enter Step 1" type="text" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Step 2<input placeholder="Enter Step 2" type="text" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Step 3<input placeholder="Enter Step 3" type="text" />
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
-                    <table id="steps-table">
-                        <tbody>
-                            <tr>
-                                <td>
-                                    Step 1<input placeholder="Enter Step 1" type="text" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    Step 2<input placeholder="Enter Step 2" type="text" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    Step 3<input placeholder="Enter Step 3" type="text" />
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div id="remove-record" data="4">
-                    <div table-controls>
-                        <button class="btn secondary" onclick="addTableRow('steps-table')">Add Row</button>
-                        <button class="btn secondary" onclick="removeTableRow('steps-table')">Remove Row</button>
+                    <div id="remove-record" style="display:none;">
+                        <h2>Records to Remove:</h2>
+                        <div table-controls>
+                            <button class="btn secondary" onclick="addTableRow('steps-table')">Add Row</button>
+                            <button class="btn secondary" onclick="removeTableRow('steps-table')">Remove Row</button>
+                        </div>
+                        <table id="steps-table">
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        Step 1<input placeholder="Enter Step 1" type="text" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Step 2<input placeholder="Enter Step 2" type="text" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Step 3<input placeholder="Enter Step 3" type="text" />
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
-                    <table id="steps-table">
-                        <tbody>
-                            <tr>
-                                <td>
-                                    Step 1<input placeholder="Enter Step 1" type="text" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    Step 2<input placeholder="Enter Step 2" type="text" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    Step 3<input placeholder="Enter Step 3" type="text" />
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
                 </div>
-                <div id="confirm" data="5">
+                <div id="confirm" data="3">
                     <div table-controls>
                         <button class="btn secondary" onclick="addTableRow('steps-table')">Add Row</button>
                         <button class="btn secondary" onclick="removeTableRow('steps-table')">Remove Row</button>
