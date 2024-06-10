@@ -83,16 +83,46 @@ function updateFields(record_type){
         $('#record-entry-box div[value]').show();
     }
 }
-function openRecordEditor(action,row){
+function openRecordEditor(action,row,table){
     $('input[edit-type]')[0].value = action;
     $('input[row]')[0].value = row;
+    $('input[table]')[0].value = table;
     $('#record-entry-container').show()
 }
 function closeModal(modal){
     $(`#${modal}`).hide();
 }
-function submit(record_data){
+function validateRecordData(){
+    let record_type = $('.dns-selector')[0].value;
+    if(record_type != 'Select Type'){
+        if (record_type === 'mx') {
 
+        } else if (record_type === 'srv') {
+
+        } else {
+            record_data = {
+                action: $('input[edit-type]')[0].value,
+                row: $('input[row]')[0].value,
+                table: $('input[table]')[0].value,
+                type: $('select.dns-selector')[0].value,
+                name: $('div[name] input')[0].value,
+                value: $('div[value] input')[0].value,
+                ttl: $('div[ttl] input')[0].value
+            };
+            submit(record_data);
+            closeModal('record-entry-container');
+        }
+    } else {
+        //error: need a record type
+    }
+}
+function submit(record_data){
+    if (record_data.action === 'edit') {
+        console.log(record_data);
+        let update_row = $(`#${record_data.table}-table tr:nth-child(${record_data.row})`);
+        console.log(update_row);
+        //update data in row to display submitted data.
+    }
 }
 function selectAction(el){
     if (el.target.classList.value === 'selected') {
