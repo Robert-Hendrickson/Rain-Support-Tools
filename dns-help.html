@@ -46,67 +46,40 @@
                         <h2>Records to Add:</h2>
                         <div table-controls>
                             <button class="btn secondary" onclick="addTableRow('steps-table')">Add Row</button>
-                            <button class="btn secondary" onclick="removeTableRow('steps-table')">Remove Row</button>
                         </div>
-                        <table id="add-record-table">
+                        <table id="correct-record-table">
                             <tbody>
                                 <tr>
                                     <td>
-                                        <table><!--
-                                            <thead>
-                                                <tr>
-                                                    <th>
-                                                        Type:
-                                                    </th>
-                                                    <th>
-                                                        Name:
-                                                    </th>
-                                                    <th>
-                                                        Value:
-                                                    </th>
-                                                    <th>
-                                                        Priority:
-                                                    </th>
-                                                    <th>
-                                                        TTL:
-                                                    </th>
-                                                </tr>
-                                            </thead>-->
+                                        <table>
                                             <tbody>
                                                 <tr>
                                                     <td>
                                                         Type:<br>
-                                                        <select>
-                                                            <option>Select</option>
-                                                            <option>A</option>
-                                                            <option>AAAA</option>
-                                                            <option>CNAME</option>
-                                                            <option>MX</option>
-                                                            <option>TXT</option>
-                                                            <option>PTR</option>
-                                                            <option>SRV</option>
-                                                            <option>SPF</option>
-                                                            <option>NAPTR</option>
-                                                            <option>CAA</option>
-                                                            <option>NS?</option>
-                                                            <option>DS</option>
-                                                        </select>
+                                                        <div>
+                                                            <input type="text" disabled />
+                                                        </div>
                                                     </td>
                                                     <td>
                                                         Name:<br>
-                                                        <input type="text" />
+                                                        <div>
+                                                            <input type="text" disabled />
+                                                        </div>
                                                     </td>
                                                     <td>
                                                         Value:<br>
-                                                        <input type="text" />
-                                                    </td>
-                                                    <td style="width: 90px; text-align: center;">
-                                                        Priority:<br>
-                                                        <input type="text" />
+                                                        <div>
+                                                            <input type="text" disabled />
+                                                        </div>
                                                     </td>
                                                     <td style="width: 100px; text-align: center;">
                                                         TTL(optional):<br>
-                                                        <input style="width: 70px;" type="text" />
+                                                        <div>
+                                                            <input type="text" disabled />
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <a onclick="openRecordEditor('edit', '1')">Edit</a>
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -180,6 +153,9 @@
                                                             data
                                                         </div>
                                                     </td>
+                                                    <td>
+                                                        <a onclick="console.log('edit data')">Edit</a>
+                                                    </td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -187,56 +163,6 @@
                                 </tr>
                             </tbody>
                         </table>
-                        <div entry-box>
-                            <div>
-                                Type:<br>
-                                <select>
-                                    <option>Select</option>
-                                    <option>A</option>
-                                    <option>AAAA</option>
-                                    <option>CNAME</option>
-                                    <option>MX</option>
-                                    <option>TXT</option>
-                                    <option>PTR</option>
-                                    <option>SRV</option>
-                                    <option>SPF</option>
-                                    <option>NAPTR</option>
-                                    <option>CAA</option>
-                                    <option>NS?</option>
-                                    <option>DS</option>
-                                </select>
-                            </div>
-                            <div>
-                                Name:<br>
-                                <input type="text" />
-                            </div>
-                            <div>
-                                Value:<br>
-                                <input type="text" />
-                            </div>
-                            <div>
-                                Priority:<br>
-                                <input type="text" />
-                            </div>
-                            <div>
-                                Mail host name:<br>
-                                <input type="text" />
-                            </div>
-                            <div>
-                                weight:<br>
-                                <input type="text" />
-                            </div>
-                            <div>
-                                Port:<br>
-                                <input type="text" />
-                            </div>
-                            <div>
-                                Server host Name:<br>
-                                <input type="text" />
-                            </div>
-                        </div>
-                        <button class="btn secondary">Cancel</button>
-                        <button style="float: right;" class="btn primary">Submit</button>
                     </div>
                     <div id="remove-record" style="display:none;">
                         <h2>Records to Remove:</h2>
@@ -266,6 +192,65 @@
                 <button prev class="btn secondary hide" style="font-size: 12px;" onclick="previousStep()">Previous</button>
                 <button class="btn primary hide" finish style="float: right;" onclick="validateData()">Finish</button>
                 <button class="btn primary" next style="float: right;" onclick="validateData()">Next</button>
+            </div>
+        </div>
+        <div style="display: none;" id="record-entry-container">
+            <div id="record-entry-box">
+                <span class="close" onclick="closeModal('record-entry-container')">X</span>
+                <h3>Record Information</h3>
+                <input edit-type style="display: none;" value="" />
+                <input row style="display: none;" value="" />
+                <div>
+                    Type:<br>
+                    <select class="dns-selector" onchange="updateFields(this.value)">
+                        <option>Select Record</option>
+                        <option>A</option>
+                        <option>AAAA</option>
+                        <option>CNAME</option>
+                        <option>MX</option>
+                        <option>TXT</option>
+                        <option>PTR</option>
+                        <option>SRV</option>
+                        <option>SPF</option>
+                        <option>NAPTR</option>
+                        <option>CAA</option>
+                        <option>DS</option>
+                    </select>
+                </div>
+                <div name>
+                    Name:<br>
+                    <input type="text" />
+                </div>
+                <div value>
+                    Value:<br>
+                    <input type="text" />
+                </div>
+                <div style="display: none;" mx srv priority>
+                    Priority:<br>
+                    <input type="text" />
+                </div>
+                <div style="display: none;" mx mail-host-name>
+                    Mail host name:<br>
+                    <input type="text" />
+                </div>
+                <div style="display: none;" srv weight>
+                    weight:<br>
+                    <input type="text" />
+                </div>
+                <div style="display: none;" srv port>
+                    Port:<br>
+                    <input type="text" />
+                </div>
+                <div style="display: none;" srv server-host>
+                    Server host Name:<br>
+                    <input type="text" />
+                </div>
+                <div ttl>
+                    Requested TTL (Optional):<br>
+                    <input type="text" />
+                </div>
+                <button class="btn secondary" onclick="closeModal('record-entry-container')">Cancel</button>
+                <button style="float: right;" class="btn primary">Submit</button>
             </div>
         </div>
         <div id="ticket-container" class="hide">

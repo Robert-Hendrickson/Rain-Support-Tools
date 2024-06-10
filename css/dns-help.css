@@ -97,7 +97,7 @@ div#info-tabs div.complete{
     margin: 0px auto;
 }
 /*data content styling*/
-input[type="text"]:focus,textarea:focus{
+input[type="text"]:focus,textarea:focus,select:focus{
     border-color: #337AB7;
     outline: none;
 }
@@ -110,13 +110,13 @@ textarea{
 }
 div[data]{
     padding: 10px;
-    input{
-        width: 98%;
-        height: 25px;
-        margin-bottom: 16px;
-        border: #DDDDDD solid 1px;
-        border-radius: 4px;
-    }
+}
+input{
+    width: 98%;
+    height: 25px;
+    margin-bottom: 16px;
+    border: #DDDDDD solid 1px;
+    border-radius: 4px;
 }
 div[action-selector]{
     height: 40px;
@@ -136,11 +136,9 @@ div[action-selector]{
 div[action]:first-child{
     border-radius: 4px 0 0 4px;
 }
-
 div[action]:last-child{
     border-radius: 0 4px 4px 0;
 }
-
 div[action].selected{
     color: #337ab7;
     border-color: #337AB7;
@@ -184,4 +182,28 @@ div#ticket-container{
 
 [ticket-buttons]{
     text-align: right;
+}
+/*dns selector styling*/
+select.dns-selector{
+    width: 120px;
+    height: 30px;
+    border-radius: 8px;
+}
+/*start edit value styling*/
+#record-entry-container{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #747171b5;
+}
+#record-entry-box {
+    width: 500px;
+    padding: 16px;
+    border-radius: 8px;
+    background-color: #ffffff;
+    margin: 0px auto;
+    top: 15%;
+    position: relative;
 }

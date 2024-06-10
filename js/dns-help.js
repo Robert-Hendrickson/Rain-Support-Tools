@@ -68,6 +68,32 @@ function previousStep(){
             break;
     }
 }
+function updateFields(record_type){
+    if (record_type === 'MX') {
+        $('#record-entry-box div[value]').hide();
+        $('#record-entry-box div[srv]').hide();
+        $('#record-entry-box div[mx]').show();
+    } else if(record_type === 'SRV') {
+        $('#record-entry-box div[value]').hide();
+        $('#record-entry-box div[mx]').hide();
+        $('#record-entry-box div[srv]').show();
+    } else {
+        $('#record-entry-box div[srv]').hide();
+        $('#record-entry-box div[mx]').hide();
+        $('#record-entry-box div[value]').show();
+    }
+}
+function openRecordEditor(action,row){
+    $('input[edit-type]')[0].value = action;
+    $('input[row]')[0].value = row;
+    $('#record-entry-container').show()
+}
+function closeModal(modal){
+    $(`#${modal}`).hide();
+}
+function submit(record_data){
+
+}
 function selectAction(el){
     if (el.target.classList.value === 'selected') {
         $(el.target).removeClass('selected');
