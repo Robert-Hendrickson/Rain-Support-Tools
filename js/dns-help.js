@@ -83,11 +83,85 @@ function updateFields(record_type){
         $('#record-entry-box div[value]').show();
     }
 }
+
 function openRecordEditor(action,row,table){
     $('input[edit-type]')[0].value = action;
     $('input[row]')[0].value = row;
     $('input[table]')[0].value = table;
+    if (action === 'add') {
+        $('select.dns-selector')[0].value = 'Select Type';
+        updateFields('Select Type');
+        $('div[name] input')[0].value = '';
+        $('div[value] input')[0].value = '';
+        $('div[ttl] input')[0].value = '';
+        $('div[priority] input')[0].value = '';
+        $('div[mail-host-name] input')[0].value = '';
+        $('div[weight] input')[0].value = '';
+        $('div[port] input')[0].value = '';
+        $('div[server-host] input')[0].value = '';
+    }
+    if (action === 'edit') {
+        let row_inputs = $(`#${table}-table tr:nth-child(${row})`).find('td input');
+        $('select.dns-selector')[0].value = row_inputs[0].value;
+        updateFields(row_inputs[0].value);
+        $('div[name] input')[0].value = row_inputs[1].value;
+        $('div[ttl] input')[0].value = row_inputs[3].value;
+        //create a collection function to get row data
+        //might be good to also create a function to separate value data for srv and mx records
+        if (row_inputs[0].value === 'MX') {
+            let value_split = row_inputs[2].value.split(' ');
+            $('div[priority] input')[0].value = value_split[0];
+            $('div[mail-host-name] input')[0].value = value_split[1];
+        } else if (row_inputs[0].value === 'SRV') {
+            let value_split = row_inputs[2].value.split(' ');
+            $('div[priority] input')[0].value = value_split[0];
+            $('div[weight] input')[0].value = value_split[1];
+            $('div[port] input')[0].value = value_split[2];
+            $('div[server-host] input')[0].value = value_split[3];
+        } else {
+            $('div[value] input')[0].value = row_inputs[2].value;
+            //clear unused boxes
+            $('div[priority] input')[0].value = '';
+            $('div[mail-host-name] input')[0].value = '';
+            $('div[weight] input')[0].value = '';
+            $('div[port] input')[0].value = '';
+            $('div[server-host] input')[0].value = '';
+        }
+    }
     $('#record-entry-container').show()
+}
+function addTableRow(table){
+    let row_number = $(`#${table}-table tr`).length +1
+    $(`#${table}-table tbody`).append(`<tr>
+        <td>
+            Type:<br>
+            <div>
+                <input type="text" disabled />
+            </div>
+        </td>
+        <td>
+            Name:<br>
+            <div>
+                <input type="text" disabled />
+            </div>
+        </td>
+        <td>
+            Value:<br>
+            <div>
+                <input type="text" disabled />
+            </div>
+        </td>
+        <td style="width: 100px; text-align: center;">
+            TTL:<br>
+            <div>
+                <input type="text" disabled />
+            </div>
+        </td>
+        <td>
+            <a onclick="openRecordEditor('edit', '${row_number}', 'add-record')">Edit</a>
+        </td>
+    </tr>`);
+    openRecordEditor('add',row_number,table);
 }
 function closeModal(modal){
     $(`#${modal}`).hide();
@@ -95,34 +169,37 @@ function closeModal(modal){
 function validateRecordData(){
     let record_type = $('.dns-selector')[0].value;
     if(record_type != 'Select Type'){
-        if (record_type === 'mx') {
-
-        } else if (record_type === 'srv') {
-
-        } else {
-            record_data = {
-                action: $('input[edit-type]')[0].value,
-                row: $('input[row]')[0].value,
-                table: $('input[table]')[0].value,
-                type: $('select.dns-selector')[0].value,
-                name: $('div[name] input')[0].value,
-                value: $('div[value] input')[0].value,
-                ttl: $('div[ttl] input')[0].value
-            };
-            submit(record_data);
-            closeModal('record-entry-container');
+        record_data = {
+            action: $('input[edit-type]')[0].value,
+            row: $('input[row]')[0].value,
+            table: $('input[table]')[0].value,
+            type: $('select.dns-selector')[0].value,
+            name: $('div[name] input')[0].value,
+            value: $('div[value] input')[0].value,
+            priority: $('div[priority] input')[0].value,
+            mailhostname: $('div[mail-host-name] input')[0].value,
+            weight: $('div[weight] input')[0].value,
+            port: $('div[port] input')[0].value,
+            serverhost: $('div[server-host] input')[0].value,
+            ttl: $('div[ttl] input')[0].value
+        };
+        if (record_type === 'MX') {
+            record_data.value = `${record_data.priority} ${record_data.mailhostname}`;
+        } else if (record_type === 'SRV') {
+            record_data.value = `${record_data.priority} ${record_data.weight} ${record_data.port} ${record_data.serverhost}`;
         }
+        submit(record_data);
+        closeModal('record-entry-container');
     } else {
         //error: need a record type
     }
 }
 function submit(record_data){
-    if (record_data.action === 'edit') {
-        console.log(record_data);
-        let update_row = $(`#${record_data.table}-table tr:nth-child(${record_data.row})`);
-        console.log(update_row);
-        //update data in row to display submitted data.
-    }
+    let row_inputs = $(`#${record_data.table}-table tr:nth-child(${record_data.row})`).find('td input');
+    row_inputs[0].value = record_data.type;
+    row_inputs[1].value = record_data.name;
+    row_inputs[3].value = record_data.ttl;
+    row_inputs[2].value = record_data.value;
 }
 function selectAction(el){
     if (el.target.classList.value === 'selected') {
