@@ -46,6 +46,7 @@
                         <h2>Records to Add:</h2>
                         <div table-controls>
                             <button class="btn secondary" onclick="addTableRow('add-record')">Add Row</button>
+                            <button class="btn secondary" onclick="removeTableRow('add-record')">Remove Row</button>
                         </div>
                         <table id="add-record-table">
                             <tbody>
@@ -84,73 +85,38 @@
                     <div id="correct-record" style="display:none;">
                         <h2>Records to Correct:</h2>
                         <div table-controls>
-                            <button class="btn secondary" onclick="addTableRow('steps-table')">Add Row</button>
-                            <button class="btn secondary" onclick="removeTableRow('steps-table')">Remove Row</button>
+                            <button class="btn secondary" onclick="addTableRow('correct-record')">Add Row</button>
+                            <button class="btn secondary" onclick="removeTableRow('correct-record')">Remove Row</button>
                         </div>
                         <table id="correct-record-table">
                             <tbody>
                                 <tr>
                                     <td>
-                                        <table><!--
-                                            <thead>
-                                                <tr>
-                                                    <th>
-                                                        Type:
-                                                    </th>
-                                                    <th>
-                                                        Name:
-                                                    </th>
-                                                    <th>
-                                                        Value:
-                                                    </th>
-                                                    <th>
-                                                        Priority:
-                                                    </th>
-                                                    <th>
-                                                        TTL:
-                                                    </th>
-                                                </tr>
-                                            </thead>-->
-                                            <tbody>
-                                                <tr>
-                                                    <td>
-                                                        Type:<br>
-                                                        <div>
-                                                            [type]
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        Name:<br>
-                                                        <div>
-                                                            [name]
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        Value:(based on record type)<br>
-                                                        <div>
-                                                            [value]<br>
-                                                            [priority] [weight] [port] [server host name]<br>
-                                                            [priority] [mail server host name]
-                                                        </div>
-                                                    </td>
-                                                    <td style="width: 90px; text-align: center;">
-                                                        Priority:<br>
-                                                        <div>
-                                                            data
-                                                        </div>
-                                                    </td>
-                                                    <td style="width: 100px; text-align: center;">
-                                                        TTL(optional):<br>
-                                                        <div>
-                                                            data
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <a onclick="console.log('edit data')">Edit</a>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
+                                        Type:<br>
+                                        <div>
+                                            <input type="text" disabled />
+                                        </div>
+                                    </td>
+                                    <td>
+                                        Name:<br>
+                                        <div>
+                                            <input type="text" disabled />
+                                        </div>
+                                    </td>
+                                    <td>
+                                        Value:<br>
+                                        <div>
+                                            <input type="text" disabled />
+                                        </div>
+                                    </td>
+                                    <td style="width: 100px; text-align: center;">
+                                        TTL:<br>
+                                        <div>
+                                            <input type="text" disabled />
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <a onclick="openRecordEditor('edit', '1', 'correct-record')">Edit</a>
                                     </td>
                                 </tr>
                             </tbody>
@@ -159,14 +125,38 @@
                     <div id="remove-record" style="display:none;">
                         <h2>Records to Remove:</h2>
                         <div table-controls>
-                            <button class="btn secondary" onclick="addTableRow('steps-table')">Add Row</button>
-                            <button class="btn secondary" onclick="removeTableRow('steps-table')">Remove Row</button>
+                            <button class="btn secondary" onclick="addTableRow('remove-record')">Add Row</button>
+                            <button class="btn secondary" onclick="removeTableRow('remove-record')">Remove Row</button>
                         </div>
                         <table id="remove-record-table">
                             <tbody>
                                 <tr>
                                     <td>
-                                        Step 1<input placeholder="Enter Step 1" type="text" />
+                                        Type:<br>
+                                        <div>
+                                            <input type="text" disabled />
+                                        </div>
+                                    </td>
+                                    <td>
+                                        Name:<br>
+                                        <div>
+                                            <input type="text" disabled />
+                                        </div>
+                                    </td>
+                                    <td>
+                                        Value:<br>
+                                        <div>
+                                            <input type="text" disabled />
+                                        </div>
+                                    </td>
+                                    <td style="width: 100px; text-align: center;">
+                                        TTL:<br>
+                                        <div>
+                                            <input type="text" disabled />
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <a onclick="openRecordEditor('edit', '1', 'remove-record')">Edit</a>
                                     </td>
                                 </tr>
                             </tbody>
@@ -174,9 +164,20 @@
                     </div>
                 </div>
                 <div id="confirm" data="3">
-                    <div table-controls>
-                        <button class="btn secondary" onclick="addTableRow('steps-table')">Add Row</button>
-                        <button class="btn secondary" onclick="removeTableRow('steps-table')">Remove Row</button>
+                    <div compiled-results>
+                        <h2>Please Confirm recorcds are correct and none are missing.</h2>
+                        <div add-record>
+                            <h2>Records to be Added</h2>
+                            <data></data>
+                        </div>
+                        <div correct-record>
+                            <h2>Records to be Corrected</h2>
+                            <data></data>
+                        </div>
+                        <div remove-record>
+                            <h2>Records to be Removed</h2>
+                            <data></data>
+                        </div>
                     </div>
                 </div>
             </div>

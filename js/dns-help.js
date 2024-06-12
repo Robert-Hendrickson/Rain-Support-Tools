@@ -30,6 +30,7 @@ function validateData(){
             };
             break;
         case 2:
+            compileRecords();
             nextStep(current_step);
             break;
         default:
@@ -158,10 +159,13 @@ function addTableRow(table){
             </div>
         </td>
         <td>
-            <a onclick="openRecordEditor('edit', '${row_number}', 'add-record')">Edit</a>
+            <a onclick="openRecordEditor('edit', '${row_number}', '${table}')">Edit</a>
         </td>
     </tr>`);
     openRecordEditor('add',row_number,table);
+}
+function removeTableRow(table){
+    $(`#${table}-table tr:last-child`).remove();
 }
 function closeModal(modal){
     $(`#${modal}`).hide();
@@ -201,6 +205,29 @@ function submit(record_data){
     row_inputs[3].value = record_data.ttl;
     row_inputs[2].value = record_data.value;
 }
+function compileRecords(){
+    let temp_object = {'add-record': {},'correct-record': {},'remove-record': {}};
+    for(i=0;i<action_type.length;i++){
+        let rows = $(`#${action_type[i]} tr`);
+        rows.each(function (index, el) {
+            let inputs =  $(el).find('td input');
+            temp_object[action_type[i]][`record_${index + 1}`] = {
+                type: inputs[0].value,
+                name: inputs[1].value,
+                value: inputs[2].value,
+                ttl: inputs[3].value
+            };
+        });
+        console.log(rows);
+    }
+    console.log(temp_object);
+    for(i=0;i<action_type.length;i++){
+        for(record in temp_object[action_type[i]]){
+            $(`[${action_type[i]}] data`).append(`<div>Record Type: ${temp_object[action_type[i]][record].type}<br>Name: ${temp_object[action_type[i]][record].name}<br> Value: ${temp_object[action_type[i]][record].value}<br>TTL: ${temp_object[action_type[i]][record].ttl}</div>`);
+        }
+    }
+}
+
 function selectAction(el){
     if (el.target.classList.value === 'selected') {
         $(el.target).removeClass('selected');
@@ -210,7 +237,6 @@ function selectAction(el){
         $(`#${el.target.attributes.action.value}`).show();
     }
 }
-
 $(window).ready(function (){
     $('div[action]').on('click',selectAction);
 });
