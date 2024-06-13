@@ -35,6 +35,12 @@ function setTestData(){
         $('#examples')[0].value = 'robstestsite.com';
         $('#errors')[0].value = 'No errors';
     }
+    if(RegExp(/dns\-help/).test(path)){
+        $('#domain')[0].value = 'rainadmin.com';
+        $('[action-selector] div').each(function(){
+            $(this).click();
+        });
+    }
 }
 $(window).ready(function(){
     if(location.href.match('localhost')){

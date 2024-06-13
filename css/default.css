@@ -104,3 +104,11 @@ table {
 .btn.terciary{
     background: #ff0000ab;
 }
+/*span close modal X*/
+span.close{
+    float: right;
+    color: #b5b5b5;
+}
+span.close:hover{
+    cursor: pointer;
+}

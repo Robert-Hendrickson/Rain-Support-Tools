@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="/Rain-Support-Tools/css/dns-help.css" />
+        <link rel="stylesheet" href="/Rain-Support-Tools/common/actions/popup.css" />
+        <!--don't need font awesome at the moment. Might add later
+        <script src="https://kit.fontawesome.com/8e52a98e38.js" crossorigin="anonymous"></script>-->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+        <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+        <script src="/Rain-Support-Tools/js/dns-help.js"></script>
+        <script src="/Rain-Support-Tools/js/test_data.js"></script>
+        <script src="/Rain-Support-Tools/common/actions/popup.js"></script>
+    </head>
+    <body>
+        <h1>
+            DNS Help Tool - Design by Russell Lee
+        </h1>
+        <div class="body-container">
+            <div id="info-tabs">
+                <div id="action-tab" step="1" class="active">
+                    <div class="step-circle">1</div>
+                    Action Type
+                </div>
+                <div id="records-tab" step="2">
+                    <div class="step-circle">2</div>
+                    Record Data
+                </div>
+                <div id="confirmation-tab" step="3">
+                    <div class="step-circle">3</div>
+                    Confirm Information
+                </div>
+            </div>
+            <div class="container">
+                <div id="basic-content" data="1"  class="active">
+                    <p>Enter Domain being worked on:</p>
+                    <input id="domain" type="text" placeholder="(sub.)websiteUrl.com" />
+                    <p>Select the action that needs to happen with Records:</p>
+                    <div action-selector>
+                        <div action='add-record'>Add Record(s)</div>
+                        <div action='correct-record'>Correct Existing Record(s)</div>
+                        <div action='remove-record'>Remove Record(s)</div>
+                    </div>
+                </div>
+                <div data="2">
+                    <div id="add-record" style="display:none;">
+                        <h2>Records to Add:</h2>
+                        <div table-controls>
+                            <button class="btn secondary" onclick="addTableRow('add-record')">Add Row</button>
+                            <button class="btn secondary" onclick="removeTableRow('add-record')">Remove Row</button>
+                        </div>
+                        <table id="add-record-table">
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        Type:<br>
+                                        <div>
+                                            <input type="text" disabled />
+                                        </div>
+                                    </td>
+                                    <td>
+                                        Name:<br>
+                                        <div>
+                                            <input type="text" disabled />
+                                        </div>
+                                    </td>
+                                    <td>
+                                        Value:<br>
+                                        <div>
+                                            <input type="text" disabled />
+                                        </div>
+                                    </td>
+                                    <td style="width: 100px; text-align: center;">
+                                        TTL:<br>
+                                        <div>
+                                            <input type="text" disabled />
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <a onclick="openRecordEditor('edit', '1', 'add-record')">Edit</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="correct-record" style="display:none;">
+                        <h2>Records to Correct:</h2>
+                        <div table-controls>
+                            <button class="btn secondary" onclick="addTableRow('correct-record')">Add Row</button>
+                            <button class="btn secondary" onclick="removeTableRow('correct-record')">Remove Row</button>
+                        </div>
+                        <table id="correct-record-table">
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        Type:<br>
+                                        <div>
+                                            <input type="text" disabled />
+                                        </div>
+                                    </td>
+                                    <td>
+                                        Name:<br>
+                                        <div>
+                                            <input type="text" disabled />
+                                        </div>
+                                    </td>
+                                    <td>
+                                        Value:<br>
+                                        <div>
+                                            <input type="text" disabled />
+                                        </div>
+                                    </td>
+                                    <td style="width: 100px; text-align: center;">
+                                        TTL:<br>
+                                        <div>
+                                            <input type="text" disabled />
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <a onclick="openRecordEditor('edit', '1', 'correct-record')">Edit</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="remove-record" style="display:none;">
+                        <h2>Records to Remove:</h2>
+                        <div table-controls>
+                            <button class="btn secondary" onclick="addTableRow('remove-record')">Add Row</button>
+                            <button class="btn secondary" onclick="removeTableRow('remove-record')">Remove Row</button>
+                        </div>
+                        <table id="remove-record-table">
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        Type:<br>
+                                        <div>
+                                            <input type="text" disabled />
+                                        </div>
+                                    </td>
+                                    <td>
+                                        Name:<br>
+                                        <div>
+                                            <input type="text" disabled />
+                                        </div>
+                                    </td>
+                                    <td>
+                                        Value:<br>
+                                        <div>
+                                            <input type="text" disabled />
+                                        </div>
+                                    </td>
+                                    <td style="width: 100px; text-align: center;">
+                                        TTL:<br>
+                                        <div>
+                                            <input type="text" disabled />
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <a onclick="openRecordEditor('edit', '1', 'remove-record')">Edit</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div id="confirm" data="3">
+                    <div compiled-results>
+                        <h2>Please Confirm recorcds are correct and none are missing.</h2>
+                        <div add-record>
+                            <h2>Records to be Added</h2>
+                            <data></data>
+                        </div>
+                        <div correct-record>
+                            <h2>Records to be Corrected</h2>
+                            <data></data>
+                        </div>
+                        <div remove-record>
+                            <h2>Records to be Removed</h2>
+                            <data></data>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div flow-controls>
+                <button prev class="btn secondary hide" style="font-size: 12px;" onclick="previousStep()">Previous</button>
+                <button class="btn primary hide" finish style="float: right;" onclick="validateData()">Finish</button>
+                <button class="btn primary" next style="float: right;" onclick="validateData()">Next</button>
+            </div>
+        </div>
+        <div style="display: none;" id="record-entry-container">
+            <div id="record-entry-box">
+                <span class="close" onclick="closeModal('record-entry-container')">X</span>
+                <h3>Record Information</h3>
+                <input edit-type style="display: none;" value="" />
+                <input row style="display: none;" value="" />
+                <input table style="display: none;" value="" />
+                <div>
+                    Type:<br>
+                    <select class="dns-selector" onchange="updateFields(this.value)">
+                        <option>Select Type</option>
+                        <option>A</option>
+                        <option>AAAA</option>
+                        <option>CNAME</option>
+                        <option>MX</option>
+                        <option>TXT</option>
+                        <option>PTR</option>
+                        <option>SRV</option>
+                        <option>SPF</option>
+                        <option>NAPTR</option>
+                        <option>CAA</option>
+                        <option>DS</option>
+                    </select>
+                </div>
+                <div name>
+                    Name:<br>
+                    <input type="text" />
+                </div>
+                <div value>
+                    Value:<br>
+                    <input type="text" />
+                </div>
+                <div style="display: none;" mx srv priority>
+                    Priority:<br>
+                    <input type="text" />
+                </div>
+                <div style="display: none;" mx mail-host-name>
+                    Mail Host Name:<br>
+                    <input type="text" />
+                </div>
+                <div style="display: none;" srv weight>
+                    Weight:<br>
+                    <input type="text" />
+                </div>
+                <div style="display: none;" srv port>
+                    Port:<br>
+                    <input type="text" />
+                </div>
+                <div style="display: none;" srv server-host>
+                    Server Host Name:<br>
+                    <input type="text" />
+                </div>
+                <div ttl>
+                    Requested TTL (Optional):<br>
+                    <input type="text" />
+                </div>
+                <button class="btn secondary" onclick="closeModal('record-entry-container')">Cancel</button>
+                <button style="float: right;" class="btn primary" onclick="validateRecordData()">Submit</button>
+            </div>
+        </div>
+        <div id="ticket-container" class="hide">
+            <div>
+                <textarea></textarea>
+                <div ticket-buttons>
+                    <button style="float: left;" class="btn terciary" onclick="start_new_ticket()">New Case</button>
+                    <button class="btn secondary" onclick="$('#ticket-container').addClass('hide')">Close</button>
+                    <button class="btn primary" onclick="copyTicket()">Copy</button>
+                </div>
+            </div>
+        </div>
+        <div id="error_message" class="hide"></div>
+        <!--nav menu, can be added after everything is working.
+        <div class="menu-wrapper">
+            <div onclick="toggleNav()" id="nav-toggle">
+                <span class="fa-solid fa-bars"></span>
+            </div>
+            <div class="secondary_menu_links">
+                <div class="toolButtonsList">
+                    <ul>
+                        <li v-for="nav_item in nav_list.home" class="toolButton">
+                            <a v-bind:href="nav_item.url" v-bind:target="nav_item.target">
+                                <div>
+                                    <span v-bind:class="nav_item.icon"></span>{{nav_item.name}}<span class="sub-title">{{nav_item.subTitle}}</span>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="nav-header">Support Tools</div>
+                    <ul>
+                        <li v-for="nav_item in nav_list.support" class="toolButton">
+                            <a v-bind:href="nav_item.url" v-bind:target="nav_item.target">
+                                <div>
+                                    <span v-bind:class="nav_item.icon"></span>{{nav_item.name}}<span class="sub-title">{{nav_item.subTitle}}</span>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="nav-header">System Tools</div>
+                    <ul>
+                        <li v-for="nav_item in nav_list.system" class="toolButton">
+                            <a v-bind:href="nav_item.url" v-bind:target="nav_item.target">
+                                <div>
+                                    <span v-bind:class="nav_item.icon"></span>{{nav_item.name}}<span class="sub-title">{{nav_item.subTitle}}</span>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="nav-header">Misc Tools</div>
+                    <ul>
+                        <li v-for="nav_item in nav_list.misc" class="toolButton">
+                            <a v-bind:href="nav_item.url" v-bind:target="nav_item.target">
+                                <div>
+                                    <span v-bind:class="nav_item.icon"></span>{{nav_item.name}}<span class="sub-title">{{nav_item.subTitle}}</span>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <script src="/Rain-Support-Tools/js/nav-builder.js"></script>
+            </div>
+        </div>
+        -->
+    </body>
+</html>
