@@ -50,35 +50,6 @@
                         </div>
                         <table id="add-record-table">
                             <tbody>
-                                <tr>
-                                    <td>
-                                        Type:<br>
-                                        <div>
-                                            <input type="text" disabled />
-                                        </div>
-                                    </td>
-                                    <td>
-                                        Name:<br>
-                                        <div>
-                                            <input type="text" disabled />
-                                        </div>
-                                    </td>
-                                    <td>
-                                        Value:<br>
-                                        <div>
-                                            <input type="text" disabled />
-                                        </div>
-                                    </td>
-                                    <td style="width: 100px; text-align: center;">
-                                        TTL:<br>
-                                        <div>
-                                            <input type="text" disabled />
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <a onclick="openRecordEditor('edit', '1', 'add-record')">Edit</a>
-                                    </td>
-                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -90,35 +61,6 @@
                         </div>
                         <table id="correct-record-table">
                             <tbody>
-                                <tr>
-                                    <td>
-                                        Type:<br>
-                                        <div>
-                                            <input type="text" disabled />
-                                        </div>
-                                    </td>
-                                    <td>
-                                        Name:<br>
-                                        <div>
-                                            <input type="text" disabled />
-                                        </div>
-                                    </td>
-                                    <td>
-                                        Value:<br>
-                                        <div>
-                                            <input type="text" disabled />
-                                        </div>
-                                    </td>
-                                    <td style="width: 100px; text-align: center;">
-                                        TTL:<br>
-                                        <div>
-                                            <input type="text" disabled />
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <a onclick="openRecordEditor('edit', '1', 'correct-record')">Edit</a>
-                                    </td>
-                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -130,35 +72,6 @@
                         </div>
                         <table id="remove-record-table">
                             <tbody>
-                                <tr>
-                                    <td>
-                                        Type:<br>
-                                        <div>
-                                            <input type="text" disabled />
-                                        </div>
-                                    </td>
-                                    <td>
-                                        Name:<br>
-                                        <div>
-                                            <input type="text" disabled />
-                                        </div>
-                                    </td>
-                                    <td>
-                                        Value:<br>
-                                        <div>
-                                            <input type="text" disabled />
-                                        </div>
-                                    </td>
-                                    <td style="width: 100px; text-align: center;">
-                                        TTL:<br>
-                                        <div>
-                                            <input type="text" disabled />
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <a onclick="openRecordEditor('edit', '1', 'remove-record')">Edit</a>
-                                    </td>
-                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -191,9 +104,6 @@
             <div id="record-entry-box">
                 <span class="close" onclick="closeModal('record-entry-container')">X</span>
                 <h3>Record Information</h3>
-                <input edit-type style="display: none;" value="" />
-                <input row style="display: none;" value="" />
-                <input table style="display: none;" value="" />
                 <div>
                     Type:<br>
                     <select class="dns-selector" onchange="updateFields(this.value)">
@@ -205,10 +115,6 @@
                         <option>TXT</option>
                         <option>PTR</option>
                         <option>SRV</option>
-                        <option>SPF</option>
-                        <option>NAPTR</option>
-                        <option>CAA</option>
-                        <option>DS</option>
                     </select>
                 </div>
                 <div name>
