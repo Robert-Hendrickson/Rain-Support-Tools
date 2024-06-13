@@ -1,7 +1,7 @@
 let action_type = [];
 function domaincheck() {
     let domain = $('#domain')[0].value;
-    return RegExp(/^[\w\-]+\.\w{2,}$/).test(domain);
+    return RegExp(/^(?:[\w\-]+\.)?[\w\-]+\.\w{2,}$/).test(domain);
 }
 function validateData(){
     Close_error_growl();
