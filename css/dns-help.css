@@ -189,6 +189,21 @@ select.dns-selector{
     height: 30px;
     border-radius: 8px;
 }
+/*record table styles: might not be used*/
+div.data-input{
+    border: solid 1px #dddddd;
+    height: 25px;
+    margin-bottom: 16px;
+    background-color: #fafafa;
+    border-radius: 4px;
+    padding: 1px 5px;
+    font-weight: normal;
+    display: flex;
+    align-items: center;
+}
+div.data-input:hover{
+    cursor: pointer;
+}
 /*start edit value styling*/
 #record-entry-container{
     position: absolute;

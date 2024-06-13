@@ -218,16 +218,18 @@ function compileRecords(){
                 ttl: inputs[3].value
             };
         });
-        console.log(rows);
     }
     console.log(temp_object);
     for(i=0;i<action_type.length;i++){
+        $(`[${action_type[i]}] data`)[0].innerHTML = '';
         for(record in temp_object[action_type[i]]){
             $(`[${action_type[i]}] data`).append(`<div>Record Type: ${temp_object[action_type[i]][record].type}<br>Name: ${temp_object[action_type[i]][record].name}<br> Value: ${temp_object[action_type[i]][record].value}<br>TTL: ${temp_object[action_type[i]][record].ttl}</div>`);
         }
     }
 }
-
+function test(data){
+    console.log(data);
+}
 function selectAction(el){
     if (el.target.classList.value === 'selected') {
         $(el.target).removeClass('selected');
