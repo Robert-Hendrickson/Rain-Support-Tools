@@ -55,6 +55,9 @@ function validateData(){
             compileRecords();
             nextStep(current_step);
             break;
+        case 3:
+            $('#ticket-container').removeClass('hide');
+            break;
         default:
             console.error('Invalid Step ID');
             break;
@@ -274,26 +277,22 @@ function submit(record_data){
     row_inputs[3].innerText = record_data.ttl;
 }
 function compileRecords(){
-    let temp_object = {'add-record': {},'correct-record': {},'remove-record': {}};
-    for(i=0;i<action_type.length;i++){
-        let rows = $(`#${action_type[i]} tr`);
-        rows.each(function (index, el) {
-            let inputs =  $(el).find('td div.data-input');
-            temp_object[action_type[i]][`record_${index + 1}`] = {
-                type: inputs[0].innerText,
-                name: inputs[1].innerText,
-                value: inputs[2].innerText,
-                ttl: inputs[3].innerText
-            };
-        });
-    }
-    console.log(temp_object);
     for(i=0;i<action_type.length;i++){
         $(`[${action_type[i]}] data`)[0].innerHTML = '';
-        for(record in temp_object[action_type[i]]){
-            //needs updated to handle correcting records view
-            $(`[${action_type[i]}] data`).append(`<div>Record Type: ${temp_object[action_type[i]][record].type}<br>Name: ${temp_object[action_type[i]][record].name}<br> Value: ${temp_object[action_type[i]][record].value}<br>TTL: ${temp_object[action_type[i]][record].ttl}</div>`);
+        if (action_type[i] != 'correct-record') {
+            let rows = $(`#${action_type[i]} tr`);
+            rows.each(function (index, el) {
+                let inputs =  $(el).find('td div.data-input');
+                $(`[${action_type[i]}] data`).append(`<div>Record Type: ${inputs[0].innerText}<br>Name: ${inputs[1].innerText}<br> Value: ${inputs[2].innerText}<br>TTL: ${inputs[3].innerText}</div>`);
+            });
+        } else {
+            let rows = $(`#${action_type[i]} > table > tbody >  tr`);
+            rows.each(function (index, el) {
+                let inputs =  $(el).find('td div.data-input');
+                $(`[${action_type[i]}] data`).append(`<div class="correct-record"><div>Record Type: ${inputs[0].innerText}<br>Name: ${inputs[1].innerText}<br> Value: ${inputs[2].innerText}<br>TTL: ${inputs[3].innerText}</div><div>Record Type: ${inputs[4].innerText}<br>Name: ${inputs[5].innerText}<br> Value: ${inputs[6].innerText}<br>TTL: ${inputs[7].innerText}</div></div>`);
+            });
         }
+        
     }
 }
 function selectAction(el){
