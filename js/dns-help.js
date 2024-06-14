@@ -1,7 +1,14 @@
-let action_type = [];
+var action_type = [];
+var target_row;
 function domaincheck() {
     let domain = $('#domain')[0].value;
     return RegExp(/^(?:[\w\-]+\.)?[\w\-]+\.\w{2,}$/).test(domain);
+}
+function deleteRow(el){
+    $(el).parent().parent().remove()
+}
+function getRow(el){
+    return $(el).parent().parent()[0];
 }
 function validateData(){
     Close_error_growl();
@@ -30,6 +37,21 @@ function validateData(){
             };
             break;
         case 2:
+            if (action_type.includes('add-record')){
+                $('[compiled-results] [add-record]').show();
+            } else {
+                $('[compiled-results] [add-record]').hide();
+            }
+            if (action_type.includes('correct-record')) {
+                $('[compiled-results] [correct-record]').show();
+            } else {
+                $('[compiled-results] [correct-record]').hide();
+            }
+            if (action_type.includes('remove-record')){
+                $('[compiled-results] [remove-record]').show();
+            } else {
+                $('[compiled-results] [remove-record]').hide();
+            }
             compileRecords();
             nextStep(current_step);
             break;
@@ -85,10 +107,8 @@ function updateFields(record_type){
     }
 }
 
-function openRecordEditor(action,row,table){
-    $('input[edit-type]')[0].value = action;
-    $('input[row]')[0].value = row;
-    $('input[table]')[0].value = table;
+function openRecordEditor(action,row){
+    target_row = row;//hold on to row for later
     if (action === 'add') {
         $('select.dns-selector')[0].value = 'Select Type';
         updateFields('Select Type');
@@ -102,25 +122,25 @@ function openRecordEditor(action,row,table){
         $('div[server-host] input')[0].value = '';
     }
     if (action === 'edit') {
-        let row_inputs = $(`#${table}-table tr:nth-child(${row})`).find('td input');
-        $('select.dns-selector')[0].value = row_inputs[0].value;
-        updateFields(row_inputs[0].value);
-        $('div[name] input')[0].value = row_inputs[1].value;
-        $('div[ttl] input')[0].value = row_inputs[3].value;
+        let row_inputs = $(row).find('td div.data-input');
+        $('select.dns-selector')[0].value = row_inputs[0].innerText;
+        updateFields(row_inputs[0].innerText);
+        $('div[name] input')[0].value = row_inputs[1].innerText;
+        $('div[ttl] input')[0].value = row_inputs[3].innerText;
         //create a collection function to get row data
         //might be good to also create a function to separate value data for srv and mx records
-        if (row_inputs[0].value === 'MX') {
-            let value_split = row_inputs[2].value.split(' ');
+        if (row_inputs[0].innerText === 'MX') {
+            let value_split = row_inputs[2].innerText.split(' ');
             $('div[priority] input')[0].value = value_split[0];
             $('div[mail-host-name] input')[0].value = value_split[1];
-        } else if (row_inputs[0].value === 'SRV') {
-            let value_split = row_inputs[2].value.split(' ');
+        } else if (row_inputs[0].innerText === 'SRV') {
+            let value_split = row_inputs[2].innerText.split(' ');
             $('div[priority] input')[0].value = value_split[0];
             $('div[weight] input')[0].value = value_split[1];
             $('div[port] input')[0].value = value_split[2];
             $('div[server-host] input')[0].value = value_split[3];
         } else {
-            $('div[value] input')[0].value = row_inputs[2].value;
+            $('div[value] input')[0].value = row_inputs[2].innerText;
             //clear unused boxes
             $('div[priority] input')[0].value = '';
             $('div[mail-host-name] input')[0].value = '';
@@ -132,37 +152,28 @@ function openRecordEditor(action,row,table){
     $('#record-entry-container').show()
 }
 function addTableRow(table){
-    let row_number = $(`#${table}-table tr`).length +1
     $(`#${table}-table tbody`).append(`<tr>
         <td>
+            <span onclick="deleteRow(this)">X</span>
+        </td>
+        <td>
             Type:<br>
-            <div>
-                <input type="text" disabled />
-            </div>
+            <div onclick="openRecordEditor('edit', getRow(this))" class="data-input"></div>
         </td>
         <td>
             Name:<br>
-            <div>
-                <input type="text" disabled />
-            </div>
+            <div onclick="openRecordEditor('edit', getRow(this))" class="data-input"></div>
         </td>
         <td>
             Value:<br>
-            <div>
-                <input type="text" disabled />
-            </div>
+            <div onclick="openRecordEditor('edit', getRow(this))" class="data-input"></div>
         </td>
         <td style="width: 100px; text-align: center;">
             TTL:<br>
-            <div>
-                <input type="text" disabled />
-            </div>
-        </td>
-        <td>
-            <a onclick="openRecordEditor('edit', '${row_number}', '${table}')">Edit</a>
+            <div onclick="openRecordEditor('edit', getRow(this))" class="data-input"></div>
         </td>
     </tr>`);
-    openRecordEditor('add',row_number,table);
+    openRecordEditor('add',$(`#${table}-table tbody tr:last-child`)[0]);
 }
 function removeTableRow(table){
     $(`#${table}-table tr:last-child`).remove();
@@ -174,9 +185,7 @@ function validateRecordData(){
     let record_type = $('.dns-selector')[0].value;
     if(record_type != 'Select Type'){
         record_data = {
-            action: $('input[edit-type]')[0].value,
-            row: $('input[row]')[0].value,
-            table: $('input[table]')[0].value,
+            row: target_row,
             type: $('select.dns-selector')[0].value,
             name: $('div[name] input')[0].value,
             value: $('div[value] input')[0].value,
@@ -195,27 +204,38 @@ function validateRecordData(){
         submit(record_data);
         closeModal('record-entry-container');
     } else {
-        //error: need a record type
+        /*this is for the image. Need to build a new popup control to pass it in better
+        '<img src="/Rain-Support-Tools/imgs/bad-record-type.jpeg" />'
+        */
+        popup_error_growl({
+            type: 'generate',
+            list: {
+                record_type: {
+                    text: 'Select a Record Type',
+                    html: '<img src="/Rain-Support-Tools/imgs/bad-record-type.jpeg" />'
+                }
+            }
+        });
     }
 }
 function submit(record_data){
-    let row_inputs = $(`#${record_data.table}-table tr:nth-child(${record_data.row})`).find('td input');
-    row_inputs[0].value = record_data.type;
-    row_inputs[1].value = record_data.name;
-    row_inputs[3].value = record_data.ttl;
-    row_inputs[2].value = record_data.value;
+    let row_inputs = $(record_data.row).find('td div.data-input');
+    row_inputs[0].innerText = record_data.type;
+    row_inputs[1].innerText = record_data.name;
+    row_inputs[2].innerText = record_data.value;
+    row_inputs[3].innerText = record_data.ttl;
 }
 function compileRecords(){
     let temp_object = {'add-record': {},'correct-record': {},'remove-record': {}};
     for(i=0;i<action_type.length;i++){
         let rows = $(`#${action_type[i]} tr`);
         rows.each(function (index, el) {
-            let inputs =  $(el).find('td input');
+            let inputs =  $(el).find('td div.data-input');
             temp_object[action_type[i]][`record_${index + 1}`] = {
-                type: inputs[0].value,
-                name: inputs[1].value,
-                value: inputs[2].value,
-                ttl: inputs[3].value
+                type: inputs[0].innerText,
+                name: inputs[1].innerText,
+                value: inputs[2].innerText,
+                ttl: inputs[3].innerText
             };
         });
     }
@@ -226,9 +246,6 @@ function compileRecords(){
             $(`[${action_type[i]}] data`).append(`<div>Record Type: ${temp_object[action_type[i]][record].type}<br>Name: ${temp_object[action_type[i]][record].name}<br> Value: ${temp_object[action_type[i]][record].value}<br>TTL: ${temp_object[action_type[i]][record].ttl}</div>`);
         }
     }
-}
-function test(data){
-    console.log(data);
 }
 function selectAction(el){
     if (el.target.classList.value === 'selected') {

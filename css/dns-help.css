@@ -189,7 +189,7 @@ select.dns-selector{
     height: 30px;
     border-radius: 8px;
 }
-/*record table styles: might not be used*/
+/*record table styles*/
 div.data-input{
     border: solid 1px #dddddd;
     height: 25px;
@@ -203,6 +203,24 @@ div.data-input{
 }
 div.data-input:hover{
     cursor: pointer;
+}
+div[data="2"] > div > table{
+    td:first-child{
+        width: 5px;
+    }
+    td:nth-child(2){
+        width: 80px;
+    }
+}
+/*confirmation styling*/
+data{
+    display: block;
+    padding: 16px;
+}
+data div{
+    border: #000 solid 1px;
+    margin: 8px 0;
+    padding: 8px;
 }
 /*start edit value styling*/
 #record-entry-container{
