@@ -37,6 +37,21 @@ function validateData(){
             };
             break;
         case 2:
+            if (action_type.includes('add-record')){
+                $('[compiled-results] [add-record]').show();
+            } else {
+                $('[compiled-results] [add-record]').hide();
+            }
+            if (action_type.includes('correct-record')) {
+                $('[compiled-results] [correct-record]').show();
+            } else {
+                $('[compiled-results] [correct-record]').hide();
+            }
+            if (action_type.includes('remove-record')){
+                $('[compiled-results] [remove-record]').show();
+            } else {
+                $('[compiled-results] [remove-record]').hide();
+            }
             compileRecords();
             nextStep(current_step);
             break;
@@ -195,7 +210,10 @@ function validateRecordData(){
         popup_error_growl({
             type: 'generate',
             list: {
-                record_type: 'Select a Recor Type'
+                record_type: {
+                    text: 'Select a Record Type',
+                    html: '<img src="/Rain-Support-Tools/imgs/bad-record-type.jpeg" />'
+                }
             }
         });
     }
