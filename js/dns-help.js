@@ -152,27 +152,75 @@ function openRecordEditor(action,row){
     $('#record-entry-container').show()
 }
 function addTableRow(table){
-    $(`#${table}-table tbody`).append(`<tr>
-        <td>
-            <span onclick="deleteRow(this)">X</span>
-        </td>
-        <td>
-            Type:<br>
-            <div onclick="openRecordEditor('edit', getRow(this))" class="data-input"></div>
-        </td>
-        <td>
-            Name:<br>
-            <div onclick="openRecordEditor('edit', getRow(this))" class="data-input"></div>
-        </td>
-        <td>
-            Value:<br>
-            <div onclick="openRecordEditor('edit', getRow(this))" class="data-input"></div>
-        </td>
-        <td style="width: 100px; text-align: center;">
-            TTL:<br>
-            <div onclick="openRecordEditor('edit', getRow(this))" class="data-input"></div>
-        </td>
-    </tr>`);
+    if (table != 'correct-record') {
+        $(`#${table}-table tbody`).append(`<tr>
+            <td>
+                <span onclick="deleteRow(this)">X</span>
+            </td>
+            <td>
+                Type:<br>
+                <div onclick="openRecordEditor('edit', getRow(this))" class="data-input"></div>
+            </td>
+            <td>
+                Name:<br>
+                <div onclick="openRecordEditor('edit', getRow(this))" class="data-input"></div>
+            </td>
+            <td>
+                Value:<br>
+                <div onclick="openRecordEditor('edit', getRow(this))" class="data-input"></div>
+            </td>
+            <td style="width: 100px; text-align: center;">
+                TTL:<br>
+                <div onclick="openRecordEditor('edit', getRow(this))" class="data-input"></div>
+            </td>
+        </tr>`);
+    } else {
+        $(`#${table}-table > tbody`).append(`<tr>
+	<td>
+		<span onclick="deleteRow(this)">X</span>
+		<table>
+			<tbody>
+				<tr>
+					<td>
+						Type:<br>
+						<div onclick="openRecordEditor('edit', getRow(this))" class="data-input"></div>
+					</td>
+					<td>
+						Name:<br>
+						<div onclick="openRecordEditor('edit', getRow(this))" class="data-input"></div>
+					</td>
+					<td>
+						Value:<br>
+						<div onclick="openRecordEditor('edit', getRow(this))" class="data-input"></div>
+					</td>
+					<td>
+						TTL:<br>
+						<div onclick="openRecordEditor('edit', getRow(this))" class="data-input"></div>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						Type:<br>
+						<div onclick="openRecordEditor('edit', getRow(this))" class="data-input"></div>
+					</td>
+					<td>
+						Name:<br>
+						<div onclick="openRecordEditor('edit', getRow(this))" class="data-input"></div>
+					</td>
+					<td>
+						Value:<br>
+						<div onclick="openRecordEditor('edit', getRow(this))" class="data-input"></div>
+					</td>
+					<td>
+						TTL:<br>
+						<div onclick="openRecordEditor('edit', getRow(this))" class="data-input"></div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</td>
+</tr>`);
+    }
     openRecordEditor('add',$(`#${table}-table tbody tr:last-child`)[0]);
 }
 function removeTableRow(table){
@@ -243,6 +291,7 @@ function compileRecords(){
     for(i=0;i<action_type.length;i++){
         $(`[${action_type[i]}] data`)[0].innerHTML = '';
         for(record in temp_object[action_type[i]]){
+            //needs updated to handle correcting records view
             $(`[${action_type[i]}] data`).append(`<div>Record Type: ${temp_object[action_type[i]][record].type}<br>Name: ${temp_object[action_type[i]][record].name}<br> Value: ${temp_object[action_type[i]][record].value}<br>TTL: ${temp_object[action_type[i]][record].ttl}</div>`);
         }
     }
