@@ -56,12 +56,69 @@ function validateData(){
             nextStep(current_step);
             break;
         case 3:
+            let ticket_text = `DNS Record Changes
+Domain: ${$('#domain')[0].value}
+
+`;
+            ticket_text += appendRecordChanges();
+            //after getting record changes from above line need to add text to the text container
+            $('#ticket-container textarea')[0].value = ticket_text;
             $('#ticket-container').removeClass('hide');
             break;
         default:
             console.error('Invalid Step ID');
             break;
     }
+}
+function appendRecordChanges(){
+    let text_to_append = '';
+    for (i=0;i<action_type.length;i++) {
+        let record_rows = $(`#${action_type[i]}-table > tbody > tr`);
+        if (action_type[i] != 'correct-record') {
+            if (action_type[i] === 'add-record') {
+                text_to_append += `-----Records to be Added-----
+
+`;
+            }
+            if (action_type[i] === 'remove-record') {
+                text_to_append += `-----Records to Remove-----
+
+`;
+            }
+            for (r=0;r<record_rows.length;r++) {
+                let row_inputs = $(record_rows[r]).find('div.data-input');
+                text_to_append += `Record #${r+1}:
+Type: ${row_inputs[0].innerText}
+Name: ${row_inputs[1].innerText}
+Value: ${row_inputs[2].innerText}
+TTL: ${row_inputs[3].innerText}
+
+`;
+            }
+        } else {
+            text_to_append += `-----Records to Correct-----
+
+`;
+            for (r=0;r<record_rows.length;r++) {
+                let row_inputs = $(record_rows[r]).find('div.data-input');
+                text_to_append += `Record #${r+1}:
+**Original Values**
+Type: ${row_inputs[0].innerText}
+Name: ${row_inputs[1].innerText}
+Value: ${row_inputs[2].innerText}
+TTL: ${row_inputs[3].innerText}
+
+**New Values**
+Type: ${row_inputs[4].innerText}
+Name: ${row_inputs[5].innerText}
+Value: ${row_inputs[6].innerText}
+TTL: ${row_inputs[7].innerText}
+
+`;
+            }
+        }
+    }
+    return text_to_append;
 }
 function nextStep(step_number){
     $(`[step="${step_number}"]`)[0].classList = 'complete';
