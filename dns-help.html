@@ -3,8 +3,7 @@
     <head>
         <link rel="stylesheet" href="/Rain-Support-Tools/css/dns-help.css" />
         <link rel="stylesheet" href="/Rain-Support-Tools/common/actions/popup.css" />
-        <!--don't need font awesome at the moment. Might add later
-        <script src="https://kit.fontawesome.com/8e52a98e38.js" crossorigin="anonymous"></script>-->
+        <script src="https://kit.fontawesome.com/8e52a98e38.js" crossorigin="anonymous"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
         <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
         <script src="/Rain-Support-Tools/js/dns-help.js"></script>
@@ -95,9 +94,9 @@
                 </div>
             </div>
             <div flow-controls>
-                <button prev class="btn secondary hide" style="font-size: 12px;" onclick="previousStep()">Previous</button>
-                <button class="btn primary hide" finish style="float: right;" onclick="validateData()">Finish</button>
-                <button class="btn primary" next style="float: right;" onclick="validateData()">Next</button>
+                <button prev class="btn secondary hide" style="font-size: 12px;">Previous</button>
+                <button class="btn primary hide" finish style="float: right;">Finish</button>
+                <button class="btn primary" next style="float: right;">Next</button>
             </div>
         </div>
         <div style="display: none;" id="record-entry-container">
@@ -147,7 +146,7 @@
                 </div>
                 <div ttl>
                     Requested TTL (Optional):<br>
-                    <input type="text" />
+                    <input type="text" maxlength="5" />
                 </div>
                 <button class="btn secondary" onclick="closeModal('record-entry-container')">Cancel</button>
                 <button style="float: right;" class="btn primary" onclick="validateRecordData()">Submit</button>
@@ -164,7 +163,6 @@
             </div>
         </div>
         <div id="error_message" class="hide"></div>
-        <!--nav menu, can be added after everything is working.
         <div class="menu-wrapper">
             <div onclick="toggleNav()" id="nav-toggle">
                 <span class="fa-solid fa-bars"></span>
@@ -214,6 +212,5 @@
                 <script src="/Rain-Support-Tools/js/nav-builder.js"></script>
             </div>
         </div>
-        -->
     </body>
 </html>

@@ -162,8 +162,9 @@ div#ticket-container{
     position: absolute;
     z-index: 1;
     top: 0;
-    width: 99%;
-    height: 99%;
+    left: 0;
+    width: 98vw;
+    height: 100vh;
 }
 
 #ticket-container > div{
@@ -207,8 +208,28 @@ div.data-input:hover{
 div[data="2"] > div > table{
     td:first-child{
         width: 5px;
+        span:hover{
+            cursor: pointer;
+        }
     }
     td:nth-child(2){
+        width: 80px;
+    }
+}
+/*correct-record styles*/
+#correct-record-table > tbody > tr > td{
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+#correct-record-table tbody tr tbody tr{
+    td{
+        width: unset;
+    }
+    td:first-child{
+        width: 75px;
+    }
+    td:last-child{
         width: 80px;
     }
 }
@@ -221,6 +242,15 @@ data div{
     border: #000 solid 1px;
     margin: 8px 0;
     padding: 8px;
+}
+data div.correct-record{
+    display: flex;
+}
+data div.correct-record > div{
+    border: #000 solid 1px;
+    margin: 8px;
+    padding: 8px;
+    width: 50%;
 }
 /*start edit value styling*/
 #record-entry-container{

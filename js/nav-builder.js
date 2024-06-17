@@ -7,7 +7,8 @@ const app = Vue.createApp({
                 support: [
                     //{name:'Bug Ticket Form', url: 'Bug_ticket_form.html'},
                     {name: 'Bug Ticket v2', url: 'bug-ticket-v2.html', icon: 'fa-solid fa-bug'},
-                    {name:'Site Fix Ticket', url: 'site-fix.html', icon: 'fa-solid fa-hammer'}
+                    {name:'Site Fix Ticket', url: 'site-fix.html', icon: 'fa-solid fa-hammer'},
+                    {name: 'DNS Record Tool', url: 'dns-help.html', icon: 'fa-regular fa-compass'}
                 ],
                 system: [
                     {name:'Email List Checker', url: 'email-list-checker.html', icon: 'fa-solid fa-envelope'},
