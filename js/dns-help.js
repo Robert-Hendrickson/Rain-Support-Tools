@@ -10,6 +10,16 @@ function deleteRow(el){
 function getRow(el){
     return $(el).parent().parent()[0];
 }
+function checkForEmptyRows(){
+    let potential_errors = {};
+    //loop through active types and make sure no table is empty. If it is create a growl message.
+    for(a=0;a<action_type.length;a++){
+        if (!$(`#${action_type[a]}-table > tbody > tr`).length) {
+            potential_errors[action_type[a].replace('-','_')] = `The ${action_type[a].replace('-',' ').toUpperCase()} section doesn't have any data. Please make sure there is at least one record for each action type selected in first step. If incorrect options are listed, click previous button to edit which actions need to be considered for ticket progression.`;
+        }
+    }
+    return potential_errors;
+}
 function validateData(){
     Close_error_growl();
     let bad_object = {
@@ -37,23 +47,28 @@ function validateData(){
             };
             break;
         case 2:
-            if (action_type.includes('add-record')){
-                $('[compiled-results] [add-record]').show();
+            bad_object.list = checkForEmptyRows();
+            if (Object.entries(bad_object.list).length) {
+                popup_error_growl(bad_object);
             } else {
-                $('[compiled-results] [add-record]').hide();
-            }
-            if (action_type.includes('correct-record')) {
-                $('[compiled-results] [correct-record]').show();
-            } else {
-                $('[compiled-results] [correct-record]').hide();
-            }
-            if (action_type.includes('remove-record')){
-                $('[compiled-results] [remove-record]').show();
-            } else {
-                $('[compiled-results] [remove-record]').hide();
-            }
-            compileRecords();
-            nextStep(current_step);
+                if (action_type.includes('add-record')){
+                    $('[compiled-results] [add-record]').show();
+                } else {
+                    $('[compiled-results] [add-record]').hide();
+                }
+                if (action_type.includes('correct-record')) {
+                    $('[compiled-results] [correct-record]').show();
+                } else {
+                    $('[compiled-results] [correct-record]').hide();
+                }
+                if (action_type.includes('remove-record')){
+                    $('[compiled-results] [remove-record]').show();
+                } else {
+                    $('[compiled-results] [remove-record]').hide();
+                }
+                compileRecords();
+                nextStep(current_step);
+            };
             break;
         case 3:
             let ticket_text = `DNS Record Changes
@@ -331,7 +346,11 @@ function submit(record_data){
     row_inputs[0].innerText = record_data.type;
     row_inputs[1].innerText = record_data.name;
     row_inputs[2].innerText = record_data.value;
-    row_inputs[3].innerText = record_data.ttl;
+    if (record_data.ttl === '') {
+        row_inputs[3].innerText = '3600';
+    } else {
+        row_inputs[3].innerText = record_data.ttl;
+    }
 }
 function compileRecords(){
     for(i=0;i<action_type.length;i++){
@@ -352,6 +371,11 @@ function compileRecords(){
         
     }
 }
+//restrict ttl box to only allow characters 0-9
+function ttlCharacterRestriction(el){
+    el.target.value = el.target.value.replaceAll(/[^0-9/]/g,'');
+}
+//update action selection
 function selectAction(el){
     if (el.target.classList.value === 'selected') {
         $(el.target).removeClass('selected');
@@ -363,7 +387,9 @@ function selectAction(el){
 }
 $(window).ready(function (){
     $('div[action]').on('click',selectAction);
+    $('div[ttl] input').on('keyup',ttlCharacterRestriction);
 });
+//handle all common click events
 addEventListener("mouseup", (event) =>{
     if($(event.target).hasClass('data-input')){
         openRecordEditor('edit', getRow(event.target));
