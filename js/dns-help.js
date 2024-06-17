@@ -215,65 +215,65 @@ function addTableRow(table){
     if (table != 'correct-record') {
         $(`#${table}-table tbody`).append(`<tr>
             <td>
-                <span onclick="deleteRow(this)">X</span>
+                <span class="row-delete">X</span>
             </td>
             <td>
                 Type:<br>
-                <div onclick="openRecordEditor('edit', getRow(this))" class="data-input"></div>
+                <div class="data-input"></div>
             </td>
             <td>
                 Name:<br>
-                <div onclick="openRecordEditor('edit', getRow(this))" class="data-input"></div>
+                <div class="data-input"></div>
             </td>
             <td>
                 Value:<br>
-                <div onclick="openRecordEditor('edit', getRow(this))" class="data-input"></div>
+                <div class="data-input"></div>
             </td>
-            <td style="width: 100px; text-align: center;">
+            <td style="width: 100px;">
                 TTL:<br>
-                <div onclick="openRecordEditor('edit', getRow(this))" class="data-input"></div>
+                <div class="data-input"></div>
             </td>
         </tr>`);
     } else {
         $(`#${table}-table > tbody`).append(`<tr>
 	<td>
-		<span onclick="deleteRow(this)">X</span>
+		<span class="row-delete">X</span>
 		<table>
 			<tbody>
 				<tr>
 					<td>
 						Type:<br>
-						<div onclick="openRecordEditor('edit', getRow(this))" class="data-input"></div>
+						<div class="data-input"></div>
 					</td>
 					<td>
 						Name:<br>
-						<div onclick="openRecordEditor('edit', getRow(this))" class="data-input"></div>
+						<div class="data-input"></div>
 					</td>
 					<td>
 						Value:<br>
-						<div onclick="openRecordEditor('edit', getRow(this))" class="data-input"></div>
+						<div class="data-input"></div>
 					</td>
 					<td>
 						TTL:<br>
-						<div onclick="openRecordEditor('edit', getRow(this))" class="data-input"></div>
+						<div class="data-input"></div>
 					</td>
 				</tr>
 				<tr>
 					<td>
 						Type:<br>
-						<div onclick="openRecordEditor('edit', getRow(this))" class="data-input"></div>
+						<div class="data-input"></div>
 					</td>
 					<td>
 						Name:<br>
-						<div onclick="openRecordEditor('edit', getRow(this))" class="data-input"></div>
+						<div class="data-input"></div>
 					</td>
 					<td>
 						Value:<br>
-						<div onclick="openRecordEditor('edit', getRow(this))" class="data-input"></div>
+						<div class="data-input"></div>
 					</td>
 					<td>
 						TTL:<br>
-						<div onclick="openRecordEditor('edit', getRow(this))" class="data-input"></div>
+						<div class="data-input"></div>
 					</td>
 				</tr>
 			</tbody>
@@ -363,4 +363,18 @@ function selectAction(el){
 }
 $(window).ready(function (){
     $('div[action]').on('click',selectAction);
+});
+addEventListener("mouseup", (event) =>{
+    if($(event.target).hasClass('data-input')){
+        openRecordEditor('edit', getRow(event.target));
+    };
+    if($(event.target).hasClass('row-delete')){
+        deleteRow(event.target)
+    };
+    if(event.target.hasAttribute('next')||event.target.hasAttribute('next')){
+        validateData();
+    }
+    if(event.target.hasAttribute('prev')){
+        previousStep();
+    }
 });
