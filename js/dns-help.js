@@ -20,6 +20,40 @@ function checkForEmptyRows(){
     }
     return potential_errors;
 }
+function checkValues(record_data){
+    let potential_errors = {};
+    if (record_data.name === ''){
+        potential_errors['record_name'] = 'Enter a value for the record Name.'
+    }
+    if (record_data.type != ('SRV'|'MX')){
+        if(record_data.value === ''){
+            potential_errors['record_value'] = 'Enter a value for the record Value.'
+        }
+    }
+    if (record_data.type === 'MX'){
+        if(record_data.priority === ''){
+            potential_errors['record_priority'] = 'Enter a value for the record Priority.'
+        }
+        if(record_data.mailhostname === ''){
+            potential_errors['record_mailhost'] = 'Enter a value for the record Mail Host.'
+        }
+    }
+    if (record_data.type === 'SRV'){
+        if(record_data.priority === ''){
+            potential_errors['record_priority'] = 'Enter a value for the record Priority.'
+        }
+        if(record_data.weight === ''){
+            potential_errors['record_weight'] = 'Enter a value for the record Weight.'
+        }
+        if(record_data.port === ''){
+            potential_errors['record_port'] = 'Enter a value for the record Port.'
+        }
+        if(record_data.serverhost === ''){
+            potential_errors['record_serverhost'] = 'Enter a value for the record Server Host.'
+        }
+    }
+    return potential_errors;
+}
 function validateData(){
     Close_error_growl();
     let bad_object = {
@@ -324,12 +358,17 @@ function validateRecordData(){
         } else if (record_type === 'SRV') {
             record_data.value = `${record_data.priority} ${record_data.weight} ${record_data.port} ${record_data.serverhost}`;
         }
-        submit(record_data);
-        closeModal('record-entry-container');
+        bad_object = {
+            type: 'generate',
+            list: checkValues(record_data)
+        };
+        if (Object.entries(bad_object.list).length) {
+            popup_error_growl(bad_object);
+        } else {
+            submit(record_data);
+            closeModal('record-entry-container');
+        };
     } else {
-        /*this is for the image. Need to build a new popup control to pass it in better
-        '<img src="/Rain-Support-Tools/imgs/bad-record-type.jpeg" />'
-        */
         popup_error_growl({
             type: 'generate',
             list: {
@@ -371,6 +410,25 @@ function compileRecords(){
         
     }
 }
+function copyTicket() {
+    // Get the text field
+    var copyText = $('#ticket-container > div > textarea')[0];
+
+    // Select the text field
+    copyText.select();
+    copyText.setSelectionRange(0, 99999); // For mobile devices
+
+    // Copy the text inside the text field
+    navigator.clipboard.writeText(copyText.value);
+
+    // Alert the copied text
+    //console.log("Copied the text: " + copyText.value);
+};
+function start_new_ticket(){
+    if(window.confirm('This action is not reversible. Continuing will clear all current data and start a new ticket.\n\n Do you want to continue?')){
+        window.location.reload();
+    }
+}
 //restrict ttl box to only allow characters 0-9
 function ttlCharacterRestriction(el){
     el.target.value = el.target.value.replaceAll(/[^0-9/]/g,'');
@@ -397,7 +455,7 @@ addEventListener("mouseup", (event) =>{
     if($(event.target).hasClass('row-delete')){
         deleteRow(event.target)
     };
-    if(event.target.hasAttribute('next')||event.target.hasAttribute('next')){
+    if(event.target.hasAttribute('next')||event.target.hasAttribute('finish')){
         validateData();
     }
     if(event.target.hasAttribute('prev')){
