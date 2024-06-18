@@ -23,7 +23,7 @@ function checkForEmptyRows(){
 function checkValues(record_data){
     let potential_errors = {};
     if (record_data.name === ''){
-        potential_errors['record_name'] = 'Enter a value for the record Name.'
+        potential_errors['record_name'] = 'Enter a value for the record Name. If the data given to you by a customer has no value for the Name, please confirm with the customer that this is intentional. If confirmed please enter "@" as the value.'
     }
     if (record_data.type != ('SRV'|'MX')){
         if(record_data.value === ''){
