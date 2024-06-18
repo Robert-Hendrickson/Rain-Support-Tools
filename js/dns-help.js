@@ -374,7 +374,7 @@ function validateRecordData(){
             list: {
                 record_type: {
                     text: 'Select a Record Type',
-                    html: '<img src="/Rain-Support-Tools/imgs/bad-record-type.jpeg" />'
+                    html: '<img style="width: 100%;" src="/Rain-Support-Tools/imgs/bad-record-type.jpeg" />'
                 }
             }
         });
