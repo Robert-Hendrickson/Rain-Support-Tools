@@ -1,8 +1,12 @@
 var action_type = [];
 var target_row;
+var domain_data;
 function domaincheck() {
     let domain = $('#domain')[0].value;
     return RegExp(/^(?:[\w\-]+\.)?[\w\-]+\.\w{2,}$/).test(domain);
+}
+function isSubDomain(){
+    return [(/^[\w\-]+\.[\w\-]+\.\w{2,}$/).test($('#domain')[0].value),$('#domain')[0].value.match(/^[\w-]+/g)[0]];
 }
 function deleteRow(el){
     $(el).parent().parent().remove()
@@ -23,7 +27,10 @@ function checkForEmptyRows(){
 function checkValues(record_data){
     let potential_errors = {};
     if (record_data.name === ''){
-        potential_errors['record_name'] = 'Enter a value for the record Name. If the data given to you by a customer has no value for the Name, please confirm with the customer that this is intentional. If confirmed please enter "@" as the value.'
+        potential_errors['record_name'] = 'Enter a value for the record Name.';
+        if(!domain_data[0]){
+            potential_errors['record_name'] += ' If the data given to you by a customer has no value for the Name, please confirm with the customer that this is intentional. If confirmed please enter "@" as the value.';
+        }
     }
     if (record_data.type != ('SRV'|'MX')){
         if(record_data.value === ''){
@@ -77,6 +84,7 @@ function validateData(){
             if (Object.entries(bad_object.list).length) {
                 popup_error_growl(bad_object);
             } else {
+                domain_data = isSubDomain();
                 nextStep(current_step);
             };
             break;
@@ -234,7 +242,11 @@ function openRecordEditor(action,row){
         let row_inputs = $(row).find('td div.data-input');
         $('select.dns-selector')[0].value = row_inputs[0].innerText;
         updateFields(row_inputs[0].innerText);
-        $('div[name] input')[0].value = row_inputs[1].innerText;
+        if (domain_data[0]) {
+            $('div[name] input')[0].value = row_inputs[1].innerText.split('.')[0];
+        } else {
+            $('div[name] input')[0].value = row_inputs[1].innerText;
+        }
         $('div[ttl] input')[0].value = row_inputs[3].innerText;
         //create a collection function to get row data
         //might be good to also create a function to separate value data for srv and mx records
@@ -383,7 +395,11 @@ function validateRecordData(){
 function submit(record_data){
     let row_inputs = $(record_data.row).find('td div.data-input');
     row_inputs[0].innerText = record_data.type;
-    row_inputs[1].innerText = record_data.name;
+    if(domain_data[0]){
+        row_inputs[1].innerText = record_data.name + '.' + domain_data[1];
+    } else {
+        row_inputs[1].innerText = record_data.name;
+    }
     row_inputs[2].innerText = record_data.value;
     if (record_data.ttl === '') {
         row_inputs[3].innerText = '3600';
