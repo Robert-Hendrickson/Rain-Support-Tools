@@ -462,3 +462,8 @@ addEventListener("mouseup", (event) =>{
         previousStep();
     }
 });
+$(window).ready(function (){
+    if ((/^\?test$/).test(location.search) ){
+        setTestData();
+    }
+});
