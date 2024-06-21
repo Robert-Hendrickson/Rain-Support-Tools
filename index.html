@@ -107,29 +107,7 @@
                         <li list="misc" onclick="updateNavButtons($(this))">Misc Tools</li>
                     </ul>
                 </div>
-                <div class="toolButtonsList">
-                    <div id="support">
-                        <div v-for="nav_item in nav_list.support" class="toolButton">
-                            <a v-bind:href="nav_item.url" v-bind:target="nav_item.target">
-                                <button>{{nav_item.name}} {{nav_item.subTitle}}</button>
-                            </a>
-                        </div>
-                    </div>
-                    <div id="system" style="display: none;">
-                        <div v-for="nav_item in nav_list.system" class="toolButton">
-                            <a v-bind:href="nav_item.url" v-bind:target="nav_item.target">
-                                <button>{{nav_item.name}} {{nav_item.subTitle}}</button>
-                            </a>
-                        </div>
-                    </div>
-                    <div id="misc" style="display: none;">
-                        <div v-for="nav_item in nav_list.misc" class="toolButton">
-                            <a v-bind:href="nav_item.url" v-bind:target="nav_item.target">
-                                <button>{{nav_item.name}} {{nav_item.subTitle}}</button>
-                            </a>
-                        </div>
-                    </div>
-                </div>
+                <nav-menu></nav-menu>
                 <script src="/Rain-Support-Tools/js/nav-builder.js"></script>
             </div>
         </div>
