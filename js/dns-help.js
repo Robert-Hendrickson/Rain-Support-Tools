@@ -344,6 +344,7 @@ function addTableRow(table){
                 <div class="data-input"></div>
             </td>
         </tr>`);
+        openRecordEditor('add',$(`#${table}-table > tbody > tr:last-child`)[0]);
     } else {
         $(`#${table}-table > tbody`).append(`<tr>
 	<td>
@@ -390,14 +391,25 @@ function addTableRow(table){
 		</table>
 	</td>
 </tr>`);
+        openRecordEditor('add',$(`#correct-record-table > tbody > tr:last-child tr:first-child`)[0]);
     }
-    openRecordEditor('add',$(`#${table}-table tbody tr:last-child`)[0]);
 }
 function removeTableRow(table){
     $(`#${table}-table tr:last-child`).remove();
 }
 function closeModal(modal){
+    if ($(target_row).find('div.data-input')[0].innerText === '') {
+        //check we are editing the second line of a correct-record row
+        if ($(target_row).parents('table[id]').attr('id') === 'correct-record-table') {
+            if ($(target_row).parent().find('div.data-input')[0].innerText === '') {
+                $(target_row).parents('table[id] > tbody > tr:last-child').remove()
+            }
+        } else {
+            $(target_row).remove();
+        }
+    }
     $(`#${modal}`).hide();
+    target_row = null;
 }
 function validateRecordData(){
     let record_type = $('.dns-selector')[0].value;
