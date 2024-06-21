@@ -1,8 +1,12 @@
 var action_type = [];
 var target_row;
+var domain_data;
 function domaincheck() {
     let domain = $('#domain')[0].value;
     return RegExp(/^(?:[\w\-]+\.)?[\w\-]+\.\w{2,}$/).test(domain);
+}
+function isSubDomain(){
+    return [(/^[\w\-]+\.[\w\-]+\.\w{2,}$/).test($('#domain')[0].value),$('#domain')[0].value.match(/^[\w-]+/g)[0]];
 }
 function deleteRow(el){
     $(el).parent().parent().remove()
@@ -22,35 +26,87 @@ function checkForEmptyRows(){
 }
 function checkValues(record_data){
     let potential_errors = {};
+    //check record name value exists
     if (record_data.name === ''){
-        potential_errors['record_name'] = 'Enter a value for the record Name. If the data given to you by a customer has no value for the Name, please confirm with the customer that this is intentional. If confirmed please enter "@" as the value.'
-    }
-    if (record_data.type != ('SRV'|'MX')){
-        if(record_data.value === ''){
-            potential_errors['record_value'] = 'Enter a value for the record Value.'
+        potential_errors['record_name'] = 'Enter a value for the record Name.';
+        if(!domain_data[0]){
+            potential_errors['record_name'] += ' If the data given to you by a customer has no value for the Name, please confirm with the customer that this is intentional. If confirmed please enter "@" as the value.';
         }
     }
-    if (record_data.type === 'MX'){
-        if(record_data.priority === ''){
-            potential_errors['record_priority'] = 'Enter a value for the record Priority.'
-        }
-        if(record_data.mailhostname === ''){
-            potential_errors['record_mailhost'] = 'Enter a value for the record Mail Host.'
-        }
-    }
-    if (record_data.type === 'SRV'){
-        if(record_data.priority === ''){
-            potential_errors['record_priority'] = 'Enter a value for the record Priority.'
-        }
-        if(record_data.weight === ''){
-            potential_errors['record_weight'] = 'Enter a value for the record Weight.'
-        }
-        if(record_data.port === ''){
-            potential_errors['record_port'] = 'Enter a value for the record Port.'
-        }
-        if(record_data.serverhost === ''){
-            potential_errors['record_serverhost'] = 'Enter a value for the record Server Host.'
-        }
+    //check entered data is usable for record type selected
+    switch (record_data.type){
+        case 'A':
+            if (record_data.name === '') {
+                potential_errors['a_record_name'] = 'Enter a value for the record Name';
+            };
+            if (!(/^(?:\d{1,3}\.){3}\d{1,3}$/).test(record_data.value)) {
+                potential_errors['a_record_value'] = 'A record value needs to be an ipv4 address. (1.1.1.1)';
+            };
+            break;
+        case 'AAAA':
+            if (record_data.name === '') {
+                potential_errors['aaaa_record_name'] = 'Enter a value for the record Name';
+            };
+            if (!(/^(?:\w{4}\:){7}\w{4}$/).test(record_data.value)) {
+                potential_errors['aaaa_record_value'] = 'AAAA record value needs to be an ipv6 address. (2001:0000:130F:0000:0000:09C0:876A:130B)';
+            };
+            break;
+        case 'CNAME':
+            if (record_data.name === '') {
+                potential_errors['CNAME_record_name'] = 'Enter a value for the record Name';
+            };
+            if (!(/^\w+\.\w{2,}$/).test(record_data.value)) {
+                potential_errors['CNAME_record_value'] = 'CNAME record value needs to be a domain. (domain.com)';
+            };
+            break;
+        case 'MX':
+            if (record_data.name === '') {
+                potential_errors['MX_record_name'] = 'Enter a value for the record Name';
+            };
+            if (!(/^\d+$/).test(record_data.priority)) {
+                potential_errors['MX_record_priority'] = 'MX record priority needs to be a number. (10)';
+            };
+            if (!(/^\w+\.\w+\.\w{2,}$/).test(record_data.mailhostname)) {
+                potential_errors['MX_record_host'] = 'MX record Mail Host needs to be a domain. (mail.domain.com)';
+            };
+            break;
+        case 'TXT':
+            if (record_data.name === '') {
+                potential_errors['TXT_record_name'] = 'Enter a value for the record Name';
+            };
+            /*this will check for value on txt, need to determine what things we don't want to show in the record. will update at later time
+            if (!(/^\d+/).test(record_data.value)) {
+                potential_errors['TXT_record_value'] = 'TXT record value needs to be a number. (10)';
+            };*/
+            break;
+        case 'PTR':
+            if (record_data.name === '' || !(/(?:\d{1,3}\.){3}\d{1,3}$/).test(record_data.name)) {
+                potential_errors['ptr_record_name'] = 'PTR Name value needs to be an ipv4 address. (1.0.0.1)';
+            };
+            if (!(/^\w+\.\w+\.\w{2,}$/).test(record_data.value)) {
+                potential_errors['ptr_record_value'] = 'PTR needs to be a domain (www.domain.com)';
+            };
+            break;
+        case 'SRV':
+            if (record_data.name === '') {
+                potential_errors['srv_record_name'] = 'Enter a value for the record Name';
+            };
+            if (!(/\d+$/).test(record_data.priority)) {
+                potential_errors['srv_priority'] = 'Priority needs to be a number (10)';
+            }
+            if (!(/\d+$/).test(record_data.weight)) {
+                potential_errors['srv_weight'] = 'Weight needs to be a number (10)';
+            }
+            if (!(/\d+$/).test(record_data.port)) {
+                potential_errors['srv_port'] = 'Port needs to be a number (10)';
+            }
+            if (!(/^\w+\.\w+\.\w{2,}$/).test(record_data.serverhost)) {
+                potential_errors['srv_host'] = 'SRV record Server Host needs to be a domain. (www.domain.com)';
+            }
+            break;
+        default:
+            console.error('Record type not usable');
+            break;
     }
     return potential_errors;
 }
@@ -77,6 +133,7 @@ function validateData(){
             if (Object.entries(bad_object.list).length) {
                 popup_error_growl(bad_object);
             } else {
+                domain_data = isSubDomain();
                 nextStep(current_step);
             };
             break;
@@ -234,7 +291,11 @@ function openRecordEditor(action,row){
         let row_inputs = $(row).find('td div.data-input');
         $('select.dns-selector')[0].value = row_inputs[0].innerText;
         updateFields(row_inputs[0].innerText);
-        $('div[name] input')[0].value = row_inputs[1].innerText;
+        if (domain_data[0]) {
+            $('div[name] input')[0].value = row_inputs[1].innerText.split('.')[0];
+        } else {
+            $('div[name] input')[0].value = row_inputs[1].innerText;
+        }
         $('div[ttl] input')[0].value = row_inputs[3].innerText;
         //create a collection function to get row data
         //might be good to also create a function to separate value data for srv and mx records
@@ -367,6 +428,7 @@ function validateRecordData(){
         } else {
             submit(record_data);
             closeModal('record-entry-container');
+            Close_error_growl();
         };
     } else {
         popup_error_growl({
@@ -383,7 +445,11 @@ function validateRecordData(){
 function submit(record_data){
     let row_inputs = $(record_data.row).find('td div.data-input');
     row_inputs[0].innerText = record_data.type;
-    row_inputs[1].innerText = record_data.name;
+    if(domain_data[0]){
+        row_inputs[1].innerText = record_data.name + '.' + domain_data[1];
+    } else {
+        row_inputs[1].innerText = record_data.name;
+    }
     row_inputs[2].innerText = record_data.value;
     if (record_data.ttl === '') {
         row_inputs[3].innerText = '3600';

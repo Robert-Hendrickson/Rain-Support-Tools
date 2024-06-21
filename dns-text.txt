@@ -1,39 +1,3 @@
-### Add Record(s)
-
-Copy and Paste this form into the Description of the case for each record needed, and ensure that you are filling out all sections not marked optional.
-
-> Action Needed: Add Record
-Record Type:
-Record Name:
-Record Value:
-Record Priority (MX Only):
-Requested TTL (Optional):
-> 
-
-### Correct Record(s)
-
-Copy and Paste this form into the Description of the case for each correction needed, and ensure that you are filling out all sections not marked optional. *Ensure that the name matches exactly with the name on file. You can see this on the Hosted Zone page.*
-
-> Action Needed: Correct Existing Record
-Record Type:
-Record Name:
-Record Value:
-Record Priority (MX Only):
-Requested TTL (Optional):
-> 
-
-### Remove Record(s)
-
-Copy and Paste this form into the Description of the case for each record needing deletion, and ensure that you are filling out all sections. *Make sure to include all values needing to be removed, as a request for this filled for only one value will cause the record to still exist with the remaining values.*
-
-> Action Needed: Remove Record
-Record Type:
-Record Name:
-Record Value:
->
-
-
-
 record types needed for dropdown selection
 > A
 > AAAA
@@ -55,3 +19,12 @@ record types needed for dropdown selection
 
 MX needs priority value for each value {Format: [priority] [mail server host name]}
 SRV [Enter multiple values on separate lines. Format: [priority] [weight] [port] [server host name]]
+
+need validation for usable record values. set restrictions where possible/needed
+> A         ipv4 (/(?:\d{1,3}\.){3}\d{1,3}/)
+> AAAA      ipv6 (/(?:\w{4}\:){7}\w{4}/)
+> CNAME     domain (/\w+\.\w{2,}/)
+> MX        prio (/\d+/) mailhost (/^\w+\.\w+\.\w{2,}/)
+> TXT       text string, check with brian for potential restrictions needed for here
+> PTR       name ipv4(/(?:\d{1,3}\.){3}\d{1,3}/) value (/^\w+\.\w+\.\w{2,}/)
+> SRV       prio (/\d+/) weight (/\d+/) port (/\d+/) host (/^\w+\.\w+\.\w{2,}/)
