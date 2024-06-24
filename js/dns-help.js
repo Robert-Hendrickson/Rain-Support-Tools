@@ -398,6 +398,7 @@ function removeTableRow(table){
     $(`#${table}-table tr:last-child`).remove();
 }
 function closeModal(modal){
+    //if target row record type is empty when closing modal remove empty row
     if ($(target_row).find('div.data-input')[0].innerText === '') {
         //check we are editing the second line of a correct-record row
         if ($(target_row).parents('table[id]').attr('id') === 'correct-record-table') {
@@ -476,13 +477,36 @@ function compileRecords(){
             let rows = $(`#${action_type[i]} tr`);
             rows.each(function (index, el) {
                 let inputs =  $(el).find('td div.data-input');
-                $(`[${action_type[i]}] data`).append(`<div>Record Type: ${inputs[0].innerText}<br>Name: ${inputs[1].innerText}<br> Value: ${inputs[2].innerText}<br>TTL: ${inputs[3].innerText}</div>`);
+                $(`[${action_type[i]}] data`).append(`<div class="value-display">
+                    Record Type: ${inputs[0].innerText}<br>
+                    Name: ${inputs[1].innerText}<br>
+                    Value: ${inputs[2].innerText}<br>
+                    TTL: ${inputs[3].innerText}</div>`);
             });
         } else {
             let rows = $(`#${action_type[i]} > table > tbody >  tr`);
             rows.each(function (index, el) {
                 let inputs =  $(el).find('td div.data-input');
-                $(`[${action_type[i]}] data`).append(`<div class="correct-record"><div>Record Type: ${inputs[0].innerText}<br>Name: ${inputs[1].innerText}<br> Value: ${inputs[2].innerText}<br>TTL: ${inputs[3].innerText}</div><div>Record Type: ${inputs[4].innerText}<br>Name: ${inputs[5].innerText}<br> Value: ${inputs[6].innerText}<br>TTL: ${inputs[7].innerText}</div></div>`);
+                $(`[${action_type[i]}] data`).append(`<div class="value-display">
+                    <div class="value-header">
+                        <div>Original Values</div>
+                        <div>New Values</div>
+                    </div>
+                    <div class="correct-record">
+                        <div class="value-display">
+                            Record Type: ${inputs[0].innerText}<br>
+                            Name: ${inputs[1].innerText}<br>
+                            Value: ${inputs[2].innerText}<br>
+                            TTL: ${inputs[3].innerText}
+                        </div>
+                        <div class="value-display">
+                            Record Type: ${inputs[4].innerText}<br>
+                            Name: ${inputs[5].innerText}<br>
+                            Value: ${inputs[6].innerText}<br>
+                            TTL: ${inputs[7].innerText}
+                        </div>
+                    </div>
+                </div>`);
             });
         }
         

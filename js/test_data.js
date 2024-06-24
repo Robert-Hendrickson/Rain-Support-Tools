@@ -77,7 +77,7 @@ function setTestData(){
                             </td>
                             <td>
                                 Value:<br>
-                                <div class="data-input">1 host.com</div>
+                                <div class="data-input">1 mail.host.com</div>
                             </td>
                             <td>
                                 TTL:<br>
@@ -95,7 +95,7 @@ function setTestData(){
                             </td>
                             <td>
                                 Value:<br>
-                                <div class="data-input">2 host1.com</div>
+                                <div class="data-input">2 mail.host1.com</div>
                             </td>
                             <td>
                                 TTL:<br>
@@ -120,7 +120,7 @@ function setTestData(){
             </td>
             <td>
                 Value:<br>
-                <div class="data-input">1 24 445 server.net</div>
+                <div class="data-input">1 24 445 host.server.net</div>
             </td>
             <td style="width: 100px;">
                 TTL:<br>
