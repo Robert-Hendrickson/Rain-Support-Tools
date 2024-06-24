@@ -227,6 +227,9 @@ div[data="2"] > div > table{
         width: unset;
     }
     td:first-child{
+        width: 110px;
+    }
+    td:nth-child(2){
         width: 75px;
     }
     td:last-child{

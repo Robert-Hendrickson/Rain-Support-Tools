@@ -68,6 +68,9 @@ function setTestData(){
                     <tbody>
                         <tr>
                             <td>
+                                Original Values
+                            </td>
+                            <td>
                                 Type:<br>
                                 <div class="data-input">MX</div>
                             </td>
@@ -85,6 +88,9 @@ function setTestData(){
                             </td>
                         </tr>
                         <tr>
+                            <td>
+                                New Values
+                            </td>
                             <td>
                                 Type:<br>
                                 <div class="data-input">MX</div>
