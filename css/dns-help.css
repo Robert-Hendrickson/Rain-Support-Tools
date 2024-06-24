@@ -227,6 +227,9 @@ div[data="2"] > div > table{
         width: unset;
     }
     td:first-child{
+        width: 110px;
+    }
+    td:nth-child(2){
         width: 75px;
     }
     td:last-child{
@@ -238,19 +241,28 @@ data{
     display: block;
     padding: 16px;
 }
-data div{
+data div.value-display{
     border: #000 solid 1px;
     margin: 8px 0;
     padding: 8px;
 }
+/*confirmation style for record corrections*/
 data div.correct-record{
     display: flex;
+    width: 100%;
 }
-data div.correct-record > div{
+data div.correct-record > div.value-display{
     border: #000 solid 1px;
     margin: 8px;
     padding: 8px;
     width: 50%;
+}
+div.value-display > div > div{
+    width: 50%;
+    float: left;
+}
+div.value-header div{
+    text-align: center;
 }
 /*start edit value styling*/
 #record-entry-container{
