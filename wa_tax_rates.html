@@ -31,7 +31,14 @@
         <script src="https://kit.fontawesome.com/8e52a98e38.js" crossorigin="anonymous"></script>
     </head>
     <body>
-        <div class="addr_input">
+        <div class="menu-wrapper">
+            <div onclick="toggleNav()" id="nav-toggle">
+                <span class="fa-solid fa-bars"></span>
+            </div>
+            <nav-menu></nav-menu>
+            <script src="/Rain-Support-Tools/js/nav-builder.js"></script>
+        </div>
+        <div class="addr_input" style="margin-left: 50px;">
             <table>
                 <tbody>
                     <tr>
@@ -52,13 +59,6 @@
         </div>
         <div class="tax_output">
             <iframe id="output" style="width: 100%;" href=""></iframe>
-        </div>
-        <div class="menu-wrapper">
-            <div onclick="toggleNav()" id="nav-toggle">
-                <span class="fa-solid fa-bars"></span>
-            </div>
-            <nav-menu></nav-menu>
-            <script src="/Rain-Support-Tools/js/nav-builder.js"></script>
         </div>
         <script>
             function getTaxRate(){

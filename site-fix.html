@@ -10,6 +10,13 @@
         <script src="/Rain-Support-Tools/js/site-fix.js"></script>
     </head>
     <body>
+        <div class="menu-wrapper">
+            <div onclick="toggleNav()" id="nav-toggle">
+                <span class="fa-solid fa-bars"></span>
+            </div>
+            <nav-menu></nav-menu>
+            <script src="/Rain-Support-Tools/js/nav-builder.js"></script>
+        </div>
         <div id="input-values">
             <table id="store_info">
                 <tbody>
@@ -105,13 +112,6 @@
                     <textarea id="site-fix-ticket"></textarea>
                 </div>
             </div>
-        </div>
-        <div class="menu-wrapper">
-            <div onclick="toggleNav()" id="nav-toggle">
-                <span class="fa-solid fa-bars"></span>
-            </div>
-            <nav-menu></nav-menu>
-            <script src="/Rain-Support-Tools/js/nav-builder.js"></script>
         </div>
         <script>
             $(document).ready(function(){

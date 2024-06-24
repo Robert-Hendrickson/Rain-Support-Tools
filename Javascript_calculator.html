@@ -9,7 +9,14 @@
         <script src="/Rain-Support-Tools/js/beta.js"></script>
     </head>
     <body>
-        <table id="inputTable">
+        <div class="menu-wrapper">
+            <div onclick="toggleNav()" id="nav-toggle">
+                <span class="fa-solid fa-bars"></span>
+            </div>
+            <nav-menu></nav-menu>
+            <script src="/Rain-Support-Tools/js/nav-builder.js"></script>
+        </div>
+        <table id="inputTable" style="margin-left: 50px;">
             <thead>
                 <tr>
                     <td>Qty</td>
@@ -212,13 +219,6 @@
                     <button onclick="displayBreakdown('lines')">Lines</button>
                 </div>
             </div>
-        </div>
-        <div class="menu-wrapper">
-            <div onclick="toggleNav()" id="nav-toggle">
-                <span class="fa-solid fa-bars"></span>
-            </div>
-            <nav-menu></nav-menu>
-            <script src="/Rain-Support-Tools/js/nav-builder.js"></script>
         </div>
     </body>
 </html>

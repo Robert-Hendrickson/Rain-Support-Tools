@@ -11,7 +11,14 @@
         <script src="https://kit.fontawesome.com/8e52a98e38.js" crossorigin="anonymous"></script>
     </head>
     <body>
-        <div class="history">
+        <div class="menu-wrapper">
+            <div onclick="toggleNav()" id="nav-toggle">
+                <span class="fa-solid fa-bars"></span>
+            </div>
+            <nav-menu></nav-menu>
+            <script src="/Rain-Support-Tools/js/nav-builder.js"></script>
+        </div>
+        <div class="history" style="margin-top: 50px;">
             <h3>History:</h3>
             <div id="history-table">
                 <table class="history-changes">
@@ -117,13 +124,6 @@
                     </a>
                 </p>
             </video>
-        </div>
-        <div class="menu-wrapper">
-            <div onclick="toggleNav()" id="nav-toggle">
-                <span class="fa-solid fa-bars"></span>
-            </div>
-            <nav-menu></nav-menu>
-            <script src="/Rain-Support-Tools/js/nav-builder.js"></script>
         </div>
     </body>
 </html>

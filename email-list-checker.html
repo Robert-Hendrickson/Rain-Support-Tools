@@ -21,6 +21,13 @@
         </script>
     </head>
     <body>
+        <div class="menu-wrapper">
+            <div onclick="toggleNav()" id="nav-toggle">
+                <span class="fa-solid fa-bars"></span>
+            </div>
+            <nav-menu></nav-menu>
+            <script src="/Rain-Support-Tools/js/nav-builder.js"></script>
+        </div>
         <div class="mainContainer">
             <h1 style="text-align: center;">Email List Checker</h1>
             <div class="controls">
@@ -86,13 +93,6 @@ email_list_string.substring(6, email_list_string.length -1);
                 </p>
             </video>
             </div>
-        </div>
-        <div class="menu-wrapper">
-            <div onclick="toggleNav()" id="nav-toggle">
-                <span class="fa-solid fa-bars"></span>
-            </div>
-            <nav-menu></nav-menu>
-            <script src="/Rain-Support-Tools/js/nav-builder.js"></script>
         </div>
     </body>
 </html>
