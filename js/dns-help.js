@@ -36,33 +36,37 @@ function checkValues(record_data){
     //check entered data is usable for record type selected
     switch (record_data.type){
         case 'A':
+            /*name is being checked at the beginning before switch. May update in future
             if (record_data.name === '') {
                 potential_errors['a_record_name'] = 'Enter a value for the record Name';
-            };
+            };*/
             if (!(/^(?:\d{1,3}\.){3}\d{1,3}$/).test(record_data.value)) {
                 potential_errors['a_record_value'] = 'A record value needs to be an ipv4 address. (1.1.1.1)';
             };
             break;
         case 'AAAA':
+            /*name is being checked at the beginning before switch. May update in future
             if (record_data.name === '') {
                 potential_errors['aaaa_record_name'] = 'Enter a value for the record Name';
-            };
+            };*/
             if (!(/^(?:\w{4}\:){7}\w{4}$/).test(record_data.value)) {
                 potential_errors['aaaa_record_value'] = 'AAAA record value needs to be an ipv6 address. (2001:0000:130F:0000:0000:09C0:876A:130B)';
             };
             break;
         case 'CNAME':
+            /*name is being checked at the beginning before switch. May update in future
             if (record_data.name === '') {
                 potential_errors['CNAME_record_name'] = 'Enter a value for the record Name';
-            };
+            };*/
             if (!(/^(?:\w+\.)?\w+\.\w{2,}$/).test(record_data.value)) {
                 potential_errors['CNAME_record_value'] = 'CNAME record value needs to be a domain. (domain.com)';
             };
             break;
         case 'MX':
+            /*name is being checked at the beginning before switch. May update in future
             if (record_data.name === '') {
                 potential_errors['MX_record_name'] = 'Enter a value for the record Name';
-            };
+            };*/
             if (!(/^\d+$/).test(record_data.priority)) {
                 potential_errors['MX_record_priority'] = 'MX record priority needs to be a number. (10)';
             };
@@ -71,9 +75,10 @@ function checkValues(record_data){
             };
             break;
         case 'TXT':
+            /*
             if (record_data.name === '') {
                 potential_errors['TXT_record_name'] = 'Enter a value for the record Name';
-            };
+            };*/
             /*this will check for value on txt, need to determine what things we don't want to show in the record. will update at later time
             if (!(/^\d+/).test(record_data.value)) {
                 potential_errors['TXT_record_value'] = 'TXT record value needs to be a number. (10)';
@@ -88,9 +93,10 @@ function checkValues(record_data){
             };
             break;
         case 'SRV':
+            /*
             if (record_data.name === '') {
                 potential_errors['srv_record_name'] = 'Enter a value for the record Name';
-            };
+            };*/
             if (!(/\d+$/).test(record_data.priority)) {
                 potential_errors['srv_priority'] = 'Priority needs to be a number (10)';
             }
@@ -352,6 +358,9 @@ function addTableRow(table){
 		<table>
 			<tbody>
 				<tr>
+                    <td>
+                        Original Values
+                    </td>
 					<td>
 						Type:<br>
 						<div class="data-input"></div>
@@ -370,6 +379,9 @@ function addTableRow(table){
 					</td>
 				</tr>
 				<tr>
+                    <td>
+                        New Values
+                    </td>
 					<td>
 						Type:<br>
 						<div class="data-input"></div>
@@ -398,6 +410,7 @@ function removeTableRow(table){
     $(`#${table}-table tr:last-child`).remove();
 }
 function closeModal(modal){
+    //if target row record type is empty when closing modal remove empty row
     if ($(target_row).find('div.data-input')[0].innerText === '') {
         //check we are editing the second line of a correct-record row
         if ($(target_row).parents('table[id]').attr('id') === 'correct-record-table') {
@@ -410,6 +423,7 @@ function closeModal(modal){
     }
     $(`#${modal}`).hide();
     target_row = null;
+    Close_error_growl();
 }
 function validateRecordData(){
     let record_type = $('.dns-selector')[0].value;
@@ -476,13 +490,36 @@ function compileRecords(){
             let rows = $(`#${action_type[i]} tr`);
             rows.each(function (index, el) {
                 let inputs =  $(el).find('td div.data-input');
-                $(`[${action_type[i]}] data`).append(`<div>Record Type: ${inputs[0].innerText}<br>Name: ${inputs[1].innerText}<br> Value: ${inputs[2].innerText}<br>TTL: ${inputs[3].innerText}</div>`);
+                $(`[${action_type[i]}] data`).append(`<div class="value-display">
+                    Record Type: ${inputs[0].innerText}<br>
+                    Name: ${inputs[1].innerText}<br>
+                    Value: ${inputs[2].innerText}<br>
+                    TTL: ${inputs[3].innerText}</div>`);
             });
         } else {
             let rows = $(`#${action_type[i]} > table > tbody >  tr`);
             rows.each(function (index, el) {
                 let inputs =  $(el).find('td div.data-input');
-                $(`[${action_type[i]}] data`).append(`<div class="correct-record"><div>Record Type: ${inputs[0].innerText}<br>Name: ${inputs[1].innerText}<br> Value: ${inputs[2].innerText}<br>TTL: ${inputs[3].innerText}</div><div>Record Type: ${inputs[4].innerText}<br>Name: ${inputs[5].innerText}<br> Value: ${inputs[6].innerText}<br>TTL: ${inputs[7].innerText}</div></div>`);
+                $(`[${action_type[i]}] data`).append(`<div class="value-display">
+                    <div class="value-header">
+                        <div>Original Values</div>
+                        <div>New Values</div>
+                    </div>
+                    <div class="correct-record">
+                        <div class="value-display">
+                            Record Type: ${inputs[0].innerText}<br>
+                            Name: ${inputs[1].innerText}<br>
+                            Value: ${inputs[2].innerText}<br>
+                            TTL: ${inputs[3].innerText}
+                        </div>
+                        <div class="value-display">
+                            Record Type: ${inputs[4].innerText}<br>
+                            Name: ${inputs[5].innerText}<br>
+                            Value: ${inputs[6].innerText}<br>
+                            TTL: ${inputs[7].innerText}
+                        </div>
+                    </div>
+                </div>`);
             });
         }
         
