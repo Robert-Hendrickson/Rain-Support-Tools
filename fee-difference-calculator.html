@@ -16,13 +16,14 @@
         <script src="https://kit.fontawesome.com/8e52a98e38.js" crossorigin="anonymous"></script>
     </head>
     <body>
-        <div style="float: left; width: 100%;">
-            <a style="text-decoration: unset;" href="/Rain-Support-Tools/">
-                <input type="button" value="Home" />
-            </a>
-            <input type="button" value="Video Walkthrough" onclick="videoToggle('open')" />
+        <div class="menu-wrapper">
+            <div onclick="toggleNav()" id="nav-toggle">
+                <span class="fa-solid fa-bars"></span>
+            </div>
+            <nav-menu></nav-menu>
+            <script src="/Rain-Support-Tools/js/nav-builder.js"></script>
         </div>
-        <div id="transactions">
+        <div id="transactions" style="margin-left: 50px;">
             <table>
                 <thead>
                     <tr>
@@ -44,6 +45,7 @@
         </div>
         <div id="rates">
             <div id="rateTables">
+                <input type="button" value="Video Walkthrough" onclick="videoToggle('open')" />
                 <table id="cardPresent">
                     <thead>
                         <tr>
@@ -180,13 +182,6 @@
                 </p>
                 </video>
             </div>
-        </div>
-        <div class="menu-wrapper">
-            <div onclick="toggleNav()" id="nav-toggle">
-                <span class="fa-solid fa-bars"></span>
-            </div>
-            <nav-menu></nav-menu>
-            <script src="/Rain-Support-Tools/js/nav-builder.js"></script>
         </div>
     </body>
 </html>

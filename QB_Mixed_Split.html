@@ -18,15 +18,14 @@
         </style>
     </head>
     <body>
-        <div class="menu_links">
-            <ul style="list-style: none;">
-                <li>
-                    <button onClick="document.location.pathname = '/Rain-Support-Tools/'">Home</button>
-                    <button onClick="location.reload()">Reset</button>
-                </li>
-            </ul>
+        <div class="menu-wrapper">
+            <div onclick="toggleNav()" id="nav-toggle">
+                <span class="fa-solid fa-bars"></span>
+            </div>
+            <nav-menu></nav-menu>
+            <script src="/Rain-Support-Tools/js/nav-builder.js"></script>
         </div>
-        <div class="calculator">
+        <div class="calculator" style="margin-top: 50px;">
             <table>
                 <thead>
                     <tr>
@@ -94,6 +93,7 @@
         <div style="float: left;" class="help-window">
             This video covers how to use this tool.
             <input type="button" value="Hide Video" onclick="$('.help-window').addClass('hide')" />
+            <button onClick="location.reload()">Reset</button>
             <br />
             <video
                 controls
@@ -109,13 +109,6 @@
                 </a>
             </p>
             </video>
-        </div>
-        <div class="menu-wrapper">
-            <div onclick="toggleNav()" id="nav-toggle">
-                <span class="fa-solid fa-bars"></span>
-            </div>
-            <nav-menu></nav-menu>
-            <script src="/Rain-Support-Tools/js/nav-builder.js"></script>
         </div>
     </body>
 </html>
