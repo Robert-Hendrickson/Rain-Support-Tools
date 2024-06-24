@@ -55,7 +55,7 @@ function checkValues(record_data){
             if (record_data.name === '') {
                 potential_errors['CNAME_record_name'] = 'Enter a value for the record Name';
             };
-            if (!(/^\w+\.\w{2,}$/).test(record_data.value)) {
+            if (!(/^(?:\w+\.)?\w+\.\w{2,}$/).test(record_data.value)) {
                 potential_errors['CNAME_record_value'] = 'CNAME record value needs to be a domain. (domain.com)';
             };
             break;
