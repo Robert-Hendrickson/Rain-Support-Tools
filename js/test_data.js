@@ -136,7 +136,11 @@ function setTestData(){
     }
 }
 $(window).ready(function(){
-    if(location.href.match('localhost')){
+    if (location.href.match('localhost')) {
         setTestData();
+    } else {
+        if ((/^\?test$/).test(location.search) ){
+            setTestData();
+        }
     }
 });

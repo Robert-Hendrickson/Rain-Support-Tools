@@ -58,8 +58,8 @@ function checkValues(record_data){
             if (record_data.name === '') {
                 potential_errors['CNAME_record_name'] = 'Enter a value for the record Name';
             };*/
-            if (!(/^(?:\w+\.)?\w+\.\w{2,}$/).test(record_data.value)) {
-                potential_errors['CNAME_record_value'] = 'CNAME record value needs to be a domain. (domain.com)';
+            if (!(/^(?:[\w\-]+\.)+[\w\-]+\.\w{2,}\.?$/).test(record_data.value)) {
+                potential_errors['CNAME_record_value'] = 'CNAME record value needs to be a domain similar to the following pattern. (_data-string.(sub.)domain.com)';
             };
             break;
         case 'MX':
@@ -575,11 +575,5 @@ addEventListener("mouseup", (event) =>{
     }
     if(event.target.hasAttribute('prev')){
         previousStep();
-    }
-});
-//sets test data through URL check
-$(window).ready(function (){
-    if ((/^\?test$/).test(location.search) ){
-        setTestData();
     }
 });
