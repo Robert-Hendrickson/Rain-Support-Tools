@@ -577,9 +577,3 @@ addEventListener("mouseup", (event) =>{
         previousStep();
     }
 });
-//sets test data through URL check
-$(window).ready(function (){
-    if ((/^\?test$/).test(location.search) ){
-        setTestData();
-    }
-});
