@@ -59,30 +59,43 @@
                 </div>
                 <div id="work-content" data="2">
                     <div id="site">
+                        <h2>Site work content:</h2>
                         <div table-controls>
-                            <button class="btn secondary" onclick="addTableRow('steps-table')">Add Row</button>
-                            <button class="btn secondary" onclick="removeTableRow('steps-table')">Remove Row</button>
+                            <button class="btn secondary" onclick="addTableRow('work-table')">Add Row</button>
+                            <button class="btn secondary" onclick="removeTableRow('work-table')">Remove Row</button>
                         </div>
-                        <table id="steps-table">
+                        <table id="work-table">
                             <tbody>
                                 <tr>
                                     <td>
-                                        <select>
-                                            <option disabled>Select Option</option>
-                                            <option value="fix">Site Fix</option>
-                                            <option value="custom">Custom Work</option>
-                                        </select>
+                                        <span onclick='deleteRow(this)'>X</span>
                                     </td>
-                                    <td>page</td>
-                                    <td>details</td>
-                                    <td>image</td>
-                                    <td>video(optional)</td>
+                                    <td>
+                                        <div>
+                                            <select>
+                                                <option value="fix">Site Fix</option>
+                                                <option value="custom">Custom Work</option>
+                                            </select>
+                                            <div id="url"><input type="text" placeholder="Page URL" /></div>
+                                        </div>
+                                        <div>
+                                            <div><input type="text" placeholder="screenshot" /></div>
+                                            <div><input type="text" placeholder="video(optional)" /></div>
+                                        </div>
+                                        <textarea placeholder="details"></textarea>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                     <div id="template">
-
+                        <h2>Template Update/Responsive Upgrade:</h2>
+                        <div style="width: 49%; float: left;">
+                            Name of template: <input type="text">
+                        </div>
+                        <div style="width: 49%;">
+                            Customer request Notes:<textarea style="width: 100%;"></textarea>
+                        </div>
                     </div>
                 </div>
                 <div id="confirm-content" data="3">

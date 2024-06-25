@@ -24,6 +24,33 @@ function validateData(){
             break;
     }
 }
+function addTableRow(table){
+    $(`#${table}`).append(`<tr>
+        <td>
+            <span onclick='deleteRow(this)'>X</span>
+        </td>
+        <td>
+            <div>
+                <select>
+                    <option value="fix">Site Fix</option>
+                    <option value="custom">Custom Work</option>
+                </select>
+                <div id="url"><input type="text" placeholder="Page URL" /></div>
+            </div>
+            <div>
+                <div><input type="text" placeholder="screenshot" /></div>
+                <div><input type="text" placeholder="video(optional)" /></div>
+            </div>
+            <textarea placeholder="details"></textarea>
+        </td>
+    </tr>`);
+}
+function removeTableRow(table){
+    $(`#${table} tr:last-child`).remove();
+}
+function deleteRow(el){
+    $(el).parent().parent().remove();
+}
 //handle moving flow to next step
 function nextStep(current_step){
     //Move to next step
