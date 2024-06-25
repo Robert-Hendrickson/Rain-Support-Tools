@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+    <!--
+        template change/responsive upgrade
+        needs to collect data for website needing changed
+        responsive upgrade or template change
+        what template to be used
+
+        similar to the site-fix.html tool but in the flow format of the bug-ticket-v2.html tool
+    -->
+    <head>
+        <link rel="stylesheet" href="/Rain-Support-Tools/css/site-work.css" />
+        <link rel="stylesheet" href="/Rain-Support-Tools/common/actions/popup.css" />
+        <script src="https://kit.fontawesome.com/8e52a98e38.js" crossorigin="anonymous"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+        <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+        <script src="/Rain-Support-Tools/js/site-work.js"></script>
+        <script src="/Rain-Support-Tools/js/test_data.js"></script>
+        <script src="/Rain-Support-Tools/common/actions/popup.js"></script>
+    </head>
+    <body>
+        <!--unhide nav menu later
+        <div class="menu-wrapper">
+            <div onclick="toggleNav()" id="nav-toggle">
+                <span class="fa-solid fa-bars"></span>
+            </div>
+            <nav-menu></nav-menu>
+            <script src="/Rain-Support-Tools/js/nav-builder.js"></script>
+        </div>
+        -->
+        <h1>
+            Site Work Ticket - Design by Russell Lee
+        </h1>
+        <div class="body-container">
+            <div id="info-tabs">
+                <div id="work-tab" step="1" class="active">
+                    <div class="step-circle">1</div>
+                    Work Type
+                </div>
+                <div id="info-tab" step="2">
+                    <div class="step-circle">2</div>
+                    Work Info
+                </div>
+                <div id="confirm-tab" step="3">
+                    <div class="step-circle">3</div>
+                    Confirm
+                </div>
+            </div>
+            <div class="container">
+                <div id="work-content" data="1"  class="active">
+                        Store ID<br>
+                        <input id="crm" type="text" placeholder="Enter a CRM" />
+                        <br>
+                        Type of work to be done<br>
+                        <div work-selector>
+                            <div work='site'>Site Work</div>
+                            <div work='template'>Template Work</div>
+                        </div>
+                </div>
+                <div id="work-content" data="2">
+                    <div id="site">
+                        <div table-controls>
+                            <button class="btn secondary" onclick="addTableRow('steps-table')">Add Row</button>
+                            <button class="btn secondary" onclick="removeTableRow('steps-table')">Remove Row</button>
+                        </div>
+                        <table id="steps-table">
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <select>
+                                            <option disabled>Select Option</option>
+                                            <option value="fix">Site Fix</option>
+                                            <option value="custom">Custom Work</option>
+                                        </select>
+                                    </td>
+                                    <td>page</td>
+                                    <td>details</td>
+                                    <td>image</td>
+                                    <td>video(optional)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="template">
+
+                    </div>
+                </div>
+                <div id="confirm-content" data="3">
+                    Under construction
+                </div>
+            </div>
+            <div flow-controls>
+                <button prev class="btn secondary hide" style="font-size: 12px;" onclick="previousStep()">Previous</button>
+                <button class="btn primary hide" finish style="float: right;" onclick="validateData()">Finish</button>
+                <button class="btn primary" next style="float: right;" onclick="validateData()">Next</button>
+            </div>
+        </div>
+        <div id="ticket-container" class="hide">
+            <div>
+                <textarea></textarea>
+                <div ticket-buttons>
+                    <button style="float: left;" class="btn terciary" onclick="start_new_ticket()">New Case</button>
+                    <button class="btn secondary" onclick="$('#ticket-container').addClass('hide')">Close</button>
+                    <button class="btn primary" onclick="copyTicket()">Copy</button>
+                </div>
+            </div>
+        </div>
+        <div id="error_message" class="hide"></div>
+    </body>
+</html>

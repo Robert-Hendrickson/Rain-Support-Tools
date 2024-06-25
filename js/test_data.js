@@ -134,6 +134,10 @@ function setTestData(){
             </td>
         </tr>`);
     }
+    if ((/site-work/).test(location.pathname)) {
+        $('input#crm')[0].value = '6085';
+        
+    }
 }
 $(window).ready(function(){
     if (location.href.match('localhost')) {
