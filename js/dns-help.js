@@ -88,7 +88,7 @@ function checkValues(record_data){
             if (record_data.name === '' || !(/(?:\d{1,3}\.){3}\d{1,3}$/).test(record_data.name)) {
                 potential_errors['ptr_record_name'] = 'PTR Name value needs to be an ipv4 address. (1.0.0.1)';
             };
-            if (!(/^\w+\.\w+\.\w{2,}$/).test(record_data.value)) {
+            if (!(/^(?:[\w\-]+\.)+[\w\-]+\.\w{2,}\.?$/).test(record_data.value)) {
                 potential_errors['ptr_record_value'] = 'PTR needs to be a domain (www.domain.com)';
             };
             break;
@@ -106,7 +106,7 @@ function checkValues(record_data){
             if (!(/\d+$/).test(record_data.port)) {
                 potential_errors['srv_port'] = 'Port needs to be a number (10)';
             }
-            if (!(/^\w+\.\w+\.\w{2,}$/).test(record_data.serverhost)) {
+            if (!(/^(?:[\w\-]+\.)+[\w\-]+\.\w{2,}\.?$/).test(record_data.serverhost)) {
                 potential_errors['srv_host'] = 'SRV record Server Host needs to be a domain. (www.domain.com)';
             }
             break;
