@@ -70,7 +70,7 @@ function checkValues(record_data){
             if (!(/^\d+$/).test(record_data.priority)) {
                 potential_errors['MX_record_priority'] = 'MX record priority needs to be a number. (10)';
             };
-            if (!(/^\w+\.\w+\.\w{2,}$/).test(record_data.mailhostname)) {
+            if (!(/^(?:[\w\-]+\.)+[\w\-]+\.\w{2,}\.?$/).test(record_data.mailhostname)) {
                 potential_errors['MX_record_host'] = 'MX record Mail Host needs to be a domain. (mail.domain.com)';
             };
             break;
