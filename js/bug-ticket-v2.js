@@ -37,6 +37,7 @@ function checkLinkList(list){
             }
         });
         list.each(function (){
+            $(this)[0].value = $(this)[0].value.replaceAll(/\s/g,'');
             if($(this)[0].value === '' || !RegExp(/^(?:https?:\/\/)drive\.google\.com\/file\/d\/.*\/view(?:\?.+)?$/).test($(this)[0].value)){
                 return_value = true;
             }
