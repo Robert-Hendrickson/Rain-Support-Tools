@@ -1,3 +1,4 @@
+var work_type_selected;
 //handle moving through flow
 function validateData(){
     Close_error_growl();
@@ -19,6 +20,14 @@ function validateData(){
             } else {
                 nextStep(current_step);
             };
+            break;
+        case 2:
+            if(work_type_selected === 'site'){
+
+            }
+            if(work_type_selected === 'template'){
+
+            }
             break;
         default:
             break;
@@ -50,6 +59,12 @@ function removeTableRow(table){
 }
 function deleteRow(el){
     $(el).parent().parent().remove();
+}
+//update which second step data displays from clicking work type on first step
+function displayWorkContent(type){
+    work_type_selected = type;
+    $('#work-content > div').hide();
+    $(`#${type}`).show();
 }
 //handle moving flow to next step
 function nextStep(current_step){
@@ -88,6 +103,7 @@ function previousStep(){
 function selectWork(el){
     $('div[work].selected').removeClass('selected');
     el.target.classList.value = 'selected';
+    displayWorkContent($(el.target).attr('work'));
 }
 
 $(window).ready(function (){

@@ -151,11 +151,19 @@ div[table-controls]{
 table{
     width: 99%;
 }
+select{
+    margin: 16px 0;
+    height: 25px;
+    border-radius: 8px;
+}
 /*flow progression buttons*/
 div[flow-controls]{
     height: 30px;
 }
 /*site work table styles*/
+#work-table tr > td:first-child span{
+    cursor: pointer;
+}
 #work-table tr > td:nth-child(2){
     display: flex;
     align-items: center;
@@ -163,17 +171,30 @@ div[flow-controls]{
     border: #000 solid 1px;
     border-radius: 8px;
     padding: 8px;
-    select{
-        margin: 16px 0;
-        height: 25px;
-        border-radius: 8px;
-    }
     > div{
         margin: 6px 18px;
     }
     textarea{
         width: 500px;
     }
+}
+/*template work styles*/
+#template{
+    height: 220px;
+}
+#template > div{
+    width: 29%;
+    float: left;
+    margin: 0 1px;
+}
+#template > div:last-child{
+    width: 69%;
+    float: left;
+    margin: 0 1px;
+}
+#template textarea{
+    width: 100%;
+    height: 140px;
 }
 /*ticket styling*/
 div#ticket-container{

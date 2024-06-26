@@ -47,7 +47,7 @@
                 </div>
             </div>
             <div class="container">
-                <div id="work-content" data="1"  class="active">
+                <div id="basic-data" data="1"  class="active">
                         Store ID<br>
                         <input id="crm" type="text" placeholder="Enter a CRM" />
                         <br>
@@ -58,7 +58,7 @@
                         </div>
                 </div>
                 <div id="work-content" data="2">
-                    <div id="site">
+                    <div id="site" style="display: none;">
                         <h2>Site work content:</h2>
                         <div table-controls>
                             <button class="btn secondary" onclick="addTableRow('work-table')">Add Row</button>
@@ -88,13 +88,18 @@
                             </tbody>
                         </table>
                     </div>
-                    <div id="template">
+                    <div id="template" style="display: none;">
                         <h2>Template Update/Responsive Upgrade:</h2>
-                        <div style="width: 49%; float: left;">
-                            Name of template: <input type="text">
+                        <div>
+                            Update Type: <select>
+                                <option value="template">Template Change</option>
+                                <option value="responsive">Responsive Upgrade</option>
+                            </select><br>
+                            Template Number: <input placeholder="Template Number or Name" id="number" type="text"><br>
+                            Template CRM: <input placeholder="Template CRM ID" id="crm" type="text">
                         </div>
-                        <div style="width: 49%;">
-                            Customer request Notes:<textarea style="width: 100%;"></textarea>
+                        <div>
+                            Customer Request Notes:<textarea placeholder="Any notes about changes being made. Colors they want, fonts, etc."></textarea>
                         </div>
                     </div>
                 </div>
