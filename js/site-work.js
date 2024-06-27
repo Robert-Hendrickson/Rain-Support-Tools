@@ -23,15 +23,31 @@ function validateData(){
             break;
         case 2:
             if(work_type_selected === 'site'){
-
+                bad_object.list = checkSiteWork();
+                if (Object.entries(bad_object.list).length) {
+                    popup_error_growl(bad_object);
+                } else {
+                    nextStep(current_step);
+                };
             }
             if(work_type_selected === 'template'){
-
+                
+                if (Object.entries(bad_object.list).length) {
+                    popup_error_growl(bad_object);
+                } else {
+                    nextStep(current_step);
+                };
             }
             break;
         default:
             break;
     }
+}
+function checkSiteWork(){
+    let list_object = {};
+    let rows = $('#work-table tr td:nth-child(2)');
+    //loop through rows and make sure each part of the row has correct data for it's type, if misisng create an error object to be returned.
+    return list_object;
 }
 function addTableRow(table){
     $(`#${table}`).append(`<tr>
@@ -41,6 +57,7 @@ function addTableRow(table){
         <td>
             <div>
                 <select>
+                    <option>Select an Option</option>
                     <option value="fix">Site Fix</option>
                     <option value="custom">Custom Work</option>
                 </select>
