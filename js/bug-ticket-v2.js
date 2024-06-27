@@ -282,8 +282,22 @@ function copyTicket() {
 };
 
 function addTableRow(table){
+    let row_label;
+    switch(table) {
+        case 'steps-table':
+            row_label = 'Step';
+            break;
+        case 'screenshot-table':
+            row_label = 'Image';
+            break;
+        case 'video-table':
+            row_label = 'Video';
+            break;
+        default:
+            console.error('Something went wrong. Passed table type was not of an expected value: ' + table);
+    }
     let new_row_number = $(`#${table} tbody tr`).length + 1;
-    $(`#${table} tbody`).append(`<tr><td>Step ${new_row_number}<input placeholder="Enter Step ${new_row_number}" type="text" /></td></tr>`)
+    $(`#${table} tbody`).append(`<tr><td>${row_label} ${new_row_number}<input placeholder="Enter ${row_label} ${new_row_number}" type="text" /></td></tr>`)
 }
 
 function removeTableRow(table){
