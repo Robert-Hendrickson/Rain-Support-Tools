@@ -47,6 +47,23 @@ function checkSiteWork(){
     let list_object = {};
     let rows = $('#work-table tr td:nth-child(2)');
     //loop through rows and make sure each part of the row has correct data for it's type, if misisng create an error object to be returned.
+    rows.each(function (index, el){
+        if (el.querySelector('select').value === 'Select an Option') {
+            list_object['work_type'] = 'Please select a type of work for all rows.';
+        }
+        if (!(/^(?:https?\:\/\/)?(?:\w+\.)?\w+\.\w{2,}\/?$/).test(el.querySelector('#url').value)) {
+            list_object['url'] = 'Make sure each row has a url for the page that needs work done.';
+        }
+        if (el.querySelector('#screenshot').value === '') {
+            list_object['screenshot'] = 'Please enter a google drive screenshot link for each row.';
+        }
+        if (el.querySelector('#video').value === '') {
+            list_object['video'] = 'Please enter a google drive video link for each row.';
+        }
+        if (el.querySelector('textarea').value === '') {
+            list_object['details'] = 'Please give some details of what work needs to be done for each row.';
+        }
+    });
     return list_object;
 }
 function addTableRow(table){
@@ -61,11 +78,11 @@ function addTableRow(table){
                     <option value="fix">Site Fix</option>
                     <option value="custom">Custom Work</option>
                 </select>
-                <div id="url"><input type="text" placeholder="Page URL" /></div>
+                <div><input id="url" type="text" placeholder="Page URL" /></div>
             </div>
             <div>
-                <div><input type="text" placeholder="screenshot" /></div>
-                <div><input type="text" placeholder="video(optional)" /></div>
+                <div><input id="screenshot" type="text" placeholder="screenshot" /></div>
+                <div><input id="video" type="text" placeholder="video(optional)" /></div>
             </div>
             <textarea placeholder="details"></textarea>
         </td>
