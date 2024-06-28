@@ -27,6 +27,7 @@ function validateData(){
                 if (Object.entries(bad_object.list).length) {
                     popup_error_growl(bad_object);
                 } else {
+                    compileData(work_type_selected);
                     nextStep(current_step);
                 };
             }
@@ -35,6 +36,7 @@ function validateData(){
                 if (Object.entries(bad_object.list).length) {
                     popup_error_growl(bad_object);
                 } else {
+                    compileData(work_type_selected);
                     nextStep(current_step);
                 };
             }
@@ -54,11 +56,11 @@ function checkSiteWork(){
         if (!(/^(?:https?\:\/\/)?(?:\w+\.)?\w+\.\w{2,}\/?$/).test(el.querySelector('#url').value)) {
             list_object['url'] = 'Make sure each row has a url for the page that needs work done.';
         }
-        if (el.querySelector('#screenshot').value === '') {
+        if (!(/^.*drive\.google\.com\/.*view/).test(el.querySelector('#screenshot').value)) {
             list_object['screenshot'] = 'Please enter a google drive screenshot link for each row.';
         }
-        if (el.querySelector('#video').value === '') {
-            list_object['video'] = 'Please enter a google drive video link for each row.';
+        if (!(/^.*drive\.google\.com\/.*view/).test(el.querySelector('#video').value) && el.querySelector('#video').value != '') {
+            list_object['video'] = 'Make sure any videos given are a google drive link.';
         }
         if (el.querySelector('textarea').value === '') {
             list_object['details'] = 'Please give some details of what work needs to be done for each row.';
@@ -81,6 +83,29 @@ function checkTemplateWork() {
         list_object['notes'] = "Enter any notes from the customer about what they like or don't like, color requests, etc.";
     }
     return list_object;
+}
+function compileData(type){
+    let html = '';
+    if (type === 'site') {
+        let rows = $('#work-table tr td:nth-child(2)');
+        rows.each(function (index, el){
+            html += `***Page ${index + 1}***<br>
+            Work: ${el.querySelector('select').value }<br>
+            Page: ${el.querySelector('#url').value}<br>
+            Screenshot ${el.querySelector('#screenshot').value}<br>`;
+            if (el.querySelector('#video').value != '') {
+                html += `Video: ${el.querySelector('#video').value}<br>`;
+            }
+            html += `Details: ${el.querySelector('textarea').value.replaceAll('\n','<br>')}<br><br><br>`
+        });
+    }
+    if (type === 'template') {
+        html = `Update Type: ${$('#template select')[0].value}<br>
+        Template Number: ${$('#template #number')[0].value}<br>
+        Template CRM: ${$('#template #crm')[0].value}<br>
+        Customer Notes: <br>${$('#template textarea')[0].value.replaceAll('\n','<br>')}`;
+    }
+    $('#confirm-content data')[0].innerHTML = html;
 }
 function addTableRow(table){
     $(`#${table}`).append(`<tr>
