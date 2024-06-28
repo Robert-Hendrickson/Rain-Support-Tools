@@ -31,7 +31,7 @@ function validateData(){
                 };
             }
             if(work_type_selected === 'template'){
-                
+                bad_object.list = checkTemplateWork();
                 if (Object.entries(bad_object.list).length) {
                     popup_error_growl(bad_object);
                 } else {
@@ -64,6 +64,22 @@ function checkSiteWork(){
             list_object['details'] = 'Please give some details of what work needs to be done for each row.';
         }
     });
+    return list_object;
+}
+function checkTemplateWork() {
+    let list_object = {};
+    if ($('#template select')[0].value === 'Select an Option') {
+        list_object['update'] = 'Please select type of work to be done.';
+    }
+    if ($('#template #number')[0].value === '') {
+        list_object['number'] = 'Enter a Template number';
+    }
+    if ($('#template #crm')[0].value === '') {
+        list_object['crm'] = 'Enter the CRM of the template.';
+    }
+    if ($('#template textarea')[0].value === '') {
+        list_object['notes'] = "Enter any notes from the customer about what they like or don't like, color requests, etc.";
+    }
     return list_object;
 }
 function addTableRow(table){
