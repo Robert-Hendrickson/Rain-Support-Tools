@@ -42,7 +42,7 @@ function validateData(){
             }
             break;
         case 3:
-            let temp_text = '';
+            let temp_text = `Store ID: ${$('#crm')[0].value}\n\n`;
             if (work_type_selected === 'site') {
                 let rows = $('#work-table tr td:nth-child(2)');
                 rows.each(function (index, el){
@@ -54,7 +54,7 @@ function validateData(){
                 });
             }
             if (work_type_selected === 'template') {
-                temp_text = `Update Type: ${$('#template select')[0].value}\n\nTemplate Number: ${$('#template #number')[0].value}\n\nTemplate CRM: ${$('#template #crm')[0].value}\n\nCustomer Notes: \n${$('#template textarea')[0].value}`;
+                temp_text += `Update Type: ${$('#template select')[0].value}\n\nTemplate Number: ${$('#template #number')[0].value}\n\nTemplate CRM: ${$('#template #crm')[0].value}\n\nCustomer Notes: \n${$('#template textarea')[0].value}`;
             }
             $('#ticket-container > div > textarea')[0].value = temp_text;
             $('#ticket-container').removeClass('hide');
