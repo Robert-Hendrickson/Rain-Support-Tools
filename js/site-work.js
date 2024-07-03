@@ -41,6 +41,24 @@ function validateData(){
                 };
             }
             break;
+        case 3:
+            let temp_text = '';
+            if (work_type_selected === 'site') {
+                let rows = $('#work-table tr td:nth-child(2)');
+                rows.each(function (index, el){
+                    temp_text += `***Page ${index + 1}***\nWork: ${el.querySelector('select').value }\n\nPage: ${el.querySelector('#url').value}\nScreenshot ${el.querySelector('#screenshot').value}\n\n`;
+                    if (el.querySelector('#video').value != '') {
+                        temp_text += `Video: ${el.querySelector('#video').value}\n\n`;
+                    }
+                    temp_text += `Details: ${el.querySelector('textarea').value}\n\n\n`
+                });
+            }
+            if (work_type_selected === 'template') {
+                temp_text = `Update Type: ${$('#template select')[0].value}\n\nTemplate Number: ${$('#template #number')[0].value}\n\nTemplate CRM: ${$('#template #crm')[0].value}\n\nCustomer Notes: \n${$('#template textarea')[0].value}`;
+            }
+            $('#ticket-container > div > textarea')[0].value = temp_text;
+            $('#ticket-container').removeClass('hide');
+            break;
         default:
             break;
     }
@@ -90,19 +108,19 @@ function compileData(type){
         let rows = $('#work-table tr td:nth-child(2)');
         rows.each(function (index, el){
             html += `***Page ${index + 1}***<br>
-            Work: ${el.querySelector('select').value }<br>
-            Page: ${el.querySelector('#url').value}<br>
-            Screenshot ${el.querySelector('#screenshot').value}<br>`;
+            Work: ${el.querySelector('select').value }<br><br>
+            Page: ${el.querySelector('#url').value}<br><br>
+            Screenshot ${el.querySelector('#screenshot').value}<br><br>`;
             if (el.querySelector('#video').value != '') {
-                html += `Video: ${el.querySelector('#video').value}<br>`;
+                html += `Video: ${el.querySelector('#video').value}<br><br>`;
             }
             html += `Details: ${el.querySelector('textarea').value.replaceAll('\n','<br>')}<br><br><br>`
         });
     }
     if (type === 'template') {
-        html = `Update Type: ${$('#template select')[0].value}<br>
-        Template Number: ${$('#template #number')[0].value}<br>
-        Template CRM: ${$('#template #crm')[0].value}<br>
+        html = `Update Type: ${$('#template select')[0].value}<br><br>
+        Template Number: ${$('#template #number')[0].value}<br><br>
+        Template CRM: ${$('#template #crm')[0].value}<br><br>
         Customer Notes: <br>${$('#template textarea')[0].value.replaceAll('\n','<br>')}`;
     }
     $('#confirm-content data')[0].innerHTML = html;
@@ -174,6 +192,25 @@ function previousStep(){
     $(`[data='${current_step}']`)[0].classList.value = '';
     $(`[data='${current_step - 1}']`)[0].classList.value = 'active';
 }
+function start_new_ticket(){
+    if(window.confirm('This action is not reversible. Continuing will clear all current data and start a new ticket.\n\n Do you want to continue?')){
+        window.location.reload();
+    }
+}
+function copyTicket() {
+    // Get the text field
+    var copyText = $('#ticket-container > div > textarea')[0];
+
+    // Select the text field
+    copyText.select();
+    copyText.setSelectionRange(0, 99999); // For mobile devices
+
+    // Copy the text inside the text field
+    navigator.clipboard.writeText(copyText.value);
+
+    // Alert the copied text
+    //console.log("Copied the text: " + copyText.value);
+};
 //handle work selector
 function selectWork(el){
     $('div[work].selected').removeClass('selected');
