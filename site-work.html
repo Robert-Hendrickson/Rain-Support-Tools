@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="/Rain-Support-Tools/css/site-work.css" />
+        <link rel="stylesheet" href="/Rain-Support-Tools/common/actions/popup.css" />
+        <script src="https://kit.fontawesome.com/8e52a98e38.js" crossorigin="anonymous"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+        <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+        <script src="/Rain-Support-Tools/js/site-work.js"></script>
+        <script src="/Rain-Support-Tools/js/test_data.js"></script>
+        <script src="/Rain-Support-Tools/common/actions/popup.js"></script>
+    </head>
+    <body>
+        <div class="menu-wrapper">
+            <div onclick="toggleNav()" id="nav-toggle">
+                <span class="fa-solid fa-bars"></span>
+            </div>
+            <nav-menu></nav-menu>
+            <script src="/Rain-Support-Tools/js/nav-builder.js"></script>
+        </div>
+        <h1>
+            Site Work Ticket - Design by Russell Lee
+        </h1>
+        <div class="body-container">
+            <div id="info-tabs">
+                <div id="work-tab" step="1" class="active">
+                    <div class="step-circle">1</div>
+                    Work Type
+                </div>
+                <div id="info-tab" step="2">
+                    <div class="step-circle">2</div>
+                    Work Info
+                </div>
+                <div id="confirm-tab" step="3">
+                    <div class="step-circle">3</div>
+                    Confirm
+                </div>
+            </div>
+            <div class="container">
+                <div id="basic-data" data="1"  class="active">
+                        Store ID<br>
+                        <input id="crm" type="text" placeholder="Enter a CRM" />
+                        <br>
+                        Type of work to be done<br>
+                        <div work-selector>
+                            <div work='site'>Site Work</div>
+                            <div work='template'>Template Work</div>
+                        </div>
+                </div>
+                <div id="work-content" data="2">
+                    <div id="site" style="display: none;">
+                        <h2>Site Work Content:</h2>
+                        <div table-controls>
+                            <button class="btn secondary" onclick="addTableRow('work-table')">Add Row</button>
+                            <button class="btn secondary" onclick="removeTableRow('work-table')">Remove Row</button>
+                        </div>
+                        <table id="work-table">
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <span onclick='deleteRow(this)'>X</span>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            <select>
+                                                <option>Select an Option</option>
+                                                <option value="fix">Site Fix</option>
+                                                <option value="custom">Custom Work</option>
+                                            </select>
+                                            <div><input id="url" type="text" placeholder="Page URL" /></div>
+                                        </div>
+                                        <div>
+                                            <div><input id="screenshot" type="text" placeholder="screenshot" /></div>
+                                            <div><input id="video" type="text" placeholder="video(optional)" /></div>
+                                        </div>
+                                        <textarea placeholder="details"></textarea>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="template" style="display: none;">
+                        <h2>Template Update/Responsive Upgrade:</h2>
+                        <div>
+                            Update Type: <select>
+                                <option>Select an Option</option>
+                                <option>Template Change</option>
+                                <option>Responsive Upgrade</option>
+                            </select><br>
+                            Template Number: <input id="number" placeholder="Template Number or Name" id="number" type="text"><br>
+                            Template CRM: <input placeholder="Template CRM ID" id="crm" type="text">
+                        </div>
+                        <div>
+                            Customer Request Notes:<textarea placeholder="Any notes about changes being made. Colors they want, fonts, etc."></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div id="confirm-content" data="3">
+                    <data></data>
+                </div>
+            </div>
+            <div flow-controls>
+                <button prev class="btn secondary hide" style="font-size: 12px;" onclick="previousStep()">Previous</button>
+                <button class="btn primary hide" finish style="float: right;" onclick="validateData()">Finish</button>
+                <button class="btn primary" next style="float: right;" onclick="validateData()">Next</button>
+            </div>
+        </div>
+        <div id="ticket-container" class="hide">
+            <div>
+                <textarea></textarea>
+                <div ticket-buttons>
+                    <button style="float: left;" class="btn terciary" onclick="start_new_ticket()">New Case</button>
+                    <button class="btn secondary" onclick="$('#ticket-container').addClass('hide')">Close</button>
+                    <button class="btn primary" onclick="copyTicket()">Copy</button>
+                </div>
+            </div>
+        </div>
+        <div id="error_message" class="hide"></div>
+    </body>
+</html>
