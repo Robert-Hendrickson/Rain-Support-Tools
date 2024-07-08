@@ -1,10 +1,3 @@
-/*
-    css classes for fontawesome good and bad visuals
-    good: fa-regular fa-circle-check
-    bad: fa-regular fa-circle-xmark
-
-
-*/
 //takes changed value and updates display area at the bottom to show good or bad depending on the value entered into the box
 function toggleDisplay(id,good_bad){
     if (good_bad === 'good') {
@@ -64,8 +57,6 @@ function updateDisplay(el){
             console.error(`Something didn't work right. Please try again.` + event_id + event_value);
             break;
     }
-    //$($0).addClass('fa-circle-xmark')
-    //$($0).removeClass('fa-circle-check')
 }
 //sets all boxes to auto run script on udpate
 $(window).ready(function (){
