@@ -1,0 +1,20 @@
+@import '/Rain-Support-Tools/css/default.css';
+@import '/Rain-Support-Tools/css/flow-format.css';
+
+.container > div{
+    display: block;
+}
+
+[check-list] .good{
+    color: #adff2f;
+}
+[check-list] .bad{
+    color: #ec0a0a;
+}
+
+.fa-regular.fa-circle-check::before{
+    content: 'good';
+}
+.fa-regular.fa-circle-xmark::before{
+    content: 'bad';
+}
