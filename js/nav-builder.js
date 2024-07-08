@@ -1,5 +1,5 @@
 let html;
-if((/Rain-Support-Tools\/$/).test(location.pathname)) {
+if ((/Rain-Support-Tools\/$/).test(location.pathname)) {
     html = `<div class="toolButtonsList">
     <div id="support">
         <div v-for="nav_item in nav_list.support" class="toolButton">
@@ -93,6 +93,7 @@ const app = Vue.createApp({
                     {name:'Inventory Check', url: 'Inventory-check.html', icon: 'fa-solid fa-box'}
                 ],
                 misc: [
+                    {name:'SF GTG Check', url: 'bug-flow-check.html', icon: 'fa-solid fa-thumbs-up'},
                     {name:'CSS Sandbox', url: 'css-tester.html', icon: 'fa-solid fa-wand-magic-sparkles'},
                     {name:"Riley's Secret", url: 'riley/riley.html', target:'blank', icon: 'fa-solid fa-paper-plane'}
                 ]

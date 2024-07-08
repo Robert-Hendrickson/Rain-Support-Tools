@@ -1,0 +1,184 @@
+h1,h2{
+    text-align: center;
+}
+
+.hide{
+    display: none;
+}
+
+.body-container{
+    width: 60%;
+    margin: 0 auto;
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+::placeholder{
+    color: #AAAAAA;
+}
+
+/*tabs formatting*/
+div#info-tabs{
+    display: flex;
+    justify-content: space-between;
+    margin: 0 20px;
+}
+
+div#info-tabs div{
+    margin: 5px;
+    cursor: default;
+    text-align: center;
+    color: #EEEEEE;
+    border-color: #EEEEEE;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    > div{
+        background-color: #EEEEEE;
+        color: #000;
+        flex-direction: column;
+    }
+}
+
+.step-circle{
+    font-size: 20px;
+    border: #000 solid 1px;
+    border-radius: 21px;
+    width: 40px;
+    height: 40px;
+}
+
+div#info-tabs div.active{
+    color: #4C8BC0;
+    > div{
+        border-color: #4C8BC0;
+        background-color: #fff;
+    }
+}
+
+div#info-tabs div.complete{
+    color: #4C8BC0;
+    > div{
+        border-color: #4C8BC0;
+        background-color: #4C8BC0;
+        color: #fff;
+    }
+}
+
+.container{
+    width: 99%;
+    margin: 0 auto;
+    font-size: 15px;
+    font-family: sans-serif;
+    font-weight: bold;
+    background-color: #fff;
+    padding: 5px 0;
+    > div{
+        display: none;
+        padding: 5px;
+        border: #DDDDDD solid 1px;
+        border-radius: 5px;
+    }
+}
+.container .active{
+    display: block;
+}
+
+#description textarea,#examples textarea,#errors textarea{
+    margin: 0px auto;
+}
+/*data content styling*/
+
+input{
+    width: 98%;
+    height: 25px;
+    margin-bottom: 16px;
+    border: #DDDDDD solid 1px;
+    border-radius: 4px;
+}
+textarea{
+    resize: none;
+    width: 99%;
+    height: 100px;
+    border-color:#DDDDDD;
+    border-radius: 4px;
+}
+input[type="text"]:focus,textarea:focus{
+    border-color: #337AB7;
+    outline: none;
+}
+div[data]{
+    padding: 10px;
+}
+
+/*START selectable options*/
+div[choice-selector]{
+    height: 40px;
+    margin: 5px 0;
+    div{
+        text-align: center;
+        border: #DDDDDD solid 1px;
+        float: left;
+        width: 49%;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+    }
+}
+
+div[choice-selector] div:first-child{
+    border-radius: 4px 0 0 4px;
+}
+
+div[choice-selector] div:last-child{
+    border-radius: 0 4px 4px 0;
+}
+
+div[choice-selector] .selected{
+    color: #337ab7;
+    border-color: #337AB7;
+    background-color: #D8EDF7;
+}
+/*END selectable options*/
+div[table-controls]{
+    text-align: center;
+}
+
+table{
+    width: 99%;
+}
+/*flow progression buttons*/
+div[flow-controls]{
+    height: 30px;
+}
+
+/*ticket styling*/
+div#ticket-container{
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    width: 99%;
+    height: 99%;
+}
+
+#ticket-container > div{
+    width: 620px;
+    margin: 60px auto;
+    background-color: #ffffff;
+    padding: 8px 16px;
+    border-radius: 10px;
+    border: #DDDDDD solid 1px;
+}
+
+#ticket-container > div textarea{
+    width: 615px;
+    height: 600px;
+}
+
+[ticket-buttons]{
+    text-align: right;
+}
