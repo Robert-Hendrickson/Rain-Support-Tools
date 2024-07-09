@@ -12,7 +12,7 @@ function validateData(){
             if(!(/^(?:[Cc][Rr][Mm])?\d{3,}$/).test($('input#crm')[0].value)){
                 bad_object.list['crm'] = 'Please enter a valid CRM {(crm)12381}';
             }
-            if (!$('[work-selector] .selected').length) {
+            if (!$('[choice-selector] .selected').length) {
                 bad_object.list['work'] = 'Please select work type to be done.';
             }
             if (Object.entries(bad_object.list).length) {

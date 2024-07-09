@@ -37,7 +37,7 @@ function setTestData(){
     }
     if(RegExp(/dns\-help/).test(path)){
         $('#domain')[0].value = 'rainadmin.com';
-        $('[action-selector] div').each(function(){
+        $('[choice-selector] div').each(function(){
             $(this).click();
         });
         $(`#add-record-table tbody`).append(`<tr>

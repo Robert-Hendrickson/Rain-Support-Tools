@@ -14,6 +14,12 @@ h1,h2{
     padding: 10px;
 }
 
+@media(max-width:1089px){
+    .body-container{
+        width: 98%;
+    }
+}
+
 ::placeholder{
     color: #AAAAAA;
 }
@@ -90,6 +96,11 @@ div#info-tabs div.complete{
     margin: 0px auto;
 }
 /*data content styling*/
+select{
+    margin: 16px 0;
+    height: 25px;
+    border-radius: 8px;
+}
 
 input{
     width: 98%;
