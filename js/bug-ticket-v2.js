@@ -164,7 +164,9 @@ function validateData(){
             if (Object.entries(bad_object.list).length) {
                 popup_error_growl(bad_object);
             } else {
-                generateTicket();
+                if (checkDescriptionNeedsLinkExamples()) {
+                    generateTicket();
+                }
             };
             break;
         default:
@@ -319,6 +321,20 @@ function previousStep(){
     //set data display changes
     $(`[data='${current_step}']`)[0].classList.value = '';
     $(`[data='${current_step - 1}']`)[0].classList.value = 'active';
+}
+
+function checkDescriptionNeedsLinkExamples(){
+    //function returns true if there is no need to add more data
+    let description_check_array = $('#description')[0].value.match(/website|cart|checkout|add to cart/gi);
+    if (description_check_array === null) {
+        description_check_array = [];
+    }
+    let example_check_for_links = (/(?:https?:\/\/)?(?:\w+\.)?(\w+\.)+\w{3,}/g).test($('#examples')[0].value);
+    let check = true;
+    if (description_check_array > 2 && !example_check_for_links) {
+        check = window.confirm(`It looks like there was mention of website issues, but there were no links provided in the examples. Do you want to continue without adding links to website issue areas?`);
+    }
+    return check;
 }
 
 function start_new_ticket(){
