@@ -331,7 +331,7 @@ function checkDescriptionNeedsLinkExamples(){
     }
     let example_check_for_links = (/(?:https?:\/\/)?(?:\w+\.)?(\w+\.)+\w{3,}/g).test($('#examples')[0].value);
     let check = true;
-    if (description_check_array > 2 && !example_check_for_links) {
+    if (description_check_array.length > 2 && !example_check_for_links) {
         check = window.confirm(`It looks like there was mention of website issues, but there were no links provided in the examples. Do you want to continue without adding links to website issue areas?`);
     }
     return check;
