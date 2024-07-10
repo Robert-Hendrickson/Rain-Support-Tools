@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="\Rain-Support-Tools\css\default.css" />
+        <style>
+            dialog{
+                margin: 0 auto;
+                top: 60px;
+                width: 450px;
+                height: 100px;
+                padding: 16px;
+            }
+            dialog #buttons{
+                position: absolute;
+                bottom: 10px;
+                width: 95%;
+            }
+            dialog #buttons button{
+                float: left;
+            }
+            dialog #buttons button:last-child{
+                float: right;
+            }
+        </style>
+    </head>
+    <body>
+        <dialog>
+            <div>
+                {{content_text}}
+            </div>
+            <div id="buttons">
+                <button class="btn primary">{{submit_choice}}</button>
+                <button class="btn secondary">{{cancel_choice}}</button>    
+            </div>
+        </dialog>
+        <script>
+            let test_el = document.getElementsByTagName('dialog')[0];
+        </script>
+    </body>
+</html>
