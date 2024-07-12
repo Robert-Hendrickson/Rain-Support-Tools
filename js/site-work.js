@@ -71,7 +71,7 @@ function checkSiteWork(){
         if (el.querySelector('select').value === 'Select an Option') {
             list_object['work_type'] = 'Please select a type of work for all rows.';
         }
-        if (!(/^(?:https?\:\/\/)?(?:\w+\.)?\w+\.\w{2,}\/?$/).test(el.querySelector('#url').value)) {
+        if (!(/^(?:https?\:\/\/)?(?:\w+\.)?\w+\.(?:\w{2,}\/?)+\.\w{2,}\/?$/).test(el.querySelector('#url').value)) {
             list_object['url'] = 'Make sure each row has a url for the page that needs work done.';
         }
         if (!(/^.*drive\.google\.com\/.*view/).test(el.querySelector('#screenshot').value)) {
