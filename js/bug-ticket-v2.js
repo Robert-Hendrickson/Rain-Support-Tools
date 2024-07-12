@@ -15,7 +15,7 @@ function checkLinkList(list){
             let row_data = $(this)[0].value;
             if(row_data != ''){//if there is data in the row, check how many links are in it
                 //set row_data to either an empty array or return array from match check
-                row_data = [] || row_data.match(/https?/g);
+                row_data = row_data.match(/https?/g) || [];
                 if(row_data.length > 1){
                     //found more than one potential link in a line
                     //get index for second beginning
