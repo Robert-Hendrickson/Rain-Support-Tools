@@ -351,6 +351,33 @@ function selectReplicability(el){
     el.target.classList.value = 'selected';
 }
 
+function newCookieData(){
+    //use Date.now() to get current unix time stamp. Can be accessed later as a date by using new Date({{timestamp}})
+    function scrubBadJsonChar(string){
+        return string.replaceAll(/[\"\\]/g,'');
+    }
+    function subObjectCreator(table){
+        let temp_object = {};
+        $(`#${table}-table tr`).each(function(index,el){
+            temp_object[`line_${index + 1}`] = scrubBadJsonChar(el.querySelector('input').value);
+        })
+        return temp_object;
+    }
+    let bug_object = {
+        crm: scrubBadJsonChar($('input#crm')[0].value),
+        area: scrubBadJsonChar($('input#systemArea')[0].value),
+        replicable: $('[choice-selector] .selected').attr('replicable'),
+        steps: subObjectCreator('steps'),
+        description: scrubBadJsonChar($('#description')[0].value),
+        expected: scrubBadJsonChar($('#expected')[0].value),
+        screenshots: subObjectCreator('screenshot'),
+        videos: subObjectCreator('video'),
+        examples: scrubBadJsonChar($('#examples')[0].value),
+        errors: scrubBadJsonChar($('#errors')[0].value)
+    }
+    setCookie(`bug_${Date.now()}`,JSON.stringify(bug_object));
+}
+
 $(window).ready(function (){
     $('div[replicable]').on('click',selectReplicability);
 });
