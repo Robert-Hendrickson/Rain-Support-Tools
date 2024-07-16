@@ -396,7 +396,7 @@ function selectReplicability(el){
 function newCookieData(){
     //use Date.now() to get current unix time stamp. Can be accessed later as a date by using new Date({{timestamp}})
     function scrubBadJsonChar(string){
-        return string.replaceAll(/[\"\\]/g,'');
+        return string.replaceAll(/[\"\\\;]/g,'');
     }
     function subObjectCreator(table){
         let temp_object = {};
