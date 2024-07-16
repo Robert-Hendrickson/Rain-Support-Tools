@@ -169,6 +169,7 @@ function validateData(){
             } else {
                 if (checkDescriptionNeedsLinkExamples()) {
                     generateTicket();
+                    newCookieData();
                 }
             };
             break;
@@ -378,6 +379,35 @@ function newCookieData(){
     setCookie(`bug_${Date.now()}`,JSON.stringify(bug_object));
 }
 
+function buildPastTicketDivs(array){
+    $('#list-toggle')[0].innerText = array.length;
+    for (i=0;i<array.length;i++) {
+        bug_array_split = array[i].split('=');
+        let date = new Date(parseInt(bug_array_split[0].split("_")[1])).toString().substring(0,24);
+        let bug_data = bug_array_split[1].replaceAll(/"/g,'&quot;');
+        let temp_json = JSON.parse(bug_array_split[1]);
+        let blurb_string = '';
+        if (temp_json.description.length > 100) {
+            blurb_string = temp_json.description.substring(0,100) + '...';
+        } else {
+            blurb_string = temp_json.description;
+        }
+        $('past-tickets').append(`<div data="${bug_data}">${date}<br>CRM: ${temp_json.crm}<br>Description: ${blurb_string}</div>`);
+    }
+}
+
+function displayPastTickets(){
+    let bug_array = document.cookie.split('; ').filter((value) => (/^bug\_\d+/).test(value));
+    if (bug_array.length > 0) {
+        buildPastTicketDivs(bug_array);
+        $('#past-ticket-container').show();
+    }
+}
+
 $(window).ready(function (){
     $('div[replicable]').on('click',selectReplicability);
+    $('#list-toggle').on('click', function (){
+        $('past-tickets').toggleClass('active');
+    });
+    displayPastTickets();
 });
