@@ -74,6 +74,9 @@ function checkSiteWork(){
         if (!(/^(?:https?\:\/\/)?(?:\w+\.)?\w+\.(?:\w{2,}\/?)+\.\w{2,}\/?$/).test(el.querySelector('#url').value)) {
             list_object['url'] = 'Make sure each row has a url for the page that needs work done.';
         }
+        if ((/rainadmin|quiltstorewebsites|musicshop360|jewel360/g).test(el.querySelector('#url').value)) {
+            list_object['restricted_domain'] = 'Use domains from the customers site. Do not use admin domains. (i.e. rainadmin, jewel360, musicshop360)';
+        }
         if (!(/^.*drive\.google\.com\/.*view/).test(el.querySelector('#screenshot').value)) {
             list_object['screenshot'] = 'Please enter a google drive screenshot link for each row.';
         }
