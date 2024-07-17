@@ -13,6 +13,8 @@ Riley page was pulled from this link: https://codepen.io/trajektorijus/pen/mdeBY
     <script src="/Rain-Support-Tools/common/actions/popup.js"></script>
     <script src="https://kit.fontawesome.com/8e52a98e38.js" crossorigin="anonymous"></script>
 
+## cookie control functions
+    <script src="\Rain-Support-Tools\common\ctrl\cookie_ctrl.js"></script>
 
 # flow build containers
 ## nav html

@@ -169,6 +169,7 @@ function validateData(){
             } else {
                 if (checkDescriptionNeedsLinkExamples()) {
                     generateTicket();
+                    newCookieData();
                 }
             };
             break;
@@ -198,38 +199,79 @@ function markdownScrubbing(string_data){
     return string_data.replaceAll(characters_to_adjust, "$& ");
 }
 
-function generateTicket(){
-    let data = {
-        crm: $('#crm')[0].value,
-        area: $('#systemArea')[0].value,
-        replicable: $('[replicable].selected').attr('replicable'),
-        steps: () => {
-            let string = '';
-            $('#steps-table tr input').each(function (index){
-                let step = index + 1;
-                string += `${index + 1}. ` + $(this)[0].value + '\n';
-            });
-            return string;
-        },
-        description: $('#description')[0].value,
-        expected: $('#expected')[0].value,
-        screenshots: () => {
-            let string = '';
-            $('#screenshot-table tr input').each(function (){
-                string += $(this)[0].value + '\n\n';
-            });
-            return string;
-        },
-        videos: () => {
-            let string = '';
-            $('#video-table tr input').each(function (){
-                string += $(this)[0].value + '\n\n';
-            });
-            return string;
-        },
-        examples: $('#examples')[0].value,
-        errors: $('#errors')[0].value
-    };
+function generateTicket(passed_object = {}){
+    let data;
+    if (!Object.keys(passed_object).length) {
+        data = {
+            crm: $('#crm')[0].value,
+            area: $('#systemArea')[0].value,
+            replicable: $('[replicable].selected').attr('replicable'),
+            steps: () => {
+                let string = '';
+                $('#steps-table tr input').each(function (index){
+                    let step = index + 1;
+                    string += `${index + 1}. ` + $(this)[0].value + '\n';
+                });
+                return string;
+            },
+            description: $('#description')[0].value,
+            expected: $('#expected')[0].value,
+            screenshots: () => {
+                let string = '';
+                $('#screenshot-table tr input').each(function (){
+                    string += $(this)[0].value + '\n\n';
+                });
+                return string;
+            },
+            videos: () => {
+                let string = '';
+                $('#video-table tr input').each(function (){
+                    string += $(this)[0].value + '\n\n';
+                });
+                return string;
+            },
+            examples: $('#examples')[0].value,
+            errors: $('#errors')[0].value
+        };
+    } else {
+        //build object similar to above from passed object data
+        data = {
+            crm: passed_object.crm,
+            area: passed_object.area,
+            replicable: passed_object.replicable,
+            steps: () => {
+                let string = '';
+                let index = 1;
+                for (row in passed_object.steps) {
+                    string += `${index}. ` + passed_object.steps[row] + '\n';
+                    index++;
+                }
+                return string;
+            },
+            description: passed_object.description,
+            expected: passed_object.expected,
+            screenshots: () => {
+                let string = '';
+                let index = 1;
+                for (row in passed_object.screenshots) {
+                    string += `${index}. ` + passed_object.screenshots[row] + '\n';
+                    index++;
+                }
+                return string;
+            },
+            videos: () => {
+                let string = '';
+                let index = 1;
+                for (row in passed_object.videos) {
+                    string += `${index}. ` + passed_object.videos[row] + '\n';
+                    index++;
+                }
+                return string;
+            },
+            examples: passed_object.examples,
+            errors: passed_object.errors
+        };
+    }
     $('#ticket-container > div > textarea')[0].value = `**LOCATION:**
 Store ID:
 ${data.crm}
@@ -351,6 +393,63 @@ function selectReplicability(el){
     el.target.classList.value = 'selected';
 }
 
+function newCookieData(){
+    //use Date.now() to get current unix time stamp. Can be accessed later as a date by using new Date({{timestamp}})
+    function scrubBadJsonChar(string){
+        return string.replaceAll(/[\"\\\;]/g,'');
+    }
+    function subObjectCreator(table){
+        let temp_object = {};
+        $(`#${table}-table tr`).each(function(index,el){
+            temp_object[`line_${index + 1}`] = scrubBadJsonChar(el.querySelector('input').value);
+        })
+        return temp_object;
+    }
+    let bug_object = {
+        crm: scrubBadJsonChar($('input#crm')[0].value),
+        area: scrubBadJsonChar($('input#systemArea')[0].value),
+        replicable: $('[choice-selector] .selected').attr('replicable'),
+        steps: subObjectCreator('steps'),
+        description: scrubBadJsonChar($('#description')[0].value),
+        expected: scrubBadJsonChar($('#expected')[0].value),
+        screenshots: subObjectCreator('screenshot'),
+        videos: subObjectCreator('video'),
+        examples: scrubBadJsonChar($('#examples')[0].value),
+        errors: scrubBadJsonChar($('#errors')[0].value)
+    }
+    setCookie(`bug_${Date.now()}`,JSON.stringify(bug_object));
+}
+
+function buildPastTicketDivs(array){
+    $('#list-toggle')[0].innerText = array.length;
+    for (i=0;i<array.length;i++) {
+        bug_array_split = array[i].split('=');
+        let date = new Date(parseInt(bug_array_split[0].split("_")[1])).toString().substring(0,24);
+        let bug_data = bug_array_split[1].replaceAll(/"/g,'&quot;');
+        let temp_json = JSON.parse(bug_array_split[1]);
+        $('past-tickets').append(`<div data="${bug_data}">${date}<br>CRM: ${temp_json.crm}<br>Description: ${temp_json.description}</div>`);
+    }
+}
+
+function oldTicketDataPrint(el){
+    //get ticket data from clicked element and pass to generateTicket function
+    let ticket_data = el.target.getAttribute('data');
+    generateTicket(JSON.parse(ticket_data));
+}
+
+function displayPastTickets(){
+    let bug_array = document.cookie.split('; ').filter((value) => (/^bug\_\d+/).test(value));
+    if (bug_array.length > 0) {
+        buildPastTicketDivs(bug_array);
+        $('past-tickets > div').on('click',oldTicketDataPrint);
+        $('#past-ticket-container').show();
+    }
+}
+
 $(window).ready(function (){
     $('div[replicable]').on('click',selectReplicability);
+    $('#list-toggle').on('click', function (){
+        $('past-tickets').toggleClass('active');
+    });
+    displayPastTickets();
 });
