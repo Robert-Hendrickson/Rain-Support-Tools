@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!--
+        need to build handling for closing modal
+        https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog
+        -->
+        <link rel="stylesheet" href="\Rain-Support-Tools\css\default.css" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+        <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+        <style>
+            dialog{
+                margin: 0 auto;
+                top: 60px;
+                width: 450px;
+                min-height: 60px;
+                padding: 16px;
+                background-color: #dddddd;
+                border: 3px solid #000;
+                border-radius: 16px;
+            }
+            dialog::backdrop{
+                background-color: #5c5c5c;
+                opacity: 60%;
+            }
+            dialog #modal-content{
+                padding-bottom: 10px;
+            }
+            dialog #buttons button{
+                float: left;
+            }
+            dialog #buttons button:last-child{
+                float: right;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="dialog-return"></div>
+        <button onclick="showDialog()">Show Dialog</button>
+        <dialog></dialog>
+        <script>
+            let test_el = document.getElementsByTagName('dialog')[0];
+            function showDialog(text_string_content, submit_button = 'OK', close_button = "Close"){
+                let dialog_el = $('dialog')[0];
+                
+                let html = '<div>{{content_text}}</div><div id="buttons"><button class="btn primary">{{submit_choice}}</button><button class="btn secondary">{{cancel_choice}}</button></div>';
+                dialog_build = Vue.createApp({
+                    template : html,
+                    data() {
+                        return {
+                            'content_text': text_string_content,
+                            'submit_choice': submit_button,
+                            'cancel_choice': close_button
+                        }
+                    }
+                });
+                if(dialog_el.__vue_app__){
+                    dialog_el.__vue_app__.unmount();
+                };
+                dialog_build.mount(dialog_el);
+                dialog_el.showModal();
+            }
+        </script>
+    </body>
+</html>
