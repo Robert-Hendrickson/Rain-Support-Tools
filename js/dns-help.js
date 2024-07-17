@@ -471,7 +471,8 @@ function validateRecordData(){
 function submit(record_data){
     let row_inputs = $(record_data.row).find('td div.data-input');
     row_inputs[0].innerText = record_data.type;
-    if(domain_data[0]){
+    //check if subdomain and record name doesn't match subdomain
+    if(domain_data[0] && record_data.name != domain_data[1]){
         row_inputs[1].innerText = record_data.name + '.' + domain_data[1];
     } else {
         row_inputs[1].innerText = record_data.name;
