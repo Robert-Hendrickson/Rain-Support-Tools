@@ -15,6 +15,9 @@ dialog::backdrop{
 dialog #modal-content{
     padding-bottom: 10px;
 }
+dialog #dialog-text{
+    padding: 16px 8px;
+}
 dialog #buttons button{
     float: left;
 }
