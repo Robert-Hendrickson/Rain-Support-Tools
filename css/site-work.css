@@ -1,5 +1,6 @@
 @import '/Rain-Support-Tools/css/default.css';
 @import '/Rain-Support-Tools/common/flow-format/flow-format.css';
+@import '/Rain-Support-Tools/modules/dialog-ctrl.css';
 
 /*site work table styles*/
 #work-table tr > td:first-child span{

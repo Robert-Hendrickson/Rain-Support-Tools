@@ -62,7 +62,7 @@ function duplicateLinksFound(){
     })
     return duplicates;
 }
-function validateData(){
+async function validateData(){
     Close_error_growl();
     let bad_object = {
         type: 'generate',
@@ -167,7 +167,7 @@ function validateData(){
             if (Object.entries(bad_object.list).length) {
                 popup_error_growl(bad_object);
             } else {
-                if (checkDescriptionNeedsLinkExamples()) {
+                if (await checkDescriptionNeedsLinkExamples()) {
                     generateTicket();
                     newCookieData();
                 }
@@ -368,7 +368,7 @@ function previousStep(){
     $(`[data='${current_step - 1}']`)[0].classList.value = 'active';
 }
 
-function checkDescriptionNeedsLinkExamples(){
+async function checkDescriptionNeedsLinkExamples(){
     //function returns true if there is no need to add more data
     let description_check_array = $('#description')[0].value.match(/website|cart|checkout|add to cart/gi);
     if (description_check_array === null) {
@@ -377,13 +377,13 @@ function checkDescriptionNeedsLinkExamples(){
     let example_check_for_links = (/(?:https?:\/\/)?(?:\w+\.)?(\w+\.)+\w{3,}/g).test($('#examples')[0].value);
     let check = true;
     if (description_check_array.length > 2 && !example_check_for_links) {
-        check = window.confirm(`It looks like there was mention of website issues, but there were no links provided in the examples. Do you want to continue without adding links to website issue areas?`);
+        check = await customDialogResponse(`It looks like there was mention of website issues, but there were no links provided in the examples. Do you want to continue without adding links to website issue areas?`,'Continue','Go Back');
     }
     return check;
 }
 
-function start_new_ticket(){
-    if(window.confirm('This action is not reversible. Continuing will clear all current data and start a new ticket.\n\n Do you want to continue?')){
+async function start_new_ticket(){
+    if(await customDialogResponse('This action is not reversible. Continuing will clear all current data and start a new ticket.\n\n Do you want to continue?','Continue','Go Back')){
         window.location.reload();
     }
 }

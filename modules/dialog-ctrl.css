@@ -1,0 +1,26 @@
+dialog{
+    margin: 0 auto;
+    top: 60px;
+    width: 450px;
+    min-height: 60px;
+    padding: 16px;
+    background-color: #dddddd;
+    border: 3px solid #000;
+    border-radius: 16px;
+}
+dialog::backdrop{
+    background-color: #5c5c5c;
+    opacity: 60%;
+}
+dialog #modal-content{
+    padding-bottom: 10px;
+}
+dialog #dialog-text{
+    padding: 16px 8px;
+}
+dialog #buttons button{
+    float: left;
+}
+dialog #buttons button:last-child{
+    float: right;
+}

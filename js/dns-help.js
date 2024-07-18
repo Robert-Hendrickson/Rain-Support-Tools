@@ -540,8 +540,8 @@ function copyTicket() {
     // Alert the copied text
     //console.log("Copied the text: " + copyText.value);
 };
-function start_new_ticket(){
-    if(window.confirm('This action is not reversible. Continuing will clear all current data and start a new ticket.\n\n Do you want to continue?')){
+async function start_new_ticket(){
+    if(await customDialogResponse('This action is not reversible. Continuing will clear all current data and start a new ticket.\n\n Do you want to continue?','Continue','Cancel')){
         window.location.reload();
     }
 }

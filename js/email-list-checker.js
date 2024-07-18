@@ -36,8 +36,8 @@ function importList(){
     $('.import').addClass('hide');
 }
 
-function clearData(){
-    if(window.confirm("You are about to clear all current data and won't able to reclaim it. Are you sure you want to proceed?")){
+async function clearData(){
+    if(await customDialogResponse("You are about to clear all current data and won't able to reclaim it. Are you sure you want to proceed?","Continue","Cancel")){
         let data = $('.mainContent div');
         for(i=0;i<data.length;i++){
             data[i].querySelector('count').innerText = '0';

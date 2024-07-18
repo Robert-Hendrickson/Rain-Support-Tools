@@ -1,4 +1,5 @@
 @import '/Rain-Support-Tools/css/default.css';
+@import '/Rain-Support-Tools/modules/dialog-ctrl.css';
 .hide{
     display: none;
 }
