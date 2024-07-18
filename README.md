@@ -16,6 +16,9 @@ Riley page was pulled from this link: https://codepen.io/trajektorijus/pen/mdeBY
 ## cookie control functions
     <script src="\Rain-Support-Tools\common\ctrl\cookie_ctrl.js"></script>
 
+## custom dialog modal script inport
+    <script src="/Rain-Support-Tools/modules/dialog-ctrl.js"></script>
+
 # flow build containers
 ## nav html
     <div class="menu-wrapper">

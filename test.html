@@ -35,51 +35,11 @@
         </style>
     </head>
     <body>
-        <div id="dialog-return"></div>
-        <button onclick="customDialogResponse()">Show Dialog</button>
-        <div id="respons-output"></div>
-        <dialog></dialog>
+        <button onclick="getDialogResponse()">Show Dialog</button>
+        <script src="/Rain-Support-Tools/modules/dialog-ctrl.js"></script>
         <script>
-            let test_el = document.getElementsByTagName('dialog')[0];
-            function getDialogResponse(text_string_content, submit_button = 'OK', close_button = "Close"){
-                //resulting in 'promise is not defined' error when running.
-                return new promise((resolve) => {
-                    let dialog_el = $('dialog')[0];
-                    
-                    let html = '<div>{{content_text}}</div><div id="buttons"><button class="btn primary" id="submit-choice">{{submit_choice}}</button><button class="btn secondary" id="cancel-choice">{{cancel_choice}}</button></div>';
-                    dialog_build = Vue.createApp({
-                        template : html,
-                        data() {
-                            return {
-                                'content_text': text_string_content,
-                                'submit_choice': submit_button,
-                                'cancel_choice': close_button
-                            }
-                        }
-                    });
-                    if(dialog_el.__vue_app__){
-                        dialog_el.__vue_app__.unmount();
-                    };
-                    dialog_build.mount(dialog_el);
-
-                    const handleYes = () => {
-                        resolve(true);
-                        dialog_el.close();
-                    }
-
-                    const handleNo = () => {
-                        resolve(false);
-                        dialog_el.close();
-                    }
-
-                    document.getElementById('submit-choice').addEventListener("click",handleYes,{once: true})
-                    document.getElementById('submit-choice').addEventListener("click",handleNo,{once: true})
-                    dialog_el.showModal();
-                });
-            }
-            async function customDialogResponse(){
-                const result = await getDialogResponse('test stuff');
-                if(result){
+            async function getDialogResponse(){
+                if(await customDialogResponse('test stuff')){
                     console.log('success');
                 }else{
                     console.log('failed');
