@@ -195,8 +195,8 @@ function previousStep(){
     $(`[data='${current_step}']`)[0].classList.value = '';
     $(`[data='${current_step - 1}']`)[0].classList.value = 'active';
 }
-function start_new_ticket(){
-    if(window.confirm('This action is not reversible. Continuing will clear all current data and start a new ticket.\n\n Do you want to continue?')){
+async function start_new_ticket(){
+    if(await customDialogResponse('This action is not reversible. Continuing will clear all current data and start a new ticket.\n\n Do you want to continue?','Continue','Cancel')){
         window.location.reload();
     }
 }
