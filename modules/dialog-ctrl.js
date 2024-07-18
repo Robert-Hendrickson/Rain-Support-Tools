@@ -3,7 +3,7 @@ function customDialogResponse(text_string_content, submit_button = "OK", close_b
         $('body').prepend('<dialog></dialog>');
         let dialog_el = $('dialog')[0];
         
-        let html = '<div>{{content_text}}</div><div id="buttons"><button class="btn primary" id="submit-choice">{{submit_choice}}</button><button class="btn secondary" id="cancel-choice">{{cancel_choice}}</button></div>';
+        let html = '<div id="dialog-text">{{content_text}}</div><div id="buttons"><button class="btn primary" id="submit-choice">{{submit_choice}}</button><button class="btn secondary" id="cancel-choice">{{cancel_choice}}</button></div>';
         dialog_build = Vue.createApp({
             template : html,
             data() {
