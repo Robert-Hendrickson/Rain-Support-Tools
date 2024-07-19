@@ -116,7 +116,7 @@ function checkValues(record_data){
     }
     return potential_errors;
 }
-function validateData(){
+async function validateData(){
     Close_error_growl();
     let bad_object = {
         type: 'generate',
@@ -140,7 +140,13 @@ function validateData(){
                 popup_error_growl(bad_object);
             } else {
                 domain_data = isSubDomain();
-                nextStep(current_step);
+                if (domain_data[0]) {
+                    if (await customDialogResponse('Our system usually deals in hosting apex domains (testurl.com). The domain you have entered looks to be a sub domain (sub.testurl.com). Do you wish to continue?','Continue','Go Back')) {
+                        nextStep(current_step);
+                    }
+                } else {
+                    nextStep(current_step);
+                }
             };
             break;
         case 2:
