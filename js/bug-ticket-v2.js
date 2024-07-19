@@ -1,8 +1,13 @@
+//this function builds a regular expresion object out of a url so that we can check for duplicate links being provided in the checkLinkList function
 function _urlRegEx(url_string){
+    //replace characters '\/' and '?' so that they are searched correctly by the new regex expression
     url_string = url_string.replace(/[\?\\\/]/g,"\\\$&");
+    //return the new regex expresion to be used with a global search attached
     return new RegExp(url_string, 'g');
 }
+//this function checks to see if a string has a slack link in it
 function hasSlackLink(string){
+    //returns the result of running a regex test on the passed string, true if it matches false if it doesn't
     return new RegExp(/(?:https?\/\/)?raindev\.slack\.com\/archives\//).test(string);    
 }
 function checkLinkList(list){
