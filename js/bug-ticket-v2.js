@@ -10,20 +10,23 @@ function hasSlackLink(string){
     //returns the result of running a regex test on the passed string, true if it matches false if it doesn't
     return new RegExp(/(?:https?\/\/)?raindev\.slack\.com\/archives\//).test(string);    
 }
+//this function checks the list of screenshot or video links to make sure they all meet a specific url requirement and that none are either empty or have a duplicate link in them
 function checkLinkList(list){
     return_value = false;
     //check that there are rows to look through
     if (list.length < 1) {
         return_value = true;
     } else {
+        //if list is longer than 0, loop through each element in the list with the below function, this checks that there isn't more than one link in a row. If a duplicate link is foundin the row then it is removed, if the second link found isn't a duplicate an error is thrown to the user to make sure they delete any extra data out of the row
         list.each(function (){
+            //set current loop row value to be called on
             let row_data = $(this)[0].value;
             if(row_data != ''){//if there is data in the row, check how many links are in it
                 //set row_data to either an empty array or return array from match check
                 row_data = row_data.match(/https?/g) || [];
+                //if the array returned is longer than 1 then there is a duplicate
                 if(row_data.length > 1){
-                    //found more than one potential link in a line
-                    //get index for second beginning
+                    //find where second link starts in the string
                     let dup_link_check = {
                         times_iterated: 0,
                         itterator: $(this)[0].value.matchAll(/https?/g),
