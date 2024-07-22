@@ -1,4 +1,4 @@
-//this function builds a regular expresion object out of a url so that we can check for duplicate links being provided in the checkLinkList function
+/*this function builds a regular expresion object out of a url so that we can check for duplicate links being provided in the checkLinkList function*/
 function _urlRegEx(url_string){
     //replace characters '\/' and '?' so that they are searched correctly by the new regex expression
     url_string = url_string.replace(/[\?\\\/]/g,"\\\$&");
@@ -10,7 +10,7 @@ function hasSlackLink(string){
     //returns the result of running a regex test on the passed string, true if it matches false if it doesn't
     return new RegExp(/(?:https?\/\/)?raindev\.slack\.com\/archives\//).test(string);    
 }
-//this function checks the list of screenshot or video links to make sure they all meet a specific url requirement and that none are either empty or have a duplicate link in them
+/*this function checks the list of screenshot or video links to make sure they all meet a specific url requirement and that none are either empty or have a duplicate link in them*/
 function checkLinkList(list){
     return_value = false;
     //check that there are rows to look through
@@ -22,12 +22,11 @@ function checkLinkList(list){
             //set current loop row value to be called on
             let row_data = $(this)[0].value;
             if(row_data != ''){//if there is data in the row, check how many links are in it
-                //set row_data to either an empty array or return array from match check
                 row_data = row_data.match(/https?/g) || [];
                 //if the array returned is longer than 1 then there is a duplicate
                 if(row_data.length > 1){
-                    //find where second link starts in the string
-                    let dup_link_check = {
+                    //let's find where second link starts in the string
+                    let dup_link_check = {//object created to find duplicate links
                         times_iterated: 0,
                         itterator: $(this)[0].value.matchAll(/https?/g),
                         _constructor: () => {
@@ -38,36 +37,50 @@ function checkLinkList(list){
                         }
                     }
                     dup_link_check._constructor();
+                    //find part of url string that is the first link
                     let first_link = $(this)[0].value.substr(0, dup_link_check.match_2);
+                    //check full string to see if the first link is found more than one time in fullness
                     if ($(this)[0].value.match(_urlRegEx(first_link)).length > 1) {
+                        //if first link string is seen more than one time, set string value of the element to be just the first link
                         $(this)[0].value = first_link;
                     } else {
+                        //otherwise set return value as true for a potentially issue
                         return_value = true;
                     }
                 }
             }
         });
+        //loop through each link given again
         list.each(function (){
+            //remove all white space from each link string, (spaces, tabs, etc.)
             $(this)[0].value = $(this)[0].value.replaceAll(/\s/g,'');
+            //make sure that each link meets the expected criteria of being a google drive link
             if($(this)[0].value === '' || !RegExp(/^(?:https?:\/\/)drive\.google\.com\/file\/d\/.*\/view(?:\?.+)?$/).test($(this)[0].value)){
+                //if not, change return value to reflect a potential issue
                 return_value = true;
             }
         });
     }
+    //return value of checks. A false return means no issues were found, a true return means we found an issue
     return return_value;
 }
+/*function checks the list of screenshots and video links to make sure the same link isn't being used twice in the list*/
 function duplicateLinksFound(){
     let duplicates = false;
     let link_list = '';
+    //build link list by getting each input and making a string comma delminated (link_1,link_2,etc)
     $('#links-content tr input').each(function (){
         link_list += $(this)[0].value + ',';
     })
+    //loop through each input and check it's input as a regex test on the string to make sure it doesn't find more than one instance of a link
     $('#links-content tr input').each(function (){
         let temp_regex = new RegExp($(this)[0].value.replace(/[\?\\\/]/g,"\\\$&"), 'g');
         if(link_list.match(temp_regex).length > 1){
+            //if test finds more than 1 instance of a link return true for issue
             duplicates = true;
         }
     })
+    //return true if duplicates found, false if no duplicates found
     return duplicates;
 }
 async function validateData(){
