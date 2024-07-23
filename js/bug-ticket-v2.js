@@ -83,15 +83,23 @@ function duplicateLinksFound(){
     //return true if duplicates found, false if no duplicates found
     return duplicates;
 }
+/*this function is used to when clicking the "Next" and "Finish" buttons on the bug ticket generator. It validates that the data on the current step the user is making edits to has passed specific validations. If they don't an error message is generated. If it passes then the display moves to the next step for inputs
+
+the async keyword was added to this function so that it could be used along side the custom confirmation modal in /modules/dialog-ctrl.(js|css). Async allows it to wait for a response from the dialog-ctrl.js function before moving forward where necessary
+*/
 async function validateData(){
+    //close any error popups currently open
     Close_error_growl();
+    //create object to be passed to error popup if needing to display an error /common/actions/popup.js - popup_error_growl() function
     let bad_object = {
         type: 'generate',
         list: {}
     };
+    //get current step number from web page
     let current_step = parseInt($('#info-tabs .active')[0].getAttribute('step'));
+    //compare current_step value against potential cases, complete the actions for any case that results as true
     switch (current_step) {
-        case 1:
+        case 1://crm, system area, and is replicable (yes or no) check
             if($('#crm')[0].value === '' || !RegExp(/^(?:[c|C][r|R][m|M])?\d{3,}$/).test($('#crm')[0].value)){
                 bad_object.list['crm'] = 'The CRM needs to be a valid CRM.(3 digits or more)';
             }
@@ -106,20 +114,20 @@ async function validateData(){
             } else {
                 nextStep(current_step);
             };
-            break;
-        case 2:
+            break;                           
+        case 2://steps for replication
             let steps_true = true;
             if($('#steps-table tbody tr').length < 1){
                 bad_object.list['steps'] = 'Please make sure all available rows have data. If there are any blank rows use the "Remove Row" button to remove unnecessary rows.';
                 steps_true = false;
             }
             let uncertain_steps = {
-                                    value: false,
-                                    reg: new RegExp(/^[iI][fF]\s/)
+                value: false,
+                reg: new RegExp(/^[iI][fF]\s/)
             }
             $('#steps-table tbody tr input').each(function (){
                 if($(this)[0].value === '' || uncertain_steps.reg.test($(this)[0].value)){
-                    if($(this)[0].value === '' && steps_true != false){
+                    if($(this)[0].value === '' && steps_true){
                         bad_object.list['steps'] = 'Please make sure all available rows have data. If there are any blank rows use the "Remove Row" button to remove unnecessary rows.';
                         steps_true = false;
                     }
@@ -135,7 +143,7 @@ async function validateData(){
                 nextStep(current_step);
             };
             break;
-        case 3:
+        case 3://Description and Expected Outcome
             if($('#description')[0].value === '' || RegExp(/^[n|N](?:\/|\\)?[a|A]/).test($('#description')[0].value)){
                 bad_object.list['description'] = 'Description cannot be empty or n/a. Please describe in detail what is happening.';
             }
@@ -151,13 +159,10 @@ async function validateData(){
                 nextStep(current_step);
             };
             break;
-        case 4:
-            //This still needs refactored!
-            //screenshot
+        case 4://screenshot and video link lists
             if(checkLinkList($('#screenshot-table tr input'))){
                 bad_object.list['screenshot'] = 'One (or more) of the screenshots provided are not an expected domain, is empty, or there are potentially more than one link in the same line.';
             }
-            //video
             if(checkLinkList($('#video-table tr input'))){
                 bad_object.list['video'] = 'One (or more) of the videos provided are not an expected domain, is empty, or there are potentially more than one link in the same line.';
             }
@@ -171,8 +176,7 @@ async function validateData(){
                 nextStep(current_step);
             };
             break;
-        case 5:
-            //check examples box
+        case 5://Examples and Errors
             let examples = $('#examples')[0].value;
             if(RegExp(/rainadmin|quiltstorewebsites|jewel360|musicshop360/).test(examples)){
                 bad_object.list['examples_links'] = 'Please make sure that all links do not point to an admin domain such as rainadmin.com. If there is a report or a product that has an issue please write the report name and filters used to find the issue or and unique ids needed to find the data.';
@@ -180,7 +184,6 @@ async function validateData(){
             if(RegExp(/^[nN](?:\\|\/)?[aA]/).test(examples) || examples === ''){
                 bad_object.list['examples_blank'] = 'Examples cannot be blank or say n/a.';
             }
-            //check errors box
             let errors = $('#errors')[0].value;
             if(RegExp(/^[nN](?:\\|\/)?[aA]/).test(errors) || errors === ''){
                 bad_object.list['errors'] = 'Errors box cannot be blank or n/a. If there are no visible errors associated with the problem behavior, please write "No Console Errors Seen".';
@@ -188,6 +191,7 @@ async function validateData(){
             if (Object.entries(bad_object.list).length) {
                 popup_error_growl(bad_object);
             } else {
+                //before completing generating ticket check if the description has enough keywords about a website problem and that there isn't a link given in the example. Wait fro response from checkDescriptionNeedsLinkExamples function before progressing
                 if (await checkDescriptionNeedsLinkExamples()) {
                     generateTicket();
                     newCookieData();
@@ -198,7 +202,7 @@ async function validateData(){
             break;
     }
 }
-
+/*control displaying next step if validation passes*/
 function nextStep(current_step){
     //Move to next step
     $(`[step='${current_step}']`)[0].classList.value = 'complete';
@@ -206,28 +210,29 @@ function nextStep(current_step){
     //move to next data set
     $(`[data='${current_step}']`)[0].classList.value = '';
     $(`[data='${current_step + 1}']`)[0].classList.value = 'active';
-    if(current_step === 1){
+    if(current_step === 1){//hide "Back" button if on step one
         $('button[prev]').removeClass('hide');
     }
-    if(current_step === 4){
+    if(current_step === 4){//switch out "Next" button for "Finish" if moving to last step
         $('button[next]').addClass('hide');
         $('button[finish]').removeClass('hide');
     }
 }
-
-function markdownScrubbing(string_data){
+/*some special characters are used in Shortcut (where our devs and product team work on bugs) as unique markdown identifiers. This can make a case saying Layaway #123 instead try to link to a story with the id 123 because the '#' character is used in markdown. This function is used to update any characters that could cause trouble when generating a string to be used in the end Ticket data*/
+function markdownScrubbing(string_data){//currently this finds any '#' characters and adds a space to them so it looks like '# ' so it doesn't try to link the following data and says a normal '#'
     let characters_to_adjust = new RegExp(/#/g);
     return string_data.replaceAll(characters_to_adjust, "$& ");
 }
-
-function generateTicket(passed_object = {}){
+/*this compiles all of the data and builds the ticket info and displays it to the user to copy*/
+function generateTicket(passed_object = {}){//due to new updates to allow old ticket info to be accesible from saved cookies, this takes info as an object that get's passed in. If no data was passed in (we are using current page data, not old ticket data) then passed_object is set as a default of an empty object.
     let data;
     if (!Object.keys(passed_object).length) {
+        //if the passed object has nothing in it, then data is set to be the below object
         data = {
             crm: $('#crm')[0].value,
             area: $('#systemArea')[0].value,
             replicable: $('[replicable].selected').attr('replicable'),
-            steps: () => {
+            steps: () => {//the part of the object is a function that loops through the steps table and builds a string then returns the string value as it's resolution when called
                 let string = '';
                 $('#steps-table tr input').each(function (index){
                     let step = index + 1;
@@ -237,14 +242,14 @@ function generateTicket(passed_object = {}){
             },
             description: $('#description')[0].value,
             expected: $('#expected')[0].value,
-            screenshots: () => {
+            screenshots: () => {//the part of the object is a function that loops through the screenshot table and builds a string then returns the string value as it's resolution when called
                 let string = '';
                 $('#screenshot-table tr input').each(function (){
                     string += $(this)[0].value + '\n\n';
                 });
                 return string;
             },
-            videos: () => {
+            videos: () => {//the part of the object is a function that loops through the video table and builds a string then returns the string value as it's resolution when called
                 let string = '';
                 $('#video-table tr input').each(function (){
                     string += $(this)[0].value + '\n\n';
@@ -255,12 +260,12 @@ function generateTicket(passed_object = {}){
             errors: $('#errors')[0].value
         };
     } else {
-        //build object similar to above from passed object data
+        //if passed_object has data in it, then data is set to the below object to use the old ticket data
         data = {
             crm: passed_object.crm,
             area: passed_object.area,
             replicable: passed_object.replicable,
-            steps: () => {
+            steps: () => {//the part of the object is a function that loops through the old ticket data steps and builds a string then returns the string value as it's resolution when called
                 let string = '';
                 let index = 1;
                 for (row in passed_object.steps) {
@@ -271,7 +276,7 @@ function generateTicket(passed_object = {}){
             },
             description: passed_object.description,
             expected: passed_object.expected,
-            screenshots: () => {
+            screenshots: () => {//the part of the object is a function that loops through the old ticket data screenshots and builds a string then returns the string value as it's resolution when called
                 let string = '';
                 let index = 1;
                 for (row in passed_object.screenshots) {
@@ -280,7 +285,7 @@ function generateTicket(passed_object = {}){
                 }
                 return string;
             },
-            videos: () => {
+            videos: () => {//the part of the object is a function that loops through the old ticket data videos and builds a string then returns the string value as it's resolution when called
                 let string = '';
                 let index = 1;
                 for (row in passed_object.videos) {
@@ -293,6 +298,7 @@ function generateTicket(passed_object = {}){
             errors: passed_object.errors
         };
     }
+    //this sets a string as the value of the textarea container when generating a ticket using the object values created from above '${}' formatting is in-line accessing for variable data.
     $('#ticket-container > div > textarea')[0].value = `**LOCATION:**
 Store ID:
 ${data.crm}
@@ -330,8 +336,8 @@ CONSOLE ERRORS:
 ${data.errors}
 \`\`\`
 `;
-    $('#ticket-container').removeClass('hide');
-    $('#ticket-container > div > textarea')[0].focus();
+    $('#ticket-container').removeClass('hide');//display generated ticket
+    $('#ticket-container > div > textarea')[0].focus();//set focus on text box for easy copying
 }
 
 function copyTicket() {
