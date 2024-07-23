@@ -395,37 +395,38 @@ function previousStep(){
     $(`[data='${current_step}']`)[0].classList.value = '';
     $(`[data='${current_step - 1}']`)[0].classList.value = 'active';
 }
-
+/*this function is used in the last step validation to make sure that if there is enough mention of website trouble that the examples include a link or ask if it was intentionally left out*/
 async function checkDescriptionNeedsLinkExamples(){
     //function returns true if there is no need to add more data
-    let description_check_array = $('#description')[0].value.match(/website|cart|checkout|add to cart/gi);
-    if (description_check_array === null) {
+    let description_check_array = $('#description')[0].value.match(/website|cart|checkout|add to cart/gi);//find out how many times the description uses any of the listed keywords by matching them in an array for each instance
+    if (description_check_array === null) {//if no keywords are found set the variable to an empty array
         description_check_array = [];
     }
-    let example_check_for_links = (/(?:https?:\/\/)?(?:\w+\.)?(\w+\.)+\w{3,}/g).test($('#examples')[0].value);
+    let example_check_for_links = (/(?:https?:\/\/)?(?:\w+\.)?(\w+\.)+\w{3,}/g).test($('#examples')[0].value);//check if there is a link in the examples data
     let check = true;
-    if (description_check_array.length > 2 && !example_check_for_links) {
+    if (description_check_array.length > 2 && !example_check_for_links) {//if array has 3 or more matches and there isn't a link in the example use custom modal popup to ask if user wants to continue without adding a link
         check = await customDialogResponse(`It looks like there was mention of website issues, but there were no links provided in the examples. Do you want to continue without adding links to website issue areas?`,'Continue','Go Back');
     }
     return check;
 }
-
+/*this function refreshes the page and deletes all current data. Ask the user if they are sure before reloading page*/
 async function start_new_ticket(){
     if(await customDialogResponse('This action is not reversible. Continuing will clear all current data and start a new ticket.\n\n Do you want to continue?','Continue','Go Back')){
         window.location.reload();
     }
 }
-
-function selectReplicability(el){
+/*this function is set as a listener to the replicable steps button and executes when either one is clicked*/
+function selectReplicability(el){//el = clicked on element in html, update the classes to make the one that triggered the function to be the selected option
     $('div[replicable].selected').removeClass('selected');
     el.target.classList.value = 'selected';
 }
-
+/*this function takes the data from the current ticket and sets it as a cookie to be accessed at a future date potentially*/
 function newCookieData(){
-    //use Date.now() to get current unix time stamp. Can be accessed later as a date by using new Date({{timestamp}})
+    //this function removes problem characters for saving new cookie
     function scrubBadJsonChar(string){
         return string.replaceAll(/[\"\\\;]/g,'');
     }
+    //this function is accessed later to create an object of the steps, screenshots, and videos
     function subObjectCreator(table){
         let temp_object = {};
         $(`#${table}-table tr`).each(function(index,el){
@@ -433,6 +434,7 @@ function newCookieData(){
         })
         return temp_object;
     }
+    //creates a js object out of the current ticket data
     let bug_object = {
         crm: scrubBadJsonChar($('input#crm')[0].value),
         area: scrubBadJsonChar($('input#systemArea')[0].value),
@@ -445,12 +447,13 @@ function newCookieData(){
         examples: scrubBadJsonChar($('#examples')[0].value),
         errors: scrubBadJsonChar($('#errors')[0].value)
     }
+    //turns the js object into a string of data and saves it as the value of a new cookie using the current time stamp as a unique id
     setCookie(`bug_${Date.now()}`,JSON.stringify(bug_object));
 }
-
+/*This function bulds a list out of the data passed in the array, the array comes from displayPastTickets function*/
 function buildPastTicketDivs(array){
-    $('#list-toggle')[0].innerText = array.length;
-    for (i=0;i<array.length;i++) {
+    $('#list-toggle')[0].innerText = array.length;//update the toggle to display the number of past tickets available
+    for (i=0;i<array.length;i++) {//loop through the array and build a div for each using data from the cookie
         bug_array_split = array[i].split('=');
         let date = new Date(parseInt(bug_array_split[0].split("_")[1])).toString().substring(0,24);
         let bug_data = bug_array_split[1].replaceAll(/"/g,'&quot;');
@@ -458,13 +461,13 @@ function buildPastTicketDivs(array){
         $('past-tickets').append(`<div data="${bug_data}">${date}<br>CRM: ${temp_json.crm}<br>Description: ${temp_json.description}</div>`);
     }
 }
-
+/*this takes the div of a old ticket from the list and displays it in the ticket generator area so that it can be copied again if necessary*/
 function oldTicketDataPrint(el){
     //get ticket data from clicked element and pass to generateTicket function
     let ticket_data = el.target.getAttribute('data');
     generateTicket(JSON.parse(ticket_data));
 }
-
+/*this function looks for all cookies with past tickets created and collects their data into an array to be passed to the buildPastTicketDivs function*/
 function displayPastTickets(){
     let bug_array = document.cookie.split('; ').filter((value) => (/^bug\_\d+/).test(value));
     if (bug_array.length > 0) {
@@ -473,11 +476,14 @@ function displayPastTickets(){
         $('#past-ticket-container').show();
     }
 }
-
+/*this is waits for the window to finishe loading everything then executes a set of commands for the page on initial load*/
 $(window).ready(function (){
+    //sets event listener on replicable buttons
     $('div[replicable]').on('click',selectReplicability);
+    //this sets the toggle functionality of the past tickets toggle
     $('#list-toggle').on('click', function (){
         $('past-tickets').toggleClass('active');
     });
+    //this runs the function to check for any old tickets still saved in cookies
     displayPastTickets();
 });
