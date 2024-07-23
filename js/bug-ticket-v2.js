@@ -339,7 +339,7 @@ ${data.errors}
     $('#ticket-container').removeClass('hide');//display generated ticket
     $('#ticket-container > div > textarea')[0].focus();//set focus on text box for easy copying
 }
-
+/*this function auto copies the data from the textarea to the computers clipboard*/
 function copyTicket() {
     // Get the text field
     var copyText = $('#ticket-container > div > textarea')[0];
@@ -354,9 +354,9 @@ function copyTicket() {
     // Alert the copied text
     //console.log("Copied the text: " + copyText.value);
 };
-
+/*this function adds a row to what ever table is being interacted with*/
 function addTableRow(table){
-    let row_label;
+    let row_label;//switch statement finds the correct row label
     switch(table) {
         case 'steps-table':
             row_label = 'Step';
@@ -370,14 +370,15 @@ function addTableRow(table){
         default:
             console.error('Something went wrong. Passed table type was not of an expected value: ' + table);
     }
-    let new_row_number = $(`#${table} tbody tr`).length + 1;
+    let new_row_number = $(`#${table} tbody tr`).length + 1;//finds what row is being added by how many already exist
+    //create a new table row and append it to the table
     $(`#${table} tbody`).append(`<tr><td>${row_label} ${new_row_number}<input placeholder="Enter ${row_label} ${new_row_number}" type="text" /></td></tr>`)
 }
-
+/*removes the last row from the table being interacted with*/
 function removeTableRow(table){
     $(`#${table} tbody tr:last-child`).remove();
 }
-
+/*moves to previous step from current display*/
 function previousStep(){
     let current_step = parseInt($('#info-tabs .active')[0].getAttribute('step'));
     if(current_step === 2){
