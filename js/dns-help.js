@@ -505,8 +505,11 @@ function validateRecordData(){
         });
     }
 }
+/*this function takes the data from the editor modal and applies it to the necessary row*/
 function submit(record_data){
+    //assign row_inputs as the array of inputs from the table row to update
     let row_inputs = $(record_data.row).find('td div.data-input');
+    //update row data
     row_inputs[0].innerText = record_data.type;
     //check if subdomain and record name doesn't match subdomain
     if(domain_data[0] && record_data.name != domain_data[1]){
@@ -515,15 +518,19 @@ function submit(record_data){
         row_inputs[1].innerText = record_data.name;
     }
     row_inputs[2].innerText = record_data.value;
-    if (record_data.ttl === '') {
+    if (record_data.ttl === '') {//if the given ttl in the editor was empty auto assign 3600 as it's value
         row_inputs[3].innerText = '3600';
-    } else {
+    } else {//else assign the given value
         row_inputs[3].innerText = record_data.ttl;
     }
 }
+/*function compiles the record data from active actions on the third page for visibility in step three for confirmation*/
 function compileRecords(){
+    //loop through all action types that were assigned in step 1
     for(i=0;i<action_type.length;i++){
+        //remove any existing html for the confirmation page for each action type
         $(`[${action_type[i]}] data`)[0].innerHTML = '';
+        //build new html for action type for each row of data from step 2
         if (action_type[i] != 'correct-record') {
             let rows = $(`#${action_type[i]} tr`);
             rows.each(function (index, el) {
@@ -563,6 +570,7 @@ function compileRecords(){
         
     }
 }
+/*function copies data from the generator popup to computer clipboard*/
 function copyTicket() {
     // Get the text field
     var copyText = $('#ticket-container > div > textarea')[0];
@@ -577,16 +585,17 @@ function copyTicket() {
     // Alert the copied text
     //console.log("Copied the text: " + copyText.value);
 };
+/*function asks the user for confirmation on request before reloading page*/
 async function start_new_ticket(){
     if(await customDialogResponse('This action is not reversible. Continuing will clear all current data and start a new ticket.\n\n Do you want to continue?','Continue','Cancel')){
         window.location.reload();
     }
 }
-//restrict ttl box to only allow characters 0-9
+/*function watchs the ttl box in the editor modal and deletes any character that isn't 0-9*/
 function ttlCharacterRestriction(el){
     el.target.value = el.target.value.replaceAll(/[^0-9/]/g,'');
 }
-//update action selection
+/*function controls which of the actions in step one is selected or not selected (add record, correct record, remove record*/
 function selectAction(el){
     if (el.target.classList.value === 'selected') {
         $(el.target).removeClass('selected');
@@ -596,21 +605,26 @@ function selectAction(el){
         $(`#${el.target.attributes.action.value}`).show();
     }
 }
+/*waits for window to finish loading data then sets some event listeners on specific elements*/
 $(window).ready(function (){
     $('div[action]').on('click',selectAction);
     $('div[ttl] input').on('keyup',ttlCharacterRestriction);
 });
-//handle all common click events
+/*this sets a general event listener on the page for any time the mouse button was released, it then runs a specific function for each element that was clicked on potentially passing in necessary information to be used in funciton actions*/
 addEventListener("mouseup", (event) =>{
+    //used in opening the editor for any row of data that was clicked on in step 2
     if($(event.target).hasClass('data-input')){
         openRecordEditor('edit', getRow(event.target));
     };
+    //used in deleting a row from step 2
     if($(event.target).hasClass('row-delete')){
         deleteRow(event.target)
     };
+    //controls moving forward the steps of the webpage flow
     if(event.target.hasAttribute('next')||event.target.hasAttribute('finish')){
         validateData();
     }
+    //controls moving backward the steps of the webpage flow
     if(event.target.hasAttribute('prev')){
         previousStep();
     }
