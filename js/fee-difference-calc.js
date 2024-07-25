@@ -1,9 +1,10 @@
 //global variable for compiling import data
 var _import = '';
+//variable for tracking table information
 var tableObject = {
-    rows: 0,
-    data: {},
-    _addRows: (array) =>{
+    rows: 0,//number of rows
+    data: {},//object for holding table data
+    _addRows: (array) =>{//object method(function) that updates the data value with new values for passed in array built from imported data
         for(i=0;i<array.length;i++){
             let row = array[i].split('\n');
             tableObject.rows++;
@@ -23,7 +24,7 @@ var tableObject = {
     },
 };
 
-//controls if amex rate boxes are visible or hidden.
+/*controls if amex rate boxes are visible or hidden.*/
 function amexDisplayToggle(){
     let checked = $('input#amexCheck')[0].checked;
     if(checked){
@@ -34,7 +35,7 @@ function amexDisplayToggle(){
     };
 };
 
-//hides or displays import popup
+/*hides or displays import popup*/
 function importToggle(action){
     if(action === 'open'){
         $('.popup1').removeClass('hide');
@@ -44,38 +45,49 @@ function importToggle(action){
     };
 };
 
-//closes the wait box and removes any existing error message text
+/*closes the wait box and removes any existing error message text*/
 function closeDialogue(){
     $('.popup2').addClass('hide');
     $('.errorMessage')[0].innerHTML = '';
     $('#closeDialogue').addClass('hide');
 };
-//check to see if provided data meets criteria to be used. Criteria: 1. The total number of lines devided by 9 is a whole number (each line should have 9 pieces of data) 2. The number of sets of data found with the regex expression matches the number found from criteria 1(this confirms that all rows belong to an inteded data set and there isn't missing or extra lines that happens to match the 1 criteria math)
+/*check to see if provided data meets criteria to be used. 
+Criteria: 
+1. The total number of lines devided by 9 is a whole number (each line should have 9 pieces of data) 
+2. The number of sets of data found with the regex expression matches the number found from criteria 1(this confirms that all rows belong to an inteded data set and there isn't missing or extra lines that happens to match the 1 criteria math)*/
 function checkNumberOfLines(){
+    //display wait popup (this could take a second to go through all the data)
     $('.popup2').removeClass('hide');
+    //get imported string
     _import = $('.import textarea')[0].value;
+    //save value of each the number of lines divided by 9(should equal a whole number)
     let number_of_transactions = _import.split('\n').length/9;
-    if(number_of_transactions.toString().match(/\./)){
+    if((/\./).test(number_of_transactions)){//if there is a decimal in the saved number then something is missing, generate an error response
         messageUpdate("The number of lines given doesn't match the number of expected lines for full data. Please make sure the copied data is the full set of data from rows selected and try again.")
         $('#closeDialogue').removeClass('hide');
         return false;
     };
+    //find all sets of data as an array
     let split_data = _import.match(/(\d{2}:\d{2}:\d{2} [APMapm]{2})\n(\d+)\n(.*?)\n(.*?)\n([A-Za-z]{3} \d{1,2}, \d{4})\n(-{0,1}\$[\d.,]+)\n(-{0,1}\$[\d.,]+)\n(-{0,1}\$[\d.,]+)\n(-{0,1}\$[\d.,]+)/g);
+    //check that total found data sets equals the number of expected lines
     if(number_of_transactions != split_data.length){
+        //if not generate an error response
         messageUpdate("The number of found rows doesn't match the number of estimated rows. This means there may be lines that are duplicated or missing. Please make sure the copied data is the full set of data from rows selected and try again.")
         $('#closeDialogue').removeClass('hide');
         return false;
     }
     $('#closeDialogue').removeClass('hide');
+    //if all passes, return a true response to start generating the table
     return true;
 };
-//this updates the error message box for if there was an issue with the data and why it failed
+/*this updates the error message box for if there was an issue with the data and why it failed*/
 function messageUpdate(message){
     $('.errorMessage')[0].append($.parseHTML(`<p>${message}</p>`)[0]);
 };
 
-//takes import data and uses object method to add data to a loopable object
+/*takes import data and uses object method to add data to a loopable object*/
 function buildObject(){
+    //if data passes function check, add data to global object then build table based on object data
     if(checkNumberOfLines()){
         let split_data = _import.match(/(\d{2}:\d{2}:\d{2} [APMapm]{2})\n(\d+)\n(.*?)\n(.*?)\n([A-Za-z]{3} \d{1,2}, \d{4})\n(-{0,1}\$[\d.,]+)\n(-{0,1}\$[\d.,]+)\n(-{0,1}\$[\d.,]+)\n(-{0,1}\$[\d.,]+)/g);
         tableObject._addRows(split_data);
@@ -83,9 +95,11 @@ function buildObject(){
     };
 };
 
-//uses tableObject to create table data
+/*uses tableObject to create table data*/
 function buildTable(){
+    //erases existing table data(to keep from duplicating)
     $('#transactions tbody')[0].innerHTML = '';
+    //build table from tableObject.data value
     for(const row in tableObject.data){
         let tr = $.parseHTML(`<tr id="${tableObject.data[row].row}"><td>${tableObject.data[row].dateNum}</td><td>${tableObject.data[row].transaction}</td><td>${tableObject.data[row].atTill}</td><td>${tableObject.data[row].status}</td><td>${tableObject.data[row].dateText}</td><td>${tableObject.data[row].collected}</td><td>${tableObject.data[row].fee}</td><td>${tableObject.data[row].return}</td><td>${tableObject.data[row].totalPayout}</td><td></td><td></td>`)[0];
         $('#transactions tbody')[0].append(tr);
@@ -94,14 +108,14 @@ function buildTable(){
     importToggle('close');
 };
 
-//takes a string from rates boxes and converts it to a usable decimal for calculation
+/*takes a string from rates boxes and converts it to a usable decimal for calculation*/
 function precentToDecimal(value){
     value = '0.0' + value.replace('.','');
     value = parseFloat(value);
     return value;
 };
 
-//loops through table and adds info to last two cells of each row
+/*loops through table and adds info to last two cells of each row*/
 function calculateDifference(){
     let rates = {};
     //collect and store card rates and fees
@@ -140,7 +154,7 @@ function calculateDifference(){
     calculateTotals(table_data);
 };
 
-//loops through table to compile totals
+/*loops through table to compile totals*/
 function calculateTotals(table){
     let total_fees = 0;
     let total_calculated_fees = 0;
@@ -158,7 +172,7 @@ function calculateTotals(table){
     total_table.querySelector('td:nth-child(3)').innerText = `$${total_difference.toFixed(2)}`;
 };
 
-//removes existing data in the table and resets object
+/*removes existing data in the table and resets object*/
 function resetTable(){
     $('#transactions tbody')[0].innerHTML = '';
     calculateTotals($('#transactions tbody')[0]);
@@ -166,7 +180,7 @@ function resetTable(){
     tableObject.rows = 0;
 };
 
-//toggles video popup
+/*toggles video popup*/
 function videoToggle(action){
     if(action === 'open'){
         $('.video').removeClass('hide');
