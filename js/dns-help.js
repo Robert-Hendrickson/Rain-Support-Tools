@@ -1,19 +1,25 @@
+//set variables to be called and checked later
 var action_type = [];
 var target_row;
 var domain_data;
+/*function returns a boolean response to check that the domain entered passes the regex test*/
 function domaincheck() {
     let domain = $('#domain')[0].value;
     return RegExp(/^(?:[\w\-]+\.)?[\w\-]+\.\w{2,}$/).test(domain);
 }
+/*returns an array that is used to set the value of domain_data, [(true/false),{the domain or sub domain beginning}]*/
 function isSubDomain(){
     return [(/^[\w\-]+\.[\w\-]+\.\w{2,}$/).test($('#domain')[0].value),$('#domain')[0].value.match(/^[\w-]+/g)[0]];
 }
+/*delets the row that was clicked*/
 function deleteRow(el){
     $(el).parent().parent().remove()
 }
+/*returns the element that is the parent of the parent of the element clicked on, used in editing a row of dns record data to pull full row regardless of which input box is clicked on*/
 function getRow(el){
     return $(el).parent().parent()[0];
 }
+/*function is used in step two to check that each set of data (adding, removing, updating) has at least one row of data. If any active data set has no rows, returns an error*/
 function checkForEmptyRows(){
     let potential_errors = {};
     //loop through active types and make sure no table is empty. If it is create a growl message.
@@ -24,6 +30,7 @@ function checkForEmptyRows(){
     }
     return potential_errors;
 }
+/*function is used to validate saving edits to record rows based on the record type it is*/
 function checkValues(record_data){
     let potential_errors = {};
     //check record name value exists
@@ -49,7 +56,7 @@ function checkValues(record_data){
             if (record_data.name === '') {
                 potential_errors['aaaa_record_name'] = 'Enter a value for the record Name';
             };*/
-            if (!(/^(?:\w{4}\:){7}\w{4}$/).test(record_data.value)) {
+            if (!(/^(?:[a-zA-z0-9]{4}\:){7}[a-zA-z0-9]{4}$/).test(record_data.value)) {
                 potential_errors['aaaa_record_value'] = 'AAAA record value needs to be an ipv6 address. (2001:0000:130F:0000:0000:09C0:876A:130B)';
             };
             break;
@@ -116,12 +123,15 @@ function checkValues(record_data){
     }
     return potential_errors;
 }
+/*function used to move through flow from step to step*/
 async function validateData(){
+    //close any open error messages and prep for any possible errors found
     Close_error_growl();
     let bad_object = {
         type: 'generate',
         list: {}
     };
+    //get current step number
     let current_step = parseInt($('[step].active').attr('step'));
     switch(current_step){
         case 1:
@@ -136,9 +146,10 @@ async function validateData(){
             } else {
                 bad_object.list['action_check'] = 'Please select which record action(s) needs to be done.';
             }
+            //if any errors were found display error popup
             if (Object.entries(bad_object.list).length) {
                 popup_error_growl(bad_object);
-            } else {
+            } else {//else check subdomain and move to next step
                 domain_data = isSubDomain();
                 if (domain_data[0]) {
                     if (await customDialogResponse('Our system usually deals in hosting apex domains (testurl.com). The domain you have entered looks to be a sub domain (sub.testurl.com). Do you wish to continue?','Continue','Go Back')) {
@@ -150,10 +161,12 @@ async function validateData(){
             };
             break;
         case 2:
+            //check list of records provided don't have problems
             bad_object.list = checkForEmptyRows();
+            //if issues found, display error message
             if (Object.entries(bad_object.list).length) {
                 popup_error_growl(bad_object);
-            } else {
+            } else {//else prep next step to display records added to confirm before copying
                 if (action_type.includes('add-record')){
                     $('[compiled-results] [add-record]').show();
                 } else {
@@ -169,15 +182,17 @@ async function validateData(){
                 } else {
                     $('[compiled-results] [remove-record]').hide();
                 }
+                //update step three with record data for confirmation
                 compileRecords();
                 nextStep(current_step);
             };
             break;
-        case 3:
+        case 3://build ticket, display text area for copying
             let ticket_text = `DNS Record Changes
 Domain: ${$('#domain')[0].value}
 
 `;
+            //compile record data into ticket formatting
             ticket_text += appendRecordChanges();
             //after getting record changes from above line need to add text to the text container
             $('#ticket-container textarea')[0].value = ticket_text;
@@ -188,6 +203,7 @@ Domain: ${$('#domain')[0].value}
             break;
     }
 }
+/*funciton compiles ticket info for dns records and returns them as a string formatted for ticket generation*/
 function appendRecordChanges(){
     let text_to_append = '';
     for (i=0;i<action_type.length;i++) {
@@ -238,6 +254,7 @@ TTL: ${row_inputs[7].innerText}
     }
     return text_to_append;
 }
+/*function controls moving to next step*/
 function nextStep(step_number){
     $(`[step="${step_number}"]`)[0].classList = 'complete';
     $(`[step="${step_number + 1}"]`)[0].classList = 'active';
@@ -253,6 +270,7 @@ function nextStep(step_number){
             break;
     }
 }
+/*function controls going back to last step*/
 function previousStep(){
     let step_number = parseInt($('[step].active').attr('step'));
     $(`[step="${step_number}"]`)[0].classList = '';
@@ -269,6 +287,7 @@ function previousStep(){
             break;
     }
 }
+/*function controls which fields are available for editing when making record changes based on record type*/
 function updateFields(record_type){
     if (record_type === 'MX') {
         $('#record-entry-box div[value]').hide();
@@ -284,9 +303,10 @@ function updateFields(record_type){
         $('#record-entry-box div[value]').show();
     }
 }
-
+/*function opens record editor modal with existing values from the row that was selected to edit*/
 function openRecordEditor(action,row){
     target_row = row;//hold on to row for later
+    //if adding a new row, set empty modal
     if (action === 'add') {
         $('select.dns-selector')[0].value = 'Select Type';
         updateFields('Select Type');
@@ -299,18 +319,19 @@ function openRecordEditor(action,row){
         $('div[port] input')[0].value = '';
         $('div[server-host] input')[0].value = '';
     }
+    //if editing existing row open modal with existing values in their coresponding boxes to edit based on record type from row
     if (action === 'edit') {
         let row_inputs = $(row).find('td div.data-input');
         $('select.dns-selector')[0].value = row_inputs[0].innerText;
         updateFields(row_inputs[0].innerText);
+        //if subdomain was entered in step one remove prepended subdomain from name value before adding it to editor modal
         if (domain_data[0]) {
             $('div[name] input')[0].value = row_inputs[1].innerText.split('.')[0];
-        } else {
+        } else {//else add name value to edit box
             $('div[name] input')[0].value = row_inputs[1].innerText;
         }
         $('div[ttl] input')[0].value = row_inputs[3].innerText;
-        //create a collection function to get row data
-        //might be good to also create a function to separate value data for srv and mx records
+        //if record type is MX or SRV split out the record value into it's components and add each to their corresponding editor boxes
         if (row_inputs[0].innerText === 'MX') {
             let value_split = row_inputs[2].innerText.split(' ');
             $('div[priority] input')[0].value = value_split[0];
@@ -331,9 +352,12 @@ function openRecordEditor(action,row){
             $('div[server-host] input')[0].value = '';
         }
     }
+    //display editor modal to user
     $('#record-entry-container').show()
 }
+/*function adds a row to the table being interacted with for each type of record aciton needed (Added, Corrected, Removed)*/
 function addTableRow(table){
+    //row formatting for adding and removing records
     if (table != 'correct-record') {
         $(`#${table}-table tbody`).append(`<tr>
             <td>
@@ -356,8 +380,10 @@ function addTableRow(table){
                 <div class="data-input"></div>
             </td>
         </tr>`);
+        //open editor for newly added row
         openRecordEditor('add',$(`#${table}-table > tbody > tr:last-child`)[0]);
     } else {
+        //row formatting for correcting records table, Needs to have values for existing record and what they should be changed to
         $(`#${table}-table > tbody`).append(`<tr>
 	<td>
 		<span class="row-delete">X</span>
@@ -409,14 +435,17 @@ function addTableRow(table){
 		</table>
 	</td>
 </tr>`);
+        //open editor modal with newly added row
         openRecordEditor('add',$(`#correct-record-table > tbody > tr:last-child tr:first-child`)[0]);
     }
 }
+/*deletes last row from the table being interacted with*/
 function removeTableRow(table){
     $(`#${table}-table tr:last-child`).remove();
 }
+/*function closes the editor model*/
 function closeModal(modal){
-    //if target row record type is empty when closing modal remove empty row
+    //if target row record type is empty when closing modal remove empty row(for newly added rows that weren't updated when created)
     if ($(target_row).find('div.data-input')[0].innerText === '') {
         //check we are editing the second line of a correct-record row
         if ($(target_row).parents('table[id]').attr('id') === 'correct-record-table') {
@@ -431,9 +460,10 @@ function closeModal(modal){
     target_row = null;
     Close_error_growl();
 }
+/*function compiles record data and validates it meets requirements*/
 function validateRecordData(){
     let record_type = $('.dns-selector')[0].value;
-    if(record_type != 'Select Type'){
+    if(record_type != 'Select Type'){//if a record type was selected move forward
         record_data = {
             row: target_row,
             type: $('select.dns-selector')[0].value,
@@ -455,14 +485,15 @@ function validateRecordData(){
             type: 'generate',
             list: checkValues(record_data)
         };
+        //if errors found display errors
         if (Object.entries(bad_object.list).length) {
             popup_error_growl(bad_object);
-        } else {
+        } else {//else update row with changes and close modal
             submit(record_data);
             closeModal('record-entry-container');
             Close_error_growl();
         };
-    } else {
+    } else {//else display unique error for not selecting a record type
         popup_error_growl({
             type: 'generate',
             list: {
@@ -474,8 +505,11 @@ function validateRecordData(){
         });
     }
 }
+/*this function takes the data from the editor modal and applies it to the necessary row*/
 function submit(record_data){
+    //assign row_inputs as the array of inputs from the table row to update
     let row_inputs = $(record_data.row).find('td div.data-input');
+    //update row data
     row_inputs[0].innerText = record_data.type;
     //check if subdomain and record name doesn't match subdomain
     if(domain_data[0] && record_data.name != domain_data[1]){
@@ -484,15 +518,19 @@ function submit(record_data){
         row_inputs[1].innerText = record_data.name;
     }
     row_inputs[2].innerText = record_data.value;
-    if (record_data.ttl === '') {
+    if (record_data.ttl === '') {//if the given ttl in the editor was empty auto assign 3600 as it's value
         row_inputs[3].innerText = '3600';
-    } else {
+    } else {//else assign the given value
         row_inputs[3].innerText = record_data.ttl;
     }
 }
+/*function compiles the record data from active actions on the third page for visibility in step three for confirmation*/
 function compileRecords(){
+    //loop through all action types that were assigned in step 1
     for(i=0;i<action_type.length;i++){
+        //remove any existing html for the confirmation page for each action type
         $(`[${action_type[i]}] data`)[0].innerHTML = '';
+        //build new html for action type for each row of data from step 2
         if (action_type[i] != 'correct-record') {
             let rows = $(`#${action_type[i]} tr`);
             rows.each(function (index, el) {
@@ -532,6 +570,7 @@ function compileRecords(){
         
     }
 }
+/*function copies data from the generator popup to computer clipboard*/
 function copyTicket() {
     // Get the text field
     var copyText = $('#ticket-container > div > textarea')[0];
@@ -546,16 +585,17 @@ function copyTicket() {
     // Alert the copied text
     //console.log("Copied the text: " + copyText.value);
 };
+/*function asks the user for confirmation on request before reloading page*/
 async function start_new_ticket(){
     if(await customDialogResponse('This action is not reversible. Continuing will clear all current data and start a new ticket.\n\n Do you want to continue?','Continue','Cancel')){
         window.location.reload();
     }
 }
-//restrict ttl box to only allow characters 0-9
+/*function watchs the ttl box in the editor modal and deletes any character that isn't 0-9*/
 function ttlCharacterRestriction(el){
     el.target.value = el.target.value.replaceAll(/[^0-9/]/g,'');
 }
-//update action selection
+/*function controls which of the actions in step one is selected or not selected (add record, correct record, remove record*/
 function selectAction(el){
     if (el.target.classList.value === 'selected') {
         $(el.target).removeClass('selected');
@@ -565,21 +605,26 @@ function selectAction(el){
         $(`#${el.target.attributes.action.value}`).show();
     }
 }
+/*waits for window to finish loading data then sets some event listeners on specific elements*/
 $(window).ready(function (){
     $('div[action]').on('click',selectAction);
     $('div[ttl] input').on('keyup',ttlCharacterRestriction);
 });
-//handle all common click events
+/*this sets a general event listener on the page for any time the mouse button was released, it then runs a specific function for each element that was clicked on potentially passing in necessary information to be used in funciton actions*/
 addEventListener("mouseup", (event) =>{
+    //used in opening the editor for any row of data that was clicked on in step 2
     if($(event.target).hasClass('data-input')){
         openRecordEditor('edit', getRow(event.target));
     };
+    //used in deleting a row from step 2
     if($(event.target).hasClass('row-delete')){
         deleteRow(event.target)
     };
+    //controls moving forward the steps of the webpage flow
     if(event.target.hasAttribute('next')||event.target.hasAttribute('finish')){
         validateData();
     }
+    //controls moving backward the steps of the webpage flow
     if(event.target.hasAttribute('prev')){
         previousStep();
     }
