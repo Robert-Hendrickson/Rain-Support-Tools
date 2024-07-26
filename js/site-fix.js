@@ -1,3 +1,4 @@
+/*this was used for the old site-fix.html page*/
 //regex object to use when checking values
 let regex = {
     "googleDrive": new RegExp(/^.*drive\.google\.com\/.*view/)
