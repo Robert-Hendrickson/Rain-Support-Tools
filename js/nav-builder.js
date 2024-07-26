@@ -1,4 +1,6 @@
+//define variable to be used later to hold html to be used
 let html;
+//if url points to the home page use this html as the builder for the navigation links
 if ((/Rain-Support-Tools\/$/).test(location.pathname)) {
     html = `<div class="toolButtonsList">
     <div id="support">
@@ -24,6 +26,7 @@ if ((/Rain-Support-Tools\/$/).test(location.pathname)) {
     </div>
 </div>`;
 } else {
+//use this as the html for the navigation links for any page that isn't the home page
     html = `<div class="secondary_menu_links">
     <div class="toolButtonsList">
         <ul>
@@ -68,7 +71,10 @@ if ((/Rain-Support-Tools\/$/).test(location.pathname)) {
     </div>
 </div>`
 }
-
+/*this creates a new vue app that uses the html from above to build the navigation based on the provided navigation links.
+Editing links in the object here updates the navigation accross the entire website.
+*/
+//nav list items are built as follows {name: Display text for link, url: file needing to be directed to when link is clicked, icon: fontawesome classes used for applying icons in navigation}
 const app = Vue.createApp({
     template: html,
     data() {
@@ -100,8 +106,9 @@ const app = Vue.createApp({
             }};
     }
 });
+//now that app is built, accessing it and apply it to the html element on the page <nav-menu></nav-menu>
 app.mount('nav-menu');
-
+/*function controls toggling the navigation menu as visible and not visible*/
 function toggleNav(){
     if($('.secondary_menu_links')[0].classList.value.match(/active/) != null){
         $('.secondary_menu_links').removeClass('active');
@@ -109,7 +116,7 @@ function toggleNav(){
         $('.secondary_menu_links').addClass('active');
     }
 }
-
+//this finds the link in the navigation for the page the user is currently looking at and highlights it to indicate current location
 if((/Rain-Support-Tools\/.+/).test(location.pathname)){
     //find current page and apply current-page class to nav
     let current_page = location.pathname.substring(20);
