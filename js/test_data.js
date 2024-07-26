@@ -1,5 +1,9 @@
+/*this file is used in defining values for tools for testing purposes*/
+/*function sets test data based on the page being seen*/
 function setTestData(){
+    //get page name from url pathname
     let path = location.pathname;
+    //test values for site-fix page(replaced by site-work page)
     if(path.match(/site-fix/)){
         $('input#crm_input')[0].value = '6085';
         $('input#system_input')[0].value = 'test';
@@ -17,9 +21,11 @@ function setTestData(){
         $('textarea#console_input')[0].value = 'test';
         $('textarea#description_input')[0].value = 'test';
     };
+    //test values for email-list-checker page
     if(path.match(/email-list-checker/)){
         $('.inputList > textarea')[0].value = '13528849392@163.com\naebarlow@ucdavis\nbjt@lcc-inc.cim\nbunsterof3@hotmailcom\nCathyVan910@icloud.co\ncrrwebinfo@gmail.co\ndrosas916@gmailcom\nGrandmagerry @sncglobal.net\njeanmail@earthlink.net; JKNIESE@COMCAST.NET\njholmes@221bbakerstreet\njlarson67rsss@icloud.om\njoy@blackcat@amas.com\nkdeliramich@yahoo.co\nkleger@csu@chico.edu\nlauramara@peoplepc.co\nMickeys54@gmail\nmmpblack@yahoo .com\nmomofbnw@yahoo.co\nmotomxmarissa@gmail.co\nnrloezburton@ucdavisedu\nPurtillk@yahoo.cm\nrbconnelly@frontiernetnet\nrosemu@sbcglobal.et\nsandraross6051@sbcglobalnet\nsensei@pinewood Kante.com\nsflynn6892@aol.co\nslfillo77@gmail.co\nsmccutler@gmail.om\nsnowbird86@hotmail.co\nsofiab@sbservices.co\ntboyd8@yahoo\nunionhackett@comcast..net\nwestcoastwool@gmail.co\nwunderwomen2@hotmail\nyas2@say@aol.com';
     }
+    //test values for bug-ticket generator v2 page
     if(path.match(/bug-ticket-v2/)){
         $('#crm')[0].value = '6085';
         $('#systemArea')[0].value = 'till';
@@ -35,6 +41,7 @@ function setTestData(){
         $('#examples')[0].value = 'robstestsite.com';
         $('#errors')[0].value = 'No errors';
     }
+    //test values for dns-help page
     if(RegExp(/dns\-help/).test(path)){
         $('#domain')[0].value = 'rainadmin.com';
         $('[choice-selector] div').each(function(){
@@ -134,11 +141,13 @@ function setTestData(){
             </td>
         </tr>`);
     }
+    //test values for site-work page
     if ((/site-work/).test(location.pathname)) {
         $('input#crm')[0].value = '6085';
         
     }
 }
+/*this waits for page to be finished loading, then checks if the page is on a test enviornment or if a test value was passed in the url. if either is true test values for the page are set from function parameters*/
 $(window).ready(function(){
     if (location.href.match('localhost')) {
         setTestData();

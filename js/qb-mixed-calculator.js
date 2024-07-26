@@ -1,3 +1,4 @@
+//sets variable for holding totals
 var totals = {
     total: 0,
     principle: 0,
@@ -12,21 +13,21 @@ function displayColumns(column){
         $(`.id-${column}`).addClass('hide');
     };
 };
-//this runs an update for the totals column when a change to one of the values is made
+/*function runs an update for the totals column when a change to one of the values is made*/
 function totalsColCalc(){
     totals.total = parseFloat($('#total-total input')[0].value);
     totals.principle = parseFloat($('#total-principle input')[0].value);
     totals.tax = parseFloat($('#total-tax input')[0].value);
-    let y = 0;
-    y += totals.principle + totals.tax;
-    y = y.toFixed(2);
-    if(totals.total.toFixed(2) === y){
+    let estimate_total = 0;
+    estimate_total += totals.principle + totals.tax;
+    estimate_total = estimate_total.toFixed(2);
+    if(totals.total.toFixed(2) === estimate_total){
         $('#total-principle2')[0].innerText = "True";
     }else{
         $('#total-principle2')[0].innerText = "False";
     };
 };
-//this updates individual columns when there is a change made to that column using the passed in value to decide which column needs updating
+/*function updates individual columns when there is a change made to that column using the passed in value to decide which column needs updating*/
 function dataUpdate(colName){
     let entered_amount = parseFloat($(`td.id-${colName}`)[0].querySelector('input').value);
     if(!isNaN(entered_amount)){
@@ -48,7 +49,7 @@ function dataUpdate(colName){
         $(`td.id-${colName}`)[3].innerText = '';
     };
 };
-//makes new list element for option list
+/*function makes new list element for option list*/
 function newList(name,scrubedName){
     let li = document.createElement('li');
     let inp = document.createElement('input');
@@ -62,17 +63,18 @@ function newList(name,scrubedName){
     hideNew();
     $('#new-name')[0].value = '';
 };
-//checks input for dups and scrubs info for input into creation functions
+/*function checks input for duplicates and scrubs info for input into creation functions*/
 function checkNewName(enteredName){
     let scrubedName = enteredName.toLowerCase().replace(' ','_');
     if($(`.id-${scrubedName}`).length > 0){
+        //this should get replaced with error popup so user can see error message
         console.log('column already exists');
     }else{
         newList(enteredName,scrubedName);
         newCells(enteredName,scrubedName);
     };
 };
-//creates new cells for table using entered name
+/*function creates new cells for table using entered name*/
 function newCells(colName,className){
     //creates header cell
     let header = document.createElement('th');
@@ -100,7 +102,8 @@ function newCells(colName,className){
     check.setAttribute('class',`id-${className}`);
     $('tr#column-totals-row')[0].append(check);
 };
-//adding new lines display control
+/*functions control the user interface for adding new columns to table
+this could be redone to always be displayed rather than hiding such a small interface from users*/
 function showNew(){
     $('.newbtn').addClass('hide');
     $('.newCol').removeClass('hide');
