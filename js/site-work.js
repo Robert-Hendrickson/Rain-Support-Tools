@@ -1,13 +1,19 @@
+//variable to hold what work type is being done
 var work_type_selected;
-//handle moving through flow
+/*function handles moving through flow*/
 function validateData(){
+    //close any open errors
     Close_error_growl();
+    //prep an object for any potential errors
     let bad_object = {
         type: 'generate',
         list: {}
     };
+    //get current step user is working on
     let current_step = parseInt($('#info-tabs .active').attr('step'));
+    //run check based on step user is on
     switch (current_step){
+        //check site work is selected and a valid crm is entered
         case 1:
             if(!(/^(?:[Cc][Rr][Mm])?\d{3,}$/).test($('input#crm')[0].value)){
                 bad_object.list['crm'] = 'Please enter a valid CRM {(crm)12381}';
@@ -21,6 +27,7 @@ function validateData(){
                 nextStep(current_step);
             };
             break;
+        //run checks for data inputed based on work type selected in step 1
         case 2:
             if(work_type_selected === 'site'){
                 bad_object.list = checkSiteWork();
@@ -41,6 +48,7 @@ function validateData(){
                 };
             }
             break;
+        //compile data into ticket modal for user to copy
         case 3:
             let temp_text = `Store ID: ${$('#crm')[0].value}\n\n`;
             if (work_type_selected === 'site') {
@@ -63,6 +71,7 @@ function validateData(){
             break;
     }
 }
+/*function checks that values for site work to be done is good and isn't missing anything*/
 function checkSiteWork(){
     let list_object = {};
     let rows = $('#work-table tr td:nth-child(2)');
@@ -89,6 +98,7 @@ function checkSiteWork(){
     });
     return list_object;
 }
+/*function checks data given for template work is good and isn't missing anything*/
 function checkTemplateWork() {
     let list_object = {};
     if ($('#template select')[0].value === 'Select an Option') {
@@ -105,6 +115,7 @@ function checkTemplateWork() {
     }
     return list_object;
 }
+/*function builds visible data for step three based on work type for user to confirm info before generating ticket*/
 function compileData(type){
     let html = '';
     if (type === 'site') {
@@ -128,6 +139,7 @@ function compileData(type){
     }
     $('#confirm-content data')[0].innerHTML = html;
 }
+/*function adds a new row to the table being interacted with(currently only for site work)*/
 function addTableRow(table){
     $(`#${table}`).append(`<tr>
         <td>
@@ -150,19 +162,21 @@ function addTableRow(table){
         </td>
     </tr>`);
 }
+/*function removes the last row from the table being interacted with*/
 function removeTableRow(table){
     $(`#${table} tr:last-child`).remove();
 }
+/*function deletes specific row being interacted with*/
 function deleteRow(el){
     $(el).parent().parent().remove();
 }
-//update which second step data displays from clicking work type on first step
+/*function updates which second step data displays from clicking work type on first step*/
 function displayWorkContent(type){
     work_type_selected = type;
     $('#work-content > div').hide();
     $(`#${type}`).show();
 }
-//handle moving flow to next step
+/*function handles moving flow to next step*/
 function nextStep(current_step){
     //Move to next step
     $(`[step='${current_step}']`)[0].classList.value = 'complete';
@@ -178,7 +192,7 @@ function nextStep(current_step){
         $('button[finish]').removeClass('hide');
     }
 }
-//handle moving to previous step in flow
+/*function handles moving to previous step in flow*/
 function previousStep(){
     let current_step = parseInt($('#info-tabs .active')[0].getAttribute('step'));
     if(current_step === 2){
@@ -195,11 +209,13 @@ function previousStep(){
     $(`[data='${current_step}']`)[0].classList.value = '';
     $(`[data='${current_step - 1}']`)[0].classList.value = 'active';
 }
+/*function confirms with user they want to remove all data and start over before refreshing the page*/
 async function start_new_ticket(){
     if(await customDialogResponse('This action is not reversible. Continuing will clear all current data and start a new ticket.\n\n Do you want to continue?','Continue','Cancel')){
         window.location.reload();
     }
 }
+/*function copies current ticket data in popup modal to computers clipboard*/
 function copyTicket() {
     // Get the text field
     var copyText = $('#ticket-container > div > textarea')[0];
@@ -214,13 +230,13 @@ function copyTicket() {
     // Alert the copied text
     //console.log("Copied the text: " + copyText.value);
 };
-//handle work selector
+/*function handles work selector*/
 function selectWork(el){
     $('div[work].selected').removeClass('selected');
     el.target.classList.value = 'selected';
     displayWorkContent($(el.target).attr('work'));
 }
-
+/*after window finishes loading this sets an event listener on the selector elements*/
 $(window).ready(function (){
     $('div[work]').on('click',selectWork);
 });
