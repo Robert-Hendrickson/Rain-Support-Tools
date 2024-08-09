@@ -202,22 +202,6 @@ async function validateData(){
             break;
     }
 }
-/*control displaying next step if validation passes*/
-function nextStep(current_step){
-    //Move to next step
-    $(`[step='${current_step}']`)[0].classList.value = 'complete';
-    $(`[step='${current_step + 1}']`)[0].classList.value = 'active';
-    //move to next data set
-    $(`[data='${current_step}']`)[0].classList.value = '';
-    $(`[data='${current_step + 1}']`)[0].classList.value = 'active';
-    if(current_step === 1){//hide "Back" button if on step one
-        $('button[prev]').removeClass('hide');
-    }
-    if(current_step === 4){//switch out "Next" button for "Finish" if moving to last step
-        $('button[next]').addClass('hide');
-        $('button[finish]').removeClass('hide');
-    }
-}
 /*some special characters are used in Shortcut (where our devs and product team work on bugs) as unique markdown identifiers. This can make a case saying Layaway #123 instead try to link to a story with the id 123 because the '#' character is used in markdown. This function is used to update any characters that could cause trouble when generating a string to be used in the end Ticket data*/
 function markdownScrubbing(string_data){//currently this finds any '#' characters and adds a space to them so it looks like '# ' so it doesn't try to link the following data and says a normal '#'
     let characters_to_adjust = new RegExp(/#/g);
@@ -377,23 +361,6 @@ function addTableRow(table){
 /*removes the last row from the table being interacted with*/
 function removeTableRow(table){
     $(`#${table} tbody tr:last-child`).remove();
-}
-/*moves to previous step from current display*/
-function previousStep(){
-    let current_step = parseInt($('#info-tabs .active')[0].getAttribute('step'));
-    if(current_step === 2){
-        $('button[prev]').addClass('hide');
-    }
-    if(current_step === 5){
-        $('button[finish]').addClass('hide');
-        $('button[next]').removeClass('hide');
-    }
-    //set step display changes
-    $(`[step='${current_step}']`)[0].classList.value = '';
-    $(`[step='${current_step - 1}']`)[0].classList.value = 'active';
-    //set data display changes
-    $(`[data='${current_step}']`)[0].classList.value = '';
-    $(`[data='${current_step - 1}']`)[0].classList.value = 'active';
 }
 /*this function is used in the last step validation to make sure that if there is enough mention of website trouble that the examples include a link or ask if it was intentionally left out*/
 async function checkDescriptionNeedsLinkExamples(){
