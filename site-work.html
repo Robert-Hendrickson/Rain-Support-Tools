@@ -8,6 +8,7 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
         <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
         <script src="/Rain-Support-Tools/js/site-work.js"></script>
+        <script src="/Rain-Support-Tools/common/flow-format/flow-ctrl.js"></script>
         <script src="/Rain-Support-Tools/js/test_data.js"></script>
         <script src="/Rain-Support-Tools/common/actions/popup.js"></script>
         <script src="/Rain-Support-Tools/modules/dialog-ctrl.js"></script>
@@ -48,7 +49,7 @@
                     Confirm
                 </div>
             </div>
-            <div class="container">
+            <div class="container content">
                 <div id="basic-data" data="1"  class="active">
                         Store ID<br>
                         <input id="crm" type="text" placeholder="Enter a CRM" />
@@ -59,7 +60,7 @@
                             <div work='template'>Template Work</div>
                         </div>
                 </div>
-                <div id="work-content" data="2">
+                <div id="work-content" data="2" class="in-active">
                     <div id="site" style="display: none;">
                         <h2>Site Work Content:</h2>
                         <div table-controls>
@@ -107,7 +108,7 @@
                         </div>
                     </div>
                 </div>
-                <div id="confirm-content" data="3">
+                <div id="confirm-content" data="3" class="in-active">
                     <data></data>
                 </div>
             </div>

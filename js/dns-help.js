@@ -254,39 +254,6 @@ TTL: ${row_inputs[7].innerText}
     }
     return text_to_append;
 }
-/*function controls moving to next step*/
-function nextStep(step_number){
-    $(`[step="${step_number}"]`)[0].classList = 'complete';
-    $(`[step="${step_number + 1}"]`)[0].classList = 'active';
-    $(`[data='${step_number}`).removeClass('active');
-    $(`[data='${step_number + 1}`).addClass('active');
-    switch(step_number){
-        case 1:
-            $('[flow-controls] button[prev]').removeClass('hide');
-            break;
-        case 2:
-            $('[flow-controls] button[next]').addClass('hide');
-            $('[flow-controls] button[finish]').removeClass('hide');
-            break;
-    }
-}
-/*function controls going back to last step*/
-function previousStep(){
-    let step_number = parseInt($('[step].active').attr('step'));
-    $(`[step="${step_number}"]`)[0].classList = '';
-    $(`[step="${step_number - 1}"]`)[0].classList = 'active';
-    $(`[data='${step_number}`).removeClass('active');
-    $(`[data='${step_number - 1}`).addClass('active');
-    switch(step_number){
-        case 3:
-            $('[flow-controls] button[finish]').addClass('hide');
-            $('[flow-controls] button[next]').removeClass('hide');
-            break;
-        case 2:
-            $('[flow-controls] button[prev]').addClass('hide');
-            break;
-    }
-}
 /*function controls which fields are available for editing when making record changes based on record type*/
 function updateFields(record_type){
     if (record_type === 'MX') {

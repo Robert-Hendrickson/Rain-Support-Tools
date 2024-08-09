@@ -176,39 +176,6 @@ function displayWorkContent(type){
     $('#work-content > div').hide();
     $(`#${type}`).show();
 }
-/*function handles moving flow to next step*/
-function nextStep(current_step){
-    //Move to next step
-    $(`[step='${current_step}']`)[0].classList.value = 'complete';
-    $(`[step='${current_step + 1}']`)[0].classList.value = 'active';
-    //move to next data set
-    $(`[data='${current_step}']`)[0].classList.value = '';
-    $(`[data='${current_step + 1}']`)[0].classList.value = 'active';
-    if(current_step === 1){
-        $('button[prev]').removeClass('hide');
-    }
-    if(current_step === 4){
-        $('button[next]').addClass('hide');
-        $('button[finish]').removeClass('hide');
-    }
-}
-/*function handles moving to previous step in flow*/
-function previousStep(){
-    let current_step = parseInt($('#info-tabs .active')[0].getAttribute('step'));
-    if(current_step === 2){
-        $('button[prev]').addClass('hide');
-    }
-    if(current_step === 5){
-        $('button[finish]').addClass('hide');
-        $('button[next]').removeClass('hide');
-    }
-    //set step display changes
-    $(`[step='${current_step}']`)[0].classList.value = '';
-    $(`[step='${current_step - 1}']`)[0].classList.value = 'active';
-    //set data display changes
-    $(`[data='${current_step}']`)[0].classList.value = '';
-    $(`[data='${current_step - 1}']`)[0].classList.value = 'active';
-}
 /*function confirms with user they want to remove all data and start over before refreshing the page*/
 async function start_new_ticket(){
     if(await customDialogResponse('This action is not reversible. Continuing will clear all current data and start a new ticket.\n\n Do you want to continue?','Continue','Cancel')){

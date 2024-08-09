@@ -7,44 +7,36 @@
         -->
         <link rel="stylesheet" href="\Rain-Support-Tools\css\default.css" />
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-        <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+        <!--
+            <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+        -->
         <style>
-            dialog{
+            .body{
+                width: 75%;
                 margin: 0 auto;
-                top: 60px;
-                width: 450px;
-                min-height: 60px;
-                padding: 16px;
-                background-color: #dddddd;
-                border: 3px solid #000;
-                border-radius: 16px;
             }
-            dialog::backdrop{
-                background-color: #5c5c5c;
-                opacity: 60%;
+            .container{
+                border:#000 solid 2px;
+                overflow-x: hidden;
+                position: relative;
             }
-            dialog #modal-content{
-                padding-bottom: 10px;
+            .container > div{
+                position: relative;
+                width: 100%;
+                height: 200px;
+                border: #000 solid 2px;
             }
-            dialog #buttons button{
-                float: left;
-            }
-            dialog #buttons button:last-child{
-                float: right;
+            .absolute{
+                position: absolute;
             }
         </style>
     </head>
     <body>
-        <button onclick="getDialogResponse()">Show Dialog</button>
-        <script src="/Rain-Support-Tools/modules/dialog-ctrl.js"></script>
-        <script>
-            async function getDialogResponse(){
-                if(await customDialogResponse('test stuff')){
-                    console.log('success');
-                }else{
-                    console.log('failed');
-                }
-            }
-        </script>
+        <div class="body">
+            <div class="container">
+                <div>first div</div>
+                <div>second div</div>
+            </div>
+        </div>
     </body>
 </html>

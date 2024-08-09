@@ -8,6 +8,7 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
         <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
         <script src="/Rain-Support-Tools/js/dns-help.js"></script>
+        <script src="/Rain-Support-Tools/common/flow-format/flow-ctrl.js"></script>
         <script src="/Rain-Support-Tools/js/test_data.js"></script>
         <script src="/Rain-Support-Tools/common/actions/popup.js"></script>
         <script src="/Rain-Support-Tools/modules/dialog-ctrl.js"></script>
@@ -48,7 +49,7 @@
                     Confirm Information
                 </div>
             </div>
-            <div class="container">
+            <div class="container content">
                 <div id="basic-content" data="1"  class="active">
                     <p>Enter Domain being worked on:</p>
                     <input id="domain" type="text" placeholder="websiteUrl.com" />
@@ -59,7 +60,7 @@
                         <div action='remove-record'>Remove Record(s)</div>
                     </div>
                 </div>
-                <div data="2">
+                <div data="2" class="in-active">
                     <div id="add-record" style="display:none;">
                         <h2>Records to Add:</h2>
                         <div table-controls>
@@ -94,7 +95,7 @@
                         </table>
                     </div>
                 </div>
-                <div id="confirm" data="3">
+                <div id="confirm" data="3" class="in-active">
                     <div compiled-results>
                         <h2>Please Confirm records are correct and none are missing.</h2>
                         <div add-record style="display: none;">

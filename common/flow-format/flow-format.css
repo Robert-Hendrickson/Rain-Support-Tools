@@ -82,7 +82,6 @@ div#info-tabs div.complete{
     background-color: #fff;
     padding: 5px 0;
     > div{
-        display: none;
         padding: 5px;
         border: #DDDDDD solid 1px;
         border-radius: 5px;
@@ -170,7 +169,7 @@ div[flow-controls]{
 /*ticket styling*/
 div#ticket-container{
     position: absolute;
-    z-index: 1;
+    z-index: 10;
     top: 0;
     width: 99%;
     height: 99%;
@@ -192,4 +191,29 @@ div#ticket-container{
 
 [ticket-buttons]{
     text-align: right;
+}
+
+/*flow animations*/
+.content.container > div.in-active{
+    position: absolute;
+    top: 0;
+    width: 98%;
+    transition-duration: 1s;
+    transform: translateX(1200px);
+}
+.content.container{
+    overflow: hidden;
+    position: relative;
+}
+.content.container > div.active{
+    transition-duration: 1s;
+    transform: translateX(0);
+    position: relative;
+}
+.content.container > div.complete{
+    transition-duration: 1s;
+    transform: translateX(-1200px);
+    position: absolute;
+    top: 0;
+    width: 98%;
 }

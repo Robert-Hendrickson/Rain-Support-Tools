@@ -12,11 +12,12 @@ Riley page was pulled from this link: https://codepen.io/trajektorijus/pen/mdeBY
     <script src="/Rain-Support-Tools/js/test_data.js"></script>
     <script src="/Rain-Support-Tools/common/actions/popup.js"></script>
     <script src="https://kit.fontawesome.com/8e52a98e38.js" crossorigin="anonymous"></script>
+    <script src="/Rain-Support-Tools/common/flow-format/flow-ctrl.js"></script>
 
 ## cookie control functions
     <script src="\Rain-Support-Tools\common\ctrl\cookie_ctrl.js"></script>
 
-## custom dialog modal script inport
+## custom dialog modal script import
     <script src="/Rain-Support-Tools/modules/dialog-ctrl.js"></script>
 
 # flow build containers
@@ -53,11 +54,11 @@ Riley page was pulled from this link: https://codepen.io/trajektorijus/pen/mdeBY
         </div>
     </div>
 ## container html that connects to a tab step
-    <div class="container">
+    <div class="container content">
         <div id="basic-content" data="1"  class="active">
             {{inner html}}
         </div>
-        <div id="steps-content" data="2">
+        <div id="steps-content" data="2" class="in-active">
             {{inner html}}
         </div>
     </div>

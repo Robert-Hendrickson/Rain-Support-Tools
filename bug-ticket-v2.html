@@ -9,6 +9,7 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
         <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
         <script src="/Rain-Support-Tools/js/bug-ticket-v2.js"></script>
+        <script src="/Rain-Support-Tools/common/flow-format/flow-ctrl.js"></script>
         <script src="/Rain-Support-Tools/js/test_data.js"></script>
         <script src="/Rain-Support-Tools/common/actions/popup.js"></script>
         <script src="\Rain-Support-Tools\common\ctrl\cookie_ctrl.js"></script>
@@ -63,8 +64,8 @@
                     Examples
                 </div>
             </div>
-            <div class="container">
-                <div id="basic-content" data="1"  class="active">
+            <div class="container content">
+                <div style="z-index: 1;" id="basic-content" data="1"  class="active">
                         CRM<br>
                         <input id="crm" type="text" placeholder="Enter a CRM" />
                         <br>
@@ -77,7 +78,7 @@
                             <div replicable='no'>No</div>
                         </div>
                 </div>
-                <div id="steps-content" data="2">
+                <div style="z-index: 2;" id="steps-content" data="2" class="in-active">
                     <div table-controls>
                         <button class="btn secondary" onclick="addTableRow('steps-table')">Add Row</button>
                         <button class="btn secondary" onclick="removeTableRow('steps-table')">Remove Row</button>
@@ -102,14 +103,14 @@
                         </tbody>
                     </table>
                 </div>
-                <div id="description-content" data="3">
+                <div style="z-index: 3;" id="description-content" data="3" class="in-active">
                     Description: <br>
                     <textarea placeholder="Enter a Description" id="description"></textarea>
                     <br>
                     Expected Behavior: <br>
                     <textarea placeholder="Enter the Expected Behavior" id="expected"></textarea>
                 </div>
-                <div id="links-content" data="4">
+                <div style="z-index: 4;" id="links-content" data="4" class="in-active">
                     <h2>Screenshots</h2>
                     <div table-controls>
                         <button class="btn secondary" onclick="addTableRow('screenshot-table')">Add Row</button>
@@ -149,7 +150,7 @@
                         </tbody>
                     </table>
                 </div>
-                <div id="examples-errors-content" data="5">
+                <div style="z-index: 5;" id="examples-errors-content" data="5" class="in-active">
                     Examples: <br>
                     <textarea placeholder="Enter example data. This can be links to web pages where things are wrong or id's of products, RTO's, etc." id="examples"></textarea>
                     <br>
