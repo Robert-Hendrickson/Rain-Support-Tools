@@ -80,7 +80,7 @@ function checkSiteWork(){
         if (el.querySelector('select').value === 'Select an Option') {
             list_object['work_type'] = 'Please select a type of work for all rows.';
         }
-        if (!(/^(?:https?\:\/\/)?(?:\w+\.)?(?:\w{2,}\/?)+\.\w{2,}(?:(?:\/[\w\-\_]+)+\.\w{2,})?\/?$/).test(el.querySelector('#url').value)) {
+        if (!(/^(https?\:\/\/)?(\w+\.)?(\w{2,}\/?)+\.\w{2,}((\/[\w\-\_]+)+\.\w{2,})?\/?\?[\w=]+$/).test(el.querySelector('#url').value)) {
             list_object['url'] = 'Make sure each row has a url for the page that needs work done.';
         }
         if ((/rainadmin|quiltstorewebsites|musicshop360|jewel360/g).test(el.querySelector('#url').value)) {
