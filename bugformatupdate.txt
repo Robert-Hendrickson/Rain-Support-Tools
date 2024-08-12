@@ -1,0 +1,31 @@
+ new format to follow - necessary updates:
+    update format
+    update collecting data for new format(html id's javascript object id's)
+    update cookie creator/reader - needs to still support old format
+    one-time popup that notifies users of the page of the criteria changes
+    make console errors optional? could make a popup to confirm that they intentionally left it blank
+**LOCATION:**
+Store ID:
+
+System Area:
+
+Can you recreate the problem on your demo site (if yes please continue, if no use the "Bug - non reproducible" macro)?
+
+STEPS TO REPRODUCE:
+
+ACTUAL RESULTS:(Please be as detailed as possible.)
+
+Description:
+
+Example:(If this pertains to the customer's site, please provide links to the relevant pages.)
+
+Screenshot:
+
+Video:
+
+
+System Understood Intention:
+
+CONSOLE ERRORS:
+
+Expected Results (or other title for product work)

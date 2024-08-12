@@ -310,10 +310,10 @@ ${data.screenshots()}
 Video:
 ${data.videos()}
 
-Console Info:
-
-EXPECTED RESULTS:
+System Understood Intention:
 ${markdownScrubbing(data.expected)}
+
+Expected Results:
 
 CONSOLE ERRORS:
 \`\`\`
@@ -443,7 +443,7 @@ function displayPastTickets(){
         $('#past-ticket-container').show();
     }
 }
-/*this is waits for the window to finishe loading everything then executes a set of commands for the page on initial load*/
+/*this waits for the window to finish loading everything then executes a set of commands for the page on initial load*/
 $(window).ready(function (){
     //sets event listener on replicable buttons
     $('div[replicable]').on('click',selectReplicability);
