@@ -143,15 +143,12 @@ async function validateData(){
                 nextStep(current_step);
             };
             break;
-        case 3://Description and Expected Outcome
+        case 3://Description
             if($('#description')[0].value === '' || RegExp(/^[n|N](?:\/|\\)?[a|A]/).test($('#description')[0].value)){
                 bad_object.list['description'] = 'Description cannot be empty or n/a. Please describe in detail what is happening.';
             }
             if (hasSlackLink($('#description')[0].value)) {
                 bad_object.list['descriptionSlack'] = "Please don't use slack links in your description. Instead describe in your own words the details of the issue that is happening.";
-            }
-            if($('#expected')[0].value === '' || RegExp(/^[n|N](?:\/|\\)?[a|A]/).test($('#expected')[0].value)){
-                bad_object.list['expected'] = 'Expectation cannot be empty or n/a. Please describe the expected outcome that is not being met.';
             }
             if (Object.entries(bad_object.list).length) {
                 popup_error_growl(bad_object);
@@ -225,7 +222,6 @@ function generateTicket(passed_object = {}){//due to new updates to allow old ti
                 return string;
             },
             description: $('#description')[0].value,
-            expected: $('#expected')[0].value,
             screenshots: () => {//the part of the object is a function that loops through the screenshot table and builds a string then returns the string value as it's resolution when called
                 let string = '';
                 $('#screenshot-table tr input').each(function (){
@@ -309,9 +305,6 @@ ${data.screenshots()}
 
 Video:
 ${data.videos()}
-
-System Understood Intention:
-${markdownScrubbing(data.expected)}
 
 Expected Results:
 
@@ -408,7 +401,6 @@ function newCookieData(){
         replicable: $('[choice-selector] .selected').attr('replicable'),
         steps: subObjectCreator('steps'),
         description: scrubBadJsonChar($('#description')[0].value),
-        expected: scrubBadJsonChar($('#expected')[0].value),
         screenshots: subObjectCreator('screenshot'),
         videos: subObjectCreator('video'),
         examples: scrubBadJsonChar($('#examples')[0].value),

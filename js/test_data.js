@@ -34,7 +34,6 @@ function setTestData(){
             $(this)[0].value = 'test step';
         });
         $('#description')[0].value = 'test description';
-        $('#expected')[0].value = 'test expectation';
         $('#links-content tr input').each(function (index){
             $(this)[0].value = 'https://drive.google.com/file/d/test/view?' + index;
         });
