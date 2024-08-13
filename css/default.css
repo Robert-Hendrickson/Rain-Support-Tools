@@ -117,3 +117,14 @@ span.close{
 span.close:hover{
     cursor: pointer;
 }
+/*update banner styles*/
+.banner-wrapper {
+    margin: 0 auto;
+    width: 500px;
+    background-color: #ffffff;
+    padding: 16px;
+    border: #000 solid 1px;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+}

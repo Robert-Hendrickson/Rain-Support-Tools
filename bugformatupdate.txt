@@ -1,2 +1,0 @@
- new format to follow - necessary updates:
-    one-time popup that notifies users of the page of the criteria changes
