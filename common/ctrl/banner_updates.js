@@ -1,5 +1,5 @@
-function buildBanner(bannerArray = ['Test Title','Test content','banner-test']) {
-    if (!getCookie(bannerArray[2])) {
+function buildBanner(bannerArray = ['Test Title','Test content','banner-test'],banner_end_date) {
+    if ((new Date() <= banner_end_date) && !getCookie(bannerArray[2])) {
         $('body').prepend(`<div id="${bannerArray[2]}" class="banner-wrapper">
             <div class="banner-content">
                 <h2>${bannerArray[0]}</h2>
