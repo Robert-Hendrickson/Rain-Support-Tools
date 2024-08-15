@@ -1,5 +1,6 @@
-function buildBanner(bannerArray = ['Test Title','Test content','banner-test'],banner_end_date) {
-    if ((new Date() <= banner_end_date) && !getCookie(bannerArray[2])) {
+function buildBanner(bannerArray = ['Test Title','Test content','banner-test'],banner_start_date,banner_end_date) {
+    let current_date = new Date();
+    if ((current_date <= banner_end_date, current_date >= banner_start_date) && !getCookie(bannerArray[2])) {
         $('body').prepend(`<div id="${bannerArray[2]}" class="banner-wrapper">
             <div class="banner-content">
                 <h2>${bannerArray[0]}</h2>
@@ -12,5 +13,5 @@ function buildBanner(bannerArray = ['Test Title','Test content','banner-test'],b
 
 function closeBanner(bannerID){
     $(`#${bannerID}`).remove();
-    setCookie(bannerID,'closed',14);
+    setCookie(bannerID,'closed');
 }
