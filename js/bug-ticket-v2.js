@@ -413,10 +413,11 @@ function newCookieData(){
 function buildPastTicketDivs(array){
     $('#list-toggle')[0].innerText = array.length;//update the toggle to display the number of past tickets available
     for (i=0;i<array.length;i++) {//loop through the array and build a div for each using data from the cookie
-        bug_array_split = array[i].split('=');
-        let date = new Date(parseInt(bug_array_split[0].split("_")[1])).toString().substring(0,24);
-        let bug_data = bug_array_split[1].replaceAll(/"/g,'&quot;');
-        let temp_json = JSON.parse(bug_array_split[1]);
+        bug_date_string = array[i].substring(array[i].indexOf('=') -1 );
+        bug_details_string = array[i].substring(array[i].indexOf('=') +1 );
+        let date = new Date(parseInt(bug_date_string.split("_")[1])).toString().substring(0,24);
+        let bug_data = bug_details_string.replaceAll(/"/g,'&quot;');
+        let temp_json = JSON.parse(bug_details_string);
         $('past-tickets').append(`<div data="${bug_data}">${date}<br>CRM: ${temp_json.crm}<br>Description: ${temp_json.description}</div>`);
     }
 }
