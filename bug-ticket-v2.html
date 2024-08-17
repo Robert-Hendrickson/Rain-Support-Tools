@@ -13,6 +13,12 @@
         <script src="/Rain-Support-Tools/js/test_data.js"></script>
         <script src="/Rain-Support-Tools/common/actions/popup.js"></script>
         <script src="\Rain-Support-Tools\common\ctrl\cookie_ctrl.js"></script>
+        <script src="/Rain-Support-Tools/common/ctrl/banner_updates.js"></script>
+        <script>
+            $(document).ready(function (){
+                buildBanner(['Tool Update!','The expected Results field has been removed. You will no longer be required to enter the expected outcome of the system.', 'banner-format'], new Date('8/18/2024'), new Date('8/21/2024'));
+            });
+        </script>
         <script src="/Rain-Support-Tools/modules/dialog-ctrl.js"></script>
         <!-- Google tag (gtag.js) -->
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZBB64CR2LL"></script>
@@ -53,7 +59,7 @@
                 </div>
                 <div id="description-tab" step="3">
                     <div class="step-circle">3</div>
-                    Desc./Exp
+                    Desc.
                 </div>
                 <div id="links-tab" step="4">
                     <div class="step-circle">4</div>
@@ -106,9 +112,6 @@
                 <div style="z-index: 3;" id="description-content" data="3" class="in-active">
                     Description: <br>
                     <textarea placeholder="Enter a Description" id="description"></textarea>
-                    <br>
-                    Expected Behavior: <br>
-                    <textarea placeholder="Enter the Expected Behavior" id="expected"></textarea>
                 </div>
                 <div style="z-index: 4;" id="links-content" data="4" class="in-active">
                     <h2>Screenshots</h2>
