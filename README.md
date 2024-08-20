@@ -20,6 +20,23 @@ Riley page was pulled from this link: https://codepen.io/trajektorijus/pen/mdeBY
 ## custom dialog modal script import
     <script src="/Rain-Support-Tools/modules/dialog-ctrl.js"></script>
 
+## banner updates
+    <script src="/Rain-Support-Tools/common/ctrl/banner_updates.js"></script>
+    <script>
+        $(document).ready(function (){
+            buildBanner(
+        [
+            header_title = string,
+            banner_text = string,
+            banner_id = string
+        ],
+        start_date_object = string ('8/10/2024'),
+        end_date_object = string ('8/10/2024')
+        );
+        });
+    </script>
+    
+
 # flow build containers
 ## nav html
     <div class="menu-wrapper">
