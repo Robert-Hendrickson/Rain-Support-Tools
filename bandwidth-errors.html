@@ -6,18 +6,7 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
         <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
         <script src="https://kit.fontawesome.com/8e52a98e38.js" crossorigin="anonymous"></script>
-        <script>
-            function displayMatchingRows(value){
-                $('.row-wrapper').each(
-                    function(){
-                        if(!this.children[0].textContent.match(value)){
-                            $(this).hide();
-                        } else {
-                            $(this).show();
-                        }
-                    }
-                )};
-        </script>
+        <script src="./js/bandwidth-errors.js"></script>
     </head>
     <body>
         <div class="menu-wrapper">
@@ -30,17 +19,17 @@
         <div class="body-container">
             <div class="container content">
                 <h3>Bandwidth Error List</h3>
-                <input type="text" placeholder="Search Error Code" onchange="displayMatchingRows(this.value)" />
+                <input type="text" placeholder="Search Error Code/Keyword Search" onchange="displayMatchingRows(this.value)" />
             </div>
             <div class="container content">
-                <div id="column-headers" data="1"  class="active">
-                    <div>Code</div>
-                    <div>Description</div>
-                    <div>Friendly Description</div>
-                    <div>Explanation Of Error</div>
-                </div>
-                <div id="error-list" data="2"  class="active">
+                <div class="error-list" data="2"  class="active">
                     <h2>Bandwidth Detected Client Errors</h2>
+                    <div id="column-headers">
+                        <div>Code</div>
+                        <div>Description</div>
+                        <div>Friendly Description</div>
+                        <div>Explanation Of Error</div>
+                    </div>
                     <div class="row-wrapper">
                         <div>4001</div>
                         <div>service-not-allowed</div>
@@ -228,8 +217,14 @@
                         <div>Bandwidth service indicates the sender is not authorized to send messages from the account.</div>
                     </div>
                 </div>
-                <div id="error-list" data="2"  class="active">
+                <div class="error-list" data="2"  class="active">
                     <h2>Carrier Reported Client Errors</h2>
+                    <div id="column-headers">
+                        <div>Code</div>
+                        <div>Description</div>
+                        <div>Friendly Description</div>
+                        <div>Explanation Of Error</div>
+                    </div>
                     <div class="row-wrapper">
                         <div>4700</div>
                         <div>invalid-service-type</div>
@@ -392,122 +387,140 @@
                         <div>Toll Free number is not verified</div>
                         <div>The message was blocked due to the toll free number not being verified. This can also be because there is SPAM on the unverified TFN. Please review unverified sending limits and submit TFN for verification as soon as possible.</div>
                     </div>
-                    <div id="error-list" data="2"  class="active">
-                        <h2>Bandwidth Service Errors</h2>
-                        <div class="row-wrapper">
-                            <div>5100</div>
-                            <div>temporary-app-error</div>
-                            <div>Application Error</div>
-                            <div>An application within the Bandwidth service is experiencing a temporary error that is preventing the message from being processed.</div>
-                        </div>
-                        <div class="row-wrapper">
-                            <div>5101</div>
-                            <div>temporary-app-shutdown</div>
-                            <div>Application Error</div>
-                            <div>App going down. Message not received. Sender should send this messages later or to other host.</div>
-                        </div>
-                        <div class="row-wrapper">
-                            <div>5106</div>
-                            <div>impossible-to-route</div>
-                            <div>Impossible to route / Attempt to deliver through retries has failed.</div>
-                            <div>Impossible to route / Attempt to deliver through retries has failed.</div>
-                        </div>
-                        <div class="row-wrapper">
-                            <div>5111</div>
-                            <div>temporary-app-connection-closed</div>
-                            <div>Application Error</div>
-                            <div>Received messaged for connection which is already removed.</div>
-                        </div>
-                        <div class="row-wrapper">
-                            <div>5201</div>
-                            <div>temporary-rout-error-retries-exceeded</div>
-                            <div>Application Error</div>
-                            <div>Bandwidth service expired the message after attempts to deliver through retries failed.</div>
-                        </div>
-                        <div class="row-wrapper">
-                            <div>5211</div>
-                            <div>temporary-app-error-app-busy</div>
-                            <div>Application Error</div>
-                            <div>Bandwidth service application is temporarily busy so it cannot receive messages at this time</div>
-                        </div>
-                        <div class="row-wrapper">
-                            <div>5220</div>
-                            <div>temporary-store-error</div>
-                            <div>Application Error</div>
-                            <div>Message not received. Cannot save message to store.</div>
-                        </div>
-                        <div class="row-wrapper">
-                            <div>5231</div>
-                            <div>discarded-concatenation-timeout</div>
-                            <div>Application Error</div>
-                            <div>Bandwidth did not receive all parts of message. Message can not be sent.</div>
-                        </div>
-                        <div class="row-wrapper">
-                            <div>5500</div>
-                            <div>message-send-failed</div>
-                            <div>General Message Send Failure</div>
-                            <div>The destination carrier has reported a general service failure with sending the message.</div>
-                        </div>
-                        <div class="row-wrapper">
-                            <div>5501</div>
-                            <div>message-send-failed</div>
-                            <div>General Message Send Failure</div>
-                            <div>The message is unable to send as no destination is available.</div>
-                        </div>
-                        <div class="row-wrapper">
-                            <div>5999</div>
-                            <div>unknown-error</div>
-                            <div>Unknown error from Bandwidth</div>
-                            <div>Unknown error generated by Bandwidth when Bandwidth core reports an unknown error</div>
-                        </div>
-                        <div id="error-list" data="2"  class="active">
-                            <h2>Carrier Reported Service Failures</h2>
-                            <div class="row-wrapper">
-                                <div>5600</div>
-                                <div>destination-carrier-queue-full</div>
-                                <div>Carrier Service Unavailable</div>
-                                <div>Carrier Service Unavailable. This could result from network congestion, messaging queue full on the vendor side, throttling error on the vendor side.</div>
-                            </div>
-                            <div class="row-wrapper">
-                                <div>5610</div>
-                                <div>submit* sm-or-submit* multi-failed</div>
-                                <div>Carrier Service Failure</div>
-                                <div>The downstream carrier application is experiencing an error. submitting the message has failed or cancelling message has failed</div>
-                            </div>
-                            <div class="row-wrapper">
-                                <div>5620</div>
-                                <div>destination-app-error</div>
-                                <div>Carrier Application Error</div>
-                                <div>The carrier is reporting a general error associated with their application processing the message.</div>
-                            </div>
-                            <div class="row-wrapper">
-                                <div>5630</div>
-                                <div>message-not-acknowle</div>
-                                <div>Carrier Application Error</div>
-                                <div>NACK - no response or acknowledgement received from the carrier</div>
-                            </div>
-                            <div class="row-wrapper">
-                                <div>5650</div>
-                                <div>destination-failed</div>
-                                <div>Carrier Service Failure</div>
-                                <div>Carrier Service is reporting a failure to send to destination (mobile operator or handset).</div>
-                            </div>
-                            <div id="error-list" data="2"  class="active">
-                                <h2>Carrier Errors with Ambiguous Cause</h2>
-                                <div class="row-wrapper">
-                                    <div>9902</div>
-                                    <div>delivery-receipt-expired</div>
-                                    <div>Timed out waiting for delivery receipt. The reason a delivery receipt was not received is not known.</div>
-                                    <div>Bandwidth timed out waiting for the delivery receipt, this could be because the downstream provider did not send the requested delivery receipt or they sent after the system timed out at two hours.</div>
-                                </div>
-                                <div class="row-wrapper">
-                                    <div>9999</div>
-                                    <div>unknown-error</div>
-                                    <div>Unknown error from downstream. Carrier reported a failure code that is unknown to Bandwidth.</div>
-                                    <div>Bandwidth does not recognize the vendor's error response or does not have the vendor code mapped internally</div>
-                                </div>
-                            </div>
-                        </div>
+                </div>
+                <div class="error-list" data="2"  class="active">
+                    <h2>Bandwidth Service Errors</h2>
+                    <div id="column-headers">
+                        <div>Code</div>
+                        <div>Description</div>
+                        <div>Friendly Description</div>
+                        <div>Explanation Of Error</div>
+                    </div>
+                    <div class="row-wrapper">
+                        <div>5100</div>
+                        <div>temporary-app-error</div>
+                        <div>Application Error</div>
+                        <div>An application within the Bandwidth service is experiencing a temporary error that is preventing the message from being processed.</div>
+                    </div>
+                    <div class="row-wrapper">
+                        <div>5101</div>
+                        <div>temporary-app-shutdown</div>
+                        <div>Application Error</div>
+                        <div>App going down. Message not received. Sender should send this messages later or to other host.</div>
+                    </div>
+                    <div class="row-wrapper">
+                        <div>5106</div>
+                        <div>impossible-to-route</div>
+                        <div>Impossible to route / Attempt to deliver through retries has failed.</div>
+                        <div>Impossible to route / Attempt to deliver through retries has failed.</div>
+                    </div>
+                    <div class="row-wrapper">
+                        <div>5111</div>
+                        <div>temporary-app-connection-closed</div>
+                        <div>Application Error</div>
+                        <div>Received messaged for connection which is already removed.</div>
+                    </div>
+                    <div class="row-wrapper">
+                        <div>5201</div>
+                        <div>temporary-rout-error-retries-exceeded</div>
+                        <div>Application Error</div>
+                        <div>Bandwidth service expired the message after attempts to deliver through retries failed.</div>
+                    </div>
+                    <div class="row-wrapper">
+                        <div>5211</div>
+                        <div>temporary-app-error-app-busy</div>
+                        <div>Application Error</div>
+                        <div>Bandwidth service application is temporarily busy so it cannot receive messages at this time</div>
+                    </div>
+                    <div class="row-wrapper">
+                        <div>5220</div>
+                        <div>temporary-store-error</div>
+                        <div>Application Error</div>
+                        <div>Message not received. Cannot save message to store.</div>
+                    </div>
+                    <div class="row-wrapper">
+                        <div>5231</div>
+                        <div>discarded-concatenation-timeout</div>
+                        <div>Application Error</div>
+                        <div>Bandwidth did not receive all parts of message. Message can not be sent.</div>
+                    </div>
+                    <div class="row-wrapper">
+                        <div>5500</div>
+                        <div>message-send-failed</div>
+                        <div>General Message Send Failure</div>
+                        <div>The destination carrier has reported a general service failure with sending the message.</div>
+                    </div>
+                    <div class="row-wrapper">
+                        <div>5501</div>
+                        <div>message-send-failed</div>
+                        <div>General Message Send Failure</div>
+                        <div>The message is unable to send as no destination is available.</div>
+                    </div>
+                    <div class="row-wrapper">
+                        <div>5999</div>
+                        <div>unknown-error</div>
+                        <div>Unknown error from Bandwidth</div>
+                        <div>Unknown error generated by Bandwidth when Bandwidth core reports an unknown error</div>
+                    </div>
+                </div>
+                <div class="error-list" data="2"  class="active">
+                    <h2>Carrier Reported Service Failures</h2>
+                    <div id="column-headers">
+                        <div>Code</div>
+                        <div>Description</div>
+                        <div>Friendly Description</div>
+                        <div>Explanation Of Error</div>
+                    </div>
+                    <div class="row-wrapper">
+                        <div>5600</div>
+                        <div>destination-carrier-queue-full</div>
+                        <div>Carrier Service Unavailable</div>
+                        <div>Carrier Service Unavailable. This could result from network congestion, messaging queue full on the vendor side, throttling error on the vendor side.</div>
+                    </div>
+                    <div class="row-wrapper">
+                        <div>5610</div>
+                        <div>submit* sm-or-submit* multi-failed</div>
+                        <div>Carrier Service Failure</div>
+                        <div>The downstream carrier application is experiencing an error. submitting the message has failed or cancelling message has failed</div>
+                    </div>
+                    <div class="row-wrapper">
+                        <div>5620</div>
+                        <div>destination-app-error</div>
+                        <div>Carrier Application Error</div>
+                        <div>The carrier is reporting a general error associated with their application processing the message.</div>
+                    </div>
+                    <div class="row-wrapper">
+                        <div>5630</div>
+                        <div>message-not-acknowle</div>
+                        <div>Carrier Application Error</div>
+                        <div>NACK - no response or acknowledgement received from the carrier</div>
+                    </div>
+                    <div class="row-wrapper">
+                        <div>5650</div>
+                        <div>destination-failed</div>
+                        <div>Carrier Service Failure</div>
+                        <div>Carrier Service is reporting a failure to send to destination (mobile operator or handset).</div>
+                    </div>
+                </div>
+                <div class="error-list" data="2"  class="active">
+                    <h2>Carrier Errors with Ambiguous Cause</h2>
+                    <div id="column-headers">
+                        <div>Code</div>
+                        <div>Description</div>
+                        <div>Friendly Description</div>
+                        <div>Explanation Of Error</div>
+                    </div>
+                    <div class="row-wrapper">
+                        <div>9902</div>
+                        <div>delivery-receipt-expired</div>
+                        <div>Timed out waiting for delivery receipt. The reason a delivery receipt was not received is not known.</div>
+                        <div>Bandwidth timed out waiting for the delivery receipt, this could be because the downstream provider did not send the requested delivery receipt or they sent after the system timed out at two hours.</div>
+                    </div>
+                    <div class="row-wrapper">
+                        <div>9999</div>
+                        <div>unknown-error</div>
+                        <div>Unknown error from downstream. Carrier reported a failure code that is unknown to Bandwidth.</div>
+                        <div>Bandwidth does not recognize the vendor's error response or does not have the vendor code mapped internally</div>
                     </div>
                 </div>
             </div>

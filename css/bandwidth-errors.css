@@ -1,12 +1,16 @@
 @import '/Rain-Support-Tools/css/default.css';
 @import '/Rain-Support-Tools/common/flow-format/flow-format.css';
 #column-headers{
-    height: 25px;
+    height: 40px;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    background: #fff;
 }
-#error-list,#column-headers{
+.error-list,#column-headers{
     padding: unset;
 }
-#error-list .row-wrapper,#column-headers{
+.error-list .row-wrapper,#column-headers{
     display:flex;
     div{
         padding: 4px;
@@ -30,7 +34,10 @@
         width:48%;
     }
 }
-.row-wrapper{
+.row-wrapper,#column-headers{
     border: #000 solid 2px;
     margin-bottom: 4px;
+}
+.content.container{
+    overflow: unset;
 }
