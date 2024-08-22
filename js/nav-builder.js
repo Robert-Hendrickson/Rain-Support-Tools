@@ -100,6 +100,7 @@ const app = Vue.createApp({
                 ],
                 misc: [
                     {name:'SF GTG Check', url: 'bug-flow-check.html', icon: 'fa-solid fa-thumbs-up'},
+                    {name:'Bandwidth Error List', url: 'bandwidth-errors.html', icon: 'fa-solid fa-list'},
                     {name:'CSS Sandbox', url: 'css-tester.html', icon: 'fa-solid fa-wand-magic-sparkles'},
                     {name:"Riley's Secret", url: 'riley/riley.html', target:'blank', icon: 'fa-solid fa-paper-plane'}
                 ]
