@@ -20,7 +20,10 @@
         <div class="body-container">
             <div class="container content">
                 <h3>Bandwidth Error List</h3>
-                <input type="text" placeholder="Search Error Code/Keyword" onchange="displayMatchingRows(this.value)" />
+                <div id="search-wrapper">
+                    <span class="fa-solid fa-magnifying-glass"></span>
+                    <input id="searchbar" type="text" placeholder="Search Error Code/Keyword" onchange="displayMatchingRows(this.value)" />
+                </div>
             </div>
             <div class="container content">
                 <div class="error-list" data="2"  class="active">
@@ -535,7 +538,9 @@
                     'New Tool!',
                     `This new tool is a compilation of error codes and their explinations from Bandwidth. The searchbar at the top will search for specific error codes or keywords entered and hide error lines that don't match.<br>
                     <br>
-                    When searching for multiple keywords at a time, separate with spaces.<br>('first second') Return results will display all lines where any keyword is present`,
+                    When searching for multiple keywords at a time, separate with spaces.<br>('first second') Return results will display all lines where any keyword is present.<br>
+                    <br>
+                    To run search enter text into the search box and hit enter.`,
                     'text_errors'
                 ],
                 '8/20/2024',

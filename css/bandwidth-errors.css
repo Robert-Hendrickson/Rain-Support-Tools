@@ -41,3 +41,10 @@
 .content.container{
     overflow: unset;
 }
+#search-wrapper{
+    display: flex;
+    align-items: center;
+}
+#searchbar{
+    margin: 0;
+}
