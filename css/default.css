@@ -72,6 +72,10 @@ table {
     padding-left: 8px;
     color: #7B7B7B;
 }
+.sub-text{
+    color: #7B7B7B;
+    font-size: 12px;
+}
 .secondary_menu_links.active{
     translate: none;
 }

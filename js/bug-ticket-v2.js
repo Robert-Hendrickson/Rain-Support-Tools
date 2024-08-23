@@ -185,6 +185,9 @@ async function validateData(){
             if(RegExp(/^[nN](?:\\|\/)?[aA]/).test(errors) || errors === ''){
                 bad_object.list['errors'] = 'Errors box cannot be blank or n/a. If there are no visible errors associated with the problem behavior, please write "No Console Errors Seen".';
             }
+            if(RegExp(/(see|look at).*(video|screenshot(s)?)/i).test(errors)){
+                bad_object.list['errors'] = 'If errors are seen in the console, copy and paste the errors seen into the errors box.';
+            }
             if (Object.entries(bad_object.list).length) {
                 popup_error_growl(bad_object);
             } else {

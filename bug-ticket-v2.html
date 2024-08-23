@@ -13,20 +13,6 @@
         <script src="/Rain-Support-Tools/js/test_data.js"></script>
         <script src="/Rain-Support-Tools/common/actions/popup.js"></script>
         <script src="\Rain-Support-Tools\common\ctrl\cookie_ctrl.js"></script>
-        <script src="/Rain-Support-Tools/common/ctrl/banner_updates.js"></script>
-        <script>
-            $(document).ready(function (){
-                buildBanner(
-                    [
-                        'Tool Update!',
-                        'The expected Results field has been removed. You will no longer be required to enter the expected outcome of the system.',
-                        'banner-format'
-                    ],
-                    '8/18/2024',
-                    '8/21/2024'
-                );
-            });
-        </script>
         <script src="/Rain-Support-Tools/modules/dialog-ctrl.js"></script>
         <!-- Google tag (gtag.js) -->
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZBB64CR2LL"></script>
@@ -166,6 +152,7 @@
                     <textarea placeholder="Enter example data. This can be links to web pages where things are wrong or id's of products, RTO's, etc." id="examples"></textarea>
                     <br>
                     Console Errors: <br>
+                    <span class="sub-text">Copy the console error from the console then paste the info into the below box. Do not enter this box with "See Video" or similar options.</span>
                     <textarea placeholder="Enter any console errors that appear during the issue" id="errors"></textarea>
                 </div>
             </div>
