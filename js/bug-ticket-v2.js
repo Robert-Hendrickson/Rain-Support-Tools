@@ -100,8 +100,8 @@ async function validateData(){
     //compare current_step value against potential cases, complete the actions for any case that results as true
     switch (current_step) {
         case 1://crm, system area, and is replicable (yes or no) check
-            if($('#crm')[0].value === '' || !RegExp(/^(?:[c|C][r|R][m|M])?\d{3,}$/).test($('#crm')[0].value)){
-                bad_object.list['crm'] = 'The CRM needs to be a valid CRM.(3 digits or more)';
+            if($('#crm')[0].value === '' || !RegExp(/^(?:[c|C][r|R][m|M])?\d{2,}$/).test($('#crm')[0].value)){
+                bad_object.list['crm'] = 'The CRM needs to be a valid CRM.(2 digits or more)';
             }
             if ($('#systemArea')[0].value === '') {
                 bad_object.list['system'] = 'Please enter the area of the system that is affected.';
