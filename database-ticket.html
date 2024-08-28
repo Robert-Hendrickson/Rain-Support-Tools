@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <!--common css-->
+    <link rel="stylesheet" href="/Rain-Support-Tools/common/actions/popup.css" />
+    <link rel="stylesheet" href="/Rain-Support-Tools/css/database-ticket.css" />
+    <!--common js scripts-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="/Rain-Support-Tools/js/test_data.js"></script>
+    <script src="/Rain-Support-Tools/common/actions/popup.js"></script>
+    <script src="https://kit.fontawesome.com/8e52a98e38.js" crossorigin="anonymous"></script>
+    <script src="/Rain-Support-Tools/common/flow-format/flow-ctrl.js"></script>
+    </head>
+        <!--
+        Business:
+CRM:
+Vertical:
+Bug or Glitch Ticket:
+If no Bug/Glitch ticket, why was this approved and by whom?
+What specific changes are needed? We need dates, transaction ids, every piece of data that needs to be changed. Also, if we're working with transactions, does inventory need to be updated with the development changes?
+-->
+    <body>
+        <div class="menu-wrapper">
+            <div onclick="toggleNav()" id="nav-toggle">
+                <span class="fa-solid fa-bars"></span>
+            </div>
+            <nav-menu></nav-menu>
+            <script src="/Rain-Support-Tools/js/nav-builder.js"></script>
+        </div>
+        <div class="body-container">
+            <div id="info-tabs">
+                <div id="company-tab" step="1" class="active">
+                    <div class="step-circle">1</div>
+                    Company Info
+                </div>
+                <div id="details-tab" step="2">
+                    <div class="step-circle">2</div>
+                    Details
+                </div>
+                <div id="associated-info-tab" step="3">
+                    <div class="step-circle">3</div>
+                    Associated Info
+                </div>
+                <div id="confirm-tab" step="4">
+                    <div class="step-circle">4</div>
+                    Confirm
+                </div>
+            </div>
+            <div class="container content">
+                <div id="basic-content" data="1"  class="active">
+                    Buisness Name:<br>
+                    CRM:<br>
+                    Vertical:<br>
+                </div>
+                <div id="steps-content" data="2" class="in-active">
+                    {{inner html}}
+                </div>
+                <div id="steps-content" data="3" class="in-active">
+                    {{inner html}}
+                </div>
+                <div id="steps-content" data="4" class="in-active">
+                    {{inner html}}
+                </div>
+            </div>
+            <div flow-controls>
+                <button prev class="btn secondary hide" style="font-size: 12px;" onclick="previousStep()">Previous</button>
+                <button class="btn primary hide" finish style="float: right;" onclick="validateData()">Finish</button>
+                <button class="btn primary" next style="float: right;" onclick="validateData()">Next</button>
+            </div>
+        </div>
+    </body>
+</html>
