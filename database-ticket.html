@@ -1,24 +1,33 @@
 <!DOCTYPE html>
 <html>
     <head>
-    <!--common css-->
-    <link rel="stylesheet" href="/Rain-Support-Tools/common/actions/popup.css" />
-    <link rel="stylesheet" href="/Rain-Support-Tools/css/database-ticket.css" />
-    <!--common js scripts-->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-    <script src="/Rain-Support-Tools/js/test_data.js"></script>
-    <script src="/Rain-Support-Tools/common/actions/popup.js"></script>
-    <script src="https://kit.fontawesome.com/8e52a98e38.js" crossorigin="anonymous"></script>
-    <script src="/Rain-Support-Tools/common/flow-format/flow-ctrl.js"></script>
+        <!--common css-->
+        <link rel="stylesheet" href="/Rain-Support-Tools/common/actions/popup.css" />
+        <link rel="stylesheet" href="/Rain-Support-Tools/css/database-ticket.css" />
+        <!--common js scripts-->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+        <script src="/Rain-Support-Tools/js/database-ticket.js"></script>
+        <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+        <script src="/Rain-Support-Tools/js/test_data.js"></script>
+        <script src="/Rain-Support-Tools/common/actions/popup.js"></script>
+        <script src="https://kit.fontawesome.com/8e52a98e38.js" crossorigin="anonymous"></script>
+        <script src="/Rain-Support-Tools/common/flow-format/flow-ctrl.js"></script>
     </head>
         <!--
-        Business:
+Business Name:
+
 CRM:
+
 Vertical:
+**Music shop, Like Sew, Rain** Likely be a dropdown option select
+
 Bug or Glitch Ticket:
+
 If no Bug/Glitch ticket, why was this approved and by whom?
+
+Details:
 What specific changes are needed? We need dates, transaction ids, every piece of data that needs to be changed. Also, if we're working with transactions, does inventory need to be updated with the development changes?
+If there is not enough information for us to know what needs done without needing to ask you further questions your ticket will be rejected!
 -->
     <body>
         <div class="menu-wrapper">
@@ -48,18 +57,44 @@ What specific changes are needed? We need dates, transaction ids, every piece of
                 </div>
             </div>
             <div class="container content">
-                <div id="basic-content" data="1"  class="active">
-                    Buisness Name:<br>
+                <div id="company-content" data="1"  class="active">
+                    Business Name:<br>
+                    <input type="text" id="businessName" placeholder="Name of Company" />
                     CRM:<br>
-                    Vertical:<br>
+                    <input type="text" id="storeID" placeholder="Store CRM" />
+                    Vertical:
+                    <select id="vertical">
+                        <option value="">Select an Option</option>
+                    </select>
                 </div>
-                <div id="steps-content" data="2" class="in-active">
-                    {{inner html}}
+                <div id="details-content" data="2" class="in-active">
+                    Details:<br>
+                    <p style="color: red; font-size: 12px;">
+                        What specific changes are needed? We need dates, transaction ids, every piece of data that needs to be changed. Also, if we're working with transactions, does inventory need to be updated with the development changes?<br><br>
+                        If there is not enough information for us to know what needs done without needing to ask you further questions your ticket will be rejected!
+                    </p>
+                    <textarea id="details" placeholder="Details for Dev"></textarea>
                 </div>
-                <div id="steps-content" data="3" class="in-active">
-                    {{inner html}}
+                <div id="associated-info-content" data="3" class="in-active">
+                    <div class="ticket-check">
+                        <div>
+                            Is there an Associated Bug/Glitch Ticket?<input type="checkbox" checked id="associated-check" />
+                        </div>
+                    </div>
+                    <div id="associated-ticket" class="visible">
+                        Salesforce Ticket ID:
+                        <input id="ticketID" type="text" placeholder="Ticket Number"/>
+                        Shortcut Story Link:
+                        <input id="storyLink" type="text" placeholder="URL"/>
+                    </div>
+                    <div id="ticket-reason" class="hidden">
+                        Name of Agent who approved:
+                        <input id="agentName" type="text" placeholder="Name" />
+                        Reason for ticket:
+                        <textarea id="ticketReason" placeholder="Reason for Data Fix"></textarea>
+                    </div>
                 </div>
-                <div id="steps-content" data="4" class="in-active">
+                <div id="confirm-content" data="4" class="in-active">
                     {{inner html}}
                 </div>
             </div>
@@ -69,5 +104,6 @@ What specific changes are needed? We need dates, transaction ids, every piece of
                 <button class="btn primary" next style="float: right;" onclick="validateData()">Next</button>
             </div>
         </div>
+        <div id="error_message" class="hide"></div>
     </body>
 </html>
