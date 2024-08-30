@@ -12,6 +12,7 @@
         <script src="/Rain-Support-Tools/common/actions/popup.js"></script>
         <script src="https://kit.fontawesome.com/8e52a98e38.js" crossorigin="anonymous"></script>
         <script src="/Rain-Support-Tools/common/flow-format/flow-ctrl.js"></script>
+        <script src="/Rain-Support-Tools/modules/dialog-ctrl.js"></script>
     </head>
         <!--
 Business Name:
@@ -43,13 +44,13 @@ If there is not enough information for us to know what needs done without needin
                     <div class="step-circle">1</div>
                     Company Info
                 </div>
-                <div id="details-tab" step="2">
+                <div id="associated-info-tab" step="2">
                     <div class="step-circle">2</div>
-                    Details
-                </div>
-                <div id="associated-info-tab" step="3">
-                    <div class="step-circle">3</div>
                     Associated Info
+                </div>
+                <div id="details-tab" step="3">
+                    <div class="step-circle">3</div>
+                    Details
                 </div>
                 <div id="confirm-tab" step="4">
                     <div class="step-circle">4</div>
@@ -67,15 +68,7 @@ If there is not enough information for us to know what needs done without needin
                         <option value="">Select an Option</option>
                     </select>
                 </div>
-                <div id="details-content" data="2" class="in-active">
-                    Details:<br>
-                    <p style="color: red; font-size: 12px;">
-                        What specific changes are needed? We need dates, transaction ids, every piece of data that needs to be changed. Also, if we're working with transactions, does inventory need to be updated with the development changes?<br><br>
-                        If there is not enough information for us to know what needs done without needing to ask you further questions your ticket will be rejected!
-                    </p>
-                    <textarea id="details" placeholder="Details for Dev"></textarea>
-                </div>
-                <div id="associated-info-content" data="3" class="in-active">
+                <div id="associated-info-content" data="2" class="in-active">
                     <div class="ticket-check">
                         <div>
                             Is there an Associated Bug/Glitch Ticket?<input type="checkbox" checked id="associated-check" />
@@ -94,14 +87,32 @@ If there is not enough information for us to know what needs done without needin
                         <textarea id="ticketReason" placeholder="Reason for Data Fix"></textarea>
                     </div>
                 </div>
+                <div id="details-content" data="3" class="in-active">
+                    Details:<br>
+                    <p style="color: red; font-size: 12px;">
+                        What specific changes are needed? We need dates, transaction ids, every piece of data that needs to be changed. Also, if we're working with transactions, does inventory need to be updated with the development changes?<br><br>
+                        If there is not enough information for us to know what needs done without needing to ask you further questions your ticket will be rejected!
+                    </p>
+                    <textarea id="details" placeholder="Details for Dev"></textarea>
+                </div>
                 <div id="confirm-content" data="4" class="in-active">
-                    {{inner html}}
+                    <div id="data-wrapper"></div>
                 </div>
             </div>
             <div flow-controls>
                 <button prev class="btn secondary hide" style="font-size: 12px;" onclick="previousStep()">Previous</button>
-                <button class="btn primary hide" finish style="float: right;" onclick="validateData()">Finish</button>
+                <button class="btn primary hide" finish style="float: right;" onclick="compileData(true)">Finish</button>
                 <button class="btn primary" next style="float: right;" onclick="validateData()">Next</button>
+            </div>
+        </div>
+        <div id="ticket-container" class="hide">
+            <div>
+                <textarea id="ticket-wrapper"></textarea>
+                <div ticket-buttons>
+                    <button style="float: left;" class="btn terciary" onclick="start_new_ticket()">New Case</button>
+                    <button class="btn secondary" onclick="$('#ticket-container').addClass('hide')">Close</button>
+                    <button class="btn primary" onclick="copyTicket()">Copy</button>
+                </div>
             </div>
         </div>
         <div id="error_message" class="hide"></div>

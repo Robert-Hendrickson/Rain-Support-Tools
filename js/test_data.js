@@ -154,7 +154,7 @@ function setTestData(){
         $('#ticketID')[0].value = '123456789';
         $('#storyLink')[0].value = 'https://app.shortcut.com/rainretail/story/310515';
         $('#agentName')[0].value = 'Robert Hendrickson';
-        $('#ticketReason')[0].value = 'The customer is escalated over the issue.(First Last)';
+        $('#ticketReason')[0].value = 'The customer is escalated over the issue.';
     }
 }
 /*this waits for page to be finished loading, then checks if the page is on a test enviornment or if a test value was passed in the url. if either is true test values for the page are set from function parameters*/
