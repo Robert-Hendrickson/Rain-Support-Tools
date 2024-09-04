@@ -209,7 +209,8 @@ function markdownScrubbing(string_data){//currently this finds any '#' character
 }
 /*this compiles all of the data and builds the ticket info and displays it to the user to copy*/
 function generateTicket(passed_object = {}){//due to new updates to allow old ticket info to be accesible from saved cookies, this takes info as an object that get's passed in. If no data was passed in (we are using current page data, not old ticket data) then passed_object is set as a default of an empty object.
-    let data;
+    if(passed_object != null){
+        let data;
     if (!Object.keys(passed_object).length) {
         //if the passed object has nothing in it, then data is set to be the below object
         data = {
@@ -319,6 +320,7 @@ ${data.errors}
     $('#ticket-container').removeClass('hide');//display generated ticket
     $('#ticket-container > div > textarea')[0].focus();//set focus on text box for easy copying
 }
+}
 /*this function auto copies the data from the textarea to the computers clipboard*/
 function copyTicket() {
     // Get the text field
@@ -421,7 +423,7 @@ function buildPastTicketDivs(array){
         let date = new Date(parseInt(bug_date_string.split("_")[1])).toString().substring(0,24);
         let bug_data = bug_details_string.replaceAll(/"/g,'&quot;');
         let temp_json = JSON.parse(bug_details_string);
-        $('past-tickets').append(`<div data="${bug_data}">${date}<br>CRM: ${temp_json.crm}<br>Description: ${temp_json.description}</div>`);
+        $('past-tickets').append(`<div data="${bug_data}"><span class="close" onclick="deletePastTicketLine('${bug_date_string}',this)"></span>${date}<br>CRM: ${temp_json.crm}<br>Description: ${temp_json.description}</div>`);
     }
 }
 /*this takes the div of a old ticket from the list and displays it in the ticket generator area so that it can be copied again if necessary*/
@@ -437,6 +439,13 @@ function displayPastTickets(){
         buildPastTicketDivs(bug_array);
         $('past-tickets > div').on('click',oldTicketDataPrint);
         $('#past-ticket-container').show();
+    }
+}
+function deletePastTicketLine(cookie,line){
+    deleteCookie(cookie);
+    $(line).parent().remove();
+    if (!$('past-tickets').children().length) {
+        $('#past-ticket-container').hide();
     }
 }
 /*this waits for the window to finish loading everything then executes a set of commands for the page on initial load*/
