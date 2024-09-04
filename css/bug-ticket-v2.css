@@ -61,9 +61,18 @@ past-tickets div{
     margin-bottom: 8px;
     max-height: 100px;
     overflow: hidden;
+    position: relative;
 }
 past-tickets div:hover{
     border-color: #000;
     cursor: pointer;
     background-color: #EEEEEE;
+}
+past-tickets div > span.close{
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}
+past-tickets div > span.close::before{
+    content: "X";
 }
