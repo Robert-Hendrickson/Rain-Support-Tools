@@ -411,8 +411,17 @@ function newCookieData(){
         examples: scrubBadJsonChar($('#examples')[0].value),
         errors: scrubBadJsonChar($('#errors')[0].value)
     }
+    let now = Date.now();
     //turns the js object into a string of data and saves it as the value of a new cookie using the current time stamp as a unique id
-    setCookie(`bug_${Date.now()}`,JSON.stringify(bug_object));
+    setCookie(`bug_${now}`,JSON.stringify(bug_object));
+    //update existing list
+    if (!$('past-tickets').children().length) {
+        $('#past-ticket-container').show();
+    }
+    //updates number
+    $('#list-toggle').text(parseInt($('#list-toggle').text()) + 1);
+    //appends new ticket to list
+    $('past-tickets').append(`<div data="${bug_object}"><span class="close" onclick="deletePastTicketLine('bug_${now}',this)"></span>${Date(now).substring(0,24)}<br>CRM: ${bug_object.crm}<br>Description: ${bug_object.description}</div>`);
 }
 /*This function bulds a list out of the data passed in the array, the array comes from displayPastTickets function*/
 function buildPastTicketDivs(array){
@@ -441,11 +450,20 @@ function displayPastTickets(){
         $('#past-ticket-container').show();
     }
 }
-function deletePastTicketLine(cookie,line){
-    deleteCookie(cookie);
-    $(line).parent().remove();
-    if (!$('past-tickets').children().length) {
-        $('#past-ticket-container').hide();
+/*allows deleting past tickets from the list*/
+async function deletePastTicketLine(cookie,line){
+    //waits for confirmation
+    if (await customDialogResponse('Delete this past ticket?')) {
+        //deletes existing cookie
+        deleteCookie(cookie);
+        //removes visible line
+        $(line).parent().remove();
+        //updates number
+        $('#list-toggle').text(parseInt($('#list-toggle').text())-1)
+        //if last line is deleted, hide the panel entirely.
+        if (!$('past-tickets').children().length) {
+            $('#past-ticket-container').hide();
+        }
     }
 }
 /*this waits for the window to finish loading everything then executes a set of commands for the page on initial load*/
