@@ -75,4 +75,5 @@ past-tickets div > span.close{
 }
 past-tickets div > span.close::before{
     content: "X";
+    font-family: sans-serif;
 }
