@@ -10,7 +10,7 @@ function nextStep(current_step){
     if(current_step === 1){//hide "Back" button if on step one
         $('button[prev]').removeClass('hide');
     }
-    if(current_step === 4){//switch out "Next" button for "Finish" if moving to last step
+    if(current_step === $('[step]').length -1){//switch out "Next" button for "Finish" if moving to last step
         $('button[next]').addClass('hide');
         $('button[finish]').removeClass('hide');
     }
@@ -21,7 +21,7 @@ function previousStep(){
     if(current_step === 2){
         $('button[prev]').addClass('hide');
     }
-    if(current_step === 5){
+    if(current_step === $('[step]').length){
         $('button[finish]').addClass('hide');
         $('button[next]').removeClass('hide');
     }
