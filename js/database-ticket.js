@@ -11,16 +11,13 @@ function compileData(copyable = false) {
     ticket_data.storeID = $('#storeID')[0].value;
     ticket_data.vertical = $('#vertical')[0].value;
     ticket_data.details = $('#details')[0].value;
-    ticket_data.associatedInfo = {};
-    if ($('#associated-check')[0].checked) {
-        ticket_data.associatedInfo.Salesforce_Ticket_ID = $('#ticketID')[0].value;
-        ticket_data.associatedInfo.Shortcut_Story_Link = $('#storyLink')[0].value;
-    } else {
-        ticket_data.associatedInfo.Approving_Agent_Name = $('#agentName')[0].value;
-        ticket_data.associatedInfo.Ticket_Reason = $('#ticketReason')[0].value;
-    }
+    ticket_data.Salesforce_Ticket_ID = $('#ticketID')[0].value;
+    ticket_data.Shortcut_Story_Link = $('#storyLink')[0].value;
+    ticket_data.Approving_Agent_Name = $('#agentName')[0].value;
+    ticket_data.Ticket_Reason = $('#ticketReason')[0].value;
     if (copyable) {
         let ticket = `**Data Fix**
+**Company Info**
 Business Name:
 ${ticket_data.businessName}
 
@@ -30,41 +27,59 @@ ${ticket_data.storeID}
 Store Vertical:
 ${ticket_data.vertical}
 
-`;
-        for (data in ticket_data.associatedInfo) {
-            ticket += `${data.replaceAll('_',' ')}: 
-${ticket_data.associatedInfo[data]}
+**Connected Bug**
+Salesforce Ticket ID:
+${ticket_data.Salesforce_Ticket_ID}
 
+Shortcut Story Link:
+${ticket_data.Shortcut_Story_Link}
+
+**Case Info**
+Approving Agent's Name:
+${ticket_data.agentName}
+
+Ticket Reason:
+${ticket_data.Ticket_Reason}
+
+**Fix Details**
+Details:
+${ticket_data.details}
 `;
-        };
-        ticket += `Details:
-${ticket_data.details}`;
         $('#ticket-wrapper')[0].value = ticket;
         $('#ticket-container').removeClass('hide');
     } else {
         let html = `**Data Fix**<br>
-        Business Name:<br>
-        ${ticket_data.businessName}<br>
-        <br>
-        Store ID:<br>
-        ${ticket_data.storeID}<br>
-        <br>
-        Store Vertical:<br>
-        ${ticket_data.vertical}<br>
-        <br>
-        `;
-        for (data in ticket_data.associatedInfo) {
-            html += `${data.replaceAll('_',' ')}:<br>
-            ${ticket_data.associatedInfo[data]}<br>
-            <br>
-            `;
-        };
-        html += `Details:<br>
-        ${ticket_data.details}`;
+**Company Info**<br>
+Business Name:<br>
+${ticket_data.businessName}<br>
+<br>
+Store ID:<br>
+${ticket_data.storeID}<br>
+<br>
+Store Vertical:<br>
+${ticket_data.vertical}<br>
+<br>
+**Connected Bug**<br>
+Salesforce Ticket ID:<br>
+${ticket_data.Salesforce_Ticket_ID}<br>
+<br>
+Shortcut Story Link:<br>
+${ticket_data.Shortcut_Story_Link}<br>
+<br>
+**Case Info**<br>
+Approving Agent's Name:<br>
+${ticket_data.agentName}<br>
+<br>
+Ticket Reason:<br>
+${ticket_data.Ticket_Reason}<br>
+<br>
+**Fix Details**<br>
+Details:<br>
+${ticket_data.details}`;
         $('#data-wrapper').html(html);
     }
 }
-function validateData(){
+async function validateData(){
     //close any error popups currently open
     Close_error_growl();
     //create object to be passed to error popup if needing to display an error /common/actions/popup.js - popup_error_growl() function
@@ -93,25 +108,36 @@ function validateData(){
             };
             break;
         case 2:
-            if ($('#associated-check')[0].checked) {
-                if (!(/^\d+$/).test($.trim($('#ticketID')[0].value))) {
-                    bad_object.list['ticketID'] = 'Ticket ID needs to be entered. Alpha characters should not be present here.'
-                }
-                if (!(/^https:\/\/app\.shortcut\.com\/rainretail\/story\/\d+$/).test($.trim($('#storyLink')[0].value)) && $('#storyLink')[0].value != 'None Assigned') {
-                    bad_object.list['storyLink'] = `Copy and paste the story link from Salesforce here. If there isn't one enter "None Assigned" as the value.`;
-                }
-            } else {
-                if (isNA($('#agentName')[0].value) || !(/^[a-zA-Z]{3,}\s[a-zA-Z]{3,}$/).test($.trim($('#agentName')[0].value))) {
-                    bad_object.list['agentName'] = 'Enter the name of the agent that approved this task.(First Last)';
-                }
-                if ($('#ticketReason')[0].value.length < 40) {
-                    bad_object.list['ticketReason'] = 'Please enter a detailed reason we are doing this data fix.';
-                }
-            };
+            let link_fields = [];
+            if ($.trim($('#ticketID')[0].value) === '') {
+                link_fields.push('Ticket ID');
+            }
+            if ($.trim($('#storyLink')[0].value) === '') {
+                link_fields.push('Shortcut Link');
+            }
+            if (isNA($('#agentName')[0].value) || !(/^[a-zA-Z]{3,}\s[a-zA-Z]{3,}$/).test($.trim($('#agentName')[0].value))) {
+                bad_object.list['agentName'] = 'Enter the name of the agent that approved this task.(First Last)';
+            }
+            if ($('#ticketReason')[0].value.length < 40) {
+                bad_object.list['ticketReason'] = 'Please enter a detailed reason we are doing this data fix.';
+            }
             if (Object.entries(bad_object.list).length) {
                 popup_error_growl(bad_object);
             } else {
-                nextStep(current_step);
+                if (!link_fields.length) {
+                    nextStep(current_step);
+                } else {
+                    function getEmptyFields(){
+                        let empty_fields_string = '';
+                        for (i = 0; i < link_fields.length; i++) {
+                            empty_fields_string += `${link_fields[i]}<br>`;
+                        }
+                        return empty_fields_string;
+                    }
+                    if (await customDialogResponse(`The below fields were left empty.<br><br>${getEmptyFields()}<br>If this was intentional click continue. Otherwise click cancel and enter the relavent info.`,'Continue','Cancel')) {
+                        nextStep(current_step);
+                    }
+                }
             };
             break;
         case 3:
@@ -127,17 +153,6 @@ function validateData(){
             break;
         default:
             console.error(`Something isn't working right. current_step value ${current_step}`);
-    }
-}
-
-function displayTicketFields(event){
-    let associated_ticket = event.target.checked;
-    if (associated_ticket) {
-        $('#associated-ticket')[0].classList = 'visible';
-        $('#ticket-reason')[0].classList = 'hidden';
-    } else {
-        $('#associated-ticket')[0].classList = 'hidden';
-        $('#ticket-reason')[0].classList = 'visible';
     }
 }
 
@@ -167,5 +182,4 @@ $(document).ready(function(){
     $(vertical_list).each(function(index,el){
         $('#vertical').append(`<option value="${el}">${el}</option>`);
     });
-    $('#associated-check').on('change',displayTicketFields);
 })
