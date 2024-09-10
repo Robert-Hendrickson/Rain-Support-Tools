@@ -144,7 +144,7 @@ async function validateData(){
             };
             break;
         case 3://Description
-            if($('#description')[0].value === '' || RegExp(/^[n|N](?:\/|\\)?[a|A]/).test($('#description')[0].value)){
+            if($('#description')[0].value === '' || RegExp(/^[n|N](?:\/|\\)?[a|A]\s?$/).test($('#description')[0].value)){
                 bad_object.list['description'] = 'Description cannot be empty or n/a. Please describe in detail what is happening.';
             }
             if (hasSlackLink($('#description')[0].value)) {
