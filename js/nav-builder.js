@@ -84,7 +84,7 @@ const app = Vue.createApp({
                 ],
                 support: [
                     {name: 'Bug Ticket v2', url: 'bug-ticket-v2.html', icon: 'fa-solid fa-bug'},
-                    //{name:'Database', url: 'database-ticket.html', icon: 'fa-solid fa-database'},
+                    {name:'Database', url: 'database-ticket.html', icon: 'fa-solid fa-database'},
                     {name:'Site Work', url: 'site-work.html', icon: 'fa-solid fa-hammer'},
                     {name: 'DNS Record Tool', url: 'dns-help.html', icon: 'fa-regular fa-compass'}
                 ],
