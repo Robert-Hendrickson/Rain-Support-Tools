@@ -199,7 +199,7 @@ div#ticket-container{
     top: 0;
     width: 98%;
     transition-duration: 1s;
-    transform: translateX(1200px);
+    transform: translateX(102%);
 }
 .content.container{
     overflow: hidden;
@@ -212,7 +212,7 @@ div#ticket-container{
 }
 .content.container > div.complete{
     transition-duration: 1s;
-    transform: translateX(-1200px);
+    transform: translateX(-102%);
     position: absolute;
     top: 0;
     width: 98%;
