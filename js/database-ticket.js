@@ -115,6 +115,9 @@ async function validateData(){
             if ($.trim($('#storyLink')[0].value) === '') {
                 link_fields.push('Shortcut Link');
             }
+            if ($('#storyLink')[0].value != '' && !(/^https:\/\/app\.shortcut\.com\/rainretail\/story\/\d+/).test($.trim($('#storyLink')[0].value))) {
+                bad_object.list['shortcut'] = 'Shortcut link should either be the Shortcut Story Link from the Parent Case in Salesforce or NULL.';
+            }
             if (isNA($('#agentName')[0].value) || !(/^[a-zA-Z]{3,}\s[a-zA-Z]{3,}$/).test($.trim($('#agentName')[0].value))) {
                 bad_object.list['agentName'] = 'Enter the name of the agent that approved this task.(First Last)';
             }
