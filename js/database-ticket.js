@@ -36,7 +36,7 @@ ${ticket_data.Shortcut_Story_Link}
 
 **Case Info**
 Approving Agent's Name:
-${ticket_data.agentName}
+${ticket_data.Approving_Agent_Name}
 
 Ticket Reason:
 ${ticket_data.Ticket_Reason}
@@ -68,7 +68,7 @@ ${ticket_data.Shortcut_Story_Link}<br>
 <br>
 **Case Info**<br>
 Approving Agent's Name:<br>
-${ticket_data.agentName}<br>
+${ticket_data.Approving_Agent_Name}<br>
 <br>
 Ticket Reason:<br>
 ${ticket_data.Ticket_Reason}<br>
