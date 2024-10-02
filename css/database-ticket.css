@@ -1,3 +1,10 @@
 @import '/Rain-Support-Tools/css/default.css';
 @import '/Rain-Support-Tools/common/flow-format/flow-format.css';
 @import '/Rain-Support-Tools/modules/dialog-ctrl.css';
+
+textarea {
+    resize: vertical;
+    #details {
+        height: 250px;
+    }
+}
