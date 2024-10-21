@@ -1,4 +1,3 @@
-import './cookie_ctrl';
 function buildBanner(bannerArray = ['Test Title','Test content','banner-test'],banner_dates = false) {
     if (banner_dates) {
         let current_date = new Date();
