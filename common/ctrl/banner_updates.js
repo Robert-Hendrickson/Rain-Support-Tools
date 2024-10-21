@@ -1,3 +1,4 @@
+import './cookie_ctrl';
 function buildBanner(bannerArray = ['Test Title','Test content','banner-test'],banner_dates = false) {
     if (banner_dates) {
         let current_date = new Date();
@@ -9,7 +10,7 @@ function buildBanner(bannerArray = ['Test Title','Test content','banner-test'],b
                     <h2>${bannerArray[0]}</h2>
                     <p>${bannerArray[1]}</p>
                 </div>
-                <button class="btn primary" onclick="closeBanner('${bannerArray[2]}')">Close</button>
+                <button class="btn primary" onclick="closeBanner('${bannerArray[2]}',true)">Close</button>
                 </div>`);
         }
     } else {
@@ -18,11 +19,14 @@ function buildBanner(bannerArray = ['Test Title','Test content','banner-test'],b
                 <h2>${bannerArray[0]}</h2>
                 <p>${bannerArray[1]}</p>
             </div>
+            <button class="btn primary" onclick="closeBanner('${bannerArray[2]}')">Close</button>
             </div>`);
     }
 }
 
-function closeBanner(bannerID){
+function closeBanner(bannerID,cookie = false){
     $(`#${bannerID}`).remove();
-    setCookie(bannerID,'closed');
+    if (cookie) {
+        setCookie(bannerID,'closed');
+    }
 }

@@ -123,7 +123,9 @@ span.close:hover{
 }
 /*update banner styles*/
 .banner-wrapper {
-    margin: 0 auto;
+    position: absolute;
+    z-index: 10;
+    left: calc(50% - 250px);
     width: 500px;
     background-color: #ffffff;
     padding: 16px;
