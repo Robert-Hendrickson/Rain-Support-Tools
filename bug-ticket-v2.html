@@ -73,10 +73,15 @@
                         System Area Affected<br>
                         <input id="systemArea" type="text" placeholder="Enter Part of the System Affected" />
                         <br>
-                        Can you replicate this on a test site?<br>
-                        <div choice-selector>
+                        Can you replicate this on a Test Site or Customers Site?<br>
+                        <div choice-selector replicable-selector>
                             <div replicable='yes'>Yes</div>
                             <div replicable='no'>No</div>
+                        </div><br>
+                        Where were able to replicate the behavior?(If 'yes' to above select any below that apply)
+                        <div choice-selector where-selector>
+                            <div where='Test'>Test Site</div>
+                            <div where='Customer'>Customer Site</div>
                         </div>
                 </div>
                 <div style="z-index: 2;" id="steps-content" data="2" class="in-active">
