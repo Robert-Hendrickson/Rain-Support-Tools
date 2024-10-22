@@ -109,6 +109,9 @@ async function validateData(){
             if (!$('[replicable].selected').length) {
                 bad_object.list['replicable'] = 'Please select if this is replicable or not.';
             }
+            if ($('[replicable].selected').text() === 'Yes' && !$('[where].selected').length) {
+                bad_object.list['where'] = 'Make sure to select at least one place where replication happened.';
+            }
             if (Object.entries(bad_object.list).length) {
                 popup_error_growl(bad_object);
             } else {
@@ -207,81 +210,101 @@ function markdownScrubbing(string_data){//currently this finds any '#' character
     let characters_to_adjust = new RegExp(/#/g);
     return string_data.replaceAll(characters_to_adjust, "$& ");
 }
+//this function returns the selected where or both if both where's are selected
+function getWhereData(){
+    let where_list = Array.from($('[where].selected'));
+    let return_text = `Where did replication happen?
+`;
+    if (where_list.length === 1) {
+        return_text += `${where_list[0].getAttribute('where')} Site`;
+    } else if (where_list.length > 1) {
+        return_text += 'Test Site and Customer Site';
+    } else {
+        return '';
+    }
+    return return_text;
+}
 /*this compiles all of the data and builds the ticket info and displays it to the user to copy*/
 function generateTicket(passed_object = {}){//due to new updates to allow old ticket info to be accesible from saved cookies, this takes info as an object that get's passed in. If no data was passed in (we are using current page data, not old ticket data) then passed_object is set as a default of an empty object.
     if(passed_object != null){
         let data;
-    if (!Object.keys(passed_object).length) {
-        //if the passed object has nothing in it, then data is set to be the below object
-        data = {
-            crm: $('#crm')[0].value,
-            area: $('#systemArea')[0].value,
-            replicable: $('[replicable].selected').attr('replicable'),
-            steps: () => {//the part of the object is a function that loops through the steps table and builds a string then returns the string value as it's resolution when called
-                let string = '';
-                $('#steps-table tr input').each(function (index){
-                    let step = index + 1;
-                    string += `${index + 1}. ` + $(this)[0].value + '\n';
-                });
-                return string;
-            },
-            description: $('#description')[0].value,
-            screenshots: () => {//the part of the object is a function that loops through the screenshot table and builds a string then returns the string value as it's resolution when called
-                let string = '';
-                $('#screenshot-table tr input').each(function (){
-                    string += $(this)[0].value + '\n\n';
-                });
-                return string;
-            },
-            videos: () => {//the part of the object is a function that loops through the video table and builds a string then returns the string value as it's resolution when called
-                let string = '';
-                $('#video-table tr input').each(function (){
-                    string += $(this)[0].value + '\n\n';
-                });
-                return string;
-            },
-            examples: $('#examples')[0].value,
-            errors: $('#errors')[0].value
-        };
-    } else {
-        //if passed_object has data in it, then data is set to the below object to use the old ticket data
-        data = {
-            crm: passed_object.crm,
-            area: passed_object.area,
-            replicable: passed_object.replicable,
-            steps: () => {//the part of the object is a function that loops through the old ticket data steps and builds a string then returns the string value as it's resolution when called
-                let string = '';
-                let index = 1;
-                for (row in passed_object.steps) {
-                    string += `${index}. ` + passed_object.steps[row] + '\n';
-                    index++;
-                }
-                return string;
-            },
-            description: passed_object.description,
-            expected: passed_object.expected,
-            screenshots: () => {//the part of the object is a function that loops through the old ticket data screenshots and builds a string then returns the string value as it's resolution when called
-                let string = '';
-                let index = 1;
-                for (row in passed_object.screenshots) {
-                    string += `${index}. ` + passed_object.screenshots[row] + '\n';
-                    index++;
-                }
-                return string;
-            },
-            videos: () => {//the part of the object is a function that loops through the old ticket data videos and builds a string then returns the string value as it's resolution when called
-                let string = '';
-                let index = 1;
-                for (row in passed_object.videos) {
-                    string += `${index}. ` + passed_object.videos[row] + '\n';
-                    index++;
-                }
-                return string;
-            },
-            examples: passed_object.examples,
-            errors: passed_object.errors
-        };
-    }
+        if (!Object.keys(passed_object).length) {
+            //if the passed object has nothing in it, then data is set to be the below object
+            data = {
+                crm: $('#crm')[0].value,
+                area: $('#systemArea')[0].value,
+                replicable: $('[replicable].selected').attr('replicable'),
+                steps: () => {//the part of the object is a function that loops through the steps table and builds a string then returns the string value as it's resolution when called
+                    let string = '';
+                    $('#steps-table tr input').each(function (index){
+                        let step = index + 1;
+                        string += `${index + 1}. ` + $(this)[0].value + '\n';
+                    });
+                    return string;
+                },
+                description: $('#description')[0].value,
+                screenshots: () => {//the part of the object is a function that loops through the screenshot table and builds a string then returns the string value as it's resolution when called
+                    let string = '';
+                    $('#screenshot-table tr input').each(function (){
+                        string += $(this)[0].value + '\n\n';
+                    });
+                    return string;
+                },
+                videos: () => {//the part of the object is a function that loops through the video table and builds a string then returns the string value as it's resolution when called
+                    let string = '';
+                    $('#video-table tr input').each(function (){
+                        string += $(this)[0].value + '\n\n';
+                    });
+                    return string;
+                },
+                examples: $('#examples')[0].value,
+                errors: $('#errors')[0].value
+            };
+            if (data.replicable === 'yes') {
+                data['where'] = getWhereData();
+            }
+        } else {
+            //if passed_object has data in it, then data is set to the below object to use the old ticket data
+            data = {
+                crm: passed_object.crm,
+                area: passed_object.area,
+                replicable: passed_object.replicable,
+                steps: () => {//the part of the object is a function that loops through the old ticket data steps and builds a string then returns the string value as it's resolution when called
+                    let string = '';
+                    let index = 1;
+                    for (row in passed_object.steps) {
+                        string += `${index}. ` + passed_object.steps[row] + '\n';
+                        index++;
+                    }
+                    return string;
+                },
+                description: passed_object.description,
+                expected: passed_object.expected,
+                screenshots: () => {//the part of the object is a function that loops through the old ticket data screenshots and builds a string then returns the string value as it's resolution when called
+                    let string = '';
+                    let index = 1;
+                    for (row in passed_object.screenshots) {
+                        string += `${index}. ` + passed_object.screenshots[row] + '\n';
+                        index++;
+                    }
+                    return string;
+                },
+                videos: () => {//the part of the object is a function that loops through the old ticket data videos and builds a string then returns the string value as it's resolution when called
+                    let string = '';
+                    let index = 1;
+                    for (row in passed_object.videos) {
+                        string += `${index}. ` + passed_object.videos[row] + '\n';
+                        index++;
+                    }
+                    return string;
+                },
+                examples: passed_object.examples,
+                errors: passed_object.errors
+            };
+            if (passed_object.where) {
+                data['where'] = passed_object.where;
+            }
+        }
     //this sets a string as the value of the textarea container when generating a ticket using the object values created from above '${}' formatting is in-line accessing for variable data.
     $('#ticket-container > div > textarea')[0].value = `**LOCATION:**
 Store ID:
@@ -290,8 +313,14 @@ ${data.crm}
 System Area:
 ${data.area}
 
-Can you recreate the problem on your demo site (if yes please continue, if no use the "Bug - non reproducible" macro)?
+Can you recreate the problem on your demo site or Customers Site?
 ${data.replicable}
+
+` +
+
+(data.where ? data.where : ``)
+
++ `
 
 STEPS TO REPRODUCE:
 ${data.steps()}
@@ -385,6 +414,14 @@ function selectReplicability(el){//el = clicked on element in html, update the c
     $('div[replicable].selected').removeClass('selected');
     el.target.classList.value = 'selected';
 }
+/*this function is set as a listener to the where steps button and executes when either one is clicked*/
+function selectWhere(el){//el = clicked on element in html, toggle the clicked on option to have or not have the class 'selected'
+    if (!el.target.classList.contains('selected')) {
+        el.target.classList.value = 'selected';
+    } else {
+        el.target.classList.value = '';
+    }
+}
 /*this function takes the data from the current ticket and sets it as a cookie to be accessed at a future date potentially*/
 function newCookieData(){
     //this function removes problem characters for saving new cookie
@@ -403,13 +440,16 @@ function newCookieData(){
     let bug_object = {
         crm: scrubBadJsonChar($('input#crm')[0].value),
         area: scrubBadJsonChar($('input#systemArea')[0].value),
-        replicable: $('[choice-selector] .selected').attr('replicable'),
+        replicable: $('[choice-selector][replicable-selector] .selected').attr('replicable'),
         steps: subObjectCreator('steps'),
         description: scrubBadJsonChar($('#description')[0].value),
         screenshots: subObjectCreator('screenshot'),
         videos: subObjectCreator('video'),
         examples: scrubBadJsonChar($('#examples')[0].value),
         errors: scrubBadJsonChar($('#errors')[0].value)
+    }
+    if ($('[where].selected').length) {
+        bug_object['where'] = getWhereData();
     }
     let now = Date.now();
     //turns the js object into a string of data and saves it as the value of a new cookie using the current time stamp as a unique id
@@ -470,6 +510,8 @@ async function deletePastTicketLine(cookie,line){
 $(window).ready(function (){
     //sets event listener on replicable buttons
     $('div[replicable]').on('click',selectReplicability);
+    //sets event listener on where buttons
+    $('div[where]').on('click',selectWhere);
     //this sets the toggle functionality of the past tickets toggle
     $('#list-toggle').on('click', function (){
         $('past-tickets').toggleClass('active');
