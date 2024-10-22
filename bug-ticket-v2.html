@@ -179,5 +179,20 @@
             </div>
         </div>
         <div id="error_message" class="hide"></div>
+        <script>
+            $(document).ready(function (){
+                buildBanner(
+            [
+                header_title = 'New Section!',
+                banner_text = `A new section has been added to the first step on this flow.<br>If "Yes" is selected for if you can replicate the bug on a Test or Customer's Site, you will now need to select the togglable options that match.<br>
+                <br>
+                Both can be selected if both apply. Make sure to select all that apply.`,
+                banner_id = 'whereselect'
+            ],
+            start_date_object = '10/22/2024',
+            end_date_object = '10/26/2024'
+            );
+            });
+        </script>
     </body>
 </html>
