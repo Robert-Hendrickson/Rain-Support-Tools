@@ -428,7 +428,7 @@ function closeModal(modal){
     Close_error_growl();
 }
 /*function compiles record data and validates it meets requirements*/
-function validateRecordData(){
+async function validateRecordData(){
     let record_type = $('.dns-selector')[0].value;
     if(record_type != 'Select Type'){//if a record type was selected move forward
         record_data = {
@@ -452,6 +452,11 @@ function validateRecordData(){
             type: 'generate',
             list: checkValues(record_data)
         };
+        if (bad_object.list.CNAME_record_value && (/^[\w\-]+\.\w{2,}$/).test(record_data.value)) {
+            if (await customDialogResponse(`The given Record Value is pointed to an apex domain. If this was intentional click Continue. If not, please cancel and go check the values before submitting.`, submit_button = "Continue", close_button = 'Cancel')) {
+                delete bad_object.list.CNAME_record_value;
+            }
+        }
         //if errors found display errors
         if (Object.entries(bad_object.list).length) {
             popup_error_growl(bad_object);
