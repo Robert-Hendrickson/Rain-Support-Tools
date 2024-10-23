@@ -18,7 +18,23 @@ Riley page was pulled from this link: https://codepen.io/trajektorijus/pen/mdeBY
     <script src="\Rain-Support-Tools\common\ctrl\cookie_ctrl.js"></script>
 
 ## custom dialog modal script import
+    <link rel="stylesheet" href="/Rain-Support-Tools/modules/dialog-ctrl.css" />
     <script src="/Rain-Support-Tools/modules/dialog-ctrl.js"></script>
+
+    Can be used to request input from the user before moving forward. If being used inside a functin the function needs the 'async' keyword added to it. The function returns a promise that is either true or false. Parameters include a text string for display message, text string for the True response with a default of "OK", and a text string for the False response with a default of "Cancel".
+    
+    async function(){
+        if(thing){
+            if(await customDialogResponse(
+                text_string_content, 
+                submit_button = "OK", 
+                close_button = 'Cancel'
+                )
+            ){
+                //do this
+            }
+        }
+    }
 
 ## banner updates
     <script src="/Rain-Support-Tools/common/ctrl/banner_updates.js"></script>
