@@ -17,12 +17,20 @@ Riley page was pulled from this link: https://codepen.io/trajektorijus/pen/mdeBY
 ## cookie control functions
     <script src="\Rain-Support-Tools\common\ctrl\cookie_ctrl.js"></script>
 
+    included functions
+    setCookie(cookie_name,cookie_value,cookie_life_length = 7)
+    //cookie_name = string for name of cookie
+    //cookie_value = any value to be saved with the cookie
+    //cookie_life_length = number for the length of time in days the cookie should exist, defaults to 7 days
+    getCookie(cookie_name)
+    deleteCookie(cookie_name)
+
 ## custom dialog modal script import
     <link rel="stylesheet" href="/Rain-Support-Tools/modules/dialog-ctrl.css" />
     <script src="/Rain-Support-Tools/modules/dialog-ctrl.js"></script>
 
     Can be used to request input from the user before moving forward. If being used inside a functin the function needs the 'async' keyword added to it. The function returns a promise that is either true or false. Parameters include a text string for display message, text string for the True response with a default of "OK", and a text string for the False response with a default of "Cancel".
-    
+
     async function(){
         if(thing){
             if(await customDialogResponse(
