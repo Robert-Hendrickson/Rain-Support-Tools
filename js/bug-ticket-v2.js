@@ -461,7 +461,8 @@ function newCookieData(){
     //updates number
     $('#list-toggle').text(parseInt($('#list-toggle').text()) + 1);
     //appends new ticket to list
-    $('past-tickets').append(`<div data="${bug_object}"><span class="close" onclick="deletePastTicketLine('bug_${now}',this)"></span>${Date(now).substring(0,24)}<br>CRM: ${bug_object.crm}<br>Description: ${bug_object.description}</div>`);
+    $('past-tickets').append(`<div data="${JSON.stringify(bug_object).replaceAll(`"`,"&quot;")}"><span class="close" onclick="deletePastTicketLine('bug_${now}',this)"></span>${Date(now).substring(0,24)}<br>CRM: ${bug_object.crm}<br>Description: ${bug_object.description}</div>`);
+    $('past-tickets > div:last-child').on('click',oldTicketDataPrint);
 }
 /*This function bulds a list out of the data passed in the array, the array comes from displayPastTickets function*/
 function buildPastTicketDivs(array){
@@ -504,6 +505,9 @@ async function deletePastTicketLine(cookie,line){
         if (!$('past-tickets').children().length) {
             $('#past-ticket-container').hide();
         }
+    }
+    if ($('#list-toggle')[0].innerText === '0') {
+        $('#list-toggle').click();
     }
 }
 /*this waits for the window to finish loading everything then executes a set of commands for the page on initial load*/
