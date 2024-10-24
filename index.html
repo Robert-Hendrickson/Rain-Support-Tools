@@ -92,10 +92,13 @@
             #updates h2{
                 text-align: center;
             }
+            .system-updates a{
+                color: #000;
+                text-decoration: none;
+            }
         </style>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
         <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-        <script src="/Rain-Support-Tools/js/updates-log.js"></script>
     </header>
     <body>
         <div class="menu">
@@ -106,18 +109,13 @@
                         <li list="support" class="active" onclick="updateNavButtons($(this))">Support Tools</li>
                         <li list="system" onclick="updateNavButtons($(this))">System Tools</li>
                         <li list="misc" onclick="updateNavButtons($(this))">Misc Tools</li>
+                        <li class="system-updates"><a href="https://github.com/Robert-Hendrickson/Rain-Support-Tools/pulls?q=is%3Amerged" target="_blank">System Updates</a></li>
                     </ul>
                 </div>
                 <nav-menu></nav-menu>
                 <script src="/Rain-Support-Tools/js/nav-builder.js"></script>
             </div>
         </div>
-        <div id="updates">
-                <h2>Tool Updates <a style="color:#000; font-size: 15px;" href="#" onclick="buildUpdates('all')">(See All Updates)</a></h2>
-            <div class="readableBg" id="updates-container">
-            </div>
-        </div>
-        <script>buildUpdates('recent')</script>
         <script>
             function updateNavButtons(obj){
                 //change the active selection for list type
