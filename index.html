@@ -92,9 +92,9 @@
             #updates h2{
                 text-align: center;
             }
-            .system-updates a{
-                color: #000;
-                text-decoration: none;
+            .system-updates{
+                margin: 0 auto;
+                width: 180px;
             }
         </style>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
@@ -103,13 +103,19 @@
     <body>
         <div class="menu">
             <h2>Support Tools</h2>
+            <div class="system-updates">
+                <a href="https://github.com/Robert-Hendrickson/Rain-Support-Tools/pulls?q=is%3Amerged">
+                    <button class="btn btn-secondary">
+                        Look at System Updates
+                    </button>
+                </a>
+            </div>
             <div class="menu_links">
                 <div id="menu_tabs">
                     <ul>
                         <li list="support" class="active" onclick="updateNavButtons($(this))">Support Tools</li>
                         <li list="system" onclick="updateNavButtons($(this))">System Tools</li>
                         <li list="misc" onclick="updateNavButtons($(this))">Misc Tools</li>
-                        <li class="system-updates"><a href="https://github.com/Robert-Hendrickson/Rain-Support-Tools/pulls?q=is%3Amerged" target="_blank">System Updates</a></li>
                     </ul>
                 </div>
                 <nav-menu></nav-menu>
