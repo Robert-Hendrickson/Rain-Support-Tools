@@ -35,10 +35,10 @@ Shortcut Story Link:
 ${ticket_data.Shortcut_Story_Link}
 
 **Case Info**
-Approving Agent's Name:
+Approving Team Lead's Name:
 ${ticket_data.Approving_Agent_Name}
 
-Ticket Reason:
+Ticket Approval Reason:
 ${ticket_data.Ticket_Reason}
 
 **Fix Details**
@@ -67,10 +67,10 @@ Shortcut Story Link:<br>
 ${ticket_data.Shortcut_Story_Link}<br>
 <br>
 **Case Info**<br>
-Approving Agent's Name:<br>
+Approving Team Lead's Name:<br>
 ${ticket_data.Approving_Agent_Name}<br>
 <br>
-Ticket Reason:<br>
+Ticket Approval Reason:<br>
 ${ticket_data.Ticket_Reason}<br>
 <br>
 **Fix Details**<br>
