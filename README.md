@@ -54,8 +54,8 @@ Riley page was pulled from this link: https://codepen.io/trajektorijus/pen/mdeBY
             banner_text = string,
             banner_id = string
         ],
-        start_date_object = string ('8/10/2024'),
-        end_date_object = string ('8/10/2024')
+        start_date_object = '8/10/2024',
+        end_date_object = '8/10/2024'
         );
         });
     </script>
