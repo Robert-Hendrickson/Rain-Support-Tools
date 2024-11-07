@@ -11,7 +11,7 @@
             console.log(path);
             if (redirects[path]) {
                 setTimeout(function() {
-                    window.location.replace(path)
+                    window.location.replace(redirects[path])
                 },'3000');
             } else {
                 window.location.replace('/Rain-Support-Tools/');
