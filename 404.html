@@ -5,10 +5,17 @@
         <p>Redirecting you to correct page...</p>
         <script>
             const redirects = {
-
+                '/Rain-Support-Tools/test.html' : '/Rain-Support-Tools/testing/test.html'
             };
-            let path = window.locaiton.pathname;
+            let path = window.location.pathname;
             console.log(path);
+            if (redirects[path]) {
+                setTimeout(function() {
+                    window.location.replace(path)
+                },'3000');
+            } else {
+                window.location.replace('/Rain-Support-Tools/');
+            }
         </script>
     </body>
 </html>
