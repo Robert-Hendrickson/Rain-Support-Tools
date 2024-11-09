@@ -9,7 +9,7 @@ Riley page was pulled from this link: https://codepen.io/trajektorijus/pen/mdeBY
     <!--common js scripts-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-    <script src="/Rain-Support-Tools/js/test_data.js"></script>
+    <script src="/Rain-Support-Tools/common/testing/test_data.js"></script>
     <script src="/Rain-Support-Tools/common/actions/popup.js"></script>
     <script src="https://kit.fontawesome.com/8e52a98e38.js" crossorigin="anonymous"></script>
     <script src="/Rain-Support-Tools/common/flow-format/flow-ctrl.js"></script>
@@ -68,7 +68,7 @@ Riley page was pulled from this link: https://codepen.io/trajektorijus/pen/mdeBY
             <span class="fa-solid fa-bars"></span>
         </div>
         <nav-menu></nav-menu>
-        <script src="/Rain-Support-Tools/js/nav-builder.js"></script>
+        <script src="/Rain-Support-Tools/common/navigation/nav-builder.js"></script>
     </div>
 
 ## add steps as needed and give an id that matches the container area

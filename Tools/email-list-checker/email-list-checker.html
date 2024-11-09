@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta title="Email Checker" />
+        <title>Email Checker</title>
+        <link rel="stylesheet" href="./email-list-checker.css" />
+        <script src="https://kit.fontawesome.com/8e52a98e38.js" crossorigin="anonymous"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+        <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+        <script src="/Rain-Support-Tools/common/testing/test_data.js"></script>
+        <script src="./email-list-checker.js"></script>
+        <script src="/Rain-Support-Tools/modules/dialog-ctrl.js"></script>
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZBB64CR2LL"></script>
+        <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-ZBB64CR2LL');
+        </script>
+    </head>
+    <body>
+        <div class="menu-wrapper">
+            <div onclick="toggleNav()" id="nav-toggle">
+                <span class="fa-solid fa-bars"></span>
+            </div>
+            <nav-menu></nav-menu>
+            <script src="/Rain-Support-Tools/common/navigation/nav-builder.js"></script>
+        </div>
+        <div class="mainContainer">
+            <h1 style="text-align: center;">Email List Checker</h1>
+            <div class="controls">
+                <input type="button" value="Clear" onclick="clearData()" />
+                <input type="button" value="Check" onclick="runCheck()" />
+                <input type="button" value="Import" onclick="$('.import').removeClass('hide')" />
+            </div>
+            <div class="mainContent">
+                <div class="inputList">
+                    <h2>Imported List</h2>
+                    <p>List count <count>0</count></p>
+                    <textarea></textarea>
+                </div>
+                <div class="goodList">
+                    <h2>Good Emails</h2>
+                    <p>Found <count>0</count></p>
+                    <textarea></textarea>
+                </div>
+                <div class="badList">
+                    <h2>Potentially Bad Emails</h2>
+                    <p>Found <count>0</count></p>
+                    <textarea></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="import hide">
+            <div>
+                <input type="button" value="Run" onclick="importList()" />
+                <input type="button" value="Close" onclick="$('.import').addClass('hide')" />
+            </div>
+            <textarea></textarea>
+            <div id="get-email-list-code">
+                <p>
+                    Run the below code on the email list page in and this will collect the list of emails from the table.<br>
+                    <br>
+                    After running the code, click the copy link that appears and paste the content into the box to the left.
+                </p>
+                <div class="code-display">
+                    <pre>
+                        <code>
+let email_list = $('table > tbody tr td:first-child');
+let email_list_string = '';
+for(i=0;i&#60;email_list.length;i++){
+email_list_string += email_list[i].innerText + '\n';
+};
+email_list_string.substring(6, email_list_string.length -1);
+                        </code>
+                    </pre>
+                </div>
+                <br>
+                <video
+                controls
+                style="width: 400px;"
+                controlslist="nodownload"
+            >
+                <source src="\Rain-Support-Tools\videos\email-list-checker-overview.mp4" type="video/mp4"></source>
+                <p class="vjs-no-js">
+                    To view this video please enable JavaScript, and consider upgrading to a
+                    web browser that
+                    <a href="https://videojs.com/html5-video-support/" target="_blank">
+                    supports HTML5 video
+                    </a>
+                </p>
+            </video>
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Transaction Calculator</title>
+        <link rel="stylesheet" href="./calculator.css"/>
+        <script src="https://kit.fontawesome.com/8e52a98e38.js" crossorigin="anonymous"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+        <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+        <script src="./calculator.js"></script>
+        <script src="/Rain-Support-Tools/modules/dialog-ctrl.js"></script>
+        <meta title="Transaction Calc" />
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZBB64CR2LL"></script>
+        <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-ZBB64CR2LL');
+        </script>
+    </head>
+    <body>
+        <div class="menu-wrapper">
+            <div onclick="toggleNav()" id="nav-toggle">
+                <span class="fa-solid fa-bars"></span>
+            </div>
+            <nav-menu></nav-menu>
+            <script src="/Rain-Support-Tools/common/navigation/nav-builder.js"></script>
+        </div>
+        <table id="inputTable" style="margin-left: 50px;">
+            <thead>
+                <tr>
+                    <td>Qty</td>
+                    <td>Price</td>
+                    <td>EXT</td>
+                    <td>Discount</td>
+                    <td>Tax</td>
+                    <td>Total</td>
+                    <td>
+                        Taxable?<br />
+                        M | S | C
+                    </td>
+                    <td>
+                        Percent Discount
+                    </td>
+                </tr>
+            </thead>
+            <tbody id="table-lines">
+            </tbody>
+        </table>
+        <div class="totals-container">
+            <div class="totals">
+                <div>
+                    New Lines <input id="lines-to-add" type="number" /><input type="submit" value="Add" onclick="multiLineAdd()" />
+                    <input id="reset-btn" type="button" onclick="reset()" value="Reset" />
+                    <a href="/Rain-Support-Tools/"><input type="button" value="Home" /></a>
+                    <br />
+                </div>
+                <div id="taxes-container">
+                    <!--
+                        let's update this section to have the ability to do more complex tax jurisdiction. We'll keep the material, service, and class types.
+                        Visible box will look the same, with an edit box that will display the jurisdiction breakdown so that multiple jurisdictions for each type can be added.
+                    -->
+                    <table id="tax-rates">
+                        <thead>
+                            <th colspan="3" Style="text-align: center;">Tax Rates<input style="float: right;" type="button" value="Edit" onclick="enableComplexTax()" /></th>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    Materials
+                                </td>
+                                <td>
+                                    Services
+                                </td>
+                                <td>
+                                    Classes
+                                </td>
+                                <td>
+                                    Shipping
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input id="material-rate" type="number" onchange="updateTax()" value="0" />
+                                </td>
+                                <td>
+                                    <input id="service-rate" type="number" onchange="updateTax()" value="0" />
+                                </td>
+                                <td>
+                                    <input id="class-rate" type="number" onchange="updateTax()" value="0" />
+                                </td>
+                                <td>
+                                    <select id="shippingtaxed" onchange="shippingDisplay()">
+                                        <option value="no">No</option>
+                                        <option value="yes">Yes</option>
+                                    </select>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="tax-rate-container hide">
+                        <div class="tax-rate-editor">
+                            <input type="button" value="Save" onclick="updateTaxRates()" />
+                            <div>
+                                <div style="width: 100%; text-align: center;">
+                                    Tax Rates by type
+                                </div>
+                                <table id="rates-breakdown">
+                                    <thead>
+                                        <td>
+                                            Materials<br><input type="button" value="-" onclick="addNewRate('mat', 'decrease')"/><input type="button" value="+" onclick="addNewRate('mat', 'increase')" />
+                                        </td>
+                                        <td>
+                                            Services<br><input type="button" value="-" onclick="addNewRate('ser', 'decrease')"/><input type="button" value="+" onclick="addNewRate('ser', 'increase')" />
+                                        </td>
+                                        <td>
+                                            Classes<br><input type="button" value="-" onclick="addNewRate('clas', 'decrease')"/><input type="button" value="+" onclick="addNewRate('clas', 'increase')" />
+                                        </td>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td id="mat"><ul><li><input value="0"/></li></ul></td>
+                                            <td id="ser"><ul><li><input value="0"/></li></ul></td>
+                                            <td id="clas"><ul><li><input value="0"/></li></ul></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+                <table id="btn-totals">
+                    <tbody>
+                        <tr>
+                            <td>
+                                Sub Total
+                            </td>
+                            <td>
+                                <input id="total-sub" type="number" disabled="disabled" value="0" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Discount
+                            </td>
+                            <td>
+                                <input id="total-disc" type="number" disabled="disabled" value="0" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Shipping
+                            </td>
+                            <td>
+                                <input id="shipping" type="number" value="0" onchange="calcTotals()" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Tax
+                            </td>
+                            <td>
+                                <input id="total-tax" type="number" disabled="disabled" value="0" />
+                            </td>
+                        </tr>
+                        <tr class="subrow">
+                            <td>
+                                Mat
+                            </td>
+                            <td>
+                                <input id="tax-material" type="number" value="0" disabled="disabled" />
+                            </td>
+                        </tr>
+                        <tr class="subrow">
+                            <td>
+                                Service
+                            </td>
+                            <td>
+                                <input id="tax-service" type="number" value="0" disabled="disabled" />
+                            </td>
+                        </tr>
+                        <tr class="subrow">
+                            <td>
+                                Class
+                            </td>
+                            <td>
+                                <input id="tax-class" type="number" value="0" disabled="disabled" />
+                            </td>
+                        </tr>
+                        <tr style="display: none;" class="subrow ship-tax">
+                            <td>
+                                Ship Tax
+                            </td>
+                            <td>
+                                <input id="tax-shipping" type="number" value="0" disabled="disabled" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Total
+                            </td>
+                            <td>
+                                <input id="total-total" type="number" disabled="disabled" value="0" />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="breakdown-area">
+            <div class="breakdown-nav">
+                <ul id="breakdowns">
+                    <li id="breakdown-totals" onclick="breakdown_display('totals')">Totals</li>
+                    <li id="breakdown-lines" onclick="breakdown_display('lines')">Lines</li>
+                </ul>
+            </div>
+            <div class="breakdown-view">
+                <div class="breakdown-hide active" id="break-totals">
+                    <textarea>
+                        
+                    </textarea><br />
+                    <button onclick="displayBreakdown('totals')">Totals</button>
+                </div>
+                <div class="breakdown-hide" id="break-lines">
+                    <textarea>
+                        
+                    </textarea><br />
+                    <button onclick="displayBreakdown('lines')">Lines</button>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
