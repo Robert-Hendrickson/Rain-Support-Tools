@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta title="Bug v2" />
+        <title>Bug v2</title>
+        <link rel="stylesheet" href="./bug-ticket-v2.css" />
+        <link rel="stylesheet" href="/Rain-Support-Tools/common/actions/popup.css" />
+        <script src="https://kit.fontawesome.com/8e52a98e38.js" crossorigin="anonymous"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+        <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+        <script src="\Rain-Support-Tools\common\ctrl\cookie_ctrl.js"></script>
+        <script src="/Rain-Support-Tools/common/flow-format/flow-ctrl.js"></script>
+        <script src="/Rain-Support-Tools/common/actions/popup.js"></script>
+        <script src="/Rain-Support-Tools/modules/dialog-ctrl.js"></script>
+        <script src="/Rain-Support-Tools/common/ctrl/banner_updates.js"></script>
+        <script src="./bug-ticket-v2.js"></script>
+        <script src="/Rain-Support-Tools/common/testing/test_data.js"></script>
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZBB64CR2LL"></script>
+        <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-ZBB64CR2LL');
+        </script>
+    </head>
+    <body>
+        <div class="menu-wrapper">
+            <div onclick="toggleNav()" id="nav-toggle">
+                <span class="fa-solid fa-bars"></span>
+            </div>
+            <nav-menu></nav-menu>
+            <script src="/Rain-Support-Tools/common/navigation/nav-builder.js"></script>
+        </div>
+        <div id="past-ticket-container" style="display: none;">
+            <div id="list-toggle">
+                0
+            </div>
+            <past-tickets></past-tickets>
+        </div>
+        <h1>
+            Bug Ticket Form Generator - Design by Russell Lee
+        </h1>
+        <div class="body-container">
+            <div id="info-tabs">
+                <div id="basic-tab" step="1" class="active">
+                    <div class="step-circle">1</div>
+                    Basic
+                </div>
+                <div id="steps-tab" step="2">
+                    <div class="step-circle">2</div>
+                    Steps
+                </div>
+                <div id="description-tab" step="3">
+                    <div class="step-circle">3</div>
+                    Desc.
+                </div>
+                <div id="links-tab" step="4">
+                    <div class="step-circle">4</div>
+                    Screenshots
+                </div>
+                <div id="examples-errors-tab" step="5">
+                    <div class="step-circle">5</div>
+                    Examples
+                </div>
+            </div>
+            <div class="container content">
+                <div style="z-index: 1;" id="basic-content" data="1"  class="active">
+                        CRM<br>
+                        <input id="crm" type="text" placeholder="Enter a CRM" />
+                        <br>
+                        System Area Affected<br>
+                        <input id="systemArea" type="text" placeholder="Enter Part of the System Affected" />
+                        <br>
+                        Can you replicate this on a Test Site or Customers Site?<br>
+                        <div choice-selector replicable-selector>
+                            <div replicable='yes'>Yes</div>
+                            <div replicable='no'>No</div>
+                        </div><br>
+                        Where were able to replicate the behavior?(If 'yes' to above select any below that apply)
+                        <div choice-selector where-selector>
+                            <div where='Test'>Test Site</div>
+                            <div where='Customer'>Customer Site</div>
+                        </div>
+                </div>
+                <div style="z-index: 2;" id="steps-content" data="2" class="in-active">
+                    <div table-controls>
+                        <button class="btn secondary" onclick="addTableRow('steps-table')">Add Row</button>
+                        <button class="btn secondary" onclick="removeTableRow('steps-table')">Remove Row</button>
+                    </div>
+                    <table id="steps-table">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    Step 1<input placeholder="Enter Step 1" type="text" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Step 2<input placeholder="Enter Step 2" type="text" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Step 3<input placeholder="Enter Step 3" type="text" />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div style="z-index: 3;" id="description-content" data="3" class="in-active">
+                    Description: <br>
+                    <textarea placeholder="Enter a Description" id="description"></textarea>
+                </div>
+                <div style="z-index: 4;" id="links-content" data="4" class="in-active">
+                    <h2>Screenshots</h2>
+                    <div table-controls>
+                        <button class="btn secondary" onclick="addTableRow('screenshot-table')">Add Row</button>
+                        <button class="btn secondary" onclick="removeTableRow('screenshot-table')">Remove Row</button>
+                    </div>
+                    <table id="screenshot-table">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    Image 1<input placeholder="Enter Image Link" type="text" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Image 2<input placeholder="Enter Image Link" type="text" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Image 3<input placeholder="Enter Image Link" type="text" />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <h2>Videos</h2>
+                    <div table-controls>
+                        <button class="btn secondary" onclick="addTableRow('video-table')">Add Row</button>
+                        <button class="btn secondary" onclick="removeTableRow('video-table')">Remove Row</button>
+                    </div>
+                    <table id="video-table">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    Video 1<input placeholder="Enter Video Link" type="text" />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div style="z-index: 5;" id="examples-errors-content" data="5" class="in-active">
+                    Examples: <br>
+                    <textarea placeholder="Enter example data. This can be links to web pages where things are wrong or id's of products, RTO's, etc." id="examples"></textarea>
+                    <br>
+                    Console Errors: <br>
+                    <span class="sub-text">Copy the console error from the console then paste the info into the below box. Do not enter this box with "See Video" or similar options.</span>
+                    <textarea placeholder="Enter any console errors that appear during the issue" id="errors"></textarea>
+                </div>
+            </div>
+            <div flow-controls>
+                <button prev class="btn secondary hide" style="font-size: 12px;" onclick="previousStep()">Previous</button>
+                <button class="btn primary hide" finish style="float: right;" onclick="validateData()">Finish</button>
+                <button class="btn primary" next style="float: right;" onclick="validateData()">Next</button>
+            </div>
+        </div>
+        <div id="ticket-container" class="hide">
+            <div>
+                <textarea></textarea>
+                <div ticket-buttons>
+                    <button style="float: left;" class="btn terciary" onclick="start_new_ticket()">New Case</button>
+                    <button class="btn secondary" onclick="$('#ticket-container').addClass('hide')">Close</button>
+                    <button class="btn primary" onclick="copyTicket()">Copy</button>
+                </div>
+            </div>
+        </div>
+        <div id="error_message" class="hide"></div>
+        <script>
+            $(document).ready(function (){
+                buildBanner(
+            [
+                header_title = 'New Section!',
+                banner_text = `A new section has been added to the first step on this flow.<br>If "Yes" is selected for if you can replicate the bug on a Test or Customer's Site, you will now need to select the togglable options that match.<br>
+                <br>
+                Both can be selected if both apply. Make sure to select all that apply.`,
+                banner_id = 'whereselect'
+            ],
+            start_date_object = '10/22/2024',
+            end_date_object = '10/26/2024'
+            );
+            });
+        </script>
+    </body>
+</html>

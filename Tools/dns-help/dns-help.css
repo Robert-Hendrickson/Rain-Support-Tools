@@ -1,0 +1,105 @@
+@import '/Rain-Support-Tools/common/css/default.css';
+@import '/Rain-Support-Tools/common/flow-format/flow-format.css';
+@import '/Rain-Support-Tools/modules/dialog-ctrl.css';
+
+div[choice-selector] > div{
+    width: 33%;
+}
+/*dns selector styling*/
+select.dns-selector{
+    width: 120px;
+    height: 30px;
+    border-radius: 8px;
+}
+/*record table styles*/
+div.data-input{
+    border: solid 1px #dddddd;
+    height: 25px;
+    margin-bottom: 16px;
+    background-color: #fafafa;
+    border-radius: 4px;
+    padding: 1px 5px;
+    font-weight: normal;
+    display: flex;
+    align-items: center;
+}
+div.data-input:hover{
+    cursor: pointer;
+}
+div[data="2"] > div > table{
+    td:first-child{
+        width: 5px;
+        span:hover{
+            cursor: pointer;
+        }
+    }
+    td:nth-child(2){
+        width: 80px;
+    }
+}
+/*correct-record styles*/
+#correct-record-table > tbody > tr > td{
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+#correct-record-table tbody tr tbody tr{
+    td{
+        width: unset;
+    }
+    td:first-child{
+        width: 110px;
+    }
+    td:nth-child(2){
+        width: 75px;
+    }
+    td:last-child{
+        width: 80px;
+    }
+}
+/*confirmation styling*/
+data{
+    display: block;
+    padding: 16px;
+}
+data div.value-display{
+    border: #000 solid 1px;
+    margin: 8px 0;
+    padding: 8px;
+}
+/*confirmation style for record corrections*/
+data div.correct-record{
+    display: flex;
+    width: 100%;
+}
+data div.correct-record > div.value-display{
+    border: #000 solid 1px;
+    margin: 8px;
+    padding: 8px;
+    width: 50%;
+}
+div.value-display > div > div{
+    width: 50%;
+    float: left;
+}
+div.value-header div{
+    text-align: center;
+}
+/*start edit value styling*/
+#record-entry-container{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #747171b5;
+}
+#record-entry-box {
+    width: 500px;
+    padding: 16px;
+    border-radius: 8px;
+    background-color: #ffffff;
+    margin: 0px auto;
+    top: 15%;
+    position: relative;
+}
