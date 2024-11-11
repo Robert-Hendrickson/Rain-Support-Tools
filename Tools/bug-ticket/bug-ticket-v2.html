@@ -86,24 +86,24 @@
                 </div>
                 <div style="z-index: 2;" id="steps-content" data="2" class="in-active">
                     <div table-controls>
-                        <button class="btn secondary" onclick="addTableRow('steps-table')">Add Row</button>
-                        <button class="btn secondary" onclick="removeTableRow('steps-table')">Remove Row</button>
+                        <button tabindex="-1" class="btn secondary" onclick="addTableRow('steps-table')">Add Row</button>
+                        <button tabindex="-1" class="btn secondary" onclick="removeTableRow('steps-table')">Remove Row</button>
                     </div>
                     <table id="steps-table">
                         <tbody>
                             <tr>
                                 <td>
-                                    Step 1<input placeholder="Enter Step 1" type="text" />
+                                    Step 1<input tabindex="-1" placeholder="Enter Step 1" type="text" />
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    Step 2<input placeholder="Enter Step 2" type="text" />
+                                    Step 2<input tabindex="-1" placeholder="Enter Step 2" type="text" />
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    Step 3<input placeholder="Enter Step 3" type="text" />
+                                    Step 3<input tabindex="-1" placeholder="Enter Step 3" type="text" />
                                 </td>
                             </tr>
                         </tbody>
@@ -111,43 +111,43 @@
                 </div>
                 <div style="z-index: 3;" id="description-content" data="3" class="in-active">
                     Description: <br>
-                    <textarea placeholder="Enter a Description" id="description"></textarea>
+                    <textarea tabindex="-1" placeholder="Enter a Description" id="description"></textarea>
                 </div>
                 <div style="z-index: 4;" id="links-content" data="4" class="in-active">
                     <h2>Screenshots</h2>
                     <div table-controls>
-                        <button class="btn secondary" onclick="addTableRow('screenshot-table')">Add Row</button>
-                        <button class="btn secondary" onclick="removeTableRow('screenshot-table')">Remove Row</button>
+                        <button tabindex="-1" class="btn secondary" onclick="addTableRow('screenshot-table')">Add Row</button>
+                        <button tabindex="-1" class="btn secondary" onclick="removeTableRow('screenshot-table')">Remove Row</button>
                     </div>
                     <table id="screenshot-table">
                         <tbody>
                             <tr>
                                 <td>
-                                    Image 1<input placeholder="Enter Image Link" type="text" />
+                                    Image 1<input tabindex="-1" placeholder="Enter Image Link" type="text" />
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    Image 2<input placeholder="Enter Image Link" type="text" />
+                                    Image 2<input tabindex="-1" placeholder="Enter Image Link" type="text" />
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    Image 3<input placeholder="Enter Image Link" type="text" />
+                                    Image 3<input tabindex="-1" placeholder="Enter Image Link" type="text" />
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                     <h2>Videos</h2>
                     <div table-controls>
-                        <button class="btn secondary" onclick="addTableRow('video-table')">Add Row</button>
-                        <button class="btn secondary" onclick="removeTableRow('video-table')">Remove Row</button>
+                        <button tabindex="-1" class="btn secondary" onclick="addTableRow('video-table')">Add Row</button>
+                        <button tabindex="-1" class="btn secondary" onclick="removeTableRow('video-table')">Remove Row</button>
                     </div>
                     <table id="video-table">
                         <tbody>
                             <tr>
                                 <td>
-                                    Video 1<input placeholder="Enter Video Link" type="text" />
+                                    Video 1<input tabindex="-1" placeholder="Enter Video Link" type="text" />
                                 </td>
                             </tr>
                         </tbody>
@@ -155,11 +155,11 @@
                 </div>
                 <div style="z-index: 5;" id="examples-errors-content" data="5" class="in-active">
                     Examples: <br>
-                    <textarea placeholder="Enter example data. This can be links to web pages where things are wrong or id's of products, RTO's, etc." id="examples"></textarea>
+                    <textarea tabindex="-1" placeholder="Enter example data. This can be links to web pages where things are wrong or id's of products, RTO's, etc." id="examples"></textarea>
                     <br>
                     Console Errors: <br>
                     <span class="sub-text">Copy the console error from the console then paste the info into the below box. Do not enter this box with "See Video" or similar options.</span>
-                    <textarea placeholder="Enter any console errors that appear during the issue" id="errors"></textarea>
+                    <textarea tabindex="-1" placeholder="Enter any console errors that appear during the issue" id="errors"></textarea>
                 </div>
             </div>
             <div flow-controls>
