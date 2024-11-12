@@ -30,6 +30,7 @@ function setTestData(){
         $('#crm')[0].value = '6085';
         $('#systemArea')[0].value = 'till';
         $('[replicable="yes"]')[0].click();
+        $('[where="Test"]')[0].click();
         $('#steps-table tr input').each(function (){
             $(this)[0].value = 'test step';
         });
