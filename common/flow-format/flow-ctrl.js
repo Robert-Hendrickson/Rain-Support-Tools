@@ -36,10 +36,10 @@ function previousStep(){
 }
 
 function updateTabs(add_tab,remove_tab){
-    $($(`[data="${add_tab}"]`)[0].querySelectorAll('input','textarea','select')).each((index, el)=>{
+    $($(`[data="${add_tab}"]`)[0].querySelectorAll(['input','textarea','select'])).each((index, el)=>{
         el.setAttribute('tabindex','-1');
     });
-    $($(`[data="${remove_tab}"]`)[0].querySelectorAll('input','textarea','select')).each((index, el)=>{
+    $($(`[data="${remove_tab}"]`)[0].querySelectorAll(['input','textarea','select'])).each((index, el)=>{
         el.removeAttribute('tabindex');
     });
 }
