@@ -195,7 +195,7 @@ async function validateData(){
                 popup_error_growl(bad_object);
             } else {
                 //before completing generating ticket check if the description has enough keywords about a website problem and that there isn't a link given in the example. Wait fro response from checkDescriptionNeedsLinkExamples function before progressing
-                if (await checkDescriptionNeedsLinkExamples()) {
+                if (await checkDescriptionNeedsLinkExamples() && await checkUnessecaryErrors()) {
                     generateTicket();
                     newCookieData();
                 }
@@ -400,6 +400,32 @@ async function checkDescriptionNeedsLinkExamples(){
     let check = true;
     if (description_check_array.length > 2 && !example_check_for_links) {//if array has 3 or more matches and there isn't a link in the example use custom modal popup to ask if user wants to continue without adding a link
         check = await customDialogResponse(`It looks like there was mention of website issues, but there were no links provided in the examples. Do you want to continue without adding links to website issue areas?`,'Continue','Go Back');
+    }
+    return check;
+}
+//asks user if the errors found were actually from system break or just ones they noticed afterwards
+async function checkUnessecaryErrors(){
+    let errors = $('textarea#errors')[0].value;
+    let check = true;
+    let bad_error_array = [];
+    if (errors.match(/Blocked aria-hidden/).length) {
+        bad_error_array.push('Blocked aria-hidden');
+    }
+    if (bad_error_array.length) {
+        errors_string = () => {
+            let html = '';
+            for (i=0;i<bad_error_array.length;i++){
+                html += `${bad_error_array[i]}<br />`;
+            }
+            return html;
+        }
+        check = await customDialogResponse(
+            `There were some errors found that might not be system problems. Please remember that during testing you should have the console open and only include errors that appear at the time of the bad behavior you are noticing. If any of the below errors did not happen at the time of bad behavior remove them from the list of errors before continuing.<br>
+            <br>
+            ${errors_string()}`,
+            'Continue',
+            'Cancel'
+        )
     }
     return check;
 }
