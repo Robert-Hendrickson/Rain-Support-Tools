@@ -408,15 +408,19 @@ async function checkUnessecaryErrors(){
     let errors = $('textarea#errors')[0].value;
     let check = true;
     let bad_error_array = [];
-    if (errors.match(/Blocked aria-hidden/).length) {
-        bad_error_array.push('Blocked aria-hidden');
+    if ((/Blocked aria-hidden/i).test(errors)) {
+        bad_error_array.push(`Blocked aria-hidden : Browser stopped an element from using attribute aria-hidden`);
+        //Usually caused by us loading or building an element that has the attribute aria-hidden. This is supposed to hide it from screen readers. Browsers sometimes stop this hidding as either the element is seen by the browser as necessary for somthing or it has a child element that isn't hidden.
     }
     if (bad_error_array.length) {
         errors_string = () => {
-            let html = '';
+            let html = `<div class="dialog-error-list">
+            <div class="dialog-error-header"><strong>Error : Usual Reason</strong></div><br />
+            `;
             for (i=0;i<bad_error_array.length;i++){
-                html += `${bad_error_array[i]}<br />`;
+                html += `<div class="dialog-error-item">${bad_error_array[i]}</div>`;
             }
+            html += '</div>'
             return html;
         }
         check = await customDialogResponse(
