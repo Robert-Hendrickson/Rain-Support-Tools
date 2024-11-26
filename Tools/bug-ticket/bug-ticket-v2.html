@@ -42,6 +42,11 @@
         <h1>
             Bug Ticket Form Generator - Design by Russell Lee
         </h1>
+        <div style="margin: 0 auto; width: 217px;">
+            <button class="btn secondary" onclick="document.querySelector('#salesforce-bug-calc-tips').classList = '';">
+                Salesforce Bug Calculator Tips
+            </button>
+        </div>
         <div class="body-container">
             <div id="info-tabs">
                 <div id="basic-tab" step="1" class="active">
@@ -179,6 +184,55 @@
             </div>
         </div>
         <div id="error_message" class="hide"></div>
+        <div id="salesforce-bug-calc-tips" class="">
+            <span class="close" onclick="this.parentElement.classList = 'hide'">X</span>
+            <h3>These are just helpful suggestions to consider and not exact points. If you have concerns of a bug please consult with Support Leadership about how things should be answered.</h3>
+            <div class="question-wrapper">
+                <div class="question-title">
+                    Shoppers Affected?
+                </div>
+            </div>
+            <div class="question-wrapper">
+                <div class="question-title">
+                    Incorrect Data
+                </div>
+            </div>
+            <div class="question-wrapper">
+                <div class="question-title">
+                    Currently in Beta
+                </div>
+            </div>
+            <div class="question-wrapper">
+                <div class="question-title">
+                    Is Inventory Affected?
+                </div>
+            </div>
+            <div class="question-wrapper">
+                <div class="question-title">
+                    Escalated?
+                </div>
+            </div>
+            <div class="question-wrapper">
+                <div class="question-title">
+                    Money: Collecting Incorrect Amounts?
+                </div>
+            </div>
+            <div class="question-wrapper">
+                <div class="question-title">
+                    Prevention of Saving in Key Areas
+                </div>
+            </div>
+            <div class="question-wrapper">
+                <div class="question-title">
+                    Suitable workaround Available?
+                </div>
+            </div>
+            <div class="question-wrapper">
+                <div class="question-title">
+                    Is reproducible
+                </div>
+            </div>
+        </div>
         <script>
             $(document).ready(function (){
                 buildBanner(
