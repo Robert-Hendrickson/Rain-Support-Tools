@@ -186,52 +186,103 @@
         <div id="error_message" class="hide"></div>
         <div id="salesforce-bug-calc-tips" class="">
             <span class="close" onclick="this.parentElement.classList = 'hide'">X</span>
-            <h3>These are just helpful suggestions to consider and not exact points. If you have concerns of a bug please consult with Support Leadership about how things should be answered.</h3>
+            <h3 style="color: #f00;">These are just helpful suggestions to consider and not exact points. If you have concerns of a bug please consult with Support Leadership about how things should be answered.</h3>
             <div class="question-wrapper">
                 <div class="question-title">
                     Shoppers Affected?
                 </div>
-            </div>
-            <div class="question-wrapper">
-                <div class="question-title">
-                    Incorrect Data
+                <div class="question-suggestion">
+                    This should be answered "Yes" when the issue that is happening is affecting the ability for a stores customers to accomplish tasks that are designed for their interaction.
+                    <ul>
+                        <div>Yes Scenarios</div>
+                        <li>Links not going where they should</li>
+                        <li>Add to Cart Buttons not working</li>
+                        <li>Incorrect funds getting charged</li>
+                    </ul>
+                    <ul>
+                        <div>No Scenarios</div>
+                        <li>A Setting not Saving</li>
+                        <li>Text on a product page not displaying correctly</li>
+                    </ul>
                 </div>
             </div>
             <div class="question-wrapper">
                 <div class="question-title">
-                    Currently in Beta
+                    Incorrect Data?
+                </div>
+                <div class="question-suggestion">
+                    
+                </div>
+            </div>
+            <div class="question-wrapper">
+                <div class="question-title">
+                    Currently in Beta?
+                </div>
+                <div class="question-suggestion">
+                    
                 </div>
             </div>
             <div class="question-wrapper">
                 <div class="question-title">
                     Is Inventory Affected?
                 </div>
+                <div class="question-suggestion">
+                    
+                </div>
             </div>
             <div class="question-wrapper">
                 <div class="question-title">
                     Escalated?
+                </div>
+                <div class="question-suggestion">
+                    
                 </div>
             </div>
             <div class="question-wrapper">
                 <div class="question-title">
                     Money: Collecting Incorrect Amounts?
                 </div>
+                <div class="question-suggestion">
+                    
+                </div>
             </div>
             <div class="question-wrapper">
                 <div class="question-title">
-                    Prevention of Saving in Key Areas
+                    Prevention of Saving in Key Areas?
+                </div>
+                <div class="question-suggestion">
+                    
                 </div>
             </div>
             <div class="question-wrapper">
                 <div class="question-title">
                     Suitable workaround Available?
                 </div>
+                <div class="question-suggestion">
+                    
+                </div>
             </div>
             <div class="question-wrapper">
                 <div class="question-title">
-                    Is reproducible
+                    Is reproducible?
+                </div>
+                <div class="question-suggestion">
+                    
                 </div>
             </div>
+            <script>
+                document.querySelectorAll('.question-title').forEach((element) => {
+                    element.addEventListener('click',(el) => {
+                        let suggestion_element = el.target.nextElementSibling;
+                        if (suggestion_element.classList.contains('show')) {
+                            suggestion_element.classList.remove('show');
+                        } else {
+                            document.querySelector('.question-suggestion.show')?.classList.remove('show');
+                            suggestion_element.classList.add('show');
+                        }
+                    })
+                });
+            </script>
         </div>
         <script>
             $(document).ready(function (){

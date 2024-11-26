@@ -78,7 +78,7 @@ past-tickets div > span.close::before{
     font-family: sans-serif;
 }
 #salesforce-bug-calc-tips{
-    background: #eee;
+    background: #fefefe;
     width: 45%;
     position: absolute;
     top: 70px;
@@ -91,4 +91,15 @@ past-tickets div > span.close::before{
 .question-wrapper .question-title{
     width: 100%;
     border-bottom: #aaa solid 1px;
+    cursor: pointer;
+    font-size: 18px;
+}
+.question-suggestion{
+    height: 0;
+    overflow: hidden;
+    transition-duration: .5s;
+}
+.question-suggestion.show{
+    height: 200px;
+    transition-duration: .5s;
 }
