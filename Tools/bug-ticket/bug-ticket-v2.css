@@ -77,3 +77,29 @@ past-tickets div > span.close::before{
     content: "X";
     font-family: sans-serif;
 }
+#salesforce-bug-calc-tips{
+    background: #fefefe;
+    width: 45%;
+    position: absolute;
+    top: 70px;
+    left: 27vw;
+    padding: 16px;
+    z-index: 10;
+    border-radius: 10px;
+    border: #000 solid 2px;
+}
+.question-wrapper .question-title{
+    width: 100%;
+    border-bottom: #aaa solid 1px;
+    cursor: pointer;
+    font-size: 18px;
+}
+.question-suggestion{
+    height: 0;
+    overflow: hidden;
+    transition-duration: .5s;
+}
+.question-suggestion.show{
+    height: 150px;
+    transition-duration: .5s;
+}

@@ -1,0 +1,25 @@
+### Salesforce Bug Calculator Tool Tip
+Let's add a tooltip to the bug calculator that has better understanding points for these questions in the salesforce bug Calculator
+Questions
+    Shoppers Affected? 
+
+    Incorrect Data
+
+    Currently in Beta
+
+    Is Inventory Affected?
+
+    Escalated?
+
+    Money: Collecting Incorrect Amounts?
+
+    Prevention of Saving in Key Areas
+
+    Suitable workaround Available?
+
+    Is reproducible
+Should have a list of the questions. (Maybe a panel or popup?)
+each question needs a section with it that gives more info about example behaviors that would make the question listed as "Yes". Perhaps a note of commonly incorrectly assigned examples if question is misused often.
+
+
+###
