@@ -87,7 +87,8 @@ function duplicateLinksFound(){
 
 the async keyword was added to this function so that it could be used along side the custom confirmation modal in /modules/dialog-ctrl.(js|css). Async allows it to wait for a response from the dialog-ctrl.js function before moving forward where necessary
 */
-async function validateData(){
+async function validateData(largecheck = null){
+    let cross_check;
     //close any error popups currently open
     Close_error_growl();
     //create object to be passed to error popup if needing to display an error /common/actions/popup.js - popup_error_growl() function
@@ -552,4 +553,17 @@ $(window).ready(function (){
     });
     //this runs the function to check for any old tickets still saved in cookies
     displayPastTickets();
+
+    //sets click events for question tip rows to hide and display data
+    document.querySelectorAll('.question-title').forEach((element) => {
+        element.addEventListener('click',(el) => {
+            let suggestion_element = el.target.nextElementSibling;
+            if (suggestion_element.classList.contains('show')) {
+                suggestion_element.classList.remove('show');
+            } else {
+                document.querySelector('.question-suggestion.show')?.classList.remove('show');
+                suggestion_element.classList.add('show');
+            }
+        })
+    });
 });

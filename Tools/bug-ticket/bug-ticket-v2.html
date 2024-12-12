@@ -289,19 +289,22 @@
                     </ul>
                 </div>
             </div>
-            <script>
-                document.querySelectorAll('.question-title').forEach((element) => {
-                    element.addEventListener('click',(el) => {
-                        let suggestion_element = el.target.nextElementSibling;
-                        if (suggestion_element.classList.contains('show')) {
-                            suggestion_element.classList.remove('show');
-                        } else {
-                            document.querySelector('.question-suggestion.show')?.classList.remove('show');
-                            suggestion_element.classList.add('show');
-                        }
-                    })
-                });
-            </script>
         </div>
+        <script>
+            //function moves from current step to selected step when top tab is selected
+            //needs to update flow buttons
+            /*
+                options to consider:
+                running check when leaving, update to complete or in-active based on result
+                need to be able to run against any uncompleted so that we can confirm full completion before finishing. Object or array for steps?
+            */
+            function manualStepSelect(){
+                $('div#info-tabs > div.active').removeClass('active');
+                this.classList.add('active');
+                $('div.content > div.active')[0].classList = 'in-active';
+                $(`div.content > div[data='${this.getAttribute('step')}']`).addClass('active');
+            }
+            $('div#info-tabs > div').on('click', manualStepSelect);
+        </script>
     </body>
 </html>
