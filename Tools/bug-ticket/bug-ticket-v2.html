@@ -299,10 +299,29 @@
                 need to be able to run against any uncompleted so that we can confirm full completion before finishing. Object or array for steps?
             */
             function manualStepSelect(){
+                let current_step = parseInt($('div#info-tabs > div.active').attr('step'));
+                let selected_step = parseInt(this.getAttribute('step'));
+                let buttons = $('div[flow-controls] button');
+                if (selected_step > 1 && selected_step < 5) {
+                    buttons[0].classList = 'btn secondary';
+                    buttons[1].classList = 'btn primary hide';
+                    buttons[2].classList = 'btn primary';
+                } else if (selected_step === 5) {
+                    buttons[0].classList = 'btn secondary';
+                    buttons[1].classList = 'btn primary';
+                    buttons[2].classList = 'btn primary hide';
+                } else if (selected_step === 1) {
+                    buttons[0].classList = 'btn secondary hide';
+                    buttons[1].classList = 'btn primary hide';
+                    buttons[2].classList = 'btn primary';
+                } else {
+                    console.error([this,"Selected step isn't valid."]);
+                }
                 $('div#info-tabs > div.active').removeClass('active');
                 this.classList.add('active');
                 $('div.content > div.active')[0].classList = 'in-active';
                 $(`div.content > div[data='${this.getAttribute('step')}']`).addClass('active');
+
             }
             $('div#info-tabs > div').on('click', manualStepSelect);
         </script>
