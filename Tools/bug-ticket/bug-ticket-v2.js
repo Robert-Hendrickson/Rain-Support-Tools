@@ -306,7 +306,7 @@ function generateTicket(passed_object = {}){//due to new updates to allow old ti
             }
         }
     //this sets a string as the value of the textarea container when generating a ticket using the object values created from above '${}' formatting is in-line accessing for variable data.
-    $('#ticket-container > div > textarea')[0].value = `**LOCATION:**
+    $('#ticket-container > div > textarea')[0].value = `**Bug Submission:**
 Store ID:
 ${data.crm}
 
