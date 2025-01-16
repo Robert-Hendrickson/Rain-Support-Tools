@@ -75,7 +75,7 @@ function duplicateLinksFound(){
     //loop through each input and check it's input as a regex test on the string to make sure it doesn't find more than one instance of a link
     $('#links-content tr input').each(function (){
         let temp_regex = new RegExp($(this)[0].value.replace(/[\?\\\/]/g,"\\\$&"), 'g');
-        if(link_list.match(temp_regex).length > 1){
+        if(link_list.match(temp_regex).length > 1 && $(this)[0].value != ''){
             //if test finds more than 1 instance of a link add it to the list to display
             duplicates.push($(this)[0].value);
         }
@@ -179,7 +179,6 @@ async function validateData(){
                 };
             };
             if (Object.entries(bad_object.list).length) {
-                bad_object.list['reminder'] = 'Make sure that all links point to a google drive file that is shared with all Rain Emails so that they can be seen by the Dev/Prod teams.';
                 popup_error_growl(bad_object);
             } else {
                 nextStep(current_step);
