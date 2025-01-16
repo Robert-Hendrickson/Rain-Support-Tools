@@ -11,14 +11,14 @@ function hasSlackLink(string){
     return new RegExp(/(?:https?\/\/)?raindev\.slack\.com\/archives\//).test(string);    
 }
 /*this function checks the list of screenshot or video links to make sure they all meet a specific url requirement and that none are either empty or have a duplicate link in them*/
-function checkLinkList(list){
-    return_value = false;
+function checkLinkList(list_content, list_type){
+    error_array = [];
     //check that there are rows to look through
-    if (list.length < 1) {
-        return_value = true;
+    if (list_content.length < 1) {
+        error_array.push(`${list_type} list is empty. Please make sure that the list has at least one ${list_type} link provided.`);
     } else {
         //if list is longer than 0, loop through each element in the list with the below function, this checks that there isn't more than one link in a row. If a duplicate link is foundin the row then it is removed, if the second link found isn't a duplicate an error is thrown to the user to make sure they delete any extra data out of the row
-        list.each(function (){
+        list_content.each(function (index){
             //set current loop row value to be called on
             let row_data = $(this)[0].value;
             if(row_data != ''){//if there is data in the row, check how many links are in it
@@ -45,28 +45,28 @@ function checkLinkList(list){
                         $(this)[0].value = first_link;
                     } else {
                         //otherwise set return value as true for a potentially issue
-                        return_value = true;
+                        error_array.push(`${list_type} ${index + 1} has more than one link.`);
                     }
                 }
             }
         });
         //loop through each link given again
-        list.each(function (){
+        list_content.each(function (index){
             //remove all white space from each link string, (spaces, tabs, etc.)
             $(this)[0].value = $(this)[0].value.replaceAll(/\s/g,'');
             //make sure that each link meets the expected criteria of being a google drive link
             if($(this)[0].value === '' || !RegExp(/^(?:https?:\/\/)drive\.google\.com\/file\/d\/.*\/view(?:\?.+)?$/).test($(this)[0].value)){
                 //if not, change return value to reflect a potential issue
-                return_value = true;
+                error_array.push(`${list_type} ${index + 1} isn't a google drive link.`);
             }
         });
     }
     //return value of checks. A false return means no issues were found, a true return means we found an issue
-    return return_value;
+    return error_array;
 }
 /*function checks the list of screenshots and video links to make sure the same link isn't being used twice in the list*/
 function duplicateLinksFound(){
-    let duplicates = false;
+    let duplicates = [];
     let link_list = '';
     //build link list by getting each input and making a string comma delminated (link_1,link_2,etc)
     $('#links-content tr input').each(function (){
@@ -75,13 +75,13 @@ function duplicateLinksFound(){
     //loop through each input and check it's input as a regex test on the string to make sure it doesn't find more than one instance of a link
     $('#links-content tr input').each(function (){
         let temp_regex = new RegExp($(this)[0].value.replace(/[\?\\\/]/g,"\\\$&"), 'g');
-        if(link_list.match(temp_regex).length > 1){
-            //if test finds more than 1 instance of a link return true for issue
-            duplicates = true;
+        if(link_list.match(temp_regex).length > 1 && $(this)[0].value != ''){
+            //if test finds more than 1 instance of a link add it to the list to display
+            duplicates.push($(this)[0].value);
         }
     })
     //return true if duplicates found, false if no duplicates found
-    return duplicates;
+    return [... new Set(duplicates)];
 }
 /*this function is used to when clicking the "Next" and "Finish" buttons on the bug ticket generator. It validates that the data on the current step the user is making edits to has passed specific validations. If they don't an error message is generated. If it passes then the display moves to the next step for inputs
 
@@ -160,17 +160,25 @@ async function validateData(){
             };
             break;
         case 4://screenshot and video link lists
-            if(checkLinkList($('#screenshot-table tr input'))){
-                bad_object.list['screenshot'] = 'One (or more) of the screenshots provided are not an expected domain, is empty, or there are potentially more than one link in the same line.';
-            }
-            if(checkLinkList($('#video-table tr input'))){
-                bad_object.list['video'] = 'One (or more) of the videos provided are not an expected domain, is empty, or there are potentially more than one link in the same line.';
-            }
-            if(duplicateLinksFound()){
-                bad_object.list['duplicates'] = 'One or more of the links provided is being used twice. Please make sure all links are unique.';
-            }
+            image_problems = checkLinkList($('#screenshot-table tr input') , 'Image');
+            if (image_problems.length) {
+                for (i=0;i<image_problems.length;i++) {
+                    bad_object.list[`image_${i}`] = image_problems[i];
+                }
+            };
+            video_problems = checkLinkList($('#video-table tr input'), 'Video');
+            if (video_problems.length) {
+                for (i=0;i<video_problems.length;i++) {
+                    bad_object.list[`video_${i}`] = video_problems[i];
+                }
+            };
+            duplicate_links = duplicateLinksFound();
+            if (duplicate_links.length) {
+                for (i=0;i<duplicate_links.length;i++) {
+                    bad_object.list[`dupLink_${i}`] = `${duplicate_links[i]} was found more than one time.`;
+                };
+            };
             if (Object.entries(bad_object.list).length) {
-                bad_object.list['reminder'] = 'Make sure that all links point to a google drive file that is shared with all Rain Emails so that they can be seen by the Dev/Prod teams.';
                 popup_error_growl(bad_object);
             } else {
                 nextStep(current_step);
