@@ -66,7 +66,7 @@ function checkLinkList(list_content, list_type){
 }
 /*function checks the list of screenshots and video links to make sure the same link isn't being used twice in the list*/
 function duplicateLinksFound(){
-    let duplicates = false;
+    let duplicates = [];
     let link_list = '';
     //build link list by getting each input and making a string comma delminated (link_1,link_2,etc)
     $('#links-content tr input').each(function (){
@@ -76,12 +76,12 @@ function duplicateLinksFound(){
     $('#links-content tr input').each(function (){
         let temp_regex = new RegExp($(this)[0].value.replace(/[\?\\\/]/g,"\\\$&"), 'g');
         if(link_list.match(temp_regex).length > 1){
-            //if test finds more than 1 instance of a link return true for issue
-            duplicates = true;
+            //if test finds more than 1 instance of a link add it to the list to display
+            duplicates.push($(this)[0].value);
         }
     })
     //return true if duplicates found, false if no duplicates found
-    return duplicates;
+    return [... new Set(duplicates)];
 }
 /*this function is used to when clicking the "Next" and "Finish" buttons on the bug ticket generator. It validates that the data on the current step the user is making edits to has passed specific validations. If they don't an error message is generated. If it passes then the display moves to the next step for inputs
 
@@ -165,16 +165,19 @@ async function validateData(){
                 for (i=0;i<image_problems.length;i++) {
                     bad_object.list[`image_${i}`] = image_problems[i];
                 }
-            }
+            };
             video_problems = checkLinkList($('#video-table tr input'), 'Video');
             if (video_problems.length) {
                 for (i=0;i<video_problems.length;i++) {
                     bad_object.list[`video_${i}`] = video_problems[i];
                 }
-            }
-            if(duplicateLinksFound()){
-                bad_object.list['duplicates'] = 'One or more of the links provided is being used twice. Please make sure all links are unique.';
-            }
+            };
+            duplicate_links = duplicateLinksFound();
+            if (duplicate_links.length) {
+                for (i=0;i<duplicate_links.length;i++) {
+                    bad_object.list[`dupLink_${i}`] = `${duplicate_links[i]} was found more than one time.`;
+                };
+            };
             if (Object.entries(bad_object.list).length) {
                 bad_object.list['reminder'] = 'Make sure that all links point to a google drive file that is shared with all Rain Emails so that they can be seen by the Dev/Prod teams.';
                 popup_error_growl(bad_object);
