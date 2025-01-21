@@ -22,6 +22,9 @@
                 '/Rain-Support-Tools/wa-tax-rates.html' : '/Rain-Support-Tools/Tools/wa_tax_rates/'
             };
             let path = window.location.pathname;
+            if(!(/\/src\/$/.test(path))) {
+                window.location.pathname.replace(`/src/${path}`);
+            }
             console.log(path);
             if (redirects[path]) {
                 setTimeout(function() {
