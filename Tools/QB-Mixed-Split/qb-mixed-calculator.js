@@ -1,5 +1,5 @@
 //sets variable for holding totals
-var totals = {
+const totals = {
     total: 0,
     principle: 0,
     tax: 0

@@ -2,7 +2,7 @@
 1. Tax inclsive price will need to calculate the tax backwards from the inclusive price
 2. Total and price will need to be calculated to be the same
 */
-var number_of_lines = 0;
+const number_of_lines = 0;
 let template = {
         "qty": 0,
         "price": 0,
@@ -13,9 +13,9 @@ let template = {
         "total": 0,
         "taxable": "yes"
 }
-var line_entries = {
+let line_entries = {
 };
-var totals = {
+const totals = {
     'sub_total': 0,
     'disc': 0,
     'tax': 0,

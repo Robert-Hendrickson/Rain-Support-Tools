@@ -1,5 +1,5 @@
 //variable to hold what work type is being done
-var work_type_selected;
+let work_type_selected;
 /*function handles moving through flow*/
 function validateData(){
     //close any open errors
@@ -185,7 +185,7 @@ async function start_new_ticket(){
 /*function copies current ticket data in popup modal to computers clipboard*/
 function copyTicket() {
     // Get the text field
-    var copyText = $('#ticket-container > div > textarea')[0];
+    const copyText = $('#ticket-container > div > textarea')[0];
 
     // Select the text field
     copyText.select();

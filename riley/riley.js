@@ -9,7 +9,7 @@ class Utils {
     if (Math.abs(inputMin - inputMax) < Number.EPSILON) {
       return outputMin;
     } else {
-      var outVal = ((value - inputMin) / (inputMax - inputMin) * (outputMax - outputMin) + outputMin);
+      const outVal = ((value - inputMin) / (inputMax - inputMin) * (outputMax - outputMin) + outputMin);
       if (clamp) {
         if (outputMax < outputMin) {
           if (outVal < outputMax) outVal = outputMax;

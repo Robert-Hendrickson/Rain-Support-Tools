@@ -1,7 +1,7 @@
 //set variables to be called and checked later
-var action_type = [];
-var target_row;
-var domain_data;
+const action_type = [];
+let target_row;
+let domain_data;
 /*function returns a boolean response to check that the domain entered passes the regex test*/
 function domaincheck() {
     let domain = $('#domain')[0].value;
@@ -545,7 +545,7 @@ function compileRecords(){
 /*function copies data from the generator popup to computer clipboard*/
 function copyTicket() {
     // Get the text field
-    var copyText = $('#ticket-container > div > textarea')[0];
+    const copyText = $('#ticket-container > div > textarea')[0];
 
     // Select the text field
     copyText.select();
