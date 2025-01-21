@@ -1,7 +1,7 @@
 //global variable for compiling import data
 let _import = '';
 //variable for tracking table information
-const tableObject = {
+let tableObject = {
     rows: 0,//number of rows
     data: {},//object for holding table data
     _addRows: (array) =>{//object method(function) that updates the data value with new values for passed in array built from imported data

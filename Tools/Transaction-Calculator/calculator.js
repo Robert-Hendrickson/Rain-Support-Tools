@@ -2,7 +2,7 @@
 let complex_tax = false;
 //beta flag end
 //set variable to track the number of lines
-const number_of_lines = 0;
+let number_of_lines = 0;
 //set template object to be used for other builders
 let template = {
         "qty": 0,
@@ -15,9 +15,9 @@ let template = {
         "taxable": "yes"
 }
 //set object to hold data for lines as they get created
-const line_entries = {};
+let line_entries = {};
 //set object to hold data for transaction totals
-const totals = {
+let totals = {
     'sub_total': 0,
     'disc': 0,
     'shipping': 0,
@@ -30,7 +30,7 @@ const totals = {
     'total': 0
 };
 //set object to hold tax rates for complex tax rate usage
-const taxRates = {
+let taxRates = {
     material: {
         '1': 0
     },

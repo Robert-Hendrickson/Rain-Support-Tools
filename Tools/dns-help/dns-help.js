@@ -1,5 +1,5 @@
 //set variables to be called and checked later
-const action_type = [];
+let action_type = [];
 let target_row;
 let domain_data;
 /*function returns a boolean response to check that the domain entered passes the regex test*/

@@ -1,5 +1,5 @@
 //set variable to hold totals
-const totals = {
+let totals = {
     'instock': 0,
     'reserved': 0,
     'onhand':0

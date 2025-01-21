@@ -1,5 +1,5 @@
 //sets variable for holding totals
-const totals = {
+let totals = {
     total: 0,
     principle: 0,
     tax: 0
