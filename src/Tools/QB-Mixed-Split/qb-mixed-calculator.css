@@ -1,4 +1,4 @@
-@import '/Rain-Support-Tools/common/css/default.css';
+@import '/Rain-Support-Tools/src/common/css/default.css';
 /*Options list style*/
 .payment_option_list ul{
     list-style: none;

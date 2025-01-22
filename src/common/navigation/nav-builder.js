@@ -80,29 +80,29 @@ const app = Vue.createApp({
     data() {
         return {nav_list : {
                 home: [
-                    {name: 'Home', url: '/Rain-Support-Tools/', icon: 'fa-solid fa-house'},
+                    {name: 'Home', url: '/Rain-Support-Tools/src/', icon: 'fa-solid fa-house'},
                     {name: 'System Updates', url: 'https://github.com/Robert-Hendrickson/Rain-Support-Tools/pulls?q=is%3Amerged', target:'blank', icon: 'fa-solid fa-wrench'}
                 ],
                 support: [
-                    {name: 'Bug Ticket v2', url: '/Rain-Support-Tools/Tools/bug-ticket/bug-ticket-v2.html', icon: 'fa-solid fa-bug'},
-                    {name:'Database', url: '/Rain-Support-Tools/Tools/database-ticket/database-ticket.html', icon: 'fa-solid fa-database'},
-                    {name:'Site Work', url: '/Rain-Support-Tools/Tools/site-work/site-work.html', icon: 'fa-solid fa-hammer'},
-                    {name: 'DNS Record Tool', url: '/Rain-Support-Tools/Tools/dns-help/dns-help.html', icon: 'fa-regular fa-compass'}
+                    {name: 'Bug Ticket v2', url: '/Rain-Support-Tools/src/Tools/bug-ticket/bug-ticket-v2.html', icon: 'fa-solid fa-bug'},
+                    {name:'Database', url: '/Rain-Support-Tools/src/Tools/database-ticket/database-ticket.html', icon: 'fa-solid fa-database'},
+                    {name:'Site Work', url: '/Rain-Support-Tools/src/Tools/site-work/site-work.html', icon: 'fa-solid fa-hammer'},
+                    {name: 'DNS Record Tool', url: '/Rain-Support-Tools/src/Tools/dns-help/dns-help.html', icon: 'fa-regular fa-compass'}
                 ],
                 system: [
-                    {name:'Email List Checker', url: '/Rain-Support-Tools/Tools/email-list-checker/email-list-checker.html', icon: 'fa-solid fa-envelope'},
-                    {name:'Transaction Calculator', url: '/Rain-Support-Tools/Tools/Transaction-Calculator/Javascript_calculator.html', icon: 'fa-solid fa-calculator'},
-                    {name:'Transaction Calculator',subTitle: '(Tax Inclusive: Australia)', url: '/Rain-Support-Tools/Tools/Tax-Included-Calculator/Tax-Inclusive-Calculator.html', icon: 'fa-solid fa-calculator'},
-                    {name:'Washington Tax Rate', url: '/Rain-Support-Tools/Tools/wa-tax-rates/wa_tax_rates.html', icon: 'fa-solid fa-percent'},
-                    {name:'Fee Difference Calculator', url: '/Rain-Support-Tools/Tools/fee-difference-calculator/fee-difference-calculator.html', icon: 'fa-solid fa-money-bill'},
-                    {name:'QB Payment Split', url: '/Rain-Support-Tools/Tools/QB-Mixed-Split/QB_Mixed_Split.html', icon: 'fa-solid fa-dollar-sign'},
-                    {name:'Inventory Check', url: '/Rain-Support-Tools/Tools/Inventory-check/Inventory-check.html', icon: 'fa-solid fa-box'}
+                    {name:'Email List Checker', url: '/Rain-Support-Tools/src/Tools/email-list-checker/email-list-checker.html', icon: 'fa-solid fa-envelope'},
+                    {name:'Transaction Calculator', url: '/Rain-Support-Tools/src/Tools/Transaction-Calculator/Javascript_calculator.html', icon: 'fa-solid fa-calculator'},
+                    {name:'Transaction Calculator',subTitle: '(Tax Inclusive: Australia)', url: '/Rain-Support-Tools/src/Tools/Tax-Included-Calculator/Tax-Inclusive-Calculator.html', icon: 'fa-solid fa-calculator'},
+                    {name:'Washington Tax Rate', url: '/Rain-Support-Tools/src/Tools/wa-tax-rates/wa_tax_rates.html', icon: 'fa-solid fa-percent'},
+                    {name:'Fee Difference Calculator', url: '/Rain-Support-Tools/src/Tools/fee-difference-calculator/fee-difference-calculator.html', icon: 'fa-solid fa-money-bill'},
+                    {name:'QB Payment Split', url: '/Rain-Support-Tools/src/Tools/QB-Mixed-Split/QB_Mixed_Split.html', icon: 'fa-solid fa-dollar-sign'},
+                    {name:'Inventory Check', url: '/Rain-Support-Tools/src/Tools/Inventory-check/Inventory-check.html', icon: 'fa-solid fa-box'}
                 ],
                 misc: [
-                    {name:'SF GTG Check', url: '/Rain-Support-Tools/Tools/bug-flow-check/bug-flow-check.html', icon: 'fa-solid fa-thumbs-up'},
-                    {name:'Bandwidth Error List', url: '/Rain-Support-Tools/Tools/bandwidth-errors/bandwidth-errors.html', icon: 'fa-solid fa-list'},
-                    {name:'CSS Sandbox', url: '/Rain-Support-Tools/Tools/css-tester/css-tester.html', icon: 'fa-solid fa-wand-magic-sparkles'},
-                    {name:"Riley's Secret", url: '/Rain-Support-Tools/riley/riley.html', target:'blank', icon: 'fa-solid fa-paper-plane'}
+                    {name:'SF GTG Check', url: '/Rain-Support-Tools/src/Tools/bug-flow-check/bug-flow-check.html', icon: 'fa-solid fa-thumbs-up'},
+                    {name:'Bandwidth Error List', url: '/Rain-Support-Tools/src/Tools/bandwidth-errors/bandwidth-errors.html', icon: 'fa-solid fa-list'},
+                    {name:'CSS Sandbox', url: '/Rain-Support-Tools/src/Tools/css-tester/css-tester.html', icon: 'fa-solid fa-wand-magic-sparkles'},
+                    {name:"Riley's Secret", url: '/Rain-Support-Tools/src/riley/riley.html', target:'blank', icon: 'fa-solid fa-paper-plane'}
                 ]
             }};
     }

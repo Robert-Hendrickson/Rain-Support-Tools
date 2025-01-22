@@ -1,6 +1,6 @@
-@import '/Rain-Support-Tools/common/css/default.css';
-@import '/Rain-Support-Tools/common/flow-format/flow-format.css';
-@import '/Rain-Support-Tools/modules/dialog-ctrl.css';
+@import '/Rain-Support-Tools/src/common/css/default.css';
+@import '/Rain-Support-Tools/src/common/flow-format/flow-format.css';
+@import '/Rain-Support-Tools/src/modules/dialog-ctrl.css';
 
 div[choice-selector] > div{
     width: 33%;

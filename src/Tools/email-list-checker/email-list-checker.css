@@ -1,5 +1,5 @@
-@import '/Rain-Support-Tools/common/css/default.css';
-@import '/Rain-Support-Tools/modules/dialog-ctrl.css';
+@import '/Rain-Support-Tools/src/common/css/default.css';
+@import '/Rain-Support-Tools/src/modules/dialog-ctrl.css';
 
 .import{
     position: absolute;
