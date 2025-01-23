@@ -1,1 +1,28 @@
 ###
+New tool idea: RTO scheduled payments - Use Amortized Method
+Inputs will collect:
+- Tax Rate
+- Interest Rate
+- contract price
+- depoist (optional)
+- down payment (optional)
+- rental credit (optional)
+- Term length / Fixed payment value?
+- Maintenance Fee
+- Protection Fee
+
+
+interest rate per payment calculated through:
+monthly rate = interest_rate/number of payments
+
+Monthly payment total pre-tax: 
+M = P * ((r*(1+r)^n)/((1+r)^n -1))
+
+Monthyly Tax amount:
+M * t
+
+Monthly interest amount:
+current_owed_balance * r
+
+monthly principle amount:
+M - I
