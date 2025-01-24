@@ -80,7 +80,7 @@ const app = Vue.createApp({
     data() {
         return {nav_list : {
                 home: [
-                    {name: 'Home', url: '/Rain-Support-Tools/src/', icon: 'fa-solid fa-house'},
+                    {name: 'Home', url: '/Rain-Support-Tools/', icon: 'fa-solid fa-house'},
                     {name: 'System Updates', url: 'https://github.com/Robert-Hendrickson/Rain-Support-Tools/pulls?q=is%3Amerged', target:'blank', icon: 'fa-solid fa-wrench'}
                 ],
                 support: [
