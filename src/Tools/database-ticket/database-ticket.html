@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!--common css-->
+        <link rel="stylesheet" href="/Rain-Support-Tools/src/common/actions/popup.css" />
+        <link rel="stylesheet" href="./database-ticket.css" />
+        <!--common js scripts-->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+        <script src="./database-ticket.js"></script>
+        <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+        <script src="/Rain-Support-Tools/src/common/testing/test_data.js"></script>
+        <script src="/Rain-Support-Tools/src/common/actions/popup.js"></script>
+        <script src="https://kit.fontawesome.com/8e52a98e38.js" crossorigin="anonymous"></script>
+        <script src="/Rain-Support-Tools/src/common/flow-format/flow-ctrl.js"></script>
+        <script src="/Rain-Support-Tools/src/modules/dialog-ctrl.js"></script>
+        <script src="\Rain-Support-Tools\common\ctrl\cookie_ctrl.js"></script>
+        <script src="/Rain-Support-Tools/src/common/ctrl/banner_updates.js"></script>
+    </head>
+        <!--
+Business Name:
+
+CRM:
+
+Vertical:
+**Music shop, Like Sew, Rain** Likely be a dropdown option select
+
+Bug or Glitch Ticket:
+
+If no Bug/Glitch ticket, why was this approved and by whom?
+
+Details:
+What specific changes are needed? We need dates, transaction ids, every piece of data that needs to be changed. Also, if we're working with transactions, does inventory need to be updated with the development changes?
+If there is not enough information for us to know what needs done without needing to ask you further questions your ticket will be rejected!
+-->
+    <body>
+        <div class="menu-wrapper">
+            <div onclick="toggleNav()" id="nav-toggle">
+                <span class="fa-solid fa-bars"></span>
+            </div>
+            <nav-menu></nav-menu>
+            <script src="/Rain-Support-Tools/src/common/navigation/nav-builder.js"></script>
+        </div>
+        <div class="body-container">
+            <div id="info-tabs">
+                <div id="company-tab" step="1" class="active">
+                    <div class="step-circle">1</div>
+                    Company Info
+                </div>
+                <div id="associated-info-tab" step="2">
+                    <div class="step-circle">2</div>
+                    Associated Info
+                </div>
+                <div id="details-tab" step="3">
+                    <div class="step-circle">3</div>
+                    Details
+                </div>
+                <div id="confirm-tab" step="4">
+                    <div class="step-circle">4</div>
+                    Confirm
+                </div>
+            </div>
+            <div class="container content">
+                <div id="company-content" data="1"  class="active">
+                    Business Name:<br>
+                    <input type="text" id="businessName" placeholder="Name of Company" />
+                    CRM:<br>
+                    <input type="text" id="storeID" placeholder="Store CRM" />
+                    Vertical:
+                    <select id="vertical">
+                        <option value="">Select an Option</option>
+                    </select>
+                </div>
+                <div id="associated-info-content" data="2" class="in-active">
+                    <div id="associated-ticket">
+                        <h2>Associated Bug Ticket (If applicable)</h2>
+                        <p style="color: red; font-size: 12px;">
+                            This data should only be filled out if there is a bug ticket. Please don't put id's or links for the database ticket.
+                        </p>
+                        Salesforce Ticket ID:
+                        <input tabindex="-1" id="ticketID" type="text" placeholder="Ticket Number"/>
+                        Shortcut Story Link:
+                        <input tabindex="-1" id="storyLink" type="text" placeholder="URL"/>
+                    </div>
+                    <div id="ticket-reason">
+                        <h2>Other Info</h2>
+                        Name of Team Lead who approved:
+                        <input tabindex="-1" id="agentName" type="text" placeholder="Team Lead Name" />
+                        Reason for Approval:
+                        <p style="color: red; font-size: 12px;">
+                            This field should ONLY list the reason for the ticket being approved by a team lead.
+                        </p>
+                        <textarea tabindex="-1" id="ticketReason" placeholder="Reason for Data Fix"></textarea>
+                    </div>
+                </div>
+                <div id="details-content" data="3" class="in-active">
+                    Details:<br>
+                    <p style="color: red; font-size: 12px;">
+                        What specific changes are needed? We need dates, transaction ids, every piece of data that needs to be changed. Also, if we're working with transactions, does inventory need to be updated with the development changes?<br><br>
+                        If there is not enough information for us to know what needs done without needing to ask you further questions your ticket will be rejected!
+                    </p>
+                    <textarea tabindex="-1" id="details" placeholder="Details for Dev"></textarea>
+                </div>
+                <div id="confirm-content" data="4" class="in-active">
+                    <div id="data-wrapper"></div>
+                </div>
+            </div>
+            <div flow-controls>
+                <button prev class="btn secondary hide" style="font-size: 12px;" onclick="previousStep()">Previous</button>
+                <button class="btn primary hide" finish style="float: right;" onclick="compileData(true)">Finish</button>
+                <button class="btn primary" next style="float: right;" onclick="validateData()">Next</button>
+            </div>
+        </div>
+        <div id="ticket-container" class="hide">
+            <div>
+                <textarea id="ticket-wrapper"></textarea>
+                <div ticket-buttons>
+                    <button tabindex="-1" style="float: left;" class="btn terciary" onclick="start_new_ticket()">New Case</button>
+                    <button tabindex="-1" class="btn secondary" onclick="$('#ticket-container').addClass('hide')">Close</button>
+                    <button tabindex="-1" class="btn primary" onclick="copyTicket()">Copy</button>
+                </div>
+            </div>
+        </div>
+        <div id="error_message" class="hide"></div>
+    </body>
+</html>
