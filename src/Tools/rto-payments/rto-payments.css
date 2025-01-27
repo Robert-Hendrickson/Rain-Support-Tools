@@ -1,1 +1,12 @@
 @import '/Rain-Support-Tools/src/common/css/default.css';
+.rto-header {
+    width: 100%;
+    text-align: center;
+}
+.rto-data {
+    width: 45%;
+    background-color: #fff;
+    border-radius: 4px;
+    margin: 0 auto;
+    padding: 16px;
+}
