@@ -10,6 +10,7 @@
     <script src="/Rain-Support-Tools/src/common/testing/test_data.js"></script>
     <script src="/Rain-Support-Tools/src/common/actions/popup.js"></script>
     <script src="https://kit.fontawesome.com/8e52a98e38.js" crossorigin="anonymous"></script>
+    <script src="./rto-payments.js"></script>
     </head>
     <body>
         <div class="menu-wrapper">
@@ -57,6 +58,8 @@
                     <input type="number" id="down-payment" />
                 </div>
             </div>
+            <button class="btn primary" onclick="calculateRTOPayments()">Calculate Payments</button>
+            <button style="float:right;" class="btn terciary" onclick="clearRTOPayments()">Clear</button>
         </div>
         <div class="rto-header">
             <h1>Scheduled Payments</h1>
