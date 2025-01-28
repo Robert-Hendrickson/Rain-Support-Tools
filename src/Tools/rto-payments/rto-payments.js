@@ -71,13 +71,13 @@ function updateRTOPayments(payment_data) {
     for(payment in payment_data) {
         let row = document.createElement('tr');
         row.innerHTML = `
-            <td>${payment_data[payment].payment_number}</td>
-            <td>$${payment_data[payment].principal}</td>
-            <td>$${payment_data[payment].interest}</td>
-            <td>$${payment_data[payment].maintenance}</td>
-            <td>$${payment_data[payment].protection}</td>
-            <td>$${payment_data[payment].tax}</td>
-            <td>$${payment_data[payment].payment_amount}</td>
+            <td id="payment-${payment_data[payment].payment_number}">${payment_data[payment].payment_number}</td>
+            <td id="principal-${payment_data[payment].payment_number}">$${payment_data[payment].principal}</td>
+            <td id="interest-${payment_data[payment].payment_number}">$${payment_data[payment].interest}</td>
+            <td id="maintenance-${payment_data[payment].payment_number}">$${payment_data[payment].maintenance}</td>
+            <td id="protection-${payment_data[payment].payment_number}">$${payment_data[payment].protection}</td>
+            <td id="tax-${payment_data[payment].payment_number}">$${payment_data[payment].tax}</td>
+            <td id="payment-${payment_data[payment].payment_number}">$${payment_data[payment].payment_amount}</td>
         `;
         rto_table.appendChild(row);
     }
