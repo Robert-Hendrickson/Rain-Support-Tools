@@ -20,9 +20,10 @@
     flex-direction: column;
     justify-content: space-between;
     input {
-        width: 100%;
+        width: 95%;
         border-radius: 16px;
         height: 16px;
+        padding-left: 8px;
     }
 }
 .rto-table {

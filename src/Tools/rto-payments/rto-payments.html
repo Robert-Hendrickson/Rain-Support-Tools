@@ -58,7 +58,7 @@
                     <input type="number" id="down-payment" />
                 </div>
             </div>
-            <button class="btn primary" onclick="calculateRTOPayments()">Calculate Payments</button>
+            <button class="btn primary" onclick="checkRtoInputs()">Calculate Payments</button>
             <button style="float:right;" class="btn terciary" onclick="clearRTOPayments()">Clear</button>
         </div>
         <div class="rto-header">
@@ -101,5 +101,6 @@
                 </table>
             </div>
         </div>
+        <div id="error_message" class="hide"></div>
     </body>
 </html>
