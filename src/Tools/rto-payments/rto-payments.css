@@ -25,3 +25,20 @@
         height: 16px;
     }
 }
+.rto-table {
+    width: 100%;
+    margin: 10px;
+    background: #fff;
+}
+.rto-table th{
+    border-right: 1px solid #000;
+}
+.rto-table th:first-child{
+    border-left: 1px solid #000;
+}
+.rto-table td{
+    border-right: 1px solid #000;
+}
+.rto-table td:first-child{
+    border-left: 1px solid #000;
+}
