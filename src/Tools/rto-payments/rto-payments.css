@@ -30,15 +30,13 @@
     margin: 10px;
     background: #fff;
 }
-.rto-table th{
-    border-right: 1px solid #000;
+.rto-table th {
+    padding: 2px;
+    border: 1px solid #000;
 }
-.rto-table th:first-child{
-    border-left: 1px solid #000;
+.rto-table tr:nth-child(even){
+    background-color: #ededed;
 }
 .rto-table td{
-    border-right: 1px solid #000;
-}
-.rto-table td:first-child{
-    border-left: 1px solid #000;
+    text-align: center;
 }
