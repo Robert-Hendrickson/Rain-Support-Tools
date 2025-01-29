@@ -39,10 +39,18 @@
                 </div>
                 <div class="rto-input">
                     <label for="maintenance">Maintenance Fee</label>
+                    <div>
+                        <label for="maintenance-tax">Taxable?</label>
+                        <input type="checkbox" id="maintenance-tax" />
+                    </div>
                     <input type="number" id="maintenance" />
                 </div>
                 <div class="rto-input">
                     <label for="protection">Protection Fee</label>
+                    <div>
+                        <label for="protection-tax">Taxable?</label>
+                        <input type="checkbox" id="protection-tax" />
+                    </div>
                     <input type="number" id="protection" />
                 </div>
                 <div class="rto-input">
@@ -78,26 +86,7 @@
                             <th>Payment Amount</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td id="principal-1">$65.42</td>
-                            <td id="interest-1">$120</td>
-                            <td id="maintenance-1">$0</td>
-                            <td id="protection-1">$0</td>
-                            <td id="tax-1">$12.23</td>
-                            <td id="payment-1">$225</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td id="principal-2">$65.42</td>
-                            <td id="interest-2">$120</td>
-                            <td id="maintenance-2">$0</td>
-                            <td id="protection-2">$0</td>
-                            <td id="tax-2">$12.23</td>
-                            <td id="payment-2">$225</td>
-                        </tr>
-                    </tbody>
+                    <tbody id="rto-payments"></tbody>
                 </table>
             </div>
         </div>

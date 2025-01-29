@@ -67,7 +67,7 @@ function checkRtoInputs() {
 function updateRTOPayments(payment_data) {
     //take data from calculateRTOPayments and update the RTO Payments table
     clearRTOPayments();
-    let rto_table = document.querySelector('.rto-table tbody');
+    let rto_table = document.getElementById('rto-payments');
     for(payment in payment_data) {
         let row = document.createElement('tr');
         row.innerHTML = `
@@ -84,7 +84,7 @@ function updateRTOPayments(payment_data) {
 }
 function clearRTOPayments() {
     // This function removes all existing data from the RTO Payments table and resets values in the RTO Payments form.
-    document.querySelectorAll('.rto-table tbody tr').forEach( row => row.remove() );
+    document.querySelectorAll('#rto-payments tbody tr').forEach( row => row.remove() );
 }
 function calculateRTOPayments(rto_inputs) {
     // this funtion calculates the RTO Payments for the current RTO Payments form.
@@ -121,6 +121,8 @@ function calculateRTOPayments(rto_inputs) {
     let tax_rate = rto_inputs.rto_tax_rate;
     let maintenance = rto_inputs.rto_maintenance;
     let protection = rto_inputs.rto_protection;
+    let maintenance_tax = document.getElementById('maintenance-tax').checked ? Math.round((maintenance * tax_rate) * 100) / 100 : 0;
+    let protection_tax = document.getElementById('protection-tax').checked ? Math.round((protection * tax_rate) * 100) / 100 : 0;
     while (remaining_balance > 0) {
         //set payment number
         rto_payments[`payment_${payment_number}`] = {};
@@ -141,6 +143,8 @@ function calculateRTOPayments(rto_inputs) {
         } else {
             rto_payments[`payment_${payment_number}`]['tax'] = Math.round(((remaining_balance + rto_payments[`payment_${payment_number}`]['interest']) * tax_rate) * 100) / 100;
         }
+        rto_payments[`payment_${payment_number}`]['tax'] += maintenance_tax;
+        rto_payments[`payment_${payment_number}`]['tax'] += protection_tax;
         //set maintenance amount
         rto_payments[`payment_${payment_number}`]['maintenance'] = maintenance;
         //set protection amount
@@ -153,5 +157,6 @@ function calculateRTOPayments(rto_inputs) {
         //increment payment number
         payment_number++;
     }
+    console.log(rto_payments);
     updateRTOPayments(rto_payments);
 }

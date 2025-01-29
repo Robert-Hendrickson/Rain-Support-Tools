@@ -26,6 +26,10 @@
         padding-left: 8px;
     }
 }
+.rto-input div{
+    display: flex;
+    align-items: center;
+}
 .rto-table {
     width: 100%;
     margin: 10px;
