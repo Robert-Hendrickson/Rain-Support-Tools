@@ -77,7 +77,7 @@ function updateRTOPayments(payment_data) {
             <td id="maintenance-${payment_data[payment].payment_number}">$${payment_data[payment].maintenance}</td>
             <td id="protection-${payment_data[payment].payment_number}">$${payment_data[payment].protection}</td>
             <td id="tax-${payment_data[payment].payment_number}">$${payment_data[payment].tax}</td>
-            <td id="payment-${payment_data[payment].payment_number}">$${payment_data[payment].payment_amount}</td>
+            <td id="total-${payment_data[payment].payment_number}">$${payment_data[payment].total}</td>
         `;
         rto_table.appendChild(row);
     }
@@ -89,27 +89,71 @@ function clearRTOPayments() {
 function calculateRTOPayments(rto_inputs) {
     // this funtion calculates the RTO Payments for the current RTO Payments form.
     console.log( rto_inputs );
-    let test_data = {
-        rto_amount: 1000,
-        rto_number_of_payments: 12,
-        rto_tax_rate: 0.07,
-        rto_maintenance: 5,
-        rto_protection: 10,
-        rto_interest: 0.1,
-        rto_rental_credit: 0,
-        rto_down_payment: 0
-    };
+    /*
+        number_of_payments = n
+
+        ineterest_rate = r
+
+        interest rate per payment = R = r/n
+
+        total Price of contract = P
+
+        current owed balance = P - principle payments made
+
+        Monthly payment total pre-tax =  M = P * ((r*(1+r)^n)/((1+r)^n -1))
+
+        Monthyly Tax amount = T = M * t
+
+        Monthly interest amount = I = current_owed_balance * r
+
+        monthly principle amount p =  M - I
+    */
+    //set object to hold data for each payment and other reused variables
     let rto_payments = {};
-    for(i=1; i<=test_data.rto_number_of_payments; i++) {
-        rto_payments[`payment_${i}`] = {
-            payment_number: i,
-            payment_amount: 132,
-            principal: 100,
-            tax: 7,
-            maintenance: 5,
-            protection: 10,
-            interest: 10,
-        };
+    let payment_number = 1;
+    let remaining_balance = rto_inputs.rto_amount;
+    let interest_rate = (rto_inputs.rto_interest)/rto_inputs.rto_number_of_payments;
+
+    let monthly_payment = (rto_inputs.rto_amount * (interest_rate * Math.pow(1+interest_rate, rto_inputs.rto_number_of_payments)) / (Math.pow(1+interest_rate, rto_inputs.rto_number_of_payments) - 1)) || (rto_inputs.rto_amount/rto_inputs.rto_number_of_payments);
+    //round monthly payment to 2 decimal places
+    monthly_payment = parseFloat(monthly_payment.toFixed(2));
+    let tax_rate = rto_inputs.rto_tax_rate;
+    let maintenance = rto_inputs.rto_maintenance;
+    let protection = rto_inputs.rto_protection;
+    while (remaining_balance > 0) {
+        /*if(remaining_balance < monthly_payment) {
+            monthly_payment = remaining_balance;
+        }*/
+        //set payment number
+        rto_payments[`payment_${payment_number}`] = {};
+        rto_payments[`payment_${payment_number}`]['payment_number'] = payment_number;
+        //set payment amount pre-tax
+        rto_payments[`payment_${payment_number}`]['payment_amount'] = monthly_payment;
+        //set interest amount
+        rto_payments[`payment_${payment_number}`]['interest'] = Math.round((remaining_balance * interest_rate) * 100) / 100;
+        //set principal amount
+        if(remaining_balance >= monthly_payment) {
+            rto_payments[`payment_${payment_number}`]['principal'] = Math.round((monthly_payment - rto_payments[`payment_${payment_number}`]['interest']) * 100) / 100;
+        } else {
+            rto_payments[`payment_${payment_number}`]['principal'] = remaining_balance;
+        }
+        //set tax amount
+        if(remaining_balance >= monthly_payment) {
+            rto_payments[`payment_${payment_number}`]['tax'] = Math.round(((rto_payments[`payment_${payment_number}`]['principal'] + rto_payments[`payment_${payment_number}`]['interest']) * tax_rate) * 100) / 100;
+        } else {
+            rto_payments[`payment_${payment_number}`]['tax'] = Math.round(((remaining_balance + rto_payments[`payment_${payment_number}`]['interest']) * tax_rate) * 100) / 100;
+        }
+        //set maintenance amount
+        rto_payments[`payment_${payment_number}`]['maintenance'] = maintenance;
+        //set protection amount
+        rto_payments[`payment_${payment_number}`]['protection'] = protection;
+        //set total amount
+        rto_payments[`payment_${payment_number}`]['total'] = rto_payments[`payment_${payment_number}`]['principal'] + rto_payments[`payment_${payment_number}`]['tax'] + rto_payments[`payment_${payment_number}`]['maintenance'] + rto_payments[`payment_${payment_number}`]['protection'] + rto_payments[`payment_${payment_number}`]['interest'];
+        rto_payments[`payment_${payment_number}`]['total'] = Math.round(rto_payments[`payment_${payment_number}`]['total'] * 100) / 100;
+        //update remaining balance
+        remaining_balance = Math.round((remaining_balance - rto_payments[`payment_${payment_number}`]['principal']) * 100) / 100;
+        //increment payment number
+        payment_number++;
     }
     updateRTOPayments(rto_payments);
 }
