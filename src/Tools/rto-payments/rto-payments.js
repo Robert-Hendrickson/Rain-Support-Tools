@@ -84,7 +84,7 @@ function updateRTOPayments(payment_data) {
 }
 function clearRTOPayments() {
     // This function removes all existing data from the RTO Payments table and resets values in the RTO Payments form.
-    document.querySelectorAll('#rto-payments tbody tr').forEach( row => row.remove() );
+    document.querySelectorAll('#rto-payments tr').forEach( row => row.remove() );
 }
 function calculateRTOPayments(rto_inputs) {
     // this funtion calculates the RTO Payments for the current RTO Payments form.
