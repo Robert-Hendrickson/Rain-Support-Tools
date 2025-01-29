@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!--common css-->
+    <link rel="stylesheet" href="/Rain-Support-Tools/src/Tools/rto-payments/rto-payments.css" />
+    <link rel="stylesheet" href="/Rain-Support-Tools/src/common/actions/popup.css" />
+    <!--common js scripts-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="/Rain-Support-Tools/src/common/testing/test_data.js"></script>
+    <script src="/Rain-Support-Tools/src/common/actions/popup.js"></script>
+    <script src="https://kit.fontawesome.com/8e52a98e38.js" crossorigin="anonymous"></script>
+    <script src="./rto-payments.js"></script>
+    </head>
+    <body>
+        <div class="menu-wrapper">
+            <div onclick="toggleNav()" id="nav-toggle">
+                <span class="fa-solid fa-bars"></span>
+            </div>
+            <nav-menu></nav-menu>
+            <script src="/Rain-Support-Tools/src/common/navigation/nav-builder.js"></script>
+        </div>
+        <div class="rto-header">
+            <h1>RTO Scheduled Payments Calculator</h1>
+        </div>
+        <div class="rto-data">
+            <div class="rto-inputs">
+                <div class="rto-input">
+                    <label for="rto-amount">RTO Amount</label>
+                    <input type="number" id="rto-amount" tabindex="1" />
+                </div>
+                <div class="rto-input">
+                    <label for="number-of-payments">Number of Payments</label>
+                    <input type="number" id="number-of-payments" tabindex="1" />
+                </div>
+                <div class="rto-input">
+                    <label for="tax-rate">Tax Rate</label>
+                    <input type="number" id="tax-rate" tabindex="1" />
+                </div>
+                <div class="rto-input">
+                    <label for="maintenance">Maintenance Fee</label>
+                    <div>
+                        <label for="maintenance-tax">Taxable?</label>
+                        <input type="checkbox" id="maintenance-tax" />
+                    </div>
+                    <input type="number" id="maintenance" tabindex="1" />
+                </div>
+                <div class="rto-input">
+                    <label for="protection">Protection Fee</label>
+                    <div>
+                        <label for="protection-tax">Taxable?</label>
+                        <input type="checkbox" id="protection-tax"  />
+                    </div>
+                    <input type="number" id="protection" tabindex="1" />
+                </div>
+                <div class="rto-input">
+                    <label for="interest">Interest Rate</label>
+                    <input type="number" id="interest" tabindex="1" />
+                </div>
+                <div class="rto-input">
+                    <label for="rental-credit">Rental Credit</label>
+                    <input type="number" id="rental-credit" tabindex="1" />
+                </div>
+                <div class="rto-input">
+                    <label for="down-payment">Down Payment</label>
+                    <input type="number" id="down-payment" tabindex="1" />
+                </div>
+            </div>
+            <button class="btn primary" onclick="checkRtoInputs()">Calculate Payments</button>
+            <button style="float:right;" class="btn terciary" onclick="clearRTOPayments()">Clear</button>
+        </div>
+        <div class="rto-header">
+            <h1>Scheduled Payments</h1>
+        </div>
+        <div class="rto-data">
+            <div class="rto-results">
+                <table class="rto-table">
+                    <thead>
+                        <tr>
+                            <th>Payment #</th>
+                            <th>Principal</th>
+                            <th>Interest</th>
+                            <th>Maintenance</th>
+                            <th>Protection</th>
+                            <th>Tax</th>
+                            <th>Payment Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody id="rto-payments"></tbody>
+                </table>
+            </div>
+        </div>
+        <div id="error_message" class="hide"></div>
+    </body>
+</html>

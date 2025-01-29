@@ -94,6 +94,7 @@ const app = Vue.createApp({
                     {name:'Transaction Calculator', url: '/Rain-Support-Tools/src/Tools/Transaction-Calculator/Javascript_calculator.html', icon: 'fa-solid fa-calculator'},
                     {name:'Transaction Calculator',subTitle: '(Tax Inclusive: Australia)', url: '/Rain-Support-Tools/src/Tools/Tax-Included-Calculator/Tax-Inclusive-Calculator.html', icon: 'fa-solid fa-calculator'},
                     {name:'Washington Tax Rate', url: '/Rain-Support-Tools/src/Tools/wa-tax-rates/wa_tax_rates.html', icon: 'fa-solid fa-percent'},
+                    {name:'RTO Payments Calculator', url: '/Rain-Support-Tools/src/Tools/rto-payments/rto-payments.html', icon: 'fa-solid fa-truck-moving'},
                     {name:'Fee Difference Calculator', url: '/Rain-Support-Tools/src/Tools/fee-difference-calculator/fee-difference-calculator.html', icon: 'fa-solid fa-money-bill'},
                     {name:'QB Payment Split', url: '/Rain-Support-Tools/src/Tools/QB-Mixed-Split/QB_Mixed_Split.html', icon: 'fa-solid fa-dollar-sign'},
                     {name:'Inventory Check', url: '/Rain-Support-Tools/src/Tools/Inventory-check/Inventory-check.html', icon: 'fa-solid fa-box'}
