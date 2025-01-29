@@ -111,19 +111,17 @@ function calculateRTOPayments(rto_inputs) {
     //set object to hold data for each payment and other reused variables
     let rto_payments = {};
     let payment_number = 1;
-    let remaining_balance = rto_inputs.rto_amount;
+    let remaining_balance = rto_inputs.rto_amount - rto_inputs.rto_down_payment - rto_inputs.rto_rental_credit;
+
     let interest_rate = (rto_inputs.rto_interest)/rto_inputs.rto_number_of_payments;
 
-    let monthly_payment = (rto_inputs.rto_amount * (interest_rate * Math.pow(1+interest_rate, rto_inputs.rto_number_of_payments)) / (Math.pow(1+interest_rate, rto_inputs.rto_number_of_payments) - 1)) || (rto_inputs.rto_amount/rto_inputs.rto_number_of_payments);
+    let monthly_payment = (remaining_balance * (interest_rate * Math.pow(1+interest_rate, rto_inputs.rto_number_of_payments)) / (Math.pow(1+interest_rate, rto_inputs.rto_number_of_payments) - 1)) || (remaining_balance/rto_inputs.rto_number_of_payments);
     //round monthly payment to 2 decimal places
     monthly_payment = parseFloat(monthly_payment.toFixed(2));
     let tax_rate = rto_inputs.rto_tax_rate;
     let maintenance = rto_inputs.rto_maintenance;
     let protection = rto_inputs.rto_protection;
     while (remaining_balance > 0) {
-        /*if(remaining_balance < monthly_payment) {
-            monthly_payment = remaining_balance;
-        }*/
         //set payment number
         rto_payments[`payment_${payment_number}`] = {};
         rto_payments[`payment_${payment_number}`]['payment_number'] = payment_number;
