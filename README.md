@@ -15,7 +15,7 @@ Riley page was pulled from this link: https://codepen.io/trajektorijus/pen/mdeBY
     <script src="/Rain-Support-Tools/src/common/flow-format/flow-ctrl.js"></script>
 
 ## cookie control functions
-    <script src="\Rain-Support-Tools\common\ctrl\cookie_ctrl.js"></script>
+    <script src="\Rain-Support-Tools\src\common\ctrl\cookie_ctrl.js"></script>
 
     included functions
     setCookie(cookie_name,cookie_value,cookie_life_length = 7)
