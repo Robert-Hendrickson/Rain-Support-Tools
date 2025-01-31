@@ -4,101 +4,10 @@
         <meta title="Home" />
         <link rel="stylesheet" href="/Rain-Support-Tools/src/common/css/default.css" />
         <script src="\Rain-Support-Tools\src\common\ctrl\cookie_ctrl.js"></script>
-        <style>
-            /*menu tiles css*/
-            .menu h2{
-                text-align: center;
-            }
-            .menu .menu_links{
-                width: 540px;
-                margin: 0px auto;
-                height: 330px;
-            }
-            .toolButtonsList{
-                width: 400px;
-                height: 100%;
-                float: left;
-            }
-            .toolButtonsList .toolButton{
-                width: 22%;
-                float: left;
-                padding: 5px;
-            }
-            .toolButton button{
-                width: 100%;
-                height: 100px;
-                background-color: #ffffff;
-            }
-            .toolButton button:hover{
-                cursor: pointer;
-                background-color: #eeeeee;
-            }
-            #menu_tabs{
-                width: 98px;
-                height: 300px;
-                border: 1px solid #000;
-                float: left;
-                margin: 0px 8px;
-                padding: 8px;
-                background-color: #ffffff;
-                border-radius: 8px;
-                ul{
-                    margin: unset;
-                    list-style: none;
-                    padding: unset;
-                    text-align: center;
-                    li{
-                        padding: 4px 0;
-                        cursor: pointer;
-                    }
-                }
-            }
-            li:hover{
-                background-color: #eeeeee;
-            }
-            li.active{
-                background-color: #ffffff !important;
-                font-weight: bold;
-            }
-            /*updates css*/
-            #updates{
-                width: 100%;
-            }
-            #updates-container{
-                width: 30%;
-                margin: 0% auto;
-                height: 435px;
-                overflow-y: scroll;
-                overflow-x: hidden;
-            }
-            #updates{
-                width: 100%;
-                float: left;
-            }
-            #updates-container h2{
-                text-align: center;
-            }
-            .updates-content{
-                width: 95%;
-                border: solid #000 1px;
-                margin: 5px;
-                padding: 10px;
-            }
-            .update-title{
-                text-decoration: underline;
-                font-size: large;
-                font-weight: bold;
-            }
-            #updates h2{
-                text-align: center;
-            }
-            .system-updates{
-                margin: 0 auto;
-                width: 180px;
-            }
-        </style>
+        <link rel="stylesheet" href="/Rain-Support-Tools/index.css" />
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
         <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+        <script src="https://kit.fontawesome.com/8e52a98e38.js" crossorigin="anonymous"></script>
     </header>
     <body>
         <div class="menu">
@@ -112,11 +21,9 @@
             </div>
             <div class="menu_links">
                 <div id="menu_tabs">
-                    <ul>
-                        <li list="support" class="active" onclick="updateNavButtons($(this))">Support Tools</li>
-                        <li list="system" onclick="updateNavButtons($(this))">System Tools</li>
-                        <li list="misc" onclick="updateNavButtons($(this))">Misc Tools</li>
-                    </ul>
+                    <div list="support" class="active" onclick="updateNavButtons($(this))">Support Tools</div>
+                    <div list="system" onclick="updateNavButtons($(this))">System Tools</div>
+                    <div list="misc" onclick="updateNavButtons($(this))">Misc Tools</div>
                 </div>
                 <nav-menu></nav-menu>
                 <script src="/Rain-Support-Tools/src/common/navigation/nav-builder.js"></script>
@@ -125,7 +32,7 @@
         <script>
             function updateNavButtons(obj){
                 //change the active selection for list type
-                $('li').removeClass('active');
+                $('div').removeClass('active');
                 obj.addClass('active');
                 //change visible list of links
                 $('.toolButtonsList > div').hide();
