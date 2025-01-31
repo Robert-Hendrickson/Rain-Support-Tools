@@ -6,21 +6,24 @@ if ((/Rain-Support-Tools\/$/).test(location.pathname)) {
     <div id="support">
         <div v-for="nav_item in nav_list.support" class="toolButton">
             <a v-bind:href="nav_item.url" v-bind:target="nav_item.target">
-                <button>{{nav_item.name}} {{nav_item.subTitle}}</button>
+                <button>
+                <span v-bind:class="nav_item.icon + ' fa-3x'"></span><div>{{nav_item.name}} {{nav_item.subTitle}}</div></button>
             </a>
         </div>
     </div>
     <div id="system" style="display: none;">
         <div v-for="nav_item in nav_list.system" class="toolButton">
             <a v-bind:href="nav_item.url" v-bind:target="nav_item.target">
-                <button>{{nav_item.name}} {{nav_item.subTitle}}</button>
+                <button>
+                <span v-bind:class="nav_item.icon + ' fa-3x'"></span><div>{{nav_item.name}} {{nav_item.subTitle}}</div></button>
             </a>
         </div>
     </div>
     <div id="misc" style="display: none;">
         <div v-for="nav_item in nav_list.misc" class="toolButton">
             <a v-bind:href="nav_item.url" v-bind:target="nav_item.target">
-                <button>{{nav_item.name}} {{nav_item.subTitle}}</button>
+                <button>
+                <span v-bind:class="nav_item.icon + ' fa-3x'"></span><div>{{nav_item.name}} {{nav_item.subTitle}}</div></button>
             </a>
         </div>
     </div>
