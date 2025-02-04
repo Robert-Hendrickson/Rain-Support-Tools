@@ -102,6 +102,7 @@
                         </div>
                 </div>
                 <div style="z-index: 2;" id="steps-content" data="2" class="in-active">
+                    <h2>Steps to Reproduce</h2>
                     <div table-controls>
                         <button tabindex="-1" class="btn secondary" onclick="addTableRow('steps-table')">Add Row</button>
                         <button tabindex="-1" class="btn secondary" onclick="removeTableRow('steps-table')">Remove Row</button>
@@ -127,7 +128,10 @@
                     </table>
                 </div>
                 <div style="z-index: 3;" id="description-content" data="3" class="in-active">
-                    Description: <br>
+                    <div class="note-wrapper">
+                        <h2>Description</h2>
+                        <span title="Please provide a detailed description of the bug behavior and what issue it is causing." class="fa-solid fa-question"></span>
+                    </div><br>
                     <textarea tabindex="-1" placeholder="Enter a Description" id="description"></textarea>
                 </div>
                 <div style="z-index: 4;" id="links-content" data="4" class="in-active">
@@ -171,10 +175,16 @@
                     </table>
                 </div>
                 <div style="z-index: 5;" id="examples-errors-content" data="5" class="in-active">
-                    Examples: <br>
+                    <div class="note-wrapper">
+                        <h2>Examples</h2>
+                        <span title="Data that is currently showing the issue that can be referenced for investigation." class="fa-solid fa-question"></span>
+                    </div><br>
                     <textarea tabindex="-1" placeholder="Enter example data. This can be links to web pages where things are wrong or id's of products, RTO's, etc." id="examples"></textarea>
                     <br>
-                    Console Errors: <br>
+                    <div class="note-wrapper">
+                        <h2>Console Errors</h2>
+                        <span title="Errors found in the browser console." class="fa-solid fa-question"></span>
+                    </div>
                     <span class="sub-text">Copy the console error from the console then paste the info into the below box. Do not enter this box with "See Video" or similar options.</span>
                     <textarea tabindex="-1" placeholder="Enter any console errors that appear during the issue" id="errors"></textarea>
                 </div>
