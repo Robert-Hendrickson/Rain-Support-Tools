@@ -75,19 +75,19 @@
                         <div class="note-wrapper">
                             CRM
                             <span title="The CRM ID of the client you are submitting the ticket for." class="fa-solid fa-question"></span>
-                        </div><br>
+                        </div>
                         <input id="crm" type="text" placeholder="Enter a CRM" />
                         <br>
                         <div class="note-wrapper">
                             System Area Affected
                             <span title="The part of the system affected by the bug." class="fa-solid fa-question"></span>
-                        </div><br>
+                        </div>
                         <input id="systemArea" type="text" placeholder="Enter Part of the System Affected" />
                         <br>
                         <div class="note-wrapper">
                             Can you replicate this on a Test Site or Customers Site?
                             <span title="Are you able to follow a set of steps to reproduce the bug consistently?" class="fa-solid fa-question"></span>
-                        </div><br>
+                        </div>
                         <div choice-selector replicable-selector>
                             <div replicable='yes'>Yes</div>
                             <div replicable='no'>No</div>
@@ -95,14 +95,19 @@
                         <div class="note-wrapper">
                             Where were able to replicate the behavior?(If 'yes' to above select any below that apply)
                             <span title="If 'yes' to above select any below that apply." class="fa-solid fa-question"></span>
-                        </div><br>
+                        </div>
                         <div choice-selector where-selector>
                             <div where='Test'>Test Site</div>
                             <div where='Customer'>Customer Site</div>
                         </div>
                 </div>
                 <div style="z-index: 2;" id="steps-content" data="2" class="in-active">
-                    <h2>Steps to Reproduce</h2>
+                    <h2 class="header-center">
+                        <div class="note-wrapper">
+                            Steps to Reproduce
+                            <span title="Step by step instructions on how to reproduce the issue." class="fa-solid fa-question"></span>
+                        </div>
+                    </h2>
                     <div table-controls>
                         <button tabindex="-1" class="btn secondary" onclick="addTableRow('steps-table')">Add Row</button>
                         <button tabindex="-1" class="btn secondary" onclick="removeTableRow('steps-table')">Remove Row</button>
@@ -131,7 +136,7 @@
                     <div class="note-wrapper">
                         <h2>Description</h2>
                         <span title="Please provide a detailed description of the bug behavior and what issue it is causing." class="fa-solid fa-question"></span>
-                    </div><br>
+                    </div>
                     <textarea tabindex="-1" placeholder="Enter a Description" id="description"></textarea>
                 </div>
                 <div style="z-index: 4;" id="links-content" data="4" class="in-active">
