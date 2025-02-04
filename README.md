@@ -5,17 +5,17 @@ Riley page was pulled from this link: https://codepen.io/trajektorijus/pen/mdeBY
 
 # Common used components
     <!--common css-->
-    <link rel="stylesheet" href="/Rain-Support-Tools/common/actions/popup.css" />
+    <link rel="stylesheet" href="/Rain-Support-Tools/src/common/actions/popup.css" />
     <!--common js scripts-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-    <script src="/Rain-Support-Tools/common/testing/test_data.js"></script>
-    <script src="/Rain-Support-Tools/common/actions/popup.js"></script>
+    <script src="/Rain-Support-Tools/src/common/testing/test_data.js"></script>
+    <script src="/Rain-Support-Tools/src/common/actions/popup.js"></script>
     <script src="https://kit.fontawesome.com/8e52a98e38.js" crossorigin="anonymous"></script>
-    <script src="/Rain-Support-Tools/common/flow-format/flow-ctrl.js"></script>
+    <script src="/Rain-Support-Tools/src/common/flow-format/flow-ctrl.js"></script>
 
 ## cookie control functions
-    <script src="\Rain-Support-Tools\common\ctrl\cookie_ctrl.js"></script>
+    <script src="\Rain-Support-Tools\src\common\ctrl\cookie_ctrl.js"></script>
 
     included functions
     setCookie(cookie_name,cookie_value,cookie_life_length = 7)
@@ -26,8 +26,8 @@ Riley page was pulled from this link: https://codepen.io/trajektorijus/pen/mdeBY
     deleteCookie(cookie_name)
 
 ## custom dialog modal script import
-    <link rel="stylesheet" href="/Rain-Support-Tools/modules/dialog-ctrl.css" />
-    <script src="/Rain-Support-Tools/modules/dialog-ctrl.js"></script>
+    <link rel="stylesheet" href="/Rain-Support-Tools/src/modules/dialog-ctrl.css" />
+    <script src="/Rain-Support-Tools/src/modules/dialog-ctrl.js"></script>
 
     Can be used to request input from the user before moving forward. If being used inside a functin the function needs the 'async' keyword added to it. The function returns a promise that is either true or false. Parameters include a text string for display message, text string for the True response with a default of "OK", and a text string for the False response with a default of "Cancel".
 
@@ -45,7 +45,7 @@ Riley page was pulled from this link: https://codepen.io/trajektorijus/pen/mdeBY
     }
 
 ## banner updates
-    <script src="/Rain-Support-Tools/common/ctrl/banner_updates.js"></script>
+    <script src="/Rain-Support-Tools/src/common/ctrl/banner_updates.js"></script>
     <script>
         $(document).ready(function (){
             buildBanner(
@@ -68,7 +68,7 @@ Riley page was pulled from this link: https://codepen.io/trajektorijus/pen/mdeBY
             <span class="fa-solid fa-bars"></span>
         </div>
         <nav-menu></nav-menu>
-        <script src="/Rain-Support-Tools/common/navigation/nav-builder.js"></script>
+        <script src="/Rain-Support-Tools/src/common/navigation/nav-builder.js"></script>
     </div>
 
 ## add steps as needed and give an id that matches the container area

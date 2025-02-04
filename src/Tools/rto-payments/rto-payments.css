@@ -1,0 +1,47 @@
+@import '/Rain-Support-Tools/src/common/css/default.css';
+.rto-header {
+    width: 100%;
+    text-align: center;
+}
+.rto-data {
+    width: 45%;
+    background-color: #fff;
+    border-radius: 4px;
+    margin: 0 auto;
+    padding: 16px;
+}
+.rto-inputs{
+    display: flex;
+}
+.rto-input{
+    width: 250px;
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    input {
+        width: 95%;
+        border-radius: 16px;
+        height: 16px;
+        padding-left: 8px;
+    }
+}
+.rto-input div{
+    display: flex;
+    align-items: center;
+}
+.rto-table {
+    width: 100%;
+    margin: 10px;
+    background: #fff;
+}
+.rto-table th {
+    padding: 2px;
+    border: 1px solid #000;
+}
+.rto-table tr:nth-child(even){
+    background-color: #ededed;
+}
+.rto-table td{
+    text-align: center;
+}

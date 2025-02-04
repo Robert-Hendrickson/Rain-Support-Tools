@@ -1,0 +1,142 @@
+@import '/Rain-Support-Tools/src/common/css/default.css';
+@import '/Rain-Support-Tools/src/modules/dialog-ctrl.css';
+.hide{
+    display: none;
+}
+input[type="checkbox"]{
+    width: 13px;
+    float: left;
+}
+thead td {
+    height: 35px !important;
+}
+#inputTable td {
+    border-top: #000 solid 2px;
+    border-bottom: #000 solid 2px;
+    border-right: #000 solid 2px;
+}
+#inputTable td:first-child {
+    border-left: #000 solid 2px;
+}
+td {
+    width: 70px;
+    height: 21px;
+    float: left;
+}
+input {
+    width: 63px;
+}
+input[disabled] {
+    border: none !important;
+}
+#inputTable {
+    width:600px;
+    float: left;
+}
+#btn-totals {
+    width: 165px;
+    float: left;
+    margin-top: 40px;
+    margin-left: 40px;
+}
+#btn-totals tr td {
+    border-top:#000 solid 2px;
+    border-right:#000 solid 2px;
+    border-bottom:#000 solid 2px;
+}
+#btn-totals tr td:first-child {
+    border-left:#000 solid 2px;
+}
+div.totals {
+    width: 345px;
+    float: left;
+}
+div.totals-container {
+    float: left;
+}
+div.totals div {
+    float: left;
+    width: 100%;
+}
+div.breakdown-area {
+    width: 290px;
+    float: left;
+}
+div.breakdown-view textarea {
+    max-width: 180px;
+    min-width: 180px;
+    height: 500px;
+}
+ul#breakdowns li{
+    list-style: none;
+    width: 40px;
+    float: left;
+    border:#000 solid 2px;
+    border-bottom-width: 0px;
+    background-color: #fff;
+}
+div.breakdown-nav{
+    width: 100%;
+}
+div.breakdown-view {
+    width: 100%;
+    float: left;
+}
+div.breakdown-hide{
+    display: none;
+}
+div.breakdown-hide.active{
+    display: block !important;
+}
+tr.subrow{
+    translate: 10px;
+}
+/*taxe editor*/
+#taxes-container{
+    .tax-rate-container{
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        z-index: 50;
+        top: 0;
+        left: 0;
+    }
+    .tax-rate-editor{
+        background-color: #9b9494;
+        position: relative;
+        width: 50%;
+        min-height: 300px;
+        left: 25%;
+        top: 15%;
+    }
+}
+/*Tax Breakdown Table*/
+table#rates-breakdown{
+    width: 75%;
+    margin: 0 auto;
+    thead td{
+        width: 32%;
+        text-align: center;
+        border-top: #000 solid 2px;
+        border-bottom: #000 solid 2px;
+        border-right: #000 solid 2px;
+        height: unset !important;
+        input{
+            width: 30px;
+        }
+    }
+    thead td:first-child{
+        border-left: #000 solid 2px;
+    }
+    tbody td{
+        width: 32%;
+        height: unset;
+        ul{
+            margin: unset;
+            list-style: decimal;
+            li > input{
+                width: 80%
+            }
+        }
+    }
+}
