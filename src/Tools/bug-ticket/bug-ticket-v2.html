@@ -140,7 +140,12 @@
                     <textarea tabindex="-1" placeholder="Enter a Description" id="description"></textarea>
                 </div>
                 <div style="z-index: 4;" id="links-content" data="4" class="in-active">
-                    <h2>Screenshots</h2>
+                    <h2 class="header-center">
+                        <div class="note-wrapper">
+                            Screenshots
+                            <span title="Please provide links to any screenshots that show the bug in action." class="fa-solid fa-question"></span>
+                        </div>
+                    </h2>
                     <div table-controls>
                         <button tabindex="-1" class="btn secondary" onclick="addTableRow('screenshot-table')">Add Row</button>
                         <button tabindex="-1" class="btn secondary" onclick="removeTableRow('screenshot-table')">Remove Row</button>
@@ -164,7 +169,12 @@
                             </tr>
                         </tbody>
                     </table>
-                    <h2>Videos</h2>
+                    <h2 class="header-center">
+                        <div class="note-wrapper">
+                            Videos
+                            <span title="Please provide links to any videos that show the bug in action." class="fa-solid fa-question"></span>
+                        </div>
+                    </h2>
                     <div table-controls>
                         <button tabindex="-1" class="btn secondary" onclick="addTableRow('video-table')">Add Row</button>
                         <button tabindex="-1" class="btn secondary" onclick="removeTableRow('video-table')">Remove Row</button>
