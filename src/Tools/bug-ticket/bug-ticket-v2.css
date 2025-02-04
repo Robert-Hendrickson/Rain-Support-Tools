@@ -103,3 +103,22 @@ past-tickets div > span.close::before{
     height: 150px;
     transition-duration: .5s;
 }
+/* controls help note displays */
+.note-wrapper{
+    display: flex;
+    align-items: center;
+}
+.note-wrapper span.fa-question{
+    background-color: #ddd;
+    width: 12px;
+    height: 12px;
+    font-size: 9px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+h2.header-center{
+    display: flex;
+    justify-content: center;
+}
