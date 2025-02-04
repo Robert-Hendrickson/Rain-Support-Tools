@@ -104,11 +104,11 @@ past-tickets div > span.close::before{
     transition-duration: .5s;
 }
 /* controls help note displays */
-.note{
+.note-wrapper{
     display: flex;
     align-items: center;
 }
-.note span.fa-question{
+.note-wrapper span.fa-question{
     background-color: #ddd;
     width: 12px;
     height: 12px;
