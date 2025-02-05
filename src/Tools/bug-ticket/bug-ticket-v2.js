@@ -8,7 +8,12 @@ function _urlRegEx(url_string){
 //this function checks to see if a string has a slack link in it
 function hasSlackLink(string){
     //returns the result of running a regex test on the passed string, true if it matches false if it doesn't
-    return new RegExp(/(?:https?\/\/)?raindev\.slack\.com\/archives\//).test(string);    
+    return new RegExp(/(?:https?:\/\/)?raindev\.slack\.com\/archives\//).test(string);    
+}
+//this function checks to see if a string has a salesforce link in it
+function hasSalesforceLink(string){
+    //https://rainpos.lightning.force.com/lightning/r/Case/500PC00000KP5STYA1/view
+    return new RegExp(/(?:https?:\/\/)?rainpos\.lightning\.force\.com\/lightning\/r\//).test(string);    
 }
 /*this function checks the list of screenshot or video links to make sure they all meet a specific url requirement and that none are either empty or have a duplicate link in them*/
 function checkLinkList(list_content, list_type){
@@ -153,6 +158,9 @@ async function validateData(){
             if (hasSlackLink($('#description')[0].value)) {
                 bad_object.list['descriptionSlack'] = "Please don't use slack links in your description. Instead describe in your own words the details of the issue that is happening.";
             }
+            if (hasSalesforceLink($('#description')[0].value)) {
+                bad_object.list['descriptionSalesforce'] = "Don't include saleforce links in your description. Development teams do not have access to Salesforce. If there is info in a case that needs to be given to the development team, please include a screenshot of the data or include it in your video.";
+            }
             if (Object.entries(bad_object.list).length) {
                 popup_error_growl(bad_object);
             } else {
@@ -191,6 +199,9 @@ async function validateData(){
             }
             if(RegExp(/^[nN](?:\\|\/)?[aA]/).test(examples) || examples === ''){
                 bad_object.list['examples_blank'] = 'Examples cannot be blank or say n/a.';
+            }
+            if (hasSalesforceLink(examples)) {
+                bad_object.list['examplesSalesforce'] = "Don't include saleforce links in your examples. Development teams do not have access to Salesforce. If there is info in a case that needs to be given to the development team, please include a screenshot of the data or include it in your video.";
             }
             let errors = $('#errors')[0].value;
             if(RegExp(/^[nN](?:\\|\/)?[aA]/).test(errors) || errors === ''){
