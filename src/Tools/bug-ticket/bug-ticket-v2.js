@@ -432,6 +432,9 @@ async function checkUnessecaryErrors(){
         bad_error_array.push(`Blocked aria-hidden : Browser stopped an element from using attribute aria-hidden`);
         //Usually caused by us loading or building an element that has the attribute aria-hidden. This is supposed to hide it from screen readers. Browsers sometimes stop this hidding as either the element is seen by the browser as necessary for somthing or it has a child element that isn't hidden.
     }
+    if ((/\[DOM\] Found \d{1,} elements? with non-unique id/i).test(errors)) {
+        bad_error_array.push(`non-unique id : There are multiple elements with the same id`);
+    }
     if (bad_error_array.length) {
         errors_string = () => {
             let html = `<div class="dialog-error-list">
@@ -444,7 +447,7 @@ async function checkUnessecaryErrors(){
             return html;
         }
         check = await customDialogResponse(
-            `There were some errors found that might not be system problems. Please remember that during testing you should have the console open and only include errors that appear at the time of the bad behavior you are noticing. If any of the below errors did not happen at the time of bad behavior remove them from the list of errors before continuing.<br>
+            `There were some errors found that might not be system problems. Please remember that during testing:<ul><li>You should have the console open and only include errors that appear at the time of the bad behavior you are noticing</li><li>Console logs that are yellow usually do not indicate a problem</li></ul> If any of the below errors did not happen at the time of bad behavior remove them from the list of errors before continuing.<br>
             <br>
             ${errors_string()}`,
             'Continue',

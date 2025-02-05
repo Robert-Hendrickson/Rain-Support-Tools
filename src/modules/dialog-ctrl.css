@@ -18,6 +18,12 @@ dialog #modal-content{
 dialog #dialog-text{
     padding: 16px 8px;
 }
+dialog #dialog-text ul{
+    list-style: decimal
+}
+dialog #dialog-text ul li{
+    padding: 2px 0px;
+}
 dialog #buttons{
     text-align: right;
 }
