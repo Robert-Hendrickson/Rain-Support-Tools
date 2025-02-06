@@ -419,7 +419,8 @@ async function checkDescriptionNeedsLinkExamples(){
     let example_check_for_links = (/(?:https?:\/\/)?(?:\w+\.)?(\w+\.)+\w{3,}/g).test($('#examples')[0].value);//check if there is a link in the examples data
     let check = true;
     if (description_check_array.length > 2 && !example_check_for_links) {//if array has 3 or more matches and there isn't a link in the example use custom modal popup to ask if user wants to continue without adding a link
-        check = await customDialogResponse(`It looks like there was mention of website issues, but there were no links provided in the examples. Do you want to continue without adding links to website issue areas?`,'Continue','Go Back');
+        let custom_dialogue = await import('/Rain-Support-Tools/src/modules/custom-dialogue/dialog-ctrl.js');
+        check = await custom_dialogue.default(`It looks like there was mention of website issues, but there were no links provided in the examples. Do you want to continue without adding links to website issue areas?`,'Continue','Go Back');
     }
     return check;
 }

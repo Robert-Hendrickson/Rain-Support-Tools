@@ -2,3 +2,5 @@
 Dialogue box updates
 make dialogue box a module that get's imported into other scripts
 should include in the call a template to be used with css attached. closing dialogue box will remove the template from the page but still return a value to the calling script.
+
+convert data in tools for customDialogResponse to use new module for dialogue function instead of old function

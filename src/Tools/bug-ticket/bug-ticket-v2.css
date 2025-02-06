@@ -1,6 +1,5 @@
 @import '/Rain-Support-Tools/src/common/css/default.css';
 @import '/Rain-Support-Tools/src/common/flow-format/flow-format.css';
-@import '/Rain-Support-Tools/src/modules/custom-dialogue/dialog-ctrl.css';
 body{
     overflow-x: hidden;
 }
