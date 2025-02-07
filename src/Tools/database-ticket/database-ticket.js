@@ -105,17 +105,7 @@ async function validateData(){
                 popup_error_growl(bad_object);
             } else {
                 nextStep(current_step);
-                //updated field notice
-                buildBanner(
-                        [
-                            header_title = 'Updated Field Names',
-                            banner_text = 'Field Names have been updated for the Other Info. Please make sure you follow new fields!',
-                            banner_id = 'newfieldnames_database'
-                        ],
-                        start_date_object = '11/4/2024',
-                        end_date_object = '11/10/2024'
-                        );
-                };
+            };
             break;
         case 2:
             let link_fields = [];
