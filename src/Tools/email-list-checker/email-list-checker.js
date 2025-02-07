@@ -49,7 +49,8 @@ function importList(){
 }
 /*function resets page after confirming with user to continue*/
 async function clearData(){
-    if(await customDialogResponse("You are about to clear all current data and won't able to reclaim it. Are you sure you want to proceed?","Continue","Cancel")){
+    let custom_dialogue = await import('/Rain-Support-Tools/src/modules/custom-dialogue/dialog-ctrl.js');
+    if(await custom_dialogue.default("You are about to clear all current data and won't able to reclaim it. Are you sure you want to proceed?","Continue","Cancel")){
         let data = $('.mainContent div');
         for(i=0;i<data.length;i++){
             data[i].querySelector('count').innerText = '0';

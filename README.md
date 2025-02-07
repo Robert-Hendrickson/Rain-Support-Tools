@@ -33,7 +33,8 @@ Riley page was pulled from this link: https://codepen.io/trajektorijus/pen/mdeBY
 
     async function(){
         if(thing){
-            if(await customDialogResponse(
+            let custom_dialogue = await import('/Rain-Support-Tools/src/modules/custom-dialogue/dialog-ctrl.js');
+            if(await custom_dialogue.default(
                 text_string_content, 
                 submit_button = "OK", 
                 close_button = 'Cancel'

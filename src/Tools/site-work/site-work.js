@@ -178,7 +178,8 @@ function displayWorkContent(type){
 }
 /*function confirms with user they want to remove all data and start over before refreshing the page*/
 async function start_new_ticket(){
-    if(await customDialogResponse('This action is not reversible. Continuing will clear all current data and start a new ticket.\n\n Do you want to continue?','Continue','Cancel')){
+    let custom_dialogue = await import('/Rain-Support-Tools/src/modules/custom-dialogue/dialog-ctrl.js');
+    if(await custom_dialogue.default('This action is not reversible. Continuing will clear all current data and start a new ticket.\n\n Do you want to continue?','Continue','Cancel')){
         window.location.reload();
     }
 }
