@@ -105,17 +105,7 @@ async function validateData(){
                 popup_error_growl(bad_object);
             } else {
                 nextStep(current_step);
-                //updated field notice
-                buildBanner(
-                        [
-                            header_title = 'Updated Field Names',
-                            banner_text = 'Field Names have been updated for the Other Info. Please make sure you follow new fields!',
-                            banner_id = 'newfieldnames_database'
-                        ],
-                        start_date_object = '11/4/2024',
-                        end_date_object = '11/10/2024'
-                        );
-                };
+            };
             break;
         case 2:
             let link_fields = [];
@@ -146,8 +136,8 @@ async function validateData(){
                             empty_fields_string += `${link_fields[i]}<br>`;
                         }
                         return empty_fields_string;
-                    }
-                    if (await customDialogResponse(`The below fields were left empty.<br><br>${getEmptyFields()}<br>If this was intentional click continue. Otherwise click cancel and enter the relavent info.`,'Continue','Cancel')) {
+                    }let custom_dialogue = await import('/Rain-Support-Tools/src/modules/custom-dialogue/dialog-ctrl.js');
+                    if (await custom_dialogue.default(`The below fields were left empty.<br><br>${getEmptyFields()}<br>If this was intentional click continue. Otherwise click cancel and enter the relavent info.`,'Continue','Cancel')) {
                         nextStep(current_step);
                     }
                 }
@@ -185,7 +175,8 @@ function copyTicket() {
 };
 
 async function start_new_ticket(){
-    if(await customDialogResponse('This action is not reversible. Continuing will clear all current data and start a new ticket.\n\n Do you want to continue?','Continue','Go Back')){
+    let custom_dialogue = await import('/Rain-Support-Tools/src/modules/custom-dialogue/dialog-ctrl.js');
+    if(await custom_dialogue.default('This action is not reversible. Continuing will clear all current data and start a new ticket.\n\n Do you want to continue?','Continue','Go Back')){
         window.location.reload();
     }
 }

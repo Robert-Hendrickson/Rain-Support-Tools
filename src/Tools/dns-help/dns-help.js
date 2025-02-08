@@ -152,7 +152,8 @@ async function validateData(){
             } else {//else check subdomain and move to next step
                 domain_data = isSubDomain();
                 if (domain_data[0]) {
-                    if (await customDialogResponse('Our system usually deals in hosting apex domains (testurl.com). The domain you have entered looks to be a sub domain (sub.testurl.com). Do you wish to continue?','Continue','Go Back')) {
+                    let custom_dialogue = await import('/Rain-Support-Tools/src/modules/custom-dialogue/dialog-ctrl.js');
+                    if (await custom_dialogue.default('Our system usually deals in hosting apex domains (testurl.com). The domain you have entered looks to be a sub domain (sub.testurl.com). Do you wish to continue?','Continue','Go Back')) {
                         nextStep(current_step);
                     }
                 } else {
@@ -453,7 +454,8 @@ async function validateRecordData(){
             list: checkValues(record_data)
         };
         if (bad_object.list.CNAME_record_value && (/^[\w\-]+\.\w{2,}$/).test(record_data.value)) {
-            if (await customDialogResponse(`The given Record Value is pointed to an apex domain. If this was intentional click Continue. If not, please cancel and go check the values before submitting.`, submit_button = "Continue", close_button = 'Cancel')) {
+            let custom_dialogue = await import('/Rain-Support-Tools/src/modules/custom-dialogue/dialog-ctrl.js');
+            if (await custom_dialogue.default(`The given Record Value is pointed to an apex domain. If this was intentional click Continue. If not, please cancel and go check the values before submitting.`, 'Continue', 'Cancel')) {
                 delete bad_object.list.CNAME_record_value;
             }
         }
@@ -559,7 +561,8 @@ function copyTicket() {
 };
 /*function asks the user for confirmation on request before reloading page*/
 async function start_new_ticket(){
-    if(await customDialogResponse('This action is not reversible. Continuing will clear all current data and start a new ticket.\n\n Do you want to continue?','Continue','Cancel')){
+    let custom_dialogue = await import('/Rain-Support-Tools/src/modules/custom-dialogue/dialog-ctrl.js');
+    if(await custom_dialogue.default('This action is not reversible. Continuing will clear all current data and start a new ticket.\n\n Do you want to continue?','Continue','Cancel')){
         window.location.reload();
     }
 }

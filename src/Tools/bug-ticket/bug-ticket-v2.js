@@ -419,7 +419,8 @@ async function checkDescriptionNeedsLinkExamples(){
     let example_check_for_links = (/(?:https?:\/\/)?(?:\w+\.)?(\w+\.)+\w{3,}/g).test($('#examples')[0].value);//check if there is a link in the examples data
     let check = true;
     if (description_check_array.length > 2 && !example_check_for_links) {//if array has 3 or more matches and there isn't a link in the example use custom modal popup to ask if user wants to continue without adding a link
-        check = await customDialogResponse(`It looks like there was mention of website issues, but there were no links provided in the examples. Do you want to continue without adding links to website issue areas?`,'Continue','Go Back');
+        let custom_dialogue = await import('/Rain-Support-Tools/src/modules/custom-dialogue/dialog-ctrl.js');
+        check = await custom_dialogue.default(`It looks like there was mention of website issues, but there were no links provided in the examples. Do you want to continue without adding links to website issue areas?`,'Continue','Go Back');
     }
     return check;
 }
@@ -446,7 +447,8 @@ async function checkUnessecaryErrors(){
             html += '</div>'
             return html;
         }
-        check = await customDialogResponse(
+        let custom_dialogue = await import('/Rain-Support-Tools/src/modules/custom-dialogue/dialog-ctrl.js');
+        check = await custom_dialogue.default(
             `There were some errors found that might not be system problems. Please remember that during testing:<ul><li>You should have the console open and only include errors that appear at the time of the bad behavior you are noticing</li><li>Console logs that are yellow usually do not indicate a problem</li></ul> If any of the below errors did not happen at the time of bad behavior remove them from the list of errors before continuing.<br>
             <br>
             ${errors_string()}`,
@@ -458,7 +460,8 @@ async function checkUnessecaryErrors(){
 }
 /*this function refreshes the page and deletes all current data. Ask the user if they are sure before reloading page*/
 async function start_new_ticket(){
-    if(await customDialogResponse('This action is not reversible. Continuing will clear all current data and start a new ticket.\n\n Do you want to continue?','Continue','Go Back')){
+    let custom_dialogue = await import('/Rain-Support-Tools/src/modules/custom-dialogue/dialog-ctrl.js');
+    if(await custom_dialogue.default('This action is not reversible. Continuing will clear all current data and start a new ticket.\n\n Do you want to continue?','Continue','Go Back')){
         window.location.reload();
     }
 }
@@ -547,7 +550,8 @@ function displayPastTickets(){
 /*allows deleting past tickets from the list*/
 async function deletePastTicketLine(cookie,line){
     //waits for confirmation
-    if (await customDialogResponse('Delete this past ticket?')) {
+    let custom_dialogue = await import('/Rain-Support-Tools/src/modules/custom-dialogue/dialog-ctrl.js');
+    if (await custom_dialogue.default('Delete this past ticket?')) {
         //deletes existing cookie
         deleteCookie(cookie);
         //removes visible line

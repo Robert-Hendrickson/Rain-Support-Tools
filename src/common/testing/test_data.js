@@ -16,7 +16,7 @@ async function setTestData() {
         } else if((/site-work/).test(path)) {
             testModule = await import('./pageData/siteWorkData.js');
         } else if((/database-ticket/).test(path)) {
-            testModule = await import('./pageData/databaseTicketData.js');
+            testModule = await import('./pageData/databaseData.js');
         }
         
         if (testModule && testModule.default) {

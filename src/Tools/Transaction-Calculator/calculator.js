@@ -470,7 +470,8 @@ function updateTaxRates(){
 /*function is used to change the way that taxes rates are edited and listed*/
 async function enableComplexTax() {
     //this will chnage the way it's entered and can't go back. Confirm with user their intention before proceeding
-    if(await customDialogResponse('This will change the way taxes are calculated until the page is refreshed. Are you sure you want to continue?','Yes','No')){
+    let custom_dialogue = await import('/Rain-Support-Tools/src/modules/custom-dialogue/dialog-ctrl.js');
+    if(await custom_dialogue.default('This will change the way taxes are calculated until the page is refreshed. Are you sure you want to continue?','Yes','No')){
         complex_tax = true;
         $('.tax-rate-container').removeClass('hide');
         $('#tax-rates tbody tr:nth-child(2) input').attr('disabled', 'true');
