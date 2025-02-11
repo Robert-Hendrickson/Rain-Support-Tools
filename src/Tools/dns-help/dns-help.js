@@ -126,7 +126,10 @@ function checkValues(record_data){
 /*function used to move through flow from step to step*/
 async function validateData(){
     //close any open error messages and prep for any possible errors found
-    Close_error_growl();
+    if(document.getElementById('error_message')) {
+        document.getElementById('error_message').remove();
+    }
+    let error_popup = await import('../../modules/error-popup/popup.js');
     let bad_object = {
         type: 'generate',
         list: {}
@@ -148,7 +151,7 @@ async function validateData(){
             }
             //if any errors were found display error popup
             if (Object.entries(bad_object.list).length) {
-                popup_error_growl(bad_object);
+                error_popup.default(bad_object);
             } else {//else check subdomain and move to next step
                 domain_data = isSubDomain();
                 if (domain_data[0]) {
@@ -166,7 +169,7 @@ async function validateData(){
             bad_object.list = checkForEmptyRows();
             //if issues found, display error message
             if (Object.entries(bad_object.list).length) {
-                popup_error_growl(bad_object);
+                error_popup.default(bad_object);
             } else {//else prep next step to display records added to confirm before copying
                 if (action_type.includes('add-record')){
                     $('[compiled-results] [add-record]').show();
@@ -461,14 +464,14 @@ async function validateRecordData(){
         }
         //if errors found display errors
         if (Object.entries(bad_object.list).length) {
-            popup_error_growl(bad_object);
+            error_popup.default(bad_object);
         } else {//else update row with changes and close modal
             submit(record_data);
             closeModal('record-entry-container');
             Close_error_growl();
         };
     } else {//else display unique error for not selecting a record type
-        popup_error_growl({
+        error_popup.default({
             type: 'generate',
             list: {
                 record_type: {

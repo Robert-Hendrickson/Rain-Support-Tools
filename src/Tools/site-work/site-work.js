@@ -1,9 +1,12 @@
 //variable to hold what work type is being done
 let work_type_selected;
 /*function handles moving through flow*/
-function validateData(){
+async function validateData(){
     //close any open errors
-    Close_error_growl();
+    if(document.getElementById('error_message')) {
+        document.getElementById('error_message').remove();
+    }
+    let error_popup = await import('../../modules/error-popup/popup.js');
     //prep an object for any potential errors
     let bad_object = {
         type: 'generate',
@@ -22,7 +25,7 @@ function validateData(){
                 bad_object.list['work'] = 'Please select work type to be done.';
             }
             if (Object.entries(bad_object.list).length) {
-                popup_error_growl(bad_object);
+                error_popup.default(bad_object);
             } else {
                 nextStep(current_step);
             };
@@ -32,7 +35,7 @@ function validateData(){
             if(work_type_selected === 'site'){
                 bad_object.list = checkSiteWork();
                 if (Object.entries(bad_object.list).length) {
-                    popup_error_growl(bad_object);
+                    error_popup.default(bad_object);
                 } else {
                     compileData(work_type_selected);
                     nextStep(current_step);
@@ -41,7 +44,7 @@ function validateData(){
             if(work_type_selected === 'template'){
                 bad_object.list = checkTemplateWork();
                 if (Object.entries(bad_object.list).length) {
-                    popup_error_growl(bad_object);
+                    error_popup.default(bad_object);
                 } else {
                     compileData(work_type_selected);
                     nextStep(current_step);
