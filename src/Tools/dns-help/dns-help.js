@@ -224,7 +224,7 @@ function appendRecordChanges(){
 `;
             }
             for (r=0;r<record_rows.length;r++) {
-                let row_inputs = $(record_rows[r]).find('div.data-input');
+                let row_inputs = $(record_rows[r]).find('td div.data-input');
                 text_to_append += `Record #${r+1}:
 Type: ${row_inputs[0].innerText}
 Name: ${row_inputs[1].innerText}
@@ -238,7 +238,7 @@ TTL: ${row_inputs[3].innerText}
 
 `;
             for (r=0;r<record_rows.length;r++) {
-                let row_inputs = $(record_rows[r]).find('div.data-input');
+                let row_inputs = $(record_rows[r]).find('td div.data-input');
                 text_to_append += `Record #${r+1}:
 **Original Values**
 Type: ${row_inputs[0].innerText}
@@ -476,7 +476,7 @@ async function validateRecordData(){
             list: {
                 record_type: {
                     text: 'Select a Record Type',
-                    html: '<img style="width: 100%;" src="/Rain-Support-Tools/src/imgs/bad-record-type.jpeg" />'
+                    html: '<img style="width: 100%;" src="/Rain-Support-Tools/src/media/imgs/bad-record-type.jpeg" />'
                 }
             }
         });
