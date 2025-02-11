@@ -429,10 +429,19 @@ function closeModal(modal){
     }
     $(`#${modal}`).hide();
     target_row = null;
-    Close_error_growl();
+    //will clear any previous error message
+    if(document.getElementById('error_message')) {
+        document.getElementById('error_message').remove();
+    }
 }
 /*function compiles record data and validates it meets requirements*/
 async function validateRecordData(){
+    //will clear any previous error message
+    if(document.getElementById('error_message')) {
+        document.getElementById('error_message').remove();
+    }
+    //will import the error popup module
+    let error_popup = await import('../../modules/error-popup/popup.js');
     let record_type = $('.dns-selector')[0].value;
     if(record_type != 'Select Type'){//if a record type was selected move forward
         record_data = {
@@ -468,7 +477,6 @@ async function validateRecordData(){
         } else {//else update row with changes and close modal
             submit(record_data);
             closeModal('record-entry-container');
-            Close_error_growl();
         };
     } else {//else display unique error for not selecting a record type
         error_popup.default({
