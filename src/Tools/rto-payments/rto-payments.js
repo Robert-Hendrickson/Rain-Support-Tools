@@ -11,7 +11,11 @@ function collectInputData() {
         rto_down_payment: parseFloat(document.getElementById('down-payment').value) || 0
     };
 }
-function checkRtoInputs() {
+async function checkRtoInputs() {
+    if(document.getElementById('error_message')) {
+        document.getElementById('error_message').remove();
+    }
+    let error_popup = await import('../../modules/error-popup/popup.js');
     // This function checks the inputs for the RTO Payments form and displays an error message if any of the inputs are invalid
     let rto_inputs = collectInputData();
     let errors = {};
@@ -56,7 +60,7 @@ function checkRtoInputs() {
         };
     }
     if(Object.keys(errors).length > 0) {
-        popup_error_growl({
+        error_popup.default({
             type: 'generate',
             list: errors
         });

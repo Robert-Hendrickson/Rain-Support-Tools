@@ -5,12 +5,10 @@ Riley page was pulled from this link: https://codepen.io/trajektorijus/pen/mdeBY
 
 # Common used components
     <!--common css-->
-    <link rel="stylesheet" href="/Rain-Support-Tools/src/common/actions/popup.css" />
     <!--common js scripts-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <script src="/Rain-Support-Tools/src/common/testing/test_data.js"></script>
-    <script src="/Rain-Support-Tools/src/common/actions/popup.js"></script>
     <script src="https://kit.fontawesome.com/8e52a98e38.js" crossorigin="anonymous"></script>
     <script src="/Rain-Support-Tools/src/common/flow-format/flow-ctrl.js"></script>
 
@@ -125,4 +123,21 @@ Riley page was pulled from this link: https://codepen.io/trajektorijus/pen/mdeBY
         </div>
     </div>
 ### error container
-    <div id="error_message" class="hide"></div>
+    /src/modules/error-popup/popup.js
+    make sure function to display the error message has async and then use these in the beginning for setup.
+    //will clear any previous error message
+    if(document.getElementById('error_message')) {
+        document.getElementById('error_message').remove();
+    }
+    //will import the error popup module
+    let error_popup = await import('../../modules/error-popup/popup.js');
+    
+    //prep an object for any potential errors
+    let bad_object = {
+        type: 'generate',
+        list: {}
+    };
+    //list can be hold as many errors as needed
+    bad_object.list['unique title'] = 'Make sure to select at least one place where replication happened.';
+    //then call the function to display the error message
+    error_popup.default(bad_object);

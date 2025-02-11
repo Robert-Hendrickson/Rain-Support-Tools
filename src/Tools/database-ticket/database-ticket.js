@@ -81,8 +81,11 @@ ${ticket_data.details}`;
 }
 async function validateData(){
     //close any error popups currently open
-    Close_error_growl();
-    //create object to be passed to error popup if needing to display an error /common/actions/popup.js - popup_error_growl() function
+    if(document.getElementById('error_message')) {
+        document.getElementById('error_message').remove();
+    }
+    let error_popup = await import('../../modules/error-popup/popup.js');
+    //create object to be passed to error popup if needing to display an error error_popup.default(bad_object);
     let bad_object = {
         type: 'generate',
         list: {}
@@ -102,7 +105,7 @@ async function validateData(){
                 bad_object.list['vertical'] = 'A Vertical Needs to be Selected From the Dropdown.';
             };
             if (Object.entries(bad_object.list).length) {
-                popup_error_growl(bad_object);
+                error_popup.default(bad_object);
             } else {
                 nextStep(current_step);
             };
@@ -125,7 +128,7 @@ async function validateData(){
                 bad_object.list['ticketReason'] = 'Please enter a detailed reason we are doing this data fix.';
             }
             if (Object.entries(bad_object.list).length) {
-                popup_error_growl(bad_object);
+                error_popup.default(bad_object);
             } else {
                 if (!link_fields.length) {
                     nextStep(current_step);
@@ -148,7 +151,7 @@ async function validateData(){
                 bad_object.list['details'] = "Not enough Details! Make sure to include all area's that are needing adjusted and include all id's so that nothing needs to be hunted down."
             }
             if (Object.entries(bad_object.list).length) {
-                popup_error_growl(bad_object);
+                error_popup.default(bad_object);
             } else {
                 compileData();
                 nextStep(current_step);
