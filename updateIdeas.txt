@@ -1,1 +1,16 @@
 ###
+move /src/common/actions/popup.js|.css to /src/modules/error-popup
+Also should updated it to be a callable async function like the custom dialogue module
+make sure to update all area's that call these paths after the change.
+
+actions/popup.js
+actions/popup.css
+popup_error_growl -> error_popup.default(bad_object);
+
+
+files that need updating:
+database-ticket
+dns-help
+rto-payments
+site-work
+###

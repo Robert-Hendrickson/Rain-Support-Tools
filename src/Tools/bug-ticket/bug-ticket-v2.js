@@ -94,8 +94,11 @@ the async keyword was added to this function so that it could be used along side
 */
 async function validateData(){
     //close any error popups currently open
-    Close_error_growl();
-    //create object to be passed to error popup if needing to display an error /common/actions/popup.js - popup_error_growl() function
+    if(document.getElementById('error_message')) {
+        document.getElementById('error_message').remove();
+    }
+    let error_popup = await import('../../modules/error-popup/popup.js');
+    //create object to be passed to error popup if needing to display an error error_popup.default(bad_object);
     let bad_object = {
         type: 'generate',
         list: {}
@@ -118,7 +121,7 @@ async function validateData(){
                 bad_object.list['where'] = 'Make sure to select at least one place where replication happened.';
             }
             if (Object.entries(bad_object.list).length) {
-                popup_error_growl(bad_object);
+                error_popup.default(bad_object);
             } else {
                 nextStep(current_step);
             };
@@ -146,7 +149,7 @@ async function validateData(){
                 }
             });
             if (Object.entries(bad_object.list).length) {
-                popup_error_growl(bad_object);
+                error_popup.default(bad_object);
             } else {
                 nextStep(current_step);
             };
@@ -162,7 +165,7 @@ async function validateData(){
                 bad_object.list['descriptionSalesforce'] = "Don't include saleforce links in your description. Development teams do not have access to Salesforce. If there is info in a case that needs to be given to the development team, please include a screenshot of the data or include it in your video.";
             }
             if (Object.entries(bad_object.list).length) {
-                popup_error_growl(bad_object);
+                error_popup.default(bad_object);
             } else {
                 nextStep(current_step);
             };
@@ -187,7 +190,7 @@ async function validateData(){
                 };
             };
             if (Object.entries(bad_object.list).length) {
-                popup_error_growl(bad_object);
+                error_popup.default(bad_object);
             } else {
                 nextStep(current_step);
             };
@@ -211,7 +214,7 @@ async function validateData(){
                 bad_object.list['errors'] = 'If errors are seen in the console, copy and paste the errors seen into the errors box.';
             }
             if (Object.entries(bad_object.list).length) {
-                popup_error_growl(bad_object);
+                error_popup.default(bad_object);
             } else {
                 //before completing generating ticket check if the description has enough keywords about a website problem and that there isn't a link given in the example. Wait fro response from checkDescriptionNeedsLinkExamples function before progressing
                 if (await checkDescriptionNeedsLinkExamples() && await checkUnessecaryErrors()) {
