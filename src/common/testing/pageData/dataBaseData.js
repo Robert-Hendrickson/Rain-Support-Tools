@@ -1,10 +1,10 @@
-export default async function setEmailListData() {
-    $('#businessName')[0].value = "Experience Test Site";
-    $('#storeID')[0].value = "CRM12381";
-    $('#vertical')[0].value = "Rain";
-    $('#details')[0].value = 'Consignment ID 12345678 needs to be updated so that it has a correct status.';
-    $('#ticketID')[0].value = '123456789';
-    $('#storyLink')[0].value = 'https://app.shortcut.com/rainretail/story/310515';
-    $('#agentName')[0].value = 'Robert Hendrickson';
-    $('#ticketReason')[0].value = 'The customer is escalated over the issue.';
+export default async function setDatabaseData() {
+    document.getElementById('businessName').value = "Experience Test Site";
+    document.getElementById('storeID').value = "CRM12381";
+    document.getElementById('vertical').value = "Rain";
+    document.getElementById('details').value = 'Consignment ID 12345678 needs to be updated so that it has a correct status.';
+    document.getElementById('ticketID').value = '123456789';
+    document.getElementById('storyLink').value = 'https://app.shortcut.com/rainretail/story/310515';
+    document.getElementById('agentName').value = 'Robert Hendrickson';
+    document.getElementById('ticketReason').value = 'The customer is escalated over the issue.';
 }

@@ -1,15 +1,15 @@
 export default async function setBugTicketData() {
     $('#crm')[0].value = '6085';
-            $('#systemArea')[0].value = 'till';
-            $('[replicable="yes"]')[0].click();
-            $('[where="Test"]')[0].click();
-            $('#steps-table tr input').each(function (){
-                $(this)[0].value = 'test step';
+            document.getElementById('systemArea').value = 'till';
+            document.querySelector('[replicable="yes"]').click();
+            document.querySelector('[where="Test"]').click();
+            document.querySelectorAll('#steps-table tr input').forEach(function (el){
+                el.value = 'test step';
             });
-            $('#description')[0].value = 'test description';
-            $('#links-content tr input').each(function (index){
-                $(this)[0].value = 'https://drive.google.com/file/d/test/view?' + index;
+            document.getElementById ('description').value = 'test description';
+            document.querySelectorAll('#links-content tr input').forEach(function (el,index){
+                el.value = 'https://drive.google.com/file/d/test/view?' + index;
             });
-            $('#examples')[0].value = 'robstestsite.com';
-            $('#errors')[0].value = 'No errors';
+            document.getElementById('examples').value = 'robstestsite.com';
+            document.getElementById('errors').value = 'No errors';
 }

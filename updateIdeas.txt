@@ -1,16 +1,5 @@
 ###
 remove jquery from
-/src/common/testing
-    /test_data.js
-    /pageData
-        /bugTicketData.js
-        /databaseData.js
-        /dnsHelpData.js
-        /emailListData.js
-        /siteWorkData.js
-/src/modules
-    /custom-dialogue
-    /error-popup
 /src/Tools
     /bandwidth-errors
     /bug-flow-check

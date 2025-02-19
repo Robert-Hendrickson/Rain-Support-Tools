@@ -1,9 +1,9 @@
 export default async function setDNSHelpData() {
-    $('#domain')[0].value = 'rainadmin.com';
-    $('[choice-selector] div').each(function(){
-        $(this).click();
+    document.getElementById('domain').value = 'rainadmin.com';
+    document.querySelectorAll('[choice-selector] div').forEach(function (el){
+        el.click();
     });
-    $(`#add-record-table tbody`).append(`<tr>
+    document.querySelector(`#add-record-table tbody`).insertAdjacentHTML('beforeend', `<tr>
         <td>
             <span class="row-delete">X</span>
         </td>
@@ -24,7 +24,7 @@ export default async function setDNSHelpData() {
             <div class="data-input">3600</div>
         </td>
     </tr>`);
-    $(`#correct-record-table tbody`).append(`<tr>
+    document.querySelector('#correct-record-table tbody').insertAdjacentHTML('beforeend', `<tr>
         <td>
             <span class="row-delete">X</span>
             <table>
@@ -75,7 +75,7 @@ export default async function setDNSHelpData() {
             </table>
         </td>
     </tr>`);
-    $(`#remove-record-table tbody`).append(`<tr>
+    document.querySelector('#remove-record-table tbody').insertAdjacentHTML('beforeend', `<tr>
         <td>
             <span class="row-delete">X</span>
         </td>

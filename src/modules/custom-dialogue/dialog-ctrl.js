@@ -1,7 +1,7 @@
 export default async function customDialogResponse(text_string_content, submit_button = "OK", close_button = 'Cancel'){
     return new Promise((resolve) => {
-        $('body').prepend('<dialog></dialog>');
-        let dialog_el = $('dialog')[0];
+        document.querySelector('body').insertAdjacentHTML('beforebegin', '<dialog></dialog>');
+        let dialog_el = document.querySelector('dialog');
         const styleElement = document.createElement('style');
         styleElement.textContent = `
             dialog{

@@ -93,9 +93,9 @@ export default async function popup_error_growl(error_object){
     };
     error_div.append(style);
     function Close_error_growl(){
-        if($('#error_message')[0].__vue_app__){
+        if(document.getElementById('error_message').__vue_app__){
             error_growl.unmount();
-            $('#error_message').addClass('hide');
+            document.getElementById('error_message').classList.add('hide');
         }
     };
 };
