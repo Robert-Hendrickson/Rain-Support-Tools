@@ -125,9 +125,9 @@ function toggleNav(){
 if((/Rain-Support-Tools\/.+/).test(location.pathname)){
     //find current page and apply current-page class to nav
     let current_page = location.pathname.substring(20);
-    $('.toolButton > a').each(function(){
-        if(new RegExp(current_page).test(this.href)){
-            $(this).addClass('current-page');
+    document.querySelectorAll('.toolButton > a').forEach(function(element){
+        if(new RegExp(current_page).test(element.href)){
+            element.classList.add('current-page');
         }
     });
 }

@@ -4,27 +4,33 @@ function buildBanner(bannerArray = ['Test Title','Test content','banner-test'],b
         let start_date = new Date(banner_dates[0]);
         let end_date = new Date(banner_dates[1]); 
         if ((current_date <= end_date, current_date >= start_date) && !getCookie(bannerArray[2])) {
-            $('body').prepend(`<div id="${bannerArray[2]}" class="banner-wrapper">
-                <div class="banner-content">
-                    <h2>${bannerArray[0]}</h2>
-                    <p>${bannerArray[1]}</p>
-                </div>
-                <button class="btn primary" onclick="closeBanner('${bannerArray[2]}',true)">Close</button>
-                </div>`);
+            let new_div = document.createElement('div');
+        new_div.id = bannerArray[2];
+        new_div.classList.add('banner-wrapper');
+        new_div.innerHTML = `<div class="banner-content">
+                <h2>${bannerArray[0]}</h2>
+                <p>${bannerArray[1]}</p>
+            </div>
+            <button class="btn primary" onclick="closeBanner('${bannerArray[2]}',true)">Close</button>
+            </div>`;
+        document.querySelector('body').prepend(new_div);
         }
     } else {
-        $('body').prepend(`<div id="${bannerArray[2]}" class="banner-wrapper">
-            <div class="banner-content">
+        let new_div = document.createElement('div');
+        new_div.id = bannerArray[2];
+        new_div.classList.add('banner-wrapper');
+        new_div.innerHTML = `<div class="banner-content">
                 <h2>${bannerArray[0]}</h2>
                 <p>${bannerArray[1]}</p>
             </div>
             <button class="btn primary" onclick="closeBanner('${bannerArray[2]}')">Close</button>
-            </div>`);
+            </div>`;
+        document.querySelector('body').prepend(new_div);
     }
 }
 
 function closeBanner(bannerID,cookie = false){
-    $(`#${bannerID}`).remove();
+    document.querySelector(`#${bannerID}`).remove();
     if (cookie) {
         setCookie(bannerID,'closed');
     }

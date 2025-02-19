@@ -46,7 +46,7 @@ Riley page was pulled from this link: https://codepen.io/trajektorijus/pen/mdeBY
 ## banner updates
     <script src="/Rain-Support-Tools/src/common/ctrl/banner_updates.js"></script>
     <script>
-        $(document).ready(function (){
+        document.addEventListener('DOMContentLoaded', () => {
             buildBanner(
         [
             header_title = string,
@@ -117,7 +117,7 @@ Riley page was pulled from this link: https://codepen.io/trajektorijus/pen/mdeBY
             <textarea></textarea>
             <div ticket-buttons>
                 <button style="float: left;" class="btn terciary" onclick="start_new_ticket()">New Case</button>
-                <button class="btn secondary" onclick="$('#ticket-container').addClass('hide')">Close</button>
+                <button class="btn secondary" onclick="document.getElementById('#ticket-container').classList.add('hide')">Close</button>
                 <button class="btn primary" onclick="copyTicket()">Copy</button>
             </div>
         </div>

@@ -1,18 +1,17 @@
-
 /*control displaying next step if validation passes*/
 function nextStep(current_step){
     //Move to next step
-    $(`[step='${current_step}']`)[0].classList.value = 'complete';
-    $(`[step='${current_step + 1}']`)[0].classList.value = 'active';
+    document.querySelector(`[step='${current_step}']`).classList.value = 'complete';
+    document.querySelector(`[step='${current_step + 1}']`).classList.value = 'active';
     //move to next data set
-    $(`[data='${current_step}']`)[0].classList.value = 'complete';
-    $(`[data='${current_step + 1}']`)[0].classList.value = 'active';
+    document.querySelector(`[data='${current_step}']`).classList.value = 'complete';
+    document.querySelector(`[data='${current_step + 1}']`).classList.value = 'active';
     if(current_step === 1){//hide "Back" button if on step one
-        $('button[prev]').removeClass('hide');
+        document.querySelector('button[prev]').classList.remove('hide');
     }
     if(current_step === $('[step]').length -1){//switch out "Next" button for "Finish" if moving to last step
-        $('button[next]').addClass('hide');
-        $('button[finish]').removeClass('hide');
+        document.querySelector('button[next]').classList.add('hide');
+        document.querySelector('button[finish]').classList.remove('hide');
     }
     updateTabs(current_step,current_step+1);
 }
@@ -20,26 +19,26 @@ function nextStep(current_step){
 function previousStep(){
     let current_step = parseInt($('#info-tabs .active')[0].getAttribute('step'));
     if(current_step === 2){
-        $('button[prev]').addClass('hide');
+        document.querySelector('button[prev]').classList.add('hide');
     }
     if(current_step === $('[step]').length){
-        $('button[finish]').addClass('hide');
-        $('button[next]').removeClass('hide');
+        document.querySelector('button[finish]').classList.add('hide');
+        document.querySelector('button[next]').classList.remove('hide');
     }
     //set step display changes
-    $(`[step='${current_step}']`)[0].classList.value = '';
-    $(`[step='${current_step - 1}']`)[0].classList.value = 'active';
+    document.querySelector(`[step='${current_step}']`).classList.value = '';
+    document.querySelector(`[step='${current_step - 1}']`).classList.value = 'active';
     //set data display changes
-    $(`[data='${current_step}']`)[0].classList.value = 'in-active';
-    $(`[data='${current_step - 1}']`)[0].classList.value = 'active';
+    document.querySelector(`[data='${current_step}']`).classList.value = 'in-active';
+    document.querySelector(`[data='${current_step - 1}']`).classList.value = 'active';
     updateTabs(current_step,current_step-1);
 }
 
 function updateTabs(add_tab,remove_tab){
-    $($(`[data="${add_tab}"]`)[0].querySelectorAll(['input','textarea','select'])).each((index, el)=>{
+    document.querySelector(`[data="${add_tab}"]`).querySelectorAll(['input','textarea','select']).forEach((el)=>{
         el.setAttribute('tabindex','-1');
     });
-    $($(`[data="${remove_tab}"]`)[0].querySelectorAll(['input','textarea','select'])).each((index, el)=>{
+    document.querySelector(`[data="${remove_tab}"]`).querySelectorAll(['input','textarea','select']).forEach((el)=>{
         el.removeAttribute('tabindex');
     });
 }

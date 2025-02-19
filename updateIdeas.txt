@@ -1,1 +1,29 @@
 ###
+remove jquery from
+/src/common/testing
+    /test_data.js
+    /pageData
+        /bugTicketData.js
+        /databaseData.js
+        /dnsHelpData.js
+        /emailListData.js
+        /siteWorkData.js
+/src/modules
+    /custom-dialogue
+    /error-popup
+/src/Tools
+    /bandwidth-errors
+    /bug-flow-check
+    /bug-ticket
+    /css-tester
+    /database-ticket
+    /dns-help
+    /email-list-checker
+    /fee-difference-calculator
+    /Inventory-check
+    /QB_Mixed_Split
+    /rto-payments
+    /site-work
+    /Tax-Inclusive-Calculator
+    /Transaction-Calculator
+    /wa_tax_rates

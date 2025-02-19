@@ -5,7 +5,6 @@
         <link rel="stylesheet" href="/Rain-Support-Tools/src/common/css/default.css" />
         <script src="\Rain-Support-Tools\src\common\ctrl\cookie_ctrl.js"></script>
         <link rel="stylesheet" href="/Rain-Support-Tools/index.css" />
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
         <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
         <script src="https://kit.fontawesome.com/8e52a98e38.js" crossorigin="anonymous"></script>
     </header>
@@ -21,9 +20,9 @@
             </div>
             <div class="menu_links">
                 <div id="menu_tabs">
-                    <div list="support" class="active" onclick="updateNavButtons($(this))">Support Tools</div>
-                    <div list="system" onclick="updateNavButtons($(this))">System Tools</div>
-                    <div list="misc" onclick="updateNavButtons($(this))">Misc Tools</div>
+                    <div list="support" class="active" onclick="updateNavButtons(this)">Support Tools</div>
+                    <div list="system" onclick="updateNavButtons(this)">System Tools</div>
+                    <div list="misc" onclick="updateNavButtons(this)">Misc Tools</div>
                 </div>
                 <nav-menu></nav-menu>
                 <script src="/Rain-Support-Tools/src/common/navigation/nav-builder.js"></script>
@@ -32,11 +31,11 @@
         <script>
             function updateNavButtons(obj){
                 //change the active selection for list type
-                $('div').removeClass('active');
-                obj.addClass('active');
+                document.querySelector('div.active').classList.remove('active');
+                obj.classList.add('active');
                 //change visible list of links
-                $('.toolButtonsList > div').hide();
-                $(`#${obj.attr('list')}`).show();
+                document.querySelectorAll('.toolButtonsList > div').forEach( element => element.style.display = 'none');
+                document.querySelector(`#${obj.getAttribute('list')}`).removeAttribute('style');
             }
         </script>
     </body>
