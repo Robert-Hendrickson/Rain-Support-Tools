@@ -1,19 +1,21 @@
 function displayMatchingRows(value){
     let regex_string = value.replaceAll(' ','|');
-    $('.error-list').each(function(){
+    document.querySelectorAll('.error-list').forEach(function(list){
         let found_row = false;
-        $(this).children('.row-wrapper').each(function(){
-            if($(this).text().match(regex_string)){
-                $(this).show();
-                found_row = true;
+        list.querySelectorAll('.row-wrapper').forEach(function(row){
+            if(row.textContent.match(regex_string)){
+                row.removeAttribute('style');
+                if(!found_row){
+                    found_row = true;
+                }
             } else {
-                $(this).hide();
+                row.setAttribute('style','display:none');
             }
         });
         if(found_row){
-            $(this).show();
+            list.removeAttribute('style');
         } else {
-            $(this).hide();
+            list.setAttribute('style','display:none');
         }
     });
 };
