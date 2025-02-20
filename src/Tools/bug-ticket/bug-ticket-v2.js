@@ -23,9 +23,9 @@ function checkLinkList(list_content, list_type){
         error_array.push(`${list_type} list is empty. Please make sure that the list has at least one ${list_type} link provided.`);
     } else {
         //if list is longer than 0, loop through each element in the list with the below function, this checks that there isn't more than one link in a row. If a duplicate link is foundin the row then it is removed, if the second link found isn't a duplicate an error is thrown to the user to make sure they delete any extra data out of the row
-        list_content.each(function (index){
+        list_content.forEach(function (element, index){
             //set current loop row value to be called on
-            let row_data = $(this)[0].value;
+            let row_data = element.value;
             if(row_data != ''){//if there is data in the row, check how many links are in it
                 row_data = row_data.match(/https?/g) || [];
                 //if the array returned is longer than 1 then there is a duplicate
@@ -33,7 +33,7 @@ function checkLinkList(list_content, list_type){
                     //let's find where second link starts in the string
                     let dup_link_check = {//object created to find duplicate links
                         times_iterated: 0,
-                        itterator: $(this)[0].value.matchAll(/https?/g),
+                        itterator: element.value.matchAll(/https?/g),
                         _constructor: () => {
                             for(match of dup_link_check.itterator){
                                 dup_link_check.times_iterated ++;
@@ -43,11 +43,11 @@ function checkLinkList(list_content, list_type){
                     }
                     dup_link_check._constructor();
                     //find part of url string that is the first link
-                    let first_link = $(this)[0].value.substr(0, dup_link_check.match_2);
+                    let first_link = element.value.substr(0, dup_link_check.match_2);
                     //check full string to see if the first link is found more than one time in fullness
-                    if ($(this)[0].value.match(_urlRegEx(first_link)).length > 1) {
+                    if (element.value.match(_urlRegEx(first_link)).length > 1) {
                         //if first link string is seen more than one time, set string value of the element to be just the first link
-                        $(this)[0].value = first_link;
+                        element.value = first_link;
                     } else {
                         //otherwise set return value as true for a potentially issue
                         error_array.push(`${list_type} ${index + 1} has more than one link.`);
@@ -56,11 +56,11 @@ function checkLinkList(list_content, list_type){
             }
         });
         //loop through each link given again
-        list_content.each(function (index){
+        list_content.forEach(function (element, index){
             //remove all white space from each link string, (spaces, tabs, etc.)
-            $(this)[0].value = $(this)[0].value.replaceAll(/\s/g,'');
+            element.value = element.value.replaceAll(/\s/g,'');
             //make sure that each link meets the expected criteria of being a google drive link
-            if($(this)[0].value === '' || !RegExp(/^(?:https?:\/\/)drive\.google\.com\/file\/d\/.*\/view(?:\?.+)?$/).test($(this)[0].value)){
+            if(element.value === '' || !RegExp(/^(?:https?:\/\/)drive\.google\.com\/file\/d\/.*\/view(?:\?.+)?$/).test(element.value)){
                 //if not, change return value to reflect a potential issue
                 error_array.push(`${list_type} ${index + 1} isn't a google drive link.`);
             }
@@ -74,15 +74,15 @@ function duplicateLinksFound(){
     let duplicates = [];
     let link_list = '';
     //build link list by getting each input and making a string comma delminated (link_1,link_2,etc)
-    $('#links-content tr input').each(function (){
-        link_list += $(this)[0].value + ',';
+    document.querySelectorAll('#links-content tr input').forEach(function (element){
+        link_list += element.value + ',';
     })
     //loop through each input and check it's input as a regex test on the string to make sure it doesn't find more than one instance of a link
-    $('#links-content tr input').each(function (){
-        let temp_regex = new RegExp($(this)[0].value.replace(/[\?\\\/]/g,"\\\$&"), 'g');
-        if(link_list.match(temp_regex).length > 1 && $(this)[0].value != ''){
+    document.querySelectorAll('#links-content tr input').forEach(function (element){
+        let temp_regex = new RegExp(element.value.replace(/[\?\\\/]/g,"\\\$&"), 'g');
+        if(link_list.match(temp_regex).length > 1 && element.value != ''){
             //if test finds more than 1 instance of a link add it to the list to display
-            duplicates.push($(this)[0].value);
+            duplicates.push(element.value);
         }
     })
     //return true if duplicates found, false if no duplicates found
@@ -104,20 +104,20 @@ async function validateData(){
         list: {}
     };
     //get current step number from web page
-    let current_step = parseInt($('#info-tabs .active')[0].getAttribute('step'));
+    let current_step = parseInt(document.querySelector('#info-tabs .active').getAttribute('step'));
     //compare current_step value against potential cases, complete the actions for any case that results as true
     switch (current_step) {
         case 1://crm, system area, and is replicable (yes or no) check
-            if($('#crm')[0].value === '' || !RegExp(/^(?:[c|C][r|R][m|M])?\d{2,}$/).test($('#crm')[0].value)){
+            if(document.getElementById('crm').value === '' || !RegExp(/^(?:[c|C][r|R][m|M])?\d{2,}$/).test(document.getElementById('crm').value)){
                 bad_object.list['crm'] = 'The CRM needs to be a valid CRM.(2 digits or more)';
             }
-            if ($('#systemArea')[0].value === '') {
+            if (document.getElementById('systemArea').value === '') {
                 bad_object.list['system'] = 'Please enter the area of the system that is affected.';
             }
-            if (!$('[replicable].selected').length) {
+            if (!document.querySelectorAll('[replicable].selected').length) {
                 bad_object.list['replicable'] = 'Please select if this is replicable or not.';
             }
-            if ($('[replicable].selected').text() === 'Yes' && !$('[where].selected').length) {
+            if (document.querySelector('[replicable].selected').textContent === 'Yes' && !document.querySelectorAll('[where].selected').length) {
                 bad_object.list['where'] = 'Make sure to select at least one place where replication happened.';
             }
             if (Object.entries(bad_object.list).length) {
@@ -128,21 +128,21 @@ async function validateData(){
             break;                           
         case 2://steps for replication
             let steps_true = true;
-            if($('#steps-table tbody tr').length < 1){
-                bad_object.list['steps'] = 'Please make sure all available rows have data. If there are any blank rows use the "Remove Row" button to remove unnecessary rows.';
+            if(document.querySelectorAll('#steps-table tbody tr').length < 1){
+                bad_object.list['steps'] = 'Please list the steps taken to reproduct the issue.';
                 steps_true = false;
             }
             let uncertain_steps = {
                 value: false,
                 reg: new RegExp(/^[iI][fF]\s/)
             }
-            $('#steps-table tbody tr input').each(function (){
-                if($(this)[0].value === '' || uncertain_steps.reg.test($(this)[0].value)){
-                    if($(this)[0].value === '' && steps_true){
+            document.querySelectorAll('#steps-table tbody tr input').forEach(function (element){
+                if(element.value === '' || uncertain_steps.reg.test(element.value)){
+                    if(element.value === '' && steps_true){
                         bad_object.list['steps'] = 'Please make sure all available rows have data. If there are any blank rows use the "Remove Row" button to remove unnecessary rows.';
                         steps_true = false;
                     }
-                    if(uncertain_steps.reg.test($(this)[0].value) && uncertain_steps.value != true){
+                    if(uncertain_steps.reg.test(element.value) && uncertain_steps.value != true){
                         bad_object.list['uncertain'] = 'One or more of the steps provided start with the word "If". Please use concise language and list only steps that you have taken or were taken to produce the behavior being reported. If you have concerns about a step please speak with an L2 or L3.';
                         uncertain_steps.value = true;
                     }
@@ -155,13 +155,13 @@ async function validateData(){
             };
             break;
         case 3://Description
-            if($('#description')[0].value === '' || RegExp(/^[n|N](?:\/|\\)?[a|A]\s?$/).test($('#description')[0].value)){
+            if(document.getElementById('description').value === '' || RegExp(/^[n|N](?:\/|\\)?[a|A]\s?$/).test(document.getElementById('description').value)){
                 bad_object.list['description'] = 'Description cannot be empty or n/a. Please describe in detail what is happening.';
             }
-            if (hasSlackLink($('#description')[0].value)) {
+            if (hasSlackLink(document.getElementById('description').value)) {
                 bad_object.list['descriptionSlack'] = "Please don't use slack links in your description. Instead describe in your own words the details of the issue that is happening.";
             }
-            if (hasSalesforceLink($('#description')[0].value)) {
+            if (hasSalesforceLink(document.getElementById('description').value)) {
                 bad_object.list['descriptionSalesforce'] = "Don't include saleforce links in your description. Development teams do not have access to Salesforce. If there is info in a case that needs to be given to the development team, please include a screenshot of the data or include it in your video.";
             }
             if (Object.entries(bad_object.list).length) {
@@ -171,13 +171,13 @@ async function validateData(){
             };
             break;
         case 4://screenshot and video link lists
-            image_problems = checkLinkList($('#screenshot-table tr input') , 'Image');
+            image_problems = checkLinkList(document.querySelectorAll('#screenshot-table tr input') , 'Image');
             if (image_problems.length) {
                 for (i=0;i<image_problems.length;i++) {
                     bad_object.list[`image_${i}`] = image_problems[i];
                 }
             };
-            video_problems = checkLinkList($('#video-table tr input'), 'Video');
+            video_problems = checkLinkList(document.querySelectorAll('#video-table tr input'), 'Video');
             if (video_problems.length) {
                 for (i=0;i<video_problems.length;i++) {
                     bad_object.list[`video_${i}`] = video_problems[i];
@@ -196,7 +196,7 @@ async function validateData(){
             };
             break;
         case 5://Examples and Errors
-            let examples = $('#examples')[0].value;
+            let examples = document.getElementById('examples').value;
             if(RegExp(/rainadmin|quiltstorewebsites|jewel360|musicshop360/).test(examples)){
                 bad_object.list['examples_links'] = 'Please make sure that all links do not point to an admin domain such as rainadmin.com. If there is a report or a product that has an issue please write the report name and filters used to find the issue or and unique ids needed to find the data.';
             }
@@ -206,7 +206,7 @@ async function validateData(){
             if (hasSalesforceLink(examples)) {
                 bad_object.list['examplesSalesforce'] = "Don't include saleforce links in your examples. Development teams do not have access to Salesforce. If there is info in a case that needs to be given to the development team, please include a screenshot of the data or include it in your video.";
             }
-            let errors = $('#errors')[0].value;
+            let errors = document.getElementById('errors').value;
             if(RegExp(/^[nN](?:\\|\/)?[aA]/).test(errors) || errors === ''){
                 bad_object.list['errors'] = 'Errors box cannot be blank or n/a. If there are no visible errors associated with the problem behavior, please write "No Console Errors Seen".';
             }
@@ -234,7 +234,7 @@ function markdownScrubbing(string_data){//currently this finds any '#' character
 }
 //this function returns the selected where or both if both where's are selected
 function getWhereData(){
-    let where_list = Array.from($('[where].selected'));
+    let where_list = Array.from(document.querySelectorAll('[where].selected'));
     let return_text = `Where did replication happen?
 `;
     if (where_list.length === 1) {
@@ -247,40 +247,43 @@ function getWhereData(){
     return return_text;
 }
 /*this compiles all of the data and builds the ticket info and displays it to the user to copy*/
-function generateTicket(passed_object = {}){//due to new updates to allow old ticket info to be accesible from saved cookies, this takes info as an object that get's passed in. If no data was passed in (we are using current page data, not old ticket data) then passed_object is set as a default of an empty object.
+function generateTicket(passed_object = {}){
+    //due to new updates to allow old ticket info to be accesible from saved cookies, this takes info as an object that get's passed in. If no data was passed in (we are using current page data, not old ticket data) then passed_object is set as a default of an empty object.
     if(passed_object != null){
         let data;
         if (!Object.keys(passed_object).length) {
             //if the passed object has nothing in it, then data is set to be the below object
             data = {
-                crm: $('#crm')[0].value,
-                area: $('#systemArea')[0].value,
-                replicable: $('[replicable].selected').attr('replicable'),
-                steps: () => {//the part of the object is a function that loops through the steps table and builds a string then returns the string value as it's resolution when called
+                crm: document.getElementById('crm').value,
+                area: document.getElementById('systemArea').value,
+                replicable: document.querySelector('[replicable].selected').getAttribute('replicable'),
+                steps: () => {
+                    //function that loops through the steps table and builds a string then returns the string value as it's resolution when called
                     let string = '';
-                    $('#steps-table tr input').each(function (index){
-                        let step = index + 1;
-                        string += `${index + 1}. ` + $(this)[0].value + '\n';
+                    document.querySelectorAll('#steps-table tr input').forEach(function (el, index){
+                        string += `${index + 1}. ` + el.value + '\n';
                     });
                     return string;
                 },
-                description: $('#description')[0].value,
-                screenshots: () => {//the part of the object is a function that loops through the screenshot table and builds a string then returns the string value as it's resolution when called
+                description: document.getElementById('description').value,
+                screenshots: () => {
+                    //function that loops through the screenshot table and builds a string then returns the string value as it's resolution when called
                     let string = '';
-                    $('#screenshot-table tr input').each(function (){
-                        string += $(this)[0].value + '\n\n';
+                    document.querySelectorAll('#screenshot-table tr input').forEach(function (el){
+                        string += el.value + '\n\n';
                     });
                     return string;
                 },
-                videos: () => {//the part of the object is a function that loops through the video table and builds a string then returns the string value as it's resolution when called
+                videos: () => {
+                    //function that loops through the video table and builds a string then returns the string value as it's resolution when called
                     let string = '';
-                    $('#video-table tr input').each(function (){
-                        string += $(this)[0].value + '\n\n';
+                    document.querySelectorAll('#video-table tr input').forEach(function (el){
+                        string += el.value + '\n\n';
                     });
                     return string;
                 },
-                examples: $('#examples')[0].value,
-                errors: $('#errors')[0].value
+                examples: document.getElementById('examples').value,
+                errors: document.getElementById('errors').value
             };
             if (data.replicable === 'yes') {
                 data['where'] = getWhereData();
@@ -291,7 +294,8 @@ function generateTicket(passed_object = {}){//due to new updates to allow old ti
                 crm: passed_object.crm,
                 area: passed_object.area,
                 replicable: passed_object.replicable,
-                steps: () => {//the part of the object is a function that loops through the old ticket data steps and builds a string then returns the string value as it's resolution when called
+                steps: () => {
+                    //function that loops through the old ticket data steps and builds a string then returns the string value as it's resolution when called
                     let string = '';
                     let index = 1;
                     for (row in passed_object.steps) {
@@ -302,7 +306,8 @@ function generateTicket(passed_object = {}){//due to new updates to allow old ti
                 },
                 description: passed_object.description,
                 expected: passed_object.expected,
-                screenshots: () => {//the part of the object is a function that loops through the old ticket data screenshots and builds a string then returns the string value as it's resolution when called
+                screenshots: () => {
+                    //function that loops through the old ticket data screenshots and builds a string then returns the string value as it's resolution when called
                     let string = '';
                     let index = 1;
                     for (row in passed_object.screenshots) {
@@ -311,7 +316,8 @@ function generateTicket(passed_object = {}){//due to new updates to allow old ti
                     }
                     return string;
                 },
-                videos: () => {//the part of the object is a function that loops through the old ticket data videos and builds a string then returns the string value as it's resolution when called
+                videos: () => {
+                    //function that loops through the old ticket data videos and builds a string then returns the string value as it's resolution when called
                     let string = '';
                     let index = 1;
                     for (row in passed_object.videos) {
@@ -328,7 +334,7 @@ function generateTicket(passed_object = {}){//due to new updates to allow old ti
             }
         }
     //this sets a string as the value of the textarea container when generating a ticket using the object values created from above '${}' formatting is in-line accessing for variable data.
-    $('#ticket-container > div > textarea')[0].value = `**LOCATION:**
+    document.querySelector('#ticket-container > div > textarea').value = `**LOCATION:**
 **Bug Submission:**
 Store ID:
 ${data.crm}
@@ -369,14 +375,16 @@ CONSOLE ERRORS:
 ${data.errors}
 \`\`\`
 `;
-    $('#ticket-container').removeClass('hide');//display generated ticket
-    $('#ticket-container > div > textarea')[0].focus();//set focus on text box for easy copying
+    //display generated ticket
+    document.getElementById('ticket-container').classList.remove('hide');
+    //set focus on text box for easy copying
+    document.querySelector('#ticket-container > div > textarea').focus();
 }
 }
 /*this function auto copies the data from the textarea to the computers clipboard*/
 function copyTicket() {
     // Get the text field
-    const copyText = $('#ticket-container > div > textarea')[0];
+    const copyText = document.querySelector('ticket-container > div > textarea');
 
     // Select the text field
     copyText.select();
@@ -404,24 +412,25 @@ function addTableRow(table){
         default:
             console.error('Something went wrong. Passed table type was not of an expected value: ' + table);
     }
-    let new_row_number = $(`#${table} tbody tr`).length + 1;//finds what row is being added by how many already exist
+    //finds what row is being added by how many already exist
+    let new_row_number = document.querySelectorAll(`#${table} tbody tr`).length + 1;
     //create a new table row and append it to the table
-    $(`#${table} tbody`).append(`<tr><td>${row_label} ${new_row_number}<input placeholder="Enter ${row_label} ${new_row_number}" type="text" /></td></tr>`)
+    document.querySelector(`#${table} tbody`).insertAdjacentHTML('beforeend', `<tr><td>${row_label} ${new_row_number}<input placeholder="Enter ${row_label} ${new_row_number}" type="text" /></td></tr>`);
 }
 /*removes the last row from the table being interacted with*/
 function removeTableRow(table){
-    $(`#${table} tbody tr:last-child`).remove();
+    document.querySelector(`#${table} tbody tr:last-child`).remove();
 }
 /*this function is used in the last step validation to make sure that if there is enough mention of website trouble that the examples include a link or ask if it was intentionally left out*/
 async function checkDescriptionNeedsLinkExamples(){
     //function returns true if there is no need to add more data
-    let description_check_array = $('#description')[0].value.match(/website|cart|checkout|add to cart/gi);//find out how many times the description uses any of the listed keywords by matching them in an array for each instance
-    if (description_check_array === null) {//if no keywords are found set the variable to an empty array
-        description_check_array = [];
-    }
-    let example_check_for_links = (/(?:https?:\/\/)?(?:\w+\.)?(\w+\.)+\w{3,}/g).test($('#examples')[0].value);//check if there is a link in the examples data
+    //find out how many times the description uses any of the listed keywords by matching them in an array for each instance
+    let description_check_array = document.getElementById('description').value.match(/website|cart|checkout|add to cart/gi) || [];
+    //check if there is a link in the examples data
+    let example_check_for_links = (/(?:https?:\/\/)?(?:\w+\.)?(\w+\.)+\w{3,}/g).test(document.getElementById('examples').value);
     let check = true;
-    if (description_check_array.length > 2 && !example_check_for_links) {//if array has 3 or more matches and there isn't a link in the example use custom modal popup to ask if user wants to continue without adding a link
+    if (description_check_array.length > 2 && !example_check_for_links) {
+        //if array has 3 or more matches and there isn't a link in the example use custom modal popup to ask if user wants to continue without adding a link
         let custom_dialogue = await import('/Rain-Support-Tools/src/modules/custom-dialogue/dialog-ctrl.js');
         check = await custom_dialogue.default(`It looks like there was mention of website issues, but there were no links provided in the examples. Do you want to continue without adding links to website issue areas?`,'Continue','Go Back');
     }
@@ -429,7 +438,7 @@ async function checkDescriptionNeedsLinkExamples(){
 }
 //asks user if the errors found were actually from system break or just ones they noticed afterwards
 async function checkUnessecaryErrors(){
-    let errors = $('textarea#errors')[0].value;
+    let errors = document.querySelector('textarea#errors').value;
     let check = true;
     let bad_error_array = [];
     if ((/Blocked aria-hidden/i).test(errors)) {
@@ -470,15 +479,17 @@ async function start_new_ticket(){
 }
 /*this function is set as a listener to the replicable steps button and executes when either one is clicked*/
 function selectReplicability(el){//el = clicked on element in html, update the classes to make the one that triggered the function to be the selected option
-    $('div[replicable].selected').removeClass('selected');
-    el.target.classList.value = 'selected';
+    if(document.querySelector('div[replicable].selected')){
+        document.querySelector('div[replicable].selected').classList.remove('selected');
+    }
+    el.target.classList.add('selected');
 }
 /*this function is set as a listener to the where steps button and executes when either one is clicked*/
 function selectWhere(el){//el = clicked on element in html, toggle the clicked on option to have or not have the class 'selected'
     if (!el.target.classList.contains('selected')) {
-        el.target.classList.value = 'selected';
+        el.target.classList.add('selected');
     } else {
-        el.target.classList.value = '';
+        el.target.classList.remove('selected');
     }
 }
 /*this function takes the data from the current ticket and sets it as a cookie to be accessed at a future date potentially*/
@@ -490,49 +501,49 @@ function newCookieData(){
     //this function is accessed later to create an object of the steps, screenshots, and videos
     function subObjectCreator(table){
         let temp_object = {};
-        $(`#${table}-table tr`).each(function(index,el){
+        document.querySelectorAll(`#${table}-table tr`).forEach(function(el,index){
             temp_object[`line_${index + 1}`] = scrubBadJsonChar(el.querySelector('input').value);
         })
         return temp_object;
     }
     //creates a js object out of the current ticket data
     let bug_object = {
-        crm: scrubBadJsonChar($('input#crm')[0].value),
-        area: scrubBadJsonChar($('input#systemArea')[0].value),
-        replicable: $('[choice-selector][replicable-selector] .selected').attr('replicable'),
+        crm: scrubBadJsonChar(document.querySelector('input#crm').value),
+        area: scrubBadJsonChar(document.querySelector('input#systemArea').value),
+        replicable: document.querySelector('[choice-selector][replicable-selector] .selected').getAttribute('replicable'),
         steps: subObjectCreator('steps'),
-        description: scrubBadJsonChar($('#description')[0].value),
+        description: scrubBadJsonChar(document.getElementById('description').value),
         screenshots: subObjectCreator('screenshot'),
         videos: subObjectCreator('video'),
-        examples: scrubBadJsonChar($('#examples')[0].value),
-        errors: scrubBadJsonChar($('#errors')[0].value)
+        examples: scrubBadJsonChar(document.getElementById('examples').value),
+        errors: scrubBadJsonChar(document.getElementById('errors').value)
     }
-    if ($('[where].selected').length) {
+    if (document.querySelectorAll('[where].selected').length) {
         bug_object['where'] = getWhereData();
     }
     let now = Date.now();
     //turns the js object into a string of data and saves it as the value of a new cookie using the current time stamp as a unique id
     setCookie(`bug_${now}`,JSON.stringify(bug_object));
     //update existing list
-    if (!$('past-tickets').children().length) {
-        $('#past-ticket-container').show();
+    if (!document.querySelector('past-tickets').children.length) {
+        document.querySelector('#past-ticket-container').removeAttribute('style');
     }
     //updates number
-    $('#list-toggle').text(parseInt($('#list-toggle').text()) + 1);
+    document.getElementById('list-toggle').innerText = parseInt(document.getElementById('list-toggle').innerText) + 1;
     //appends new ticket to list
-    $('past-tickets').append(`<div data="${JSON.stringify(bug_object).replaceAll(`"`,"&quot;")}"><span class="close" onclick="deletePastTicketLine('bug_${now}',this)"></span>${Date(now).substring(0,24)}<br>CRM: ${bug_object.crm}<br>Description: ${bug_object.description}</div>`);
-    $('past-tickets > div:last-child').on('click',oldTicketDataPrint);
+    document.querySelector('past-tickets').insertAdjacentHTML('beforeend', `<div data="${JSON.stringify(bug_object).replaceAll(`"`,"&quot;")}"><span class="close" onclick="deletePastTicketLine('bug_${now}',this)"></span>${Date(now).substring(0,24)}<br>CRM: ${bug_object.crm}<br>Description: ${bug_object.description}</div>`);
+    document.querySelector('past-tickets > div:last-child').addEventListener('click',oldTicketDataPrint);
 }
 /*This function bulds a list out of the data passed in the array, the array comes from displayPastTickets function*/
 function buildPastTicketDivs(array){
-    $('#list-toggle')[0].innerText = array.length;//update the toggle to display the number of past tickets available
+    document.getElementById('list-toggle').innerText = array.length;//update the toggle to display the number of past tickets available
     for (i=0;i<array.length;i++) {//loop through the array and build a div for each using data from the cookie
         bug_date_string = array[i].substring(0,array[i].indexOf('='));
         bug_details_string = array[i].substring(array[i].indexOf('=') +1 );
         let date = new Date(parseInt(bug_date_string.split("_")[1])).toString().substring(0,24);
         let bug_data = bug_details_string.replaceAll(/"/g,'&quot;');
         let temp_json = JSON.parse(bug_details_string);
-        $('past-tickets').append(`<div data="${bug_data}"><span class="close" onclick="deletePastTicketLine('${bug_date_string}',this)"></span>${date}<br>CRM: ${temp_json.crm}<br>Description: ${temp_json.description}</div>`);
+        document.querySelector('past-tickets').insertAdjacentHTML('beforeend', `<div data="${bug_data}"><span class="close" onclick="deletePastTicketLine('${bug_date_string}',this)"></span>${date}<br>CRM: ${temp_json.crm}<br>Description: ${temp_json.description}</div>`);
     }
 }
 /*this takes the div of a old ticket from the list and displays it in the ticket generator area so that it can be copied again if necessary*/
@@ -546,8 +557,8 @@ function displayPastTickets(){
     let bug_array = document.cookie.split('; ').filter((value) => (/^bug\_\d+/).test(value));
     if (bug_array.length > 0) {
         buildPastTicketDivs(bug_array);
-        $('past-tickets > div').on('click',oldTicketDataPrint);
-        $('#past-ticket-container').show();
+        document.querySelectorAll('past-tickets > div').forEach(el => el.addEventListener('click',oldTicketDataPrint));
+        document.querySelector('#past-ticket-container').removeAttribute('style');
     }
 }
 /*allows deleting past tickets from the list*/
@@ -558,27 +569,27 @@ async function deletePastTicketLine(cookie,line){
         //deletes existing cookie
         deleteCookie(cookie);
         //removes visible line
-        $(line).parent().remove();
+        line.parentElement.remove();
         //updates number
-        $('#list-toggle').text(parseInt($('#list-toggle').text())-1)
+        document.getElementById('list-toggle').innerText = parseInt(document.getElementById('list-toggle').innerText)-1;
         //if last line is deleted, hide the panel entirely.
-        if (!$('past-tickets').children().length) {
-            $('#past-ticket-container').hide();
+        if (!document.querySelector('past-tickets').children.length) {
+            document.querySelector('#past-ticket-container').style.display = 'none';
         }
     }
-    if ($('#list-toggle')[0].innerText === '0') {
-        $('#list-toggle').click();
+    if (document.getElementById('list-toggle').innerText === '0') {
+        document.getElementById('list-toggle').click();
     }
 }
 /*this waits for the window to finish loading everything then executes a set of commands for the page on initial load*/
-$(window).ready(function (){
+window.addEventListener('load', () => {
     //sets event listener on replicable buttons
-    $('div[replicable]').on('click',selectReplicability);
+    document.querySelectorAll('div[replicable]').forEach(el => el.addEventListener('click',selectReplicability));
     //sets event listener on where buttons
-    $('div[where]').on('click',selectWhere);
+    document.querySelectorAll('div[where]').forEach(el => el.addEventListener('click',selectWhere));
     //this sets the toggle functionality of the past tickets toggle
-    $('#list-toggle').on('click', function (){
-        $('past-tickets').toggleClass('active');
+    document.getElementById('list-toggle').addEventListener('click', function (){
+        document.querySelector('past-tickets').classList.toggle('active');
     });
     //this runs the function to check for any old tickets still saved in cookies
     displayPastTickets();
