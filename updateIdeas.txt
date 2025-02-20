@@ -13,3 +13,6 @@ remove jquery from
     /Tax-Inclusive-Calculator
     /Transaction-Calculator
     /wa_tax_rates
+
+###
+create a module for regex checking
