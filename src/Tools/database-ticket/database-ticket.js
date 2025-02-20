@@ -1,20 +1,16 @@
-/* function used to find current step at any time */
-function getCurrentStep() {
-    return parseInt($("#info-tabs .active")[0].getAttribute('step'));
-}
 function isNA(string) {
-    return (/^n[\/\s]?a$/i).test($.trim(string));
+    return (/^n[\/\s]?a$/i).test(string.trim());
 }
 function compileData(copyable = false) {
     let ticket_data = {};
-    ticket_data.businessName = $('#businessName')[0].value;
-    ticket_data.storeID = $('#storeID')[0].value;
-    ticket_data.vertical = $('#vertical')[0].value;
-    ticket_data.details = $('#details')[0].value;
-    ticket_data.Salesforce_Ticket_ID = $('#ticketID')[0].value;
-    ticket_data.Shortcut_Story_Link = $('#storyLink')[0].value;
-    ticket_data.Approving_Agent_Name = $('#agentName')[0].value;
-    ticket_data.Ticket_Reason = $('#ticketReason')[0].value;
+    ticket_data.businessName = document.getElementById('businessName').value;
+    ticket_data.storeID = document.getElementById('storeID').value;
+    ticket_data.vertical = document.getElementById('vertical').value;
+    ticket_data.details = document.getElementById('details').value;
+    ticket_data.Salesforce_Ticket_ID = document.getElementById('ticketID').value;
+    ticket_data.Shortcut_Story_Link = document.getElementById('storyLink').value;
+    ticket_data.Approving_Agent_Name = document.getElementById('agentName').value;
+    ticket_data.Ticket_Reason = document.getElementById('ticketReason').value;
     if (copyable) {
         let ticket = `**Data Fix**
 **Company Info**
@@ -45,8 +41,8 @@ ${ticket_data.Ticket_Reason}
 Details:
 ${ticket_data.details}
 `;
-        $('#ticket-wrapper')[0].value = ticket;
-        $('#ticket-container').removeClass('hide');
+        document.getElementById('ticket-wrapper').value = ticket;
+        document.getElementById('ticket-container').classList.remove('hide');
     } else {
         let html = `**Data Fix**<br>
 **Company Info**<br>
@@ -76,7 +72,7 @@ ${ticket_data.Ticket_Reason}<br>
 **Fix Details**<br>
 Details:<br>
 ${ticket_data.details}`;
-        $('#data-wrapper').html(html);
+        document.getElementById('data-wrapper').innerHTML = html;
     }
 }
 async function validateData(){
@@ -90,15 +86,15 @@ async function validateData(){
         type: 'generate',
         list: {}
     };
-    let current_step = getCurrentStep();
+    let current_step = parseInt(document.querySelector("#info-tabs .active").getAttribute('step'));
     switch(current_step){
         case 1:
-            let check_list = [$('#businessName')[0].value,$('#storeID')[0].value,$('#vertical')[0].value]
+            let check_list = [document.getElementById('businessName').value,document.getElementById('storeID').value,document.getElementById('vertical').value]
             //check for business name can't be empty or na
             if (check_list[0] === '' || isNA(check_list[0])) {
                 bad_object.list['buisness'] = 'Business Name is Required to move forward.';
             };
-            if (!(/^(:?crm)?\d{2,}$/i).test($.trim(check_list[1]))) {
+            if (!(/^(:?crm)?\d{2,}$/i).test(check_list[1].trim())) {
                 bad_object.list['storeID'] = 'Make sure the Store ID matches expected out put (crm12381)';
             }
             if (check_list[2] === '') {
@@ -111,20 +107,25 @@ async function validateData(){
             };
             break;
         case 2:
+            let ticket_id = document.getElementById('ticketID').value.trim();
+            let shortcut_link = document.getElementById('storyLink').value.trim();
+            let story_link = document.getElementById('storyLink').value.trim();
+            let agent_name = document.getElementById('agentName').value.trim();
+            let ticket_reason = document.getElementById('ticketReason').value.trim();
             let link_fields = [];
-            if ($.trim($('#ticketID')[0].value) === '') {
+            if (ticket_id === '') {
                 link_fields.push('Ticket ID');
             }
-            if ($.trim($('#storyLink')[0].value) === '') {
+            if (shortcut_link === '') {
                 link_fields.push('Shortcut Link');
             }
-            if ($('#storyLink')[0].value != '' && !(/^https:\/\/app\.shortcut\.com\/rainretail\/story\/\d+/).test($.trim($('#storyLink')[0].value))) {
+            if (story_link != '' && !(/^https:\/\/app\.shortcut\.com\/rainretail\/story\/\d+/).test(story_link.trim())) {
                 bad_object.list['shortcut'] = 'Shortcut link should either be the Shortcut Story Link from the Parent Case in Salesforce or NULL.';
             }
-            if (isNA($('#agentName')[0].value) || !(/^[a-zA-Z]{3,}\s[a-zA-Z]{3,}$/).test($.trim($('#agentName')[0].value))) {
+            if (isNA(agent_name) || !(/^[a-zA-Z]{3,}\s[a-zA-Z]{3,}$/).test(agent_name)) {
                 bad_object.list['agentName'] = 'Enter the name of the agent that approved this task.(First Last)';
             }
-            if ($('#ticketReason')[0].value.length < 40) {
+            if (ticket_reason.length < 40) {
                 bad_object.list['ticketReason'] = 'Please enter a detailed reason we are doing this data fix.';
             }
             if (Object.entries(bad_object.list).length) {
@@ -139,7 +140,8 @@ async function validateData(){
                             empty_fields_string += `${link_fields[i]}<br>`;
                         }
                         return empty_fields_string;
-                    }let custom_dialogue = await import('/Rain-Support-Tools/src/modules/custom-dialogue/dialog-ctrl.js');
+                    }
+                    let custom_dialogue = await import('/Rain-Support-Tools/src/modules/custom-dialogue/dialog-ctrl.js');
                     if (await custom_dialogue.default(`The below fields were left empty.<br><br>${getEmptyFields()}<br>If this was intentional click continue. Otherwise click cancel and enter the relavent info.`,'Continue','Cancel')) {
                         nextStep(current_step);
                     }
@@ -147,7 +149,7 @@ async function validateData(){
             };
             break;
         case 3:
-            if ($('#details')[0].value.length < 75) {
+            if (document.getElementById('details').value.length < 75) {
                 bad_object.list['details'] = "Not enough Details! Make sure to include all area's that are needing adjusted and include all id's so that nothing needs to be hunted down."
             }
             if (Object.entries(bad_object.list).length) {
@@ -164,7 +166,7 @@ async function validateData(){
 
 function copyTicket() {
     // Get the text field
-    const copyText = $('#ticket-container > div > textarea')[0];
+    const copyText = document.querySelector('#ticket-container > div > textarea');
 
     // Select the text field
     copyText.select();
@@ -184,9 +186,9 @@ async function start_new_ticket(){
     }
 }
 
-$(document).ready(function(){
+document.addEventListener('DOMContentLoaded',function(){
     let vertical_list = ["Rain","Like Sew","Jewel","Music","Dive","Outdoor"];
-    $(vertical_list).each(function(index,el){
-        $('#vertical').append(`<option value="${el}">${el}</option>`);
+    vertical_list.forEach(function(el){
+        document.getElementById('vertical').insertAdjacentHTML('beforeend',`<option value="${el}">${el}</option>`);
     });
-})
+});

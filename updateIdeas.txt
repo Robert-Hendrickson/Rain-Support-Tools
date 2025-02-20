@@ -1,7 +1,6 @@
 ###
 remove jquery from
 /src/Tools
-    /database-ticket
     /dns-help
     /email-list-checker
     /fee-difference-calculator
@@ -12,6 +11,11 @@ remove jquery from
     /Tax-Inclusive-Calculator
     /Transaction-Calculator
     /wa_tax_rates
+remove jquery import
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 
 ###
 create a module for regex checking
+
+###
+create a module for copy ticket function with a passed in target for where to copy details from
