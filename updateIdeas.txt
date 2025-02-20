@@ -1,7 +1,6 @@
 ###
 remove jquery from
 /src/Tools
-    /bug-ticket
     /css-tester
     /database-ticket
     /dns-help
