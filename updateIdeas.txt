@@ -1,7 +1,6 @@
 ###
 remove jquery from
 /src/Tools
-    /dns-help
     /email-list-checker
     /fee-difference-calculator
     /Inventory-check
