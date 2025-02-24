@@ -1,7 +1,6 @@
 ###
 remove jquery from
 /src/Tools
-    /email-list-checker
     /fee-difference-calculator
     /Inventory-check
     /QB_Mixed_Split
