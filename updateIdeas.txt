@@ -1,7 +1,6 @@
 ###
 remove jquery from
 /src/Tools
-    /QB_Mixed_Split
     /rto-payments
     /site-work
     /Tax-Inclusive-Calculator
