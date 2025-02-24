@@ -26,30 +26,34 @@ let tableObject = {
 
 /*controls if amex rate boxes are visible or hidden.*/
 function amexDisplayToggle(){
-    let checked = $('input#amexCheck')[0].checked;
+    let checked = document.querySelector('input#amexCheck').checked;
     if(checked){
-        $('.amex').addClass('show');
+        document.querySelectorAll('.amex').forEach(element => {
+            element.classList.add('show');
+        });
     };
     if(!checked){
-        $('.amex').removeClass('show');
+        document.querySelectorAll('.amex').forEach(element => {
+            element.classList.remove('show');
+        });
     };
 };
 
 /*hides or displays import popup*/
 function importToggle(action){
     if(action === 'open'){
-        $('.popup1').removeClass('hide');
+        document.querySelector('.popup1').classList.remove('hide');
     };
     if(action === 'close'){
-        $('.popup1').addClass('hide');
+        document.querySelector('.popup1').classList.add('hide');
     };
 };
 
 /*closes the wait box and removes any existing error message text*/
 function closeDialogue(){
-    $('.popup2').addClass('hide');
-    $('.errorMessage')[0].innerHTML = '';
-    $('#closeDialogue').addClass('hide');
+    document.querySelector('.popup2').classList.add('hide');
+    document.querySelector('.errorMessage').innerHTML = '';
+    document.getElementById('closeDialogue').classList.add('hide');
 };
 /*check to see if provided data meets criteria to be used. 
 Criteria: 
@@ -57,14 +61,14 @@ Criteria:
 2. The number of sets of data found with the regex expression matches the number found from criteria 1(this confirms that all rows belong to an inteded data set and there isn't missing or extra lines that happens to match the 1 criteria math)*/
 function checkNumberOfLines(){
     //display wait popup (this could take a second to go through all the data)
-    $('.popup2').removeClass('hide');
+    document.querySelector('.popup2').classList.remove('hide');
     //get imported string
-    _import = $('.import textarea')[0].value;
+    _import = document.querySelector('.import textarea').value;
     //save value of each the number of lines divided by 9(should equal a whole number)
     let number_of_transactions = _import.split('\n').length/9;
     if((/\./).test(number_of_transactions)){//if there is a decimal in the saved number then something is missing, generate an error response
         messageUpdate("The number of lines given doesn't match the number of expected lines for full data. Please make sure the copied data is the full set of data from rows selected and try again.")
-        $('#closeDialogue').removeClass('hide');
+        document.getElementById('closeDialogue').classList.remove('hide');
         return false;
     };
     //find all sets of data as an array
@@ -73,16 +77,16 @@ function checkNumberOfLines(){
     if(number_of_transactions != split_data.length){
         //if not generate an error response
         messageUpdate("The number of found rows doesn't match the number of estimated rows. This means there may be lines that are duplicated or missing. Please make sure the copied data is the full set of data from rows selected and try again.")
-        $('#closeDialogue').removeClass('hide');
+        document.getElementById('closeDialogue').classList.remove('hide');
         return false;
     }
-    $('#closeDialogue').removeClass('hide');
+    document.getElementById('closeDialogue').classList.remove('hide');
     //if all passes, return a true response to start generating the table
     return true;
 };
 /*this updates the error message box for if there was an issue with the data and why it failed*/
 function messageUpdate(message){
-    $('.errorMessage')[0].append($.parseHTML(`<p>${message}</p>`)[0]);
+    document.querySelector('.errorMessage').insertAdjacentHTML('beforeend', `<p>${message}</p>`);
 };
 
 /*takes import data and uses object method to add data to a loopable object*/
@@ -98,11 +102,11 @@ function buildObject(){
 /*uses tableObject to create table data*/
 function buildTable(){
     //erases existing table data(to keep from duplicating)
-    $('#transactions tbody')[0].innerHTML = '';
+    document.querySelector('#transactions tbody').innerHTML = '';
     //build table from tableObject.data value
     for(const row in tableObject.data){
-        let tr = $.parseHTML(`<tr id="${tableObject.data[row].row}"><td>${tableObject.data[row].dateNum}</td><td>${tableObject.data[row].transaction}</td><td>${tableObject.data[row].atTill}</td><td>${tableObject.data[row].status}</td><td>${tableObject.data[row].dateText}</td><td>${tableObject.data[row].collected}</td><td>${tableObject.data[row].fee}</td><td>${tableObject.data[row].return}</td><td>${tableObject.data[row].totalPayout}</td><td></td><td></td>`)[0];
-        $('#transactions tbody')[0].append(tr);
+        let tr = `<tr id="${tableObject.data[row].row}"><td>${tableObject.data[row].dateNum}</td><td>${tableObject.data[row].transaction}</td><td>${tableObject.data[row].atTill}</td><td>${tableObject.data[row].status}</td><td>${tableObject.data[row].dateText}</td><td>${tableObject.data[row].collected}</td><td>${tableObject.data[row].fee}</td><td>${tableObject.data[row].return}</td><td>${tableObject.data[row].totalPayout}</td><td></td><td></td>`;
+        document.querySelector('#transactions tbody').insertAdjacentHTML('beforeend', tr);
     };
     closeDialogue();
     importToggle('close');
@@ -119,18 +123,18 @@ function precentToDecimal(value){
 function calculateDifference(){
     let rates = {};
     //collect and store card rates and fees
-    rates['amexp'] = [precentToDecimal($('#amexcardPresentRate')[0].value),parseFloat($('#amexcardPresentAmount')[0].value)];
-    rates['amexnp'] = [precentToDecimal($('#amexcardNotPresentRate')[0].value),parseFloat($('#amexcardNotPresentAmount')[0].value)];
-    rates['cardp'] = [precentToDecimal($('#cardPresentRate')[0].value),parseFloat($('#cardPresentAmount')[0].value)];
-    rates['cardnp'] = [precentToDecimal($('#cardNotPresentRate')[0].value),parseFloat($('#cardNotPresentAmount')[0].value)];
+    rates['amexp'] = [precentToDecimal(document.querySelector('#amexcardPresentRate').value),parseFloat(document.querySelector('#amexcardPresentAmount').value)];
+    rates['amexnp'] = [precentToDecimal(document.querySelector('#amexcardNotPresentRate').value),parseFloat(document.querySelector('#amexcardNotPresentAmount').value)];
+    rates['cardp'] = [precentToDecimal(document.querySelector('#cardPresentRate').value),parseFloat(document.querySelector('#cardPresentAmount').value)];
+    rates['cardnp'] = [precentToDecimal(document.querySelector('#cardNotPresentRate').value),parseFloat(document.querySelector('#cardNotPresentAmount').value)];
     console.log(rates);
-    let table_data = $('#transactions tbody tr');
+    let table_data = document.querySelectorAll('#transactions tbody tr');
     for(i=0;i<table_data.length;i++){
         temp_row = table_data[i];
         if(temp_row.querySelector('td:nth-child(3)').innerText === 'Card Not Present' && temp_row.querySelector('td:nth-child(6)').innerText !='$0.00'){
             temp_rates = rates.cardp;
             let temp_collected = temp_row.querySelector('td:nth-child(6)').innerText.replace('$','');
-            if($('#amexCheck')[0].checked){
+            if(document.querySelector('#amexCheck').checked){
                 //needs to check if rate used on row matches non-amex rates if it does do nothing. if it doesn't then we need to update temp_rates to use amex present rates instead.
                 let check_rate = rates.cardnp;
                 let check_fee = parseFloat(temp_collected);
@@ -166,7 +170,7 @@ function calculateTotals(table){
             total_difference += parseFloat(table[i].querySelector('td:nth-child(11)').innerText.replace('$',''));
         };
     };
-    let total_table = $('#totals tbody tr')[0];
+    let total_table = document.querySelector('#totals tbody tr');
     total_table.querySelector('td:nth-child(1)').innerText = `$${total_fees.toFixed(2)}`;
     total_table.querySelector('td:nth-child(2)').innerText = `$${total_calculated_fees.toFixed(2)}`;
     total_table.querySelector('td:nth-child(3)').innerText = `$${total_difference.toFixed(2)}`;
@@ -174,8 +178,8 @@ function calculateTotals(table){
 
 /*removes existing data in the table and resets object*/
 function resetTable(){
-    $('#transactions tbody')[0].innerHTML = '';
-    calculateTotals($('#transactions tbody')[0]);
+    document.querySelector('#transactions tbody').innerHTML = '';
+    calculateTotals(document.querySelector('#transactions tbody'));
     tableObject.data = {};
     tableObject.rows = 0;
 };
@@ -183,64 +187,9 @@ function resetTable(){
 /*toggles video popup*/
 function videoToggle(action){
     if(action === 'open'){
-        $('.video').removeClass('hide');
+        document.querySelector('.video').classList.remove('hide');
     };
     if(action === 'close'){
-        $('.video').addClass('hide');
+        document.querySelector('.video').classList.add('hide');
     };
 }
-
-/*
-card rates
-1.95,0.07
-2.9,0.3
-2.1,0.15
-3.2,0.35
-
-test string: should have 5 transactions listed
-04:35:05 AM
-1400120209
-Card Present
-Completed
-Jan 17, 2024
-$24.28
--$1.00
-$0.00
-$23.28
-04:35:05 AM
-1400120210
-Card Not Present
-Amex
-Jan 17, 2024
-$24.28
--$1.13
-$0.00
-$23.28
-04:35:06 AM
-1400120211
-Card Not Present
-Completed
-Jan 17, 2024
-$27.60
--$1.10
-$0.00
-$26.50
-04:35:06 AM
-1400120212
-Card Not Present
-Completed
-Jan 17, 2024
-$27.60
--$1.10
-$0.00
-$26.50
-04:35:09 AM
-1400120213
-Card Not Present
-Completed
-Jan 17, 2024
-$27.60
--$1.10
-$0.00
-$26.50
-*/

@@ -1,7 +1,6 @@
 ###
 remove jquery from
 /src/Tools
-    /fee-difference-calculator
     /Inventory-check
     /QB_Mixed_Split
     /rto-payments
