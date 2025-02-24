@@ -16,7 +16,7 @@ function newRow(change,reserved,inventory){
         console.error('Something didn\'t happen correctly');
         return
     };
-    let html_row_string = $.parseHTML(`<tr><td>${symbol}${inventory}</td><td>${symbol}${reserved}</td><td>${totals.instock}</td><td>${totals.reserved}</td></tr>`);
+    let html_row_string = `<tr><td>${symbol}${inventory}</td><td>${symbol}${reserved}</td><td>${totals.instock}</td><td>${totals.reserved}</td></tr>`;
     return html_row_string;
 };
 /*function updates object totals, then update user display with new totals*/
@@ -31,24 +31,24 @@ function updateTotals(change,inventory_change,reserved_change){
         totals.reserved -= parseFloat(reserved_change);
         totals.onhand = totals.instock - totals.reserved;
     };
-    $('#instock')[0].innerText = totals.instock;
-    $('#reserved')[0].innerText = totals.reserved;
-    $('#onhand')[0].innerText = totals.onhand;
+    document.getElementById('instock').innerText = totals.instock;
+    document.getElementById('reserved').innerText = totals.reserved;
+    document.getElementById('onhand').innerText = totals.onhand;
 };
 /*function collects totals from user interface then passes them to them to the update function and newrow function*/
 function recordChange(change){
     let direction_of_change = change;
-    let inventory_change = $('#inventory-change')[0].value;
+    let inventory_change = document.getElementById('inventory-change').value;
     if(inventory_change === ''){
         inventory_change = '0';
     };
-    let reserved_change = $('#reserved-change')[0].value;
+    let reserved_change = document.getElementById('reserved-change').value;
     if(reserved_change === ''){
         reserved_change = '0';
     };
     updateTotals(change,inventory_change,reserved_change);
-    let new_row = newRow(direction_of_change,reserved_change,inventory_change)[0];
-    $('.history-changes > tbody')[0].prepend(new_row);
-    $('#inventory-change')[0].value = '';
-    $('#reserved-change')[0].value = '';
+    let new_row = newRow(direction_of_change,reserved_change,inventory_change);
+    document.querySelector('.history-changes > tbody').insertAdjacentHTML('afterbegin',new_row);
+    document.getElementById('inventory-change').value = '';
+    document.getElementById('reserved-change').value = '';
 };
