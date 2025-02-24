@@ -1,12 +1,10 @@
 ###
 remove jquery from
 /src/Tools
-    /rto-payments
     /site-work
     /Tax-Inclusive-Calculator
     /Transaction-Calculator
-    /wa_tax_rates
-remove jquery import
+remove jquery import from tool pages
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 
 ###
