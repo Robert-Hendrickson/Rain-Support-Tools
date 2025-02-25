@@ -1,8 +1,4 @@
 ###
-remove jquery import from tool pages
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-
-###
 create a module for regex checking
 /(?:\.match)?(\(\/.+(!?\/(?:\w+)?\)))(?:\.test\()?/
 
