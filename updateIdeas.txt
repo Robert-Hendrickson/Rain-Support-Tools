@@ -1,1 +1,11 @@
 ###
+create a module for regex checking
+/(?:\.match)?(\(\/.+(!?\/(?:\w+)?\)))(?:\.test\()?/
+
+###
+create a module for copy ticket function with a passed in target for where to copy details from
+
+###
+update tax calculator variables for taxes in calculation to be better readable
+.../tools/Transaction-Calculator/calculator.js:101-171 (make sure to check associated functions)
+- tm, ts, tc are the tax rates

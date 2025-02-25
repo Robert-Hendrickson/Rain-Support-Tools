@@ -17,6 +17,8 @@ async function setTestData() {
             testModule = await import('./pageData/siteWorkData.js');
         } else if((/database-ticket/).test(path)) {
             testModule = await import('./pageData/databaseData.js');
+        } else if((/fee-difference-calculator/).test(path)) {
+            testModule = await import('./pageData/feeDifferenceData.js');
         }
         
         if (testModule && testModule.default) {

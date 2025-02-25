@@ -10,9 +10,9 @@ function runCheck(){
         bad: []
     }
     //get an array of emails from the input list and assign it to the input value of email_lists object
-    email_lists.input = $('.inputList > textarea')[0].value.split('\n');
+    email_lists.input = document.querySelector('.inputList > textarea').value.split('\n');
     //count how many emails are in the array and update the number above the input box to display correct number
-    $(`.inputList count`)[0].innerText = email_lists.input.length;
+    document.querySelector(`.inputList count`).innerText = email_lists.input.length;
     //loop through the arrayed list and compare the email address to the check
     for(i=0;i<email_lists.input.length;i++){
         if(email_lists.input[i].match(email_check)){//if it passes, add it to the good email list
@@ -25,13 +25,13 @@ function runCheck(){
     for(list in email_lists){
         if(list != 'input'){
             //update the count of the email list column
-            $(`.${list}List count`)[0].innerText = email_lists[list].length;
+            document.querySelector(`.${list}List count`).innerText = email_lists[list].length;
             //create a string of the emails and display them in the text box for the correct column
             let temp = '';
             for(i=0;i<email_lists[list].length;i++){
                 temp += email_lists[list][i] + '\n';
             }
-            $(`.${list}List > textarea`)[0].value = temp.substring(0,temp.length -1);
+            document.querySelector(`.${list}List > textarea`).value = temp.substring(0,temp.length -1);
         }
     }
 }
@@ -39,19 +39,19 @@ function runCheck(){
 /*function takes a string of emails provided by the user and adds them in the correct formatting to the text area for imported emails list*/
 function importList(){
     //get string of emails
-    let import_string = $('.import textarea')[0].value;
+    let import_string = document.querySelector('.import textarea').value;
     //email string will look like (email_1\\nemail_2\\n...), replace all \\n with \n, this will make a readable list in the text area
     import_string = import_string.replaceAll("'","").replaceAll('\\n','\n');
     //add new string to import box
-    $('.inputList textarea')[0].value = import_string;
+    document.querySelector('.inputList textarea').value = import_string;
     //close import modal
-    $('.import').addClass('hide');
+    document.querySelector('.import').classList.remove('hide');
 }
 /*function resets page after confirming with user to continue*/
 async function clearData(){
     let custom_dialogue = await import('/Rain-Support-Tools/src/modules/custom-dialogue/dialog-ctrl.js');
     if(await custom_dialogue.default("You are about to clear all current data and won't able to reclaim it. Are you sure you want to proceed?","Continue","Cancel")){
-        let data = $('.mainContent div');
+        let data = document.querySelectorAll('.mainContent div');
         for(i=0;i<data.length;i++){
             data[i].querySelector('count').innerText = '0';
             data[i].querySelector('textarea').value = '';

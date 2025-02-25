@@ -1,3 +1,3 @@
 export default async function setSiteWorkData() {
-    $('input#crm')[0].value = '6085';
+    document.getElementById('crm').value = '6085';
 }

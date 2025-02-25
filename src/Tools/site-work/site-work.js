@@ -13,15 +13,15 @@ async function validateData(){
         list: {}
     };
     //get current step user is working on
-    let current_step = parseInt($('#info-tabs .active').attr('step'));
+    let current_step = parseInt(document.querySelector('#info-tabs .active').getAttribute('step'));
     //run check based on step user is on
     switch (current_step){
         //check site work is selected and a valid crm is entered
         case 1:
-            if(!(/^(?:[Cc][Rr][Mm])?\d{3,}$/).test($('input#crm')[0].value)){
+            if(!(/^(?:[Cc][Rr][Mm])?\d{3,}$/).test(document.querySelector('input#crm').value)){
                 bad_object.list['crm'] = 'Please enter a valid CRM {(crm)12381}';
             }
-            if (!$('[choice-selector] .selected').length) {
+            if (!document.querySelectorAll('[choice-selector] .selected').length) {
                 bad_object.list['work'] = 'Please select work type to be done.';
             }
             if (Object.entries(bad_object.list).length) {
@@ -53,10 +53,10 @@ async function validateData(){
             break;
         //compile data into ticket modal for user to copy
         case 3:
-            let temp_text = `Store ID: ${$('#crm')[0].value}\n\n`;
+            let temp_text = `Store ID: ${document.querySelector('#crm').value}\n\n`;
             if (work_type_selected === 'site') {
-                let rows = $('#work-table tr td:nth-child(2)');
-                rows.each(function (index, el){
+                let rows = document.querySelectorAll('#work-table tr td:nth-child(2)');
+                rows.forEach(function (el){
                     temp_text += `***Page ${index + 1}***\nWork: ${el.querySelector('select').value }\n\nPage: ${el.querySelector('#url').value}\nScreenshot ${el.querySelector('#screenshot').value}\n\n`;
                     if (el.querySelector('#video').value != '') {
                         temp_text += `Video: ${el.querySelector('#video').value}\n\n`;
@@ -65,10 +65,10 @@ async function validateData(){
                 });
             }
             if (work_type_selected === 'template') {
-                temp_text += `Update Type: ${$('#template select')[0].value}\n\nTemplate Number: ${$('#template #number')[0].value}\n\nTemplate CRM: ${$('#template #crm')[0].value}\n\nCustomer Notes: \n${$('#template textarea')[0].value}`;
+                temp_text += `Update Type: ${document.querySelector('#template select').value}\n\nTemplate Number: ${document.querySelector('#template #number').value}\n\nTemplate CRM: ${document.querySelector('#template #crm').value}\n\nCustomer Notes: \n${document.querySelector('#template textarea').value}`;
             }
-            $('#ticket-container > div > textarea')[0].value = temp_text;
-            $('#ticket-container').removeClass('hide');
+            document.querySelector('#ticket-container > div > textarea').value = temp_text;
+            document.querySelector('#ticket-container').classList.remove('hide');
             break;
         default:
             break;
@@ -77,9 +77,9 @@ async function validateData(){
 /*function checks that values for site work to be done is good and isn't missing anything*/
 function checkSiteWork(){
     let list_object = {};
-    let rows = $('#work-table tr td:nth-child(2)');
+    let rows = document.querySelectorAll('#work-table tr td:nth-child(2)');
     //loop through rows and make sure each part of the row has correct data for it's type, if misisng create an error object to be returned.
-    rows.each(function (index, el){
+    rows.forEach(function (el){
         if (el.querySelector('select').value === 'Select an Option') {
             list_object['work_type'] = 'Please select a type of work for all rows.';
         }
@@ -104,16 +104,16 @@ function checkSiteWork(){
 /*function checks data given for template work is good and isn't missing anything*/
 function checkTemplateWork() {
     let list_object = {};
-    if ($('#template select')[0].value === 'Select an Option') {
+    if (document.querySelector('#template select').value === 'Select an Option') {
         list_object['update'] = 'Please select type of work to be done.';
     }
-    if ($('#template #number')[0].value === '') {
+    if (document.querySelector('#template #number').value === '') {
         list_object['number'] = 'Enter a Template number';
     }
-    if ($('#template #crm')[0].value === '') {
+    if (document.querySelector('#template #crm').value === '') {
         list_object['crm'] = 'Enter the CRM of the template.';
     }
-    if ($('#template textarea')[0].value === '') {
+    if (document.querySelector('#template textarea').value === '') {
         list_object['notes'] = "Enter any notes from the customer about what they like or don't like, color requests, etc.";
     }
     return list_object;
@@ -122,8 +122,8 @@ function checkTemplateWork() {
 function compileData(type){
     let html = '';
     if (type === 'site') {
-        let rows = $('#work-table tr td:nth-child(2)');
-        rows.each(function (index, el){
+        let rows = document.querySelectorAll('#work-table tr td:nth-child(2)');
+        rows.forEach(function (el, index){
             html += `***Page ${index + 1}***<br>
             Work: ${el.querySelector('select').value }<br><br>
             Page: ${el.querySelector('#url').value}<br><br>
@@ -135,16 +135,16 @@ function compileData(type){
         });
     }
     if (type === 'template') {
-        html = `Update Type: ${$('#template select')[0].value}<br><br>
-        Template Number: ${$('#template #number')[0].value}<br><br>
-        Template CRM: ${$('#template #crm')[0].value}<br><br>
-        Customer Notes: <br>${$('#template textarea')[0].value.replaceAll('\n','<br>')}`;
+        html = `Update Type: ${document.querySelector('#template select').value}<br><br>
+        Template Number: ${document.querySelector('#template #number').value}<br><br>
+        Template CRM: ${document.querySelector('#template #crm').value}<br><br>
+        Customer Notes: <br>${document.querySelector('#template textarea').value.replaceAll('\n','<br>')}`;
     }
-    $('#confirm-content data')[0].innerHTML = html;
+    document.querySelector('#confirm-content data').innerHTML = html;
 }
 /*function adds a new row to the table being interacted with(currently only for site work)*/
 function addTableRow(table){
-    $(`#${table}`).append(`<tr>
+    document.querySelector(`#${table}`).insertAdjacentHTML('beforeend', `<tr>
         <td>
             <span onclick='deleteRow(this)'>X</span>
         </td>
@@ -167,17 +167,17 @@ function addTableRow(table){
 }
 /*function removes the last row from the table being interacted with*/
 function removeTableRow(table){
-    $(`#${table} tr:last-child`).remove();
+    document.querySelector(`#${table} tr:last-child`).remove();
 }
 /*function deletes specific row being interacted with*/
 function deleteRow(el){
-    $(el).parent().parent().remove();
+    el.parentElement.parentElement.remove();
 }
 /*function updates which second step data displays from clicking work type on first step*/
 function displayWorkContent(type){
     work_type_selected = type;
-    $('#work-content > div').hide();
-    $(`#${type}`).show();
+    document.querySelectorAll('#work-content > div').forEach(el => el.style.display = 'none');
+    document.querySelector(`#${type}`).style.display = '';
 }
 /*function confirms with user they want to remove all data and start over before refreshing the page*/
 async function start_new_ticket(){
@@ -189,7 +189,7 @@ async function start_new_ticket(){
 /*function copies current ticket data in popup modal to computers clipboard*/
 function copyTicket() {
     // Get the text field
-    const copyText = $('#ticket-container > div > textarea')[0];
+    const copyText = document.querySelector('#ticket-container > div > textarea');
 
     // Select the text field
     copyText.select();
@@ -203,11 +203,11 @@ function copyTicket() {
 };
 /*function handles work selector*/
 function selectWork(el){
-    $('div[work].selected').removeClass('selected');
-    el.target.classList.value = 'selected';
-    displayWorkContent($(el.target).attr('work'));
+    document.querySelector('div[work].selected')?.classList.remove('selected');
+    el.target.classList.add('selected');
+    displayWorkContent((el.target).attributes.work.value);
 }
 /*after window finishes loading this sets an event listener on the selector elements*/
-$(window).ready(function (){
-    $('div[work]').on('click',selectWork);
+window.addEventListener('load', function() {
+    document.querySelectorAll('div[work]').forEach(el => el.addEventListener('click',selectWork));
 });

@@ -57,20 +57,22 @@ function toggleDisplay(id,good_bad){
     //if passed value from updateDisplay function was 'good' do the first set of instructions, otherwise do the second set
     if (good_bad === 'good') {
         //using passed id value change classes of elements to be good or a check mark in a circle
-        $(`[check-list] #${id}`).removeClass('bad');
-        $(`[check-list] #${id}`).addClass('good');
-        $(`[check-list] #${id} > span`).removeClass('fa-circle-xmark');
-        $(`[check-list] #${id} > span`).addClass('fa-circle-check');
+        document.querySelector(`[check-list] #${id}`).classList.remove('bad');
+        document.querySelector(`[check-list] #${id}`).classList.add('good');
+        document.querySelector(`[check-list] #${id} > span`).classList.remove('fa-circle-xmark');
+        document.querySelector(`[check-list] #${id} > span`).classList.add('fa-circle-check');
     } else {
         //using passed id value change classes of elements to be bad or an 'X' in a circle
-        $(`[check-list] #${id}`).removeClass('good');
-        $(`[check-list] #${id}`).addClass('bad');
-        $(`[check-list] #${id} > span`).removeClass('fa-circle-check');
-        $(`[check-list] #${id} > span`).addClass('fa-circle-xmark');
+        document.querySelector(`[check-list] #${id}`).classList.remove('good');
+        document.querySelector(`[check-list] #${id}`).classList.add('bad');
+        document.querySelector(`[check-list] #${id} > span`).classList.remove('fa-circle-check');
+        document.querySelector(`[check-list] #${id} > span`).classList.add('fa-circle-xmark');
     }
 }
 //This function is jquery that when the window is finished loading everything sets a listener on each input and text area so that as the data is typed in it runs the listed function name on the element
 $(window).ready(function (){
-    $('[entry] input').on('keyup',updateDisplay);
-    $('[entry] textarea').on('keyup',updateDisplay)
+    document.querySelectorAll('[entry] input').forEach(function (element) {
+        element.addEventListener('keyup',updateDisplay)
+    });
+    document.querySelector('[entry] textarea').addEventListener('keyup',updateDisplay)
 });

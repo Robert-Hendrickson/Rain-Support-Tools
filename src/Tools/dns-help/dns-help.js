@@ -4,27 +4,27 @@ let target_row;
 let domain_data;
 /*function returns a boolean response to check that the domain entered passes the regex test*/
 function domaincheck() {
-    let domain = $('#domain')[0].value;
+    let domain = document.getElementById('domain').value;
     return RegExp(/^(?:[\w\-]+\.)?[\w\-]+\.\w{2,}$/).test(domain);
 }
 /*returns an array that is used to set the value of domain_data, [(true/false),{the domain or sub domain beginning}]*/
 function isSubDomain(){
-    return [(/^[\w\-]+\.[\w\-]+\.\w{2,}$/).test($('#domain')[0].value),$('#domain')[0].value.match(/^[\w-]+/g)[0]];
+    return [(/^[\w\-]+\.[\w\-]+\.\w{2,}$/).test(document.getElementById('domain').value),document.getElementById('domain').value.match(/^[\w-]+/g)[0]];
 }
-/*delets the row that was clicked*/
+/*deletes the row that was clicked*/
 function deleteRow(el){
-    $(el).parent().parent().remove()
+    el.parentElement.parentElement.remove()
 }
 /*returns the element that is the parent of the parent of the element clicked on, used in editing a row of dns record data to pull full row regardless of which input box is clicked on*/
 function getRow(el){
-    return $(el).parent().parent()[0];
+    return el.parentElement.parentElement;
 }
 /*function is used in step two to check that each set of data (adding, removing, updating) has at least one row of data. If any active data set has no rows, returns an error*/
 function checkForEmptyRows(){
     let potential_errors = {};
     //loop through active types and make sure no table is empty. If it is create a growl message.
     for(a=0;a<action_type.length;a++){
-        if (!$(`#${action_type[a]}-table > tbody > tr`).length) {
+        if (!document.querySelectorAll(`#${action_type[a]}-table > tbody > tr`).length) {
             potential_errors[action_type[a].replace('-','_')] = `The ${action_type[a].replace('-',' ').toUpperCase()} section doesn't have any data. Please make sure there is at least one record for each action type selected in first step. If incorrect options are listed, click previous button to edit which actions need to be considered for ticket progression.`;
         }
     }
@@ -135,7 +135,7 @@ async function validateData(){
         list: {}
     };
     //get current step number
-    let current_step = parseInt($('[step].active').attr('step'));
+    let current_step = parseInt(document.querySelector('[step].active').getAttribute('step'));
     switch(current_step){
         case 1:
             //check the domain has been entered and is a valid domain
@@ -143,8 +143,8 @@ async function validateData(){
                 bad_object.list['domain_check'] = 'Please make sure that the domain is correct and not blank.'
             }
             //check an action has been selected
-            if ($('[action].selected').length) {
-                action_type = Array.from($('[action].selected'), (el) => el.attributes.action.value);
+            if (document.querySelectorAll('[action].selected').length) {
+                action_type = Array.from(document.querySelectorAll('[action].selected'), (el) => el.attributes.action.value);
                 console.log('actions: ' + action_type);
             } else {
                 bad_object.list['action_check'] = 'Please select which record action(s) needs to be done.';
@@ -172,19 +172,19 @@ async function validateData(){
                 error_popup.default(bad_object);
             } else {//else prep next step to display records added to confirm before copying
                 if (action_type.includes('add-record')){
-                    $('[compiled-results] [add-record]').show();
+                    document.querySelector('[compiled-results] [add-record]').style.display = '';
                 } else {
-                    $('[compiled-results] [add-record]').hide();
+                    document.querySelector('[compiled-results] [add-record]').style.display = 'none';
                 }
                 if (action_type.includes('correct-record')) {
-                    $('[compiled-results] [correct-record]').show();
+                    document.querySelector('[compiled-results] [correct-record]').style.display = '';
                 } else {
-                    $('[compiled-results] [correct-record]').hide();
+                    document.querySelector('[compiled-results] [correct-record]').style.display = 'none';
                 }
                 if (action_type.includes('remove-record')){
-                    $('[compiled-results] [remove-record]').show();
+                    document.querySelector('[compiled-results] [remove-record]').style.display = '';
                 } else {
-                    $('[compiled-results] [remove-record]').hide();
+                    document.querySelector('[compiled-results] [remove-record]').style.display = 'none';
                 }
                 //update step three with record data for confirmation
                 compileRecords();
@@ -193,14 +193,14 @@ async function validateData(){
             break;
         case 3://build ticket, display text area for copying
             let ticket_text = `DNS Record Changes
-Domain: ${$('#domain')[0].value}
+Domain: ${document.getElementById('domain').value}
 
 `;
             //compile record data into ticket formatting
             ticket_text += appendRecordChanges();
             //after getting record changes from above line need to add text to the text container
-            $('#ticket-container textarea')[0].value = ticket_text;
-            $('#ticket-container').removeClass('hide');
+            document.querySelector('#ticket-container textarea').value = ticket_text;
+            document.querySelector('#ticket-container').classList.remove('hide');
             break;
         default:
             console.error('Invalid Step ID');
@@ -211,8 +211,8 @@ Domain: ${$('#domain')[0].value}
 function appendRecordChanges(){
     let text_to_append = '';
     for (i=0;i<action_type.length;i++) {
-        let record_rows = $(`#${action_type[i]}-table > tbody > tr`);
-        if (action_type[i] != 'correct-record') {
+        let record_rows = document.querySelectorAll(`#${action_type[i]}-table > tbody > tr`);
+        if (action_type[i] === 'add-record' || action_type[i] === 'remove-record') {
             if (action_type[i] === 'add-record') {
                 text_to_append += `-----Records to be Added-----
 
@@ -233,7 +233,8 @@ TTL: ${row_inputs[3].innerText}
 
 `;
             }
-        } else {
+        }
+        if (action_type[i] === 'correct-record') {
             text_to_append += `-----Records to Correct-----
 
 `;
@@ -261,17 +262,17 @@ TTL: ${row_inputs[7].innerText}
 /*function controls which fields are available for editing when making record changes based on record type*/
 function updateFields(record_type){
     if (record_type === 'MX') {
-        $('#record-entry-box div[value]').hide();
-        $('#record-entry-box div[srv]').hide();
-        $('#record-entry-box div[mx]').show();
+        document.querySelectorAll('#record-entry-box div[srv]').forEach(el => {el.style.display = 'none';});
+        document.querySelector('#record-entry-box div[value]').style.display = '';
+        document.querySelectorAll('#record-entry-box div[mx]').forEach(el => {el.style.display = '';});
     } else if(record_type === 'SRV') {
-        $('#record-entry-box div[value]').hide();
-        $('#record-entry-box div[mx]').hide();
-        $('#record-entry-box div[srv]').show();
+        document.querySelector('#record-entry-box div[value]').style.display = 'none';
+        document.querySelectorAll('#record-entry-box div[mx]').forEach(el => {el.style.display = 'none';});
+        document.querySelectorAll('#record-entry-box div[srv]').forEach(el => {el.style.display = '';});
     } else {
-        $('#record-entry-box div[srv]').hide();
-        $('#record-entry-box div[mx]').hide();
-        $('#record-entry-box div[value]').show();
+        document.querySelectorAll('#record-entry-box div[srv]').forEach(el => {el.style.display = 'none';});
+        document.querySelectorAll('#record-entry-box div[mx]').forEach(el => {el.style.display = 'none';});
+        document.querySelector('#record-entry-box div[value]').style.display = '';
     }
 }
 /*function opens record editor modal with existing values from the row that was selected to edit*/
@@ -279,58 +280,58 @@ function openRecordEditor(action,row){
     target_row = row;//hold on to row for later
     //if adding a new row, set empty modal
     if (action === 'add') {
-        $('select.dns-selector')[0].value = 'Select Type';
+        document.querySelector('select.dns-selector').value = 'Select Type';
         updateFields('Select Type');
-        $('div[name] input')[0].value = '';
-        $('div[value] input')[0].value = '';
-        $('div[ttl] input')[0].value = '';
-        $('div[priority] input')[0].value = '';
-        $('div[mail-host-name] input')[0].value = '';
-        $('div[weight] input')[0].value = '';
-        $('div[port] input')[0].value = '';
-        $('div[server-host] input')[0].value = '';
+        document.querySelector('div[name] input').value = '';
+        document.querySelector('div[value] input').value = '';
+        document.querySelector('div[ttl] input').value = '';
+        document.querySelector('div[priority] input').value = '';
+        document.querySelector('div[mail-host-name] input').value = '';
+        document.querySelector('div[weight] input').value = '';
+        document.querySelector('div[port] input').value = '';
+        document.querySelector('div[server-host] input').value = '';
     }
     //if editing existing row open modal with existing values in their coresponding boxes to edit based on record type from row
     if (action === 'edit') {
         let row_inputs = $(row).find('td div.data-input');
-        $('select.dns-selector')[0].value = row_inputs[0].innerText;
+        document.querySelector('select.dns-selector').value = row_inputs[0].innerText;
         updateFields(row_inputs[0].innerText);
         //if subdomain was entered in step one remove prepended subdomain from name value before adding it to editor modal
         if (domain_data[0]) {
-            $('div[name] input')[0].value = row_inputs[1].innerText.split('.')[0];
+            document.querySelector('div[name] input').value = row_inputs[1].innerText.split('.')[0];
         } else {//else add name value to edit box
-            $('div[name] input')[0].value = row_inputs[1].innerText;
+            document.querySelector('div[name] input').value = row_inputs[1].innerText;
         }
-        $('div[ttl] input')[0].value = row_inputs[3].innerText;
+        document.querySelector('div[ttl] input').value = row_inputs[3].innerText;
         //if record type is MX or SRV split out the record value into it's components and add each to their corresponding editor boxes
         if (row_inputs[0].innerText === 'MX') {
             let value_split = row_inputs[2].innerText.split(' ');
-            $('div[priority] input')[0].value = value_split[0];
-            $('div[mail-host-name] input')[0].value = value_split[1];
+            document.querySelector('div[priority] input').value = value_split[0];
+            document.querySelector('div[mail-host-name] input').value = value_split[1];
         } else if (row_inputs[0].innerText === 'SRV') {
             let value_split = row_inputs[2].innerText.split(' ');
-            $('div[priority] input')[0].value = value_split[0];
-            $('div[weight] input')[0].value = value_split[1];
-            $('div[port] input')[0].value = value_split[2];
-            $('div[server-host] input')[0].value = value_split[3];
+            document.querySelector('div[priority] input').value = value_split[0];
+            document.querySelector('div[weight] input').value = value_split[1];
+            document.querySelector('div[port] input').value = value_split[2];
+            document.querySelector('div[server-host] input').value = value_split[3];
         } else {
-            $('div[value] input')[0].value = row_inputs[2].innerText;
+            document.querySelector('div[value] input').value = row_inputs[2].innerText;
             //clear unused boxes
-            $('div[priority] input')[0].value = '';
-            $('div[mail-host-name] input')[0].value = '';
-            $('div[weight] input')[0].value = '';
-            $('div[port] input')[0].value = '';
-            $('div[server-host] input')[0].value = '';
+            document.querySelector('div[priority] input').value = '';
+            document.querySelector('div[mail-host-name] input').value = '';
+            document.querySelector('div[weight] input').value = '';
+            document.querySelector('div[port] input').value = '';
+            document.querySelector('div[server-host] input').value = '';
         }
     }
     //display editor modal to user
-    $('#record-entry-container').show()
+    document.getElementById('record-entry-container').style.display = '';
 }
 /*function adds a row to the table being interacted with for each type of record aciton needed (Added, Corrected, Removed)*/
 function addTableRow(table){
     //row formatting for adding and removing records
     if (table != 'correct-record') {
-        $(`#${table}-table tbody`).append(`<tr>
+        document.querySelector(`#${table}-table tbody`).insertAdjacentHTML('beforeend',`<tr>
             <td>
                 <span class="row-delete">X</span>
             </td>
@@ -352,14 +353,14 @@ function addTableRow(table){
             </td>
         </tr>`);
         //open editor for newly added row
-        openRecordEditor('add',$(`#${table}-table > tbody > tr:last-child`)[0]);
+        openRecordEditor('add',document.querySelector(`#${table}-table > tbody > tr:last-child`));
     } else {
         //row formatting for correcting records table, Needs to have values for existing record and what they should be changed to
-        $(`#${table}-table > tbody`).append(`<tr>
-	<td>
-		<span class="row-delete">X</span>
-		<table>
-			<tbody>
+        document.querySelector(`#${table}-table > tbody`).insertAdjacentHTML('beforeend',`<tr>
+		<td>
+			<span class="row-delete">X</span>
+			<table>
+				<tbody>
 				<tr>
                     <td>
                         Original Values
@@ -407,27 +408,40 @@ function addTableRow(table){
 	</td>
 </tr>`);
         //open editor modal with newly added row
-        openRecordEditor('add',$(`#correct-record-table > tbody > tr:last-child tr:first-child`)[0]);
+        openRecordEditor('add',document.querySelector(`#correct-record-table > tbody > tr:last-child tr:first-child`));
     }
 }
 /*deletes last row from the table being interacted with*/
 function removeTableRow(table){
-    $(`#${table}-table tr:last-child`).remove();
+    if(document.querySelector(`#${table}-table tr:last-child`)){
+        document.querySelector(`#${table}-table tr:last-child`).remove();
+    }
 }
 /*function closes the editor model*/
 function closeModal(modal){
+    //function to get parent elements
+    function getParents(element, selector) {
+        let parents = [];
+        while (element.parentElement) {
+            element = element.parentElement;
+            if (element.matches(selector)) {
+                parents.push(element);
+            }
+        }
+        return parents;
+    }
     //if target row record type is empty when closing modal remove empty row(for newly added rows that weren't updated when created)
-    if ($(target_row).find('div.data-input')[0].innerText === '') {
+    if (target_row.querySelectorAll('div.data-input')[0].innerText === '') {
         //check we are editing the second line of a correct-record row
-        if ($(target_row).parents('table[id]').attr('id') === 'correct-record-table') {
-            if ($(target_row).parent().find('div.data-input')[0].innerText === '') {
-                $(target_row).parents('table[id] > tbody > tr:last-child').remove()
+        if (getParents(target_row,'table[id]').length === 1 && getParents(target_row,'table[id]')[0].getAttribute('id') === 'correct-record-table') {
+            if (getParents(target_row,'table[id] > tbody > tr:last-child')[0].querySelectorAll('div.data-input')[0].innerText === '') {
+                getParents(target_row,'table[id] > tbody > tr:last-child')[0].remove();
             }
         } else {
-            $(target_row).remove();
+            target_row.remove();
         }
     }
-    $(`#${modal}`).hide();
+    document.querySelector(`#${modal}`).style.display = 'none';
     target_row = null;
     //will clear any previous error message
     if(document.getElementById('error_message')) {
@@ -442,19 +456,19 @@ async function validateRecordData(){
     }
     //will import the error popup module
     let error_popup = await import('../../modules/error-popup/popup.js');
-    let record_type = $('.dns-selector')[0].value;
+    let record_type = document.querySelector('.dns-selector').value;
     if(record_type != 'Select Type'){//if a record type was selected move forward
         record_data = {
             row: target_row,
-            type: $('select.dns-selector')[0].value,
-            name: $('div[name] input')[0].value,
-            value: $('div[value] input')[0].value,
-            priority: $('div[priority] input')[0].value,
-            mailhostname: $('div[mail-host-name] input')[0].value,
-            weight: $('div[weight] input')[0].value,
-            port: $('div[port] input')[0].value,
-            serverhost: $('div[server-host] input')[0].value,
-            ttl: $('div[ttl] input')[0].value
+            type: document.querySelector('.dns-selector').value,
+            name: document.querySelector('div[name] input').value,
+            value: document.querySelector('div[value] input').value,
+            priority: document.querySelector('div[priority] input').value,
+            mailhostname: document.querySelector('div[mail-host-name] input').value,
+            weight: document.querySelector('div[weight] input').value,
+            port: document.querySelector('div[port] input').value,
+            serverhost: document.querySelector('div[server-host] input').value,
+            ttl: document.querySelector('div[ttl] input').value
         };
         if (record_type === 'MX') {
             record_data.value = `${record_data.priority} ${record_data.mailhostname}`;
@@ -493,7 +507,7 @@ async function validateRecordData(){
 /*this function takes the data from the editor modal and applies it to the necessary row*/
 function submit(record_data){
     //assign row_inputs as the array of inputs from the table row to update
-    let row_inputs = $(record_data.row).find('td div.data-input');
+    let row_inputs = record_data.row.querySelectorAll('td div.data-input');
     //update row data
     row_inputs[0].innerText = record_data.type;
     //check if subdomain and record name doesn't match subdomain
@@ -514,13 +528,13 @@ function compileRecords(){
     //loop through all action types that were assigned in step 1
     for(i=0;i<action_type.length;i++){
         //remove any existing html for the confirmation page for each action type
-        $(`[${action_type[i]}] data`)[0].innerHTML = '';
+        document.querySelector(`[${action_type[i]}] data`).innerHTML = '';
         //build new html for action type for each row of data from step 2
         if (action_type[i] != 'correct-record') {
             let rows = $(`#${action_type[i]} tr`);
             rows.each(function (index, el) {
                 let inputs =  $(el).find('td div.data-input');
-                $(`[${action_type[i]}] data`).append(`<div class="value-display">
+                document.querySelector(`[${action_type[i]}] data`).insertAdjacentHTML('beforeend', `<div class="value-display">
                     Record Type: ${inputs[0].innerText}<br>
                     Name: ${inputs[1].innerText}<br>
                     Value: ${inputs[2].innerText}<br>
@@ -530,7 +544,7 @@ function compileRecords(){
             let rows = $(`#${action_type[i]} > table > tbody >  tr`);
             rows.each(function (index, el) {
                 let inputs =  $(el).find('td div.data-input');
-                $(`[${action_type[i]}] data`).append(`<div class="value-display">
+                document.querySelector(`[${action_type[i]}] data`).insertAdjacentHTML('beforeend', `<div class="value-display">
                     <div class="value-header">
                         <div>Original Values</div>
                         <div>New Values</div>
@@ -558,7 +572,7 @@ function compileRecords(){
 /*function copies data from the generator popup to computer clipboard*/
 function copyTicket() {
     // Get the text field
-    const copyText = $('#ticket-container > div > textarea')[0];
+    const copyText = document.querySelector('#ticket-container > div > textarea');
 
     // Select the text field
     copyText.select();
@@ -584,26 +598,30 @@ function ttlCharacterRestriction(el){
 /*function controls which of the actions in step one is selected or not selected (add record, correct record, remove record*/
 function selectAction(el){
     if (el.target.classList.value === 'selected') {
-        $(el.target).removeClass('selected');
-        $(`#${el.target.attributes.action.value}`).hide();
+        el.target.classList.remove('selected');
+        document.getElementById(`${el.target.attributes.action.value}`).style.display = 'none';
     } else {
-        $(el.target).addClass('selected');
-        $(`#${el.target.attributes.action.value}`).show();
+        el.target.classList.add('selected');
+        document.getElementById(`${el.target.attributes.action.value}`).style.display = '';
     }
 }
 /*waits for window to finish loading data then sets some event listeners on specific elements*/
-$(window).ready(function (){
-    $('div[action]').on('click',selectAction);
-    $('div[ttl] input').on('keyup',ttlCharacterRestriction);
+window.addEventListener('load', () => {
+    document.querySelectorAll('div[action]').forEach(el => {
+        el.addEventListener('click',selectAction);
+    });
+    document.querySelectorAll('div[ttl] input').forEach(el => {
+        el.addEventListener('keyup',ttlCharacterRestriction);
+    });
 });
 /*this sets a general event listener on the page for any time the mouse button was released, it then runs a specific function for each element that was clicked on potentially passing in necessary information to be used in funciton actions*/
 addEventListener("mouseup", (event) =>{
     //used in opening the editor for any row of data that was clicked on in step 2
-    if($(event.target).hasClass('data-input')){
+    if(Array.from(event.target.classList).includes('data-input')){
         openRecordEditor('edit', getRow(event.target));
     };
     //used in deleting a row from step 2
-    if($(event.target).hasClass('row-delete')){
+    if(Array.from(event.target.classList).includes('row-delete')){
         deleteRow(event.target)
     };
     //controls moving forward the steps of the webpage flow
