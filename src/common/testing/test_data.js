@@ -30,7 +30,7 @@ async function setTestData() {
 }
 
 /*this waits for page to be finished loading, then checks if the page is on a test environment or if a test value was passed in the url*/
-$(window).ready(async function(){
+window.addEventListener('load', async function(){
     if (location.href.match('localhost') || (/^\?test$/).test(location.search)) {
         await setTestData();
     }
