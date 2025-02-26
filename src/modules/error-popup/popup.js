@@ -62,7 +62,7 @@ export default async function popup_error_growl(error_object){
         //close ul element
         template_html += `</ul>`;
         //if the target element has a mount running, unmount it (likely to be moved to a different function later for closing popup)
-        if($('#error_message')[0].__vue_app__){
+        if(document.getElementById('error_message') && document.getElementById('error_message').__vue_app__){
             error_growl.unmount();
         };
         //create vue app with template and data return points
@@ -78,7 +78,7 @@ export default async function popup_error_growl(error_object){
     if(error_object.type === 'list'){
         let message = `<strong>Input Warning:</strong><span onclick="Close_error_growl()">X</span><br /><div v-if='message'>You are approaching a large number of rows for this set of data. Please make sure that you are being clear, concise, and direct with your given data.</div>`;
         //if the target element has a mount running, unmount it (likely to be moved to a different function later for closing popup)
-        if($('#error_message')[0].__vue_app__){
+        if(document.getElementById('error_message') && document.getElementById('error_message').__vue_app__){
             error_growl.unmount();
         };
         //create vue app with template and data return points

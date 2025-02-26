@@ -224,7 +224,7 @@ function appendRecordChanges(){
 `;
             }
             for (r=0;r<record_rows.length;r++) {
-                let row_inputs = $(record_rows[r]).find('td div.data-input');
+                let row_inputs = record_rows[r].querySelectorAll('td div.data-input');
                 text_to_append += `Record #${r+1}:
 Type: ${row_inputs[0].innerText}
 Name: ${row_inputs[1].innerText}
@@ -239,7 +239,7 @@ TTL: ${row_inputs[3].innerText}
 
 `;
             for (r=0;r<record_rows.length;r++) {
-                let row_inputs = $(record_rows[r]).find('td div.data-input');
+                let row_inputs = record_rows[r].querySelectorAll('td div.data-input');
                 text_to_append += `Record #${r+1}:
 **Original Values**
 Type: ${row_inputs[0].innerText}
@@ -293,7 +293,7 @@ function openRecordEditor(action,row){
     }
     //if editing existing row open modal with existing values in their coresponding boxes to edit based on record type from row
     if (action === 'edit') {
-        let row_inputs = $(row).find('td div.data-input');
+        let row_inputs = row.querySelectorAll('td div.data-input');
         document.querySelector('select.dns-selector').value = row_inputs[0].innerText;
         updateFields(row_inputs[0].innerText);
         //if subdomain was entered in step one remove prepended subdomain from name value before adding it to editor modal
@@ -531,9 +531,9 @@ function compileRecords(){
         document.querySelector(`[${action_type[i]}] data`).innerHTML = '';
         //build new html for action type for each row of data from step 2
         if (action_type[i] != 'correct-record') {
-            let rows = $(`#${action_type[i]} tr`);
-            rows.each(function (index, el) {
-                let inputs =  $(el).find('td div.data-input');
+            let rows = document.querySelectorAll(`#${action_type[i]} tr`);
+            rows.forEach(function (el) {
+                let inputs =  el.querySelectorAll('td div.data-input');
                 document.querySelector(`[${action_type[i]}] data`).insertAdjacentHTML('beforeend', `<div class="value-display">
                     Record Type: ${inputs[0].innerText}<br>
                     Name: ${inputs[1].innerText}<br>
@@ -541,9 +541,9 @@ function compileRecords(){
                     TTL: ${inputs[3].innerText}</div>`);
             });
         } else {
-            let rows = $(`#${action_type[i]} > table > tbody >  tr`);
-            rows.each(function (index, el) {
-                let inputs =  $(el).find('td div.data-input');
+            let rows = document.querySelectorAll(`#${action_type[i]} > table > tbody >  tr`);
+            rows.forEach(function (el) {
+                let inputs =  el.querySelectorAll('td div.data-input');
                 document.querySelector(`[${action_type[i]}] data`).insertAdjacentHTML('beforeend', `<div class="value-display">
                     <div class="value-header">
                         <div>Original Values</div>

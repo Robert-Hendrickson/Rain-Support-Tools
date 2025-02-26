@@ -119,7 +119,7 @@
                 <textarea></textarea>
                 <div ticket-buttons>
                     <button tabindex="-1" style="float: left;" class="btn terciary" onclick="start_new_ticket()">New Case</button>
-                    <button tabindex="-1" class="btn secondary" onclick="$('#ticket-container').addClass('hide')">Close</button>
+                    <button tabindex="-1" class="btn secondary" onclick="document.getElementById('ticket-container').classList.add('hide')">Close</button>
                     <button tabindex="-1" class="btn primary" onclick="copyTicket()">Copy</button>
                 </div>
             </div>

@@ -115,10 +115,10 @@ const app = Vue.createApp({
 app.mount('nav-menu');
 /*function controls toggling the navigation menu as visible and not visible*/
 function toggleNav(){
-    if($('.secondary_menu_links')[0].classList.value.match(/active/) != null){
-        $('.secondary_menu_links').removeClass('active');
+    if(document.querySelector('.secondary_menu_links').classList.value.match(/active/) != null){
+        document.querySelector('.secondary_menu_links').classList.remove('active');
     } else {
-        $('.secondary_menu_links').addClass('active');
+        document.querySelector('.secondary_menu_links').classList.add('active');
     }
 }
 //this finds the link in the navigation for the page the user is currently looking at and highlights it to indicate current location
