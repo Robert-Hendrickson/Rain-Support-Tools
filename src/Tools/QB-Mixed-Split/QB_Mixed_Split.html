@@ -85,13 +85,13 @@
             <div class="newCol hide">
                 Enter new Column Name: <br />
                 <input id="new-name" type="text" /><br />
-                <input type="button" value="Save" onclick="checkNewName($('#new-name')[0].value)" />
+                <input type="button" value="Save" onclick="checkNewName(document.querySelector('#new-name').value)" />
                 <input type="button" value="Cancel" onclick="hideNew()" />
             </div>
         </div>
         <div style="float: left;" class="help-window">
             This video covers how to use this tool.
-            <input type="button" value="Hide Video" onclick="$('.help-window').addClass('hide')" />
+            <input type="button" value="Hide Video" onclick="document.querySelector('.help-window').classList.add('hide')" />
             <button onClick="location.reload()">Reset</button>
             <br />
             <video

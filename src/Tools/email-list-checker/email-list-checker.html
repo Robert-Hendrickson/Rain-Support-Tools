@@ -32,7 +32,7 @@
             <div class="controls">
                 <input type="button" value="Clear" onclick="clearData()" />
                 <input type="button" value="Check" onclick="runCheck()" />
-                <input type="button" value="Import" onclick="$('.import').removeClass('hide')" />
+                <input type="button" value="Import" onclick="document.querySelector('.import').classList.remove('hide')" />
             </div>
             <div class="mainContent">
                 <div class="inputList">
@@ -55,7 +55,7 @@
         <div class="import hide">
             <div>
                 <input type="button" value="Run" onclick="importList()" />
-                <input type="button" value="Close" onclick="$('.import').addClass('hide')" />
+                <input type="button" value="Close" onclick="document.querySelector('.import').classList.add('hide')" />
             </div>
             <textarea></textarea>
             <div id="get-email-list-code">
@@ -67,7 +67,7 @@
                 <div class="code-display">
                     <pre>
                         <code>
-let email_list = $('table > tbody tr td:first-child');
+let email_list = document.querySelectorAll('table > tbody tr td:first-child');
 let email_list_string = '';
 for(i=0;i&#60;email_list.length;i++){
 email_list_string += email_list[i].innerText + '\n';

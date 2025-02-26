@@ -70,7 +70,7 @@ function toggleDisplay(id,good_bad){
     }
 }
 //This function is jquery that when the window is finished loading everything sets a listener on each input and text area so that as the data is typed in it runs the listed function name on the element
-$(window).ready(function (){
+window.addEventListener('load',function (){
     document.querySelectorAll('[entry] input').forEach(function (element) {
         element.addEventListener('keyup',updateDisplay)
     });

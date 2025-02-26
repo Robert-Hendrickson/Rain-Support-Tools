@@ -9,7 +9,7 @@ function nextStep(current_step){
     if(current_step === 1){//hide "Back" button if on step one
         document.querySelector('button[prev]').classList.remove('hide');
     }
-    if(current_step === $('[step]').length -1){//switch out "Next" button for "Finish" if moving to last step
+    if(current_step === document.querySelectorAll('[step]').length -1){//switch out "Next" button for "Finish" if moving to last step
         document.querySelector('button[next]').classList.add('hide');
         document.querySelector('button[finish]').classList.remove('hide');
     }
@@ -17,11 +17,11 @@ function nextStep(current_step){
 }
 /*moves to previous step from current display*/
 function previousStep(){
-    let current_step = parseInt($('#info-tabs .active')[0].getAttribute('step'));
+    let current_step = parseInt(document.querySelector('#info-tabs .active').getAttribute('step'));
     if(current_step === 2){
         document.querySelector('button[prev]').classList.add('hide');
     }
-    if(current_step === $('[step]').length){
+    if(current_step === document.querySelectorAll('[step]').length){
         document.querySelector('button[finish]').classList.add('hide');
         document.querySelector('button[next]').classList.remove('hide');
     }
