@@ -69,7 +69,7 @@ function toggleDisplay(id,good_bad){
         document.querySelector(`[check-list] #${id} > span`).classList.add('fa-circle-xmark');
     }
 }
-//This function is jquery that when the window is finished loading everything sets a listener on each input and text area so that as the data is typed in it runs the listed function name on the element
+//This function sets a listener on each input and text area when the window has finished loading so that as the data is typed in it runs the listed function name on the element
 window.addEventListener('load',function (){
     document.querySelectorAll('[entry] input').forEach(function (element) {
         element.addEventListener('keyup',updateDisplay)
