@@ -384,7 +384,7 @@ ${data.errors}
 /*this function auto copies the data from the textarea to the computers clipboard*/
 function copyTicket() {
     // Get the text field
-    const copyText = document.querySelector('ticket-container > div > textarea');
+    const copyText = document.querySelector('#ticket-container > div > textarea');
 
     // Select the text field
     copyText.select();
