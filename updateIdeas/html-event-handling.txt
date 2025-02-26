@@ -1,0 +1,42 @@
+Update html element events like onclick or onchange to use the new event listener syntax in the tools js file
+
+src\Tools\wa-tax-rates\wa_tax_rates.html
+    onclick="toggleNav()"
+    onclick="getTaxRate()"
+src\Tools\Transaction-Calculator\Javascript_calculator.html
+Multiple onclick and onchange events, including:
+    onclick="toggleNav()"
+    onclick="multiLineAdd()"
+    onclick="reset()"
+    onclick="enableComplexTax()"
+    onchange="updateTax()"
+    onchange="shippingDisplay()"
+    onclick="updateTaxRates()"
+    onclick="addNewRate()"
+    onchange="calcTotals()"
+    onclick="breakdown_display()"
+    onclick="displayBreakdown()"
+src\Tools\Tax-Included-Calculator\Tax-Inclusive-Calculator.html
+    onclick="toggleNav()"
+    onchange="lineAddCheck()"
+    onclick="multiLineAdd()"
+    onchange="updateTax()"
+    onclick="reset()"
+src\Tools\site-work\site-work.html
+    onclick="toggleNav()"
+    onclick="addTableRow()"
+    onclick="removeTableRow()"
+    onclick="deleteRow()"
+    onclick="previousStep()"
+    onclick="validateData()"
+    onclick="start_new_ticket()"
+    onclick="copyTicket()"
+src\Tools\rto-payments\rto-payments.html
+    onclick="toggleNav()"
+    onclick="checkRtoInputs()"
+    onclick="clearRTOPayments()"
+src\Tools\QB-Mixed-Split\QB_Mixed_Split.html
+    onclick="toggleNav()"
+    onchange="totalsColCalc()"
+    onchange="dataUpdate()"
+    onclick="displayColumns()"
