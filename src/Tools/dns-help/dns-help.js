@@ -569,21 +569,6 @@ function compileRecords(){
         
     }
 }
-/*function copies data from the generator popup to computer clipboard*/
-function copyTicket() {
-    // Get the text field
-    const copyText = document.querySelector('#ticket-container > div > textarea');
-
-    // Select the text field
-    copyText.select();
-    copyText.setSelectionRange(0, 99999); // For mobile devices
-
-    // Copy the text inside the text field
-    navigator.clipboard.writeText(copyText.value);
-
-    // Alert the copied text
-    //console.log("Copied the text: " + copyText.value);
-};
 /*function asks the user for confirmation on request before reloading page*/
 async function start_new_ticket(){
     let custom_dialogue = await import('/Rain-Support-Tools/src/modules/custom-dialogue/dialog-ctrl.js');
@@ -612,6 +597,11 @@ window.addEventListener('load', () => {
     });
     document.querySelectorAll('div[ttl] input').forEach(el => {
         el.addEventListener('keyup',ttlCharacterRestriction);
+    });
+    //sets event listener on copy button
+    document.querySelector('.btn-copy').addEventListener('click', async () =>{
+        const copyText =  await import('/Rain-Support-Tools/src/modules/copy-data/copy-data.js');
+        copyText.default(document.querySelector('#ticket-container > div > textarea'));
     });
 });
 /*this sets a general event listener on the page for any time the mouse button was released, it then runs a specific function for each element that was clicked on potentially passing in necessary information to be used in funciton actions*/

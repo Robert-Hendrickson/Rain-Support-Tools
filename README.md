@@ -117,10 +117,16 @@ Riley page was pulled from this link: https://codepen.io/trajektorijus/pen/mdeBY
             <div ticket-buttons>
                 <button style="float: left;" class="btn terciary" onclick="start_new_ticket()">New Case</button>
                 <button class="btn secondary" onclick="document.getElementById('#ticket-container').classList.add('hide')">Close</button>
-                <button class="btn primary" onclick="copyTicket()">Copy</button>
+                <button class="btn primary copy-btn">Copy</button>
             </div>
         </div>
     </div>
+
+### add this into tool js file to import copy function
+    document.querySelector('.copy-btn').addEventListener('click', async () =>{
+        const copyText =  await import('/Rain-Support-Tools/src/modules/copy-data/copy-data.js');
+        copyText.default(document.querySelector({{target element to copy from}}));
+    });
 ### error container
     /src/modules/error-popup/popup.js
     make sure function to display the error message has async and then use these in the beginning for setup.

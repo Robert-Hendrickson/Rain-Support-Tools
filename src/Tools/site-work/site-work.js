@@ -56,7 +56,7 @@ async function validateData(){
             let temp_text = `Store ID: ${document.querySelector('#crm').value}\n\n`;
             if (work_type_selected === 'site') {
                 let rows = document.querySelectorAll('#work-table tr td:nth-child(2)');
-                rows.forEach(function (el){
+                rows.forEach(function (el, index){
                     temp_text += `***Page ${index + 1}***\nWork: ${el.querySelector('select').value }\n\nPage: ${el.querySelector('#url').value}\nScreenshot ${el.querySelector('#screenshot').value}\n\n`;
                     if (el.querySelector('#video').value != '') {
                         temp_text += `Video: ${el.querySelector('#video').value}\n\n`;
@@ -186,21 +186,6 @@ async function start_new_ticket(){
         window.location.reload();
     }
 }
-/*function copies current ticket data in popup modal to computers clipboard*/
-function copyTicket() {
-    // Get the text field
-    const copyText = document.querySelector('#ticket-container > div > textarea');
-
-    // Select the text field
-    copyText.select();
-    copyText.setSelectionRange(0, 99999); // For mobile devices
-
-    // Copy the text inside the text field
-    navigator.clipboard.writeText(copyText.value);
-
-    // Alert the copied text
-    //console.log("Copied the text: " + copyText.value);
-};
 /*function handles work selector*/
 function selectWork(el){
     document.querySelector('div[work].selected')?.classList.remove('selected');
@@ -210,4 +195,9 @@ function selectWork(el){
 /*after window finishes loading this sets an event listener on the selector elements*/
 window.addEventListener('load', function() {
     document.querySelectorAll('div[work]').forEach(el => el.addEventListener('click',selectWork));
+    //sets event listener on copy button
+    document.querySelector('.btn-copy').addEventListener('click', async () =>{
+        const copyText =  await import('/Rain-Support-Tools/src/modules/copy-data/copy-data.js');
+        copyText.default(document.querySelector('#ticket-container > div > textarea'));
+    });
 });

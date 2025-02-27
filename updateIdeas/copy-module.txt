@@ -1,1 +1,0 @@
-create a module for copy ticket function with a passed in target for where to copy details from
