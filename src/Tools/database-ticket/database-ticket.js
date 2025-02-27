@@ -164,21 +164,6 @@ async function validateData(){
     }
 }
 
-function copyTicket() {
-    // Get the text field
-    const copyText = document.querySelector('#ticket-container > div > textarea');
-
-    // Select the text field
-    copyText.select();
-    copyText.setSelectionRange(0, 99999); // For mobile devices
-
-    // Copy the text inside the text field
-    navigator.clipboard.writeText(copyText.value);
-
-    // Alert the copied text
-    //console.log("Copied the text: " + copyText.value);
-};
-
 async function start_new_ticket(){
     let custom_dialogue = await import('/Rain-Support-Tools/src/modules/custom-dialogue/dialog-ctrl.js');
     if(await custom_dialogue.default('This action is not reversible. Continuing will clear all current data and start a new ticket.\n\n Do you want to continue?','Continue','Go Back')){
@@ -190,5 +175,10 @@ document.addEventListener('DOMContentLoaded',function(){
     let vertical_list = ["Rain","Like Sew","Jewel","Music","Dive","Outdoor"];
     vertical_list.forEach(function(el){
         document.getElementById('vertical').insertAdjacentHTML('beforeend',`<option value="${el}">${el}</option>`);
+    });
+    //sets event listener on copy button
+    document.querySelector('.copy-btn').addEventListener('click', async () =>{
+        const copyText =  await import('/Rain-Support-Tools/src/modules/copy-data/copy-data.js');
+        copyText.default(document.querySelector('#ticket-container > div > textarea'));
     });
 });
