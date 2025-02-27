@@ -381,21 +381,6 @@ ${data.errors}
     document.querySelector('#ticket-container > div > textarea').focus();
 }
 }
-/*this function auto copies the data from the textarea to the computers clipboard*/
-function copyTicket() {
-    // Get the text field
-    const copyText = document.querySelector('#ticket-container > div > textarea');
-
-    // Select the text field
-    copyText.select();
-    copyText.setSelectionRange(0, 99999); // For mobile devices
-
-    // Copy the text inside the text field
-    navigator.clipboard.writeText(copyText.value);
-
-    // Alert the copied text
-    //console.log("Copied the text: " + copyText.value);
-};
 /*this function adds a row to what ever table is being interacted with*/
 function addTableRow(table){
     let row_label;//switch statement finds the correct row label
@@ -593,4 +578,9 @@ window.addEventListener('load', () => {
     });
     //this runs the function to check for any old tickets still saved in cookies
     displayPastTickets();
+    //this sets the event listener on the copy button
+    document.querySelector('.copy-btn').addEventListener('click', async () =>{
+        const copyText =  await import('/Rain-Support-Tools/src/modules/copy-data/copy-data.js');
+        copyText.default(document.querySelector('#ticket-container > div > textarea'));
+    });
 });

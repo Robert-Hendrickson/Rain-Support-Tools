@@ -1,1 +1,9 @@
 create a module for copy ticket function with a passed in target for where to copy details from
+
+need to remove copy function from tools
+
+Need to remove the onclick function from the copy button and instead use an event listener
+document.querySelector('.copy-btn').addEventListener('click', async () =>{
+        const copyText =  await import('/Rain-Support-Tools/src/modules/copy-data/copy-data.js');
+        copyText.default(document.querySelector('#ticket-container > div > textarea'));
+    });
