@@ -1,3 +1,0 @@
-update tax calculator variables for taxes in calculation to be better readable
-.../tools/Transaction-Calculator/calculator.js:101-171 (make sure to check associated functions)
-- tm, ts, tc are the tax rates

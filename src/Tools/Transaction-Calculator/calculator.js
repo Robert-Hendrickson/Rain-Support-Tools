@@ -100,71 +100,71 @@ function multiLineAdd() {
 /*function updates the used tax rates to match any changes made by the user*/
 function updateTax(){
     if(complex_tax){//if complex_tax is enabled, set the tax rates as equal to the rate object
-        tm = taxRates.material;
-        ts = taxRates.service;
-        tc = taxRates.class;
+        materialTax = taxRates.material;
+        serviceTax = taxRates.service;
+        classTax = taxRates.class;
     } else {//else get the tax value from the tax box, divided by 100 to make a decimal
-        tm = parseFloat(document.getElementById('material-rate').value);
-        tm = tm/100;
-        ts = parseFloat(document.getElementById('service-rate').value);
-        ts = ts/100;
-        tc = parseFloat(document.getElementById('class-rate').value);
-        tc = tc/100;
+        materialTax = parseFloat(document.getElementById('material-rate').value);
+        materialTax = materialTax/100;
+        serviceTax = parseFloat(document.getElementById('service-rate').value);
+        serviceTax = serviceTax/100;
+        classTax = parseFloat(document.getElementById('class-rate').value);
+        classTax = classTax/100;
     };
     let lines = number_of_lines;
     //loop through all existing lines in the calculation table to update the tax amount for each
     for(let i = 1; i < (lines + 1); i++){
         console.log('updating lines');
         //get current lines data
-        let z = line_entries[`row_${i}`];
+        let line_data = line_entries[`row_${i}`];
         //get tax jurisdictions for line that are applicable
-        if (z.taxable.mat){
+        if (line_data.taxable.mat){
             if(complex_tax){
                 //zero out current tax amount
-                z.tax.mat = 0;
+                line_data.tax.mat = 0;
                 //loop through rates given and increase tax amount by each
-                for(var rate in tm){
-                    z.tax.mat += tm[rate] * z.taxable_amount
+                for(var rate in materialTax){
+                    line_data.tax.mat += materialTax[rate] * line_data.taxable_amount
                 }
             } else {
-                z.tax.mat = tm * z.taxable_amount;
+                line_data.tax.mat = materialTax * line_data.taxable_amount;
             }
-        } else if(!z.taxable.mat){
-            z.tax.mat - 0 * z.taxable_amount;
+        } else if(!line_data.taxable.mat){
+            line_data.tax.mat - 0 * line_data.taxable_amount;
         }
-        if (z.taxable.serv){
+        if (line_data.taxable.serv){
             if(complex_tax){
                 //zero out current tax amount
-                z.tax.serv = 0;
+                line_data.tax.serv = 0;
                 //loop through rates given and increase tax amount by each
-                for(var rate in ts){
-                    z.tax.serv += ts[rate] * z.taxable_amount
+                for(var rate in serviceTax){
+                    line_data.tax.serv += serviceTax[rate] * line_data.taxable_amount
                 }
             } else {
-                z.tax.serv = ts * z.taxable_amount;
+                line_data.tax.serv = serviceTax * line_data.taxable_amount;
             }
-        } else if(!z.taxable.serv){
-            z.tax.serv - 0 * z.taxable_amount;
+        } else if(!line_data.taxable.serv){
+            line_data.tax.serv - 0 * line_data.taxable_amount;
         }
-        if (z.taxable.class){
+        if (line_data.taxable.class){
             if(complex_tax){
                 //zero out current tax amount
-                z.tax.class = 0;
+                line_data.tax.class = 0;
                 //loop through rates given and increase tax amount by each
-                for(var rates in tc){
-                    z.tax.class += ts[rate] * z.taxable_amount;
+                for(var rates in serviceTax){
+                    line_data.tax.class += serviceTax[rate] * line_data.taxable_amount;
                 }
             } else {
-                z.tax.class = tc * z.taxable_amount;
+                line_data.tax.class = serviceTax * line_data.taxable_amount;
             }
-        } else if(!z.taxable.class){
-            z.tax.class - 0 * z.taxable_amount;
+        } else if(!line_data.taxable.class){
+            line_data.tax.class - 0 * line_data.taxable_amount;
         }
         //update line totals
-        z.tax.total = z.tax.mat + z.tax.serv + z.tax.class;
-        z.total = z.taxable_amount + parseFloat(z.tax.total.toFixed(2));
-        document.querySelector(`#row_${i} #tax`).value = z.tax.total;
-        document.querySelector(`#row_${i} #total`).value = z.total;
+        line_data.tax.total = line_data.tax.mat + line_data.tax.serv + line_data.tax.class;
+        line_data.total = line_data.taxable_amount + parseFloat(line_data.tax.total.toFixed(2));
+        document.querySelector(`#row_${i} #tax`).value = line_data.tax.total;
+        document.querySelector(`#row_${i} #total`).value = line_data.total;
     };
     //run function to calculat transaction totals
     calcTotals();
@@ -251,25 +251,25 @@ function lineUpdate(line_number){
     line_entries[`row_${line_number}`].taxable_amount = taxable;
     //check jurisdictions, update tax amount
     if(row.taxable.mat){
-        let tm = parseFloat(document.querySelector('#material-rate').value);
-        tm = tm/100;
-        row.tax.mat = row.taxable_amount * tm;
+        let materialTax = parseFloat(document.querySelector('#material-rate').value);
+        materialTax = materialTax/100;
+        row.tax.mat = row.taxable_amount * materialTax;
     } else{
         let t = 0;
         row.tax.mat = row.taxable_amount * t;
     };
     if(row.taxable.serv){
-        let ts = parseFloat(document.querySelector('#service-rate').value);
-        ts = ts/100;
-        row.tax.serv = row.taxable_amount * ts;
+        let serviceTax = parseFloat(document.querySelector('#service-rate').value);
+        serviceTax = serviceTax/100;
+        row.tax.serv = row.taxable_amount * serviceTax;
     } else{
         let t = 0;
         row.tax.serv = row.taxable_amount * t;
     };
     if(row.taxable.class){
-        let tc = parseFloat(document.querySelector('#class-rate').value);
-        tc = tc/100;
-        row.tax.class = row.taxable_amount * tc;
+        let serviceTax = parseFloat(document.querySelector('#class-rate').value);
+        serviceTax = serviceTax/100;
+        row.tax.class = row.taxable_amount * serviceTax;
     } else{
         let t = 0;
         row.tax.class = row.taxable_amount * t;

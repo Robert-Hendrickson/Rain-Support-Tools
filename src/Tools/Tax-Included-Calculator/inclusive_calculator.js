@@ -217,42 +217,42 @@ function calcTotals() {
     document.querySelector('#total-total').value = totals.total;
 }
 //needs to have variables grab values to update object instead of updating object directly from the row data in the table
-function lineUpdate(x){
-    console.log(`Updating Line ${x}`);
+function lineUpdate(update_line){
+    console.log(`Updating Line ${update_line}`);
     //get qty value
-    let qty_input = parseFloat(document.querySelector(`#row_${x} #qty`).value);
-    line_entries[`row_${x}`].qty = qty_input;
+    let qty_input = parseFloat(document.querySelector(`#row_${update_line} #qty`).value);
+    line_entries[`row_${update_line}`].qty = qty_input;
     //get price value
-    let price_input = parseFloat(document.querySelector(`#row_${x} #price`).value);
-    line_entries[`row_${x}`].price = price_input;
+    let price_input = parseFloat(document.querySelector(`#row_${update_line} #price`).value);
+    line_entries[`row_${update_line}`].price = price_input;
     //calculate ext value & update table row with value
     let ext_input = qty_input * price_input;
     ext_input = parseFloat(ext_input.toFixed(2));
-    line_entries[`row_${x}`].ext = ext_input;
-    document.querySelector(`#row_${x} #ext`).value = ext_input;
+    line_entries[`row_${update_line}`].ext = ext_input;
+    document.querySelector(`#row_${update_line} #ext`).value = ext_input;
     //get discount amount
-    let disc_input = parseFloat(document.querySelector(`#row_${x} #discount`).value);
-    line_entries[`row_${x}`].disc = disc_input;
+    let disc_input = parseFloat(document.querySelector(`#row_${update_line} #discount`).value);
+    line_entries[`row_${update_line}`].disc = disc_input;
     //calculate taxable amount
     let taxable = ext_input - disc_input;
-    line_entries[`row_${x}`].taxable_amount = taxable;
+    line_entries[`row_${update_line}`].taxable_amount = taxable;
 
     //check line is taxable, if it is set row tax rate
-    if (document.querySelector(`#row_${x} #taxable`).value == 'yes'){
-        let t = parseFloat(document.querySelector('#tax-rate').value);
-        t = t/100;
-        let z = 1+t;
-        let y = line_entries[`row_${x}`].taxable_amount;
-        let r = y/z;
-        tax = r*t;
-        line_entries[`row_${x}`].tax = tax;
-        document.querySelector(`#row_${x} #tax`).value = line_entries[`row_${x}`].tax;
-    }else if(document.querySelector(`#row_${x} #taxable`).value == 'no'){
-        line_entries[`row_${x}`].tax = 0;
-        document.querySelector(`#row_${x} #tax`).value = line_entries[`row_${x}`].tax;
+    if (document.querySelector(`#row_${update_line} #taxable`).value == 'yes'){
+        let taxrate = parseFloat(document.querySelector('#tax-rate').value);
+        taxrate = taxrate/100;
+        let amountBeforeTaxFactor = 1 + taxrate;
+        let taxedamount = line_entries[`row_${update_line}`].taxable_amount;
+        let amountbeforetax = taxedamount/amountBeforeTaxFactor;
+        let tax = amountbeforetax * taxrate;
+        line_entries[`row_${update_line}`].tax = tax;
+        document.querySelector(`#row_${update_line} #tax`).value = line_entries[`row_${update_line}`].tax;
+    }else if(document.querySelector(`#row_${update_line} #taxable`).value == 'no'){
+        line_entries[`row_${update_line}`].tax = 0;
+        document.querySelector(`#row_${update_line} #tax`).value = line_entries[`row_${update_line}`].tax;
     };
-    line_entries[`row_${x}`].total = line_entries[`row_${x}`].ext - line_entries[`row_${x}`].disc;
-    document.querySelector(`#row_${x} #total`).value = line_entries[`row_${x}`].total;
+    line_entries[`row_${update_line}`].total = line_entries[`row_${update_line}`].ext - line_entries[`row_${update_line}`].disc;
+    document.querySelector(`#row_${update_line} #total`).value = line_entries[`row_${update_line}`].total;
     console.log('Recalculate Totals');
     calcTotals();
 }
