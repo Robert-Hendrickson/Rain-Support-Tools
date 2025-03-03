@@ -68,29 +68,29 @@
             </div>
             <div class="container content">
                 <div style="z-index: 1;" id="basic-content" data="1"  class="active">
-                        <div class="note-wrapper">
+                        <div title="The CRM ID of the client you are submitting the ticket for." class="note-wrapper">
                             CRM
-                            <span title="The CRM ID of the client you are submitting the ticket for." class="fa-solid fa-question"></span>
+                            <span class="fa-solid fa-question"></span>
                         </div>
                         <input id="crm" type="text" placeholder="Enter a CRM" />
                         <br>
-                        <div class="note-wrapper">
+                        <div title="The part of the system affected by the bug." class="note-wrapper">
                             System Area Affected
-                            <span title="The part of the system affected by the bug." class="fa-solid fa-question"></span>
+                            <span class="fa-solid fa-question"></span>
                         </div>
                         <input id="systemArea" type="text" placeholder="Enter Part of the System Affected" />
                         <br>
-                        <div class="note-wrapper">
+                        <div title="Are you able to follow a set of steps to reproduce the bug consistently?" class="note-wrapper">
                             Can you replicate this on a Test Site or Customers Site?
-                            <span title="Are you able to follow a set of steps to reproduce the bug consistently?" class="fa-solid fa-question"></span>
+                            <span class="fa-solid fa-question"></span>
                         </div>
                         <div choice-selector replicable-selector>
                             <div replicable='yes'>Yes</div>
                             <div replicable='no'>No</div>
                         </div><br>
-                        <div class="note-wrapper">
+                        <div title="If 'yes' to above select any below that apply." class="note-wrapper">
                             Where were able to replicate the behavior?(If 'yes' to above select any below that apply)
-                            <span title="If 'yes' to above select any below that apply." class="fa-solid fa-question"></span>
+                            <span class="fa-solid fa-question"></span>
                         </div>
                         <div choice-selector where-selector>
                             <div where='Test'>Test Site</div>
@@ -99,9 +99,9 @@
                 </div>
                 <div style="z-index: 2;" id="steps-content" data="2" class="in-active">
                     <h2 class="header-center">
-                        <div class="note-wrapper">
+                        <div title="Step by step instructions on how to reproduce the issue." class="note-wrapper">
                             Steps to Reproduce
-                            <span title="Step by step instructions on how to reproduce the issue." class="fa-solid fa-question"></span>
+                            <span class="fa-solid fa-question"></span>
                         </div>
                     </h2>
                     <div table-controls>
@@ -129,17 +129,17 @@
                     </table>
                 </div>
                 <div style="z-index: 3;" id="description-content" data="3" class="in-active">
-                    <div class="note-wrapper">
+                    <div title="Please provide a detailed description of the bug behavior and what issue it is causing." class="note-wrapper">
                         <h2>Description</h2>
-                        <span title="Please provide a detailed description of the bug behavior and what issue it is causing." class="fa-solid fa-question"></span>
+                        <span class="fa-solid fa-question"></span>
                     </div>
                     <textarea tabindex="-1" placeholder="Enter a Description" id="description"></textarea>
                 </div>
                 <div style="z-index: 4;" id="links-content" data="4" class="in-active">
                     <h2 class="header-center">
-                        <div class="note-wrapper">
+                        <div title="Please provide links to any screenshots that show the bug in action." class="note-wrapper">
                             Screenshots
-                            <span title="Please provide links to any screenshots that show the bug in action." class="fa-solid fa-question"></span>
+                            <span class="fa-solid fa-question"></span>
                         </div>
                     </h2>
                     <div table-controls>
@@ -166,9 +166,9 @@
                         </tbody>
                     </table>
                     <h2 class="header-center">
-                        <div class="note-wrapper">
+                        <div title="Please provide links to any videos that show the bug in action." class="note-wrapper">
                             Videos
-                            <span title="Please provide links to any videos that show the bug in action." class="fa-solid fa-question"></span>
+                            <span class="fa-solid fa-question"></span>
                         </div>
                     </h2>
                     <div table-controls>
@@ -186,15 +186,15 @@
                     </table>
                 </div>
                 <div style="z-index: 5;" id="examples-errors-content" data="5" class="in-active">
-                    <div class="note-wrapper">
+                    <div title="Data that is currently showing the issue that can be referenced for investigation." class="note-wrapper">
                         <h2>Examples</h2>
-                        <span title="Data that is currently showing the issue that can be referenced for investigation." class="fa-solid fa-question"></span>
+                        <span class="fa-solid fa-question"></span>
                     </div><br>
                     <textarea tabindex="-1" placeholder="Enter example data. This can be links to web pages where things are wrong or id's of products, RTO's, etc." id="examples"></textarea>
                     <br>
-                    <div class="note-wrapper">
+                    <div title="Errors found in the browser console when the bug happened." class="note-wrapper">
                         <h2>Console Errors</h2>
-                        <span title="Errors found in the browser console." class="fa-solid fa-question"></span>
+                        <span class="fa-solid fa-question"></span>
                     </div>
                     <span class="sub-text">Copy the console error from the console then paste the info into the below box. Do not enter this box with "See Video" or similar options.</span>
                     <textarea tabindex="-1" placeholder="Enter any console errors that appear during the issue" id="errors"></textarea>
