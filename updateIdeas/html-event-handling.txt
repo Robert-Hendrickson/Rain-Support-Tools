@@ -1,4 +1,6 @@
 Update html element events like onclick or onchange to use the new event listener syntax in the tools js file
+regex search files
+\son.+(!?=")
 
 src\Tools\wa-tax-rates\wa_tax_rates.html
     onclick="toggleNav()"
