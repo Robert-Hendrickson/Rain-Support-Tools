@@ -15,6 +15,30 @@ function hasSalesforceLink(string){
     //https://rainpos.lightning.force.com/lightning/r/Case/500PC00000KP5STYA1/view
     return new RegExp(/(?:https?:\/\/)?rainpos\.lightning\.force\.com\/lightning\/r\//).test(string);    
 }
+//this function will return true if the provided link is not a valid google drive or one drive link
+function imageVideoLink(url_string){
+    return (
+            url_string === '' 
+            || 
+            (
+                !RegExp(/^(?:https?:\/\/)drive\.google\.com\/file\/d\/.*\/view(?:\?.+)?$/).test(url_string) 
+                &&
+                !RegExp(/(?:https?:\/\/)?quiltsoftware-my\.sharepoint\.com\/:(i|v)\:\/p\//).test(url_string)
+            )
+        );
+    /*
+    good links
+    image
+    https://quiltsoftware-my.sharepoint.com/:i:/p/david_vandersluis/EWo5q-V1MB9DqxBQmFNw87YBX430MdWX3N-HzL8V1TghEg?e=Fpia10
+
+    video
+    https://quiltsoftware-my.sharepoint.com/:v:/p/david_vandersluis/EbR3Bar75tVEp4GBKUYrIMUBtvnbBAkUd9L9vzY7ASC6cA?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=U49V57
+
+    bad link - leads to a folder instead of a file
+    https://quiltsoftware-my.sharepoint.com/:f:/p/david_vandersluis/EtJUFCiLE6RMiVD5AlmC8GEBvmlKwzDVIDjQt8EGoV01_A?e=7LKReI
+
+    */
+}
 /*this function checks the list of screenshot or video links to make sure they all meet a specific url requirement and that none are either empty or have a duplicate link in them*/
 function checkLinkList(list_content, list_type){
     error_array = [];
@@ -58,12 +82,17 @@ function checkLinkList(list_content, list_type){
         //loop through each link given again
         list_content.forEach(function (element, index){
             //remove all white space from each link string, (spaces, tabs, etc.)
-            element.value = element.value.replaceAll(/\s/g,'');
-            //make sure that each link meets the expected criteria of being a google drive link
+            element.value = element.value.trim();
+            //make sure that each link meets the expected criteria of being a google drive or one drive link
+            if(imageVideoLink(element.value)){
+                error_array.push(`${list_type} ${index + 1} isn't a valid google drive or one drive link.`);
+            }
+            /*
             if(element.value === '' || !RegExp(/^(?:https?:\/\/)drive\.google\.com\/file\/d\/.*\/view(?:\?.+)?$/).test(element.value)){
                 //if not, change return value to reflect a potential issue
                 error_array.push(`${list_type} ${index + 1} isn't a google drive link.`);
             }
+            */
         });
     }
     //return value of checks. A false return means no issues were found, a true return means we found an issue
