@@ -1,6 +1,29 @@
 //variable to hold what work type is being done
 let work_type_selected;
 /*function handles moving through flow*/
+function imageVideoLink(url_string, type){
+    return (
+            url_string === '' 
+            || 
+            (
+                !RegExp(/^(?:https?:\/\/)drive\.google\.com\/file\/d\/.*\/view(?:\?.+)?$/).test(url_string) 
+                &&
+                !RegExp(`(?:https?:\/\/)?quiltsoftware-my\.sharepoint\.com\/:(${type})\:\/p\/`).test(url_string)
+            )
+        );
+    /*
+    good links
+    image
+    https://quiltsoftware-my.sharepoint.com/:i:/p/david_vandersluis/EWo5q-V1MB9DqxBQmFNw87YBX430MdWX3N-HzL8V1TghEg?e=Fpia10
+
+    video
+    https://quiltsoftware-my.sharepoint.com/:v:/p/david_vandersluis/EbR3Bar75tVEp4GBKUYrIMUBtvnbBAkUd9L9vzY7ASC6cA?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=U49V57
+
+    bad link - leads to a folder instead of a file
+    https://quiltsoftware-my.sharepoint.com/:f:/p/david_vandersluis/EtJUFCiLE6RMiVD5AlmC8GEBvmlKwzDVIDjQt8EGoV01_A?e=7LKReI
+
+    */
+}
 async function validateData(){
     //close any open errors
     if(document.getElementById('error_message')) {
@@ -89,11 +112,11 @@ function checkSiteWork(){
         if ((/rainadmin|quiltstorewebsites|musicshop360|jewel360/g).test(el.querySelector('#url').value)) {
             list_object['restricted_domain'] = 'Use domains from the customers site. Do not use admin domains. (i.e. rainadmin, jewel360, musicshop360)';
         }
-        if (!(/^.*drive\.google\.com\/.*view/).test(el.querySelector('#screenshot').value)) {
-            list_object['screenshot'] = 'Please enter a google drive screenshot link for each row.';
+        if (imageVideoLink(el.querySelector('#screenshot').value, 'i')) {
+            list_object['screenshot'] = 'Please enter a google drive or onedrive screenshot link for each row.';
         }
-        if (!(/^.*drive\.google\.com\/.*view/).test(el.querySelector('#video').value) && el.querySelector('#video').value != '') {
-            list_object['video'] = 'Make sure any videos given are a google drive link.';
+        if (imageVideoLink(el.querySelector('#video').value, 'v') && el.querySelector('#video').value != '') {
+            list_object['video'] = 'Make sure any videos given are a google drive or onedrive video link.';
         }
         if (el.querySelector('textarea').value === '') {
             list_object['details'] = 'Please give some details of what work needs to be done for each row.';
