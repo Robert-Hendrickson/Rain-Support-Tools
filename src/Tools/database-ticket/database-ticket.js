@@ -1,29 +1,6 @@
 function isNA(string) {
     return (/^n[\/\s]?a$/i).test(string.trim());
 }
-function imageVideoLink(url_string){
-    return (
-            url_string === '' 
-            || 
-            (
-                !RegExp(/^(?:https?:\/\/)drive\.google\.com\/file\/d\/.*\/view(?:\?.+)?$/).test(url_string) 
-                &&
-                !RegExp(/(?:https?:\/\/)?quiltsoftware-my\.sharepoint\.com\/:(i|v)\:\/p\//).test(url_string)
-            )
-        );
-    /*
-    good links
-    image
-    https://quiltsoftware-my.sharepoint.com/:i:/p/david_vandersluis/EWo5q-V1MB9DqxBQmFNw87YBX430MdWX3N-HzL8V1TghEg?e=Fpia10
-
-    video
-    https://quiltsoftware-my.sharepoint.com/:v:/p/david_vandersluis/EbR3Bar75tVEp4GBKUYrIMUBtvnbBAkUd9L9vzY7ASC6cA?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=U49V57
-
-    bad link - leads to a folder instead of a file
-    https://quiltsoftware-my.sharepoint.com/:f:/p/david_vandersluis/EtJUFCiLE6RMiVD5AlmC8GEBvmlKwzDVIDjQt8EGoV01_A?e=7LKReI
-
-    */
-}
 function compileData(copyable = false) {
     let ticket_data = {};
     ticket_data.businessName = document.getElementById('businessName').value;
