@@ -62,7 +62,7 @@ Riley page was pulled from this link: https://codepen.io/trajektorijus/pen/mdeBY
 # flow build containers
 ## nav html
     <div class="menu-wrapper">
-        <div onclick="toggleNav()" id="nav-toggle">
+        <div id="nav-toggle">
             <span class="fa-solid fa-bars"></span>
         </div>
         <nav-menu></nav-menu>
