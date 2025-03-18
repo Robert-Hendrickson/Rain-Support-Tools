@@ -1,0 +1,24 @@
+@import '/Rain-Support-Tools/src/common/css/default.css';
+@import '/Rain-Support-Tools/src/common/flow-format/flow-format.css';
+#search-wrapper{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 10px 0;
+    span{
+        margin-right: 10px;
+    }
+}
+#results .results-wrapper{
+    display: none;
+    border: #000 solid 1px;
+    border-radius: 16px;
+    padding: 16px;
+    margin: 10px 0;
+}
+#results .results-wrapper.active{
+    display: block;
+}
+#results .results-wrapper p{
+    text-align: center;
+}

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SF Errors</title>
+    <link rel="stylesheet" href="./sf-errors.css" />
+    <script src="https://kit.fontawesome.com/8e52a98e38.js" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="/Rain-Support-Tools/src/Tools/sf-errors/sf-errors.js"></script>
+</head>
+<body>
+    <div class="menu-wrapper">
+        <div onclick="toggleNav()" id="nav-toggle">
+            <span class="fa-solid fa-bars"></span>
+        </div>
+        <nav-menu></nav-menu>
+        <script src="/Rain-Support-Tools/src/common/navigation/nav-builder.js"></script>
+    </div>
+    <div class="body-container">
+        <div class="container content">
+            <h2>Salesforce Error Search</h2>
+            <p>Paste the error message into the box below</p>
+            <div id="search-wrapper">
+                <!--<span class="fa-solid fa-magnifying-glass"></span>-->
+                <textarea id="searchbar" placeholder="Paste error message here"></textarea>
+            </div>
+            <div id="results">
+                <div class="results-wrapper" id="no-contact">
+                    <h2>No Contact Assigned</h2>
+                    <p>
+                        Issue is most often caused by missing a contact assigned to the case. Add a contact to the case, then continue with solving the case.
+                    </p>
+                </div>
+                <div class="results-wrapper" id="template-issue">
+                    <h2>Template Issue</h2>
+                    <p>
+                        Issue is most often caused by expected values not matching. Check the following values in the case are correct from the list below.
+                        <ul>
+                            <li>Case Reason -> Software</li>
+                            <li>Case Issue -> Bug - Parent OR Bug - Incident</li>
+                            <li>Case Details -> Contain the string **Bug Submission:**</li>
+                        </ul>
+                    </p>
+                </div>
+                <div class="results-wrapper" id="default">
+                    <h2>Not Found</h2>
+                    <p>
+                        Error code not found in common results. Please seek further help.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

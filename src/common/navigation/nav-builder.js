@@ -104,6 +104,7 @@ const app = Vue.createApp({
                 ],
                 misc: [
                     {name:'SF GTG Check', url: '/Rain-Support-Tools/src/Tools/bug-flow-check/bug-flow-check.html', icon: 'fa-solid fa-thumbs-up'},
+                    {name:'SF Errors', url: '/Rain-Support-Tools/src/Tools/sf-errors/sf-errors.html', icon: 'fa-solid fa-list'},
                     {name:'Bandwidth Error List', url: '/Rain-Support-Tools/src/Tools/bandwidth-errors/bandwidth-errors.html', icon: 'fa-solid fa-list'},
                     {name:'CSS Sandbox', url: '/Rain-Support-Tools/src/Tools/css-tester/css-tester.html', icon: 'fa-solid fa-wand-magic-sparkles'},
                     {name:"Riley's Secret", url: '/Rain-Support-Tools/src/riley/riley.html', target:'blank', icon: 'fa-solid fa-paper-plane'}
