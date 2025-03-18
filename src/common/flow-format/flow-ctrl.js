@@ -42,3 +42,14 @@ function updateTabs(add_tab,remove_tab){
         el.removeAttribute('tabindex');
     });
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('div[flow-controls] button').forEach((el)=>{
+        if(el.hasAttribute('prev')){
+            el.addEventListener('click', previousStep);
+        }
+        if(el.hasAttribute('next') || el.hasAttribute('finish')){
+            el.addEventListener('click', validateData);
+        }
+    })
+});

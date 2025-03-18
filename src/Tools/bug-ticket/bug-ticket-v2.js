@@ -647,4 +647,7 @@ window.addEventListener('load', () => {
             }
         }
     );
+    //this sets the event listener for the ticket modal buttons
+    document.querySelector('div[ticket-buttons] button:first-child').addEventListener('click',start_new_ticket);
+    document.querySelector('div[ticket-buttons] button:nth-child(2)').addEventListener('click',() => document.getElementById('ticket-container').classList.add('hide'));
 });
