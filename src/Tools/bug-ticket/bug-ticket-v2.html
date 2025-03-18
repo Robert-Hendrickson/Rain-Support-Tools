@@ -39,7 +39,7 @@
             Bug Ticket Form Generator - Design by Russell Lee
         </h1>
         <div style="margin: 10px auto; width: 217px;">
-            <button class="btn secondary" onclick="document.querySelector('#salesforce-bug-calc-tips').classList = '';">
+            <button class="btn secondary sf-tips">
                 Salesforce Bug Calculator Tips
             </button>
         </div>
@@ -105,8 +105,8 @@
                         </div>
                     </h2>
                     <div table-controls>
-                        <button tabindex="-1" class="btn secondary" onclick="addTableRow('steps-table')">Add Row</button>
-                        <button tabindex="-1" class="btn secondary" onclick="removeTableRow('steps-table')">Remove Row</button>
+                        <button tabindex="-1" class="btn secondary">Add Row</button>
+                        <button tabindex="-1" class="btn secondary">Remove Row</button>
                     </div>
                     <table id="steps-table">
                         <tbody>
@@ -143,8 +143,8 @@
                         </div>
                     </h2>
                     <div table-controls>
-                        <button tabindex="-1" class="btn secondary" onclick="addTableRow('screenshot-table')">Add Row</button>
-                        <button tabindex="-1" class="btn secondary" onclick="removeTableRow('screenshot-table')">Remove Row</button>
+                        <button tabindex="-1" class="btn secondary">Add Row</button>
+                        <button tabindex="-1" class="btn secondary">Remove Row</button>
                     </div>
                     <table id="screenshot-table">
                         <tbody>
@@ -172,8 +172,8 @@
                         </div>
                     </h2>
                     <div table-controls>
-                        <button tabindex="-1" class="btn secondary" onclick="addTableRow('video-table')">Add Row</button>
-                        <button tabindex="-1" class="btn secondary" onclick="removeTableRow('video-table')">Remove Row</button>
+                        <button tabindex="-1" class="btn secondary">Add Row</button>
+                        <button tabindex="-1" class="btn secondary">Remove Row</button>
                     </div>
                     <table id="video-table">
                         <tbody>
@@ -217,7 +217,7 @@
             </div>
         </div>
         <div id="salesforce-bug-calc-tips" class="hide">
-            <span class="close" onclick="this.parentElement.classList = 'hide'">X</span>
+            <span class="close">X</span>
             <h3 style="color: #f00;">These are just helpful suggestions to consider and not exact points. If you have concerns of a bug please consult with Support Leadership about how things should be answered.</h3>
             <div class="question-wrapper">
                 <div class="question-title">

@@ -433,7 +433,7 @@ function addTableRow(table){
 }
 /*removes the last row from the table being interacted with*/
 function removeTableRow(table){
-    document.querySelector(`#${table} tbody tr:last-child`).remove();
+    document.querySelector(`#${table} tbody tr:last-child`)?.remove();
 }
 /*this function is used in the last step validation to make sure that if there is enough mention of website trouble that the examples include a link or ask if it was intentionally left out*/
 async function checkDescriptionNeedsLinkExamples(){
@@ -612,4 +612,39 @@ window.addEventListener('load', () => {
         const copyText =  await import('/Rain-Support-Tools/src/modules/copy-data/copy-data.js');
         copyText.default(document.querySelector('#ticket-container > div > textarea'));
     });
+    //this sets the event listener on the sf-tips button
+    document.querySelector('.sf-tips').addEventListener('click', () =>{
+        document.querySelector('#salesforce-bug-calc-tips').classList = '';
+    });
+    //this sets the event listener on the sf-tips close button
+    document.querySelector('#salesforce-bug-calc-tips .close').addEventListener('click', () =>{
+        document.querySelector('#salesforce-bug-calc-tips').classList = 'hide';
+    });
+    //these sets the event listener for the table controls
+    document.querySelectorAll('div[table-controls] button:first-child').forEach(
+        (el,index) => {
+            if(index === 0){
+                el.addEventListener('click',() => addTableRow('steps-table'));
+            }
+            if(index === 1){
+                el.addEventListener('click',() => addTableRow('screenshot-table'));
+            }
+            if(index === 2){
+                el.addEventListener('click',() => addTableRow('video-table'));
+            }
+        }
+    );
+    document.querySelectorAll('div[table-controls] button:last-child').forEach(
+        (el,index) => {
+            if(index === 0){
+                el.addEventListener('click',() => removeTableRow('steps-table'));
+            }
+            if(index === 1){
+                el.addEventListener('click',() => removeTableRow('screenshot-table'));
+            }
+            if(index === 2){
+                el.addEventListener('click',() => removeTableRow('video-table'));
+            }
+        }
+    );
 });
