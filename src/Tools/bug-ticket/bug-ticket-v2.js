@@ -545,8 +545,9 @@ function newCookieData(){
     //updates number
     document.getElementById('list-toggle').innerText = parseInt(document.getElementById('list-toggle').innerText) + 1;
     //appends new ticket to list
-    document.querySelector('past-tickets').insertAdjacentHTML('beforeend', `<div data="${JSON.stringify(bug_object).replaceAll(`"`,"&quot;")}"><span class="close" onclick="deletePastTicketLine('bug_${now}',this)"></span>${Date(now).substring(0,24)}<br>CRM: ${bug_object.crm}<br>Description: ${bug_object.description}</div>`);
+    document.querySelector('past-tickets').insertAdjacentHTML('beforeend', `<div data="${JSON.stringify(bug_object).replaceAll(`"`,"&quot;")}"><span class="close"></span>${Date(now).substring(0,24)}<br>CRM: ${bug_object.crm}<br>Description: ${bug_object.description}</div>`);
     document.querySelector('past-tickets > div:last-child').addEventListener('click',oldTicketDataPrint);
+    document.querySelector('past-tickets > div:last-child span.close').addEventListener('click',() => deletePastTicketLine(`bug_${now}`,document.querySelector('past-tickets > div:last-child')));
 }
 /*This function bulds a list out of the data passed in the array, the array comes from displayPastTickets function*/
 function buildPastTicketDivs(array){
@@ -557,7 +558,9 @@ function buildPastTicketDivs(array){
         let date = new Date(parseInt(bug_date_string.split("_")[1])).toString().substring(0,24);
         let bug_data = bug_details_string.replaceAll(/"/g,'&quot;');
         let temp_json = JSON.parse(bug_details_string);
-        document.querySelector('past-tickets').insertAdjacentHTML('beforeend', `<div data="${bug_data}"><span class="close" onclick="deletePastTicketLine('${bug_date_string}',this)"></span>${date}<br>CRM: ${temp_json.crm}<br>Description: ${temp_json.description}</div>`);
+        document.querySelector('past-tickets').insertAdjacentHTML('beforeend', `<div data="${bug_data}"><span class="close"></span>${date}<br>CRM: ${temp_json.crm}<br>Description: ${temp_json.description}</div>`);
+        //document.querySelector('past-tickets > div:last-child').addEventListener('click',oldTicketDataPrint);
+        document.querySelector('past-tickets > div:last-child span.close').addEventListener('click',() => deletePastTicketLine(bug_date_string,document.querySelector('past-tickets > div:last-child')));
     }
 }
 /*this takes the div of a old ticket from the list and displays it in the ticket generator area so that it can be copied again if necessary*/
@@ -583,11 +586,11 @@ async function deletePastTicketLine(cookie,line){
         //deletes existing cookie
         deleteCookie(cookie);
         //removes visible line
-        line.parentElement.remove();
+        line.remove();
         //updates number
         document.getElementById('list-toggle').innerText = parseInt(document.getElementById('list-toggle').innerText)-1;
         //if last line is deleted, hide the panel entirely.
-        if (!document.querySelector('past-tickets').children.length) {
+        if (!document.querySelector('past-tickets')?.children.length) {
             document.querySelector('#past-ticket-container').style.display = 'none';
         }
     }
