@@ -159,6 +159,9 @@ async function validateData(){
                 nextStep(current_step);
             };
             break;
+        case 4:
+            compileData(true);
+            break;
         default:
             console.error(`Something isn't working right. current_step value ${current_step}`);
     }
@@ -180,5 +183,9 @@ document.addEventListener('DOMContentLoaded',function(){
     document.querySelector('.copy-btn').addEventListener('click', async () =>{
         const copyText =  await import('/Rain-Support-Tools/src/modules/copy-data/copy-data.js');
         copyText.default(document.querySelector('#ticket-container > div > textarea'));
+    });
+    document.getElementById('new-case').addEventListener('click',start_new_ticket);
+    document.getElementById('close-case').addEventListener('click',() => {
+        document.getElementById('ticket-container').classList.add('hide');
     });
 });
