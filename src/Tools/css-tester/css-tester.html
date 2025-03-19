@@ -81,8 +81,8 @@
                 <div class="container userColor">
                     <h3>Try making your own color to use!</h3>
                     <p>You can either enter a hex color code into the text box to see what the color will look like before applying it to the page or you can use the color box to the left to use a color picker to find a color you like and then copy the hex code out of the text box.</p>
-                    <input type="color" value="#457e96" onchange="getColor()" />
-                    <input type="text" value="#457e96" onchange="checkColor()"/>
+                    <input type="color" value="#457e96" />
+                    <input type="text" value="#457e96" />
                 </div>
                 <div class="container grocery">
                     <h3>Grocery List</h3>
@@ -157,13 +157,13 @@
             </div>
         </div>
         <div class="closed" id="userInput">
-            <div id="panelToggle" onclick="toggleControl()">
+            <div id="panelToggle">
                 <<
             </div>
             <div class="container">
-                <input type="button" value="Submit" onclick="updateCSS()" />
-                <input type="button" value="Reset" onclick="setBaseCSS()" />
-                <input type="button" value="Home" onclick="location.pathname = '/Rain-Support-Tools/'" /><br />
+                <input type="button" id="submit" value="Submit" />
+                <input type="button" id="reset" value="Reset" />
+                <input type="button" id="home" value="Home" /><br />
                 <h2 style="margin: unset; display: unset;">Page CSS</h2><br />
                 <textarea id="user-css"></textarea>
             </div>
@@ -196,6 +196,14 @@
             function checkColor(){
                 document.querySelector('.container input[type="color"]').value = document.querySelector('.container input[type="text"]').value;
             };
+            document.addEventListener('DOMContentLoaded',() => {
+                document.querySelector('.container input[type="color"]').addEventListener('change',getColor);
+                document.querySelector('.container input[type="text"]').addEventListener('change',checkColor);
+                document.getElementById('panelToggle').addEventListener('click',toggleControl);
+                document.getElementById('submit').addEventListener('click',updateCSS);
+                document.getElementById('reset').addEventListener('click',setBaseCSS);
+                document.getElementById('home').addEventListener('click',() => {location.pathname = '/Rain-Support-Tools/';});
+            });
         </script>
     </body>
 </html>
