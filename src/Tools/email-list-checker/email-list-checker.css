@@ -14,6 +14,7 @@
         width: 45%;
         height: 90%;
         float: left;
+        resize: none;
     }
     #get-email-list-code{
         width: 45%;
