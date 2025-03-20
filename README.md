@@ -104,10 +104,13 @@ Riley page was pulled from this link: https://codepen.io/trajektorijus/pen/mdeBY
 
 ## flow controls
     <div flow-controls>
-        <button prev class="btn secondary hide" style="font-size: 12px;" onclick="previousStep()">Previous</button>
-        <button class="btn primary hide" finish style="float: right;" onclick="validateData()">Finish</button>
-        <button class="btn primary" next style="float: right;" onclick="validateData()">Next</button>
+        <button prev class="btn secondary hide" style="font-size: 12px;">Previous</button>
+        <button class="btn primary hide" finish style="float: right;">Finish</button>
+        <button class="btn primary" next style="float: right;">Next</button>
     </div>
+# the buttons have an onclick event that calls a function set in /src/common/flow-format/flow-ctrl.js file
+# next and finish buttons call function validateData()
+# previous button calls function previousStep()
 
 ## error container and ticket container
 ### ticket container
