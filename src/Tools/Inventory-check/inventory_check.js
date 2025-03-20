@@ -52,3 +52,21 @@ function recordChange(change){
     document.getElementById('inventory-change').value = '';
     document.getElementById('reserved-change').value = '';
 };
+//event listeners
+document.addEventListener('DOMContentLoaded', () => {
+    //add event listeners for up down buttons
+   document.querySelector('input[value="Increase"]').addEventListener('click', () => {
+    recordChange('up');
+   });
+   document.querySelector('input[value="Reduce"]').addEventListener('click', () => {
+    recordChange('down');
+   });
+   //add event listener for reset button
+   document.querySelector('input[value="reset"]').addEventListener('click', () => {
+    window.location.reload();
+   });
+   //add event listener for home button
+   document.querySelector('input[value="Home"]').addEventListener('click', () => {
+    window.location.pathname = '/Rain-Support-Tools/';
+   });
+});
