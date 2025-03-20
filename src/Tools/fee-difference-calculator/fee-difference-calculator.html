@@ -37,7 +37,7 @@
         </div>
         <div id="rates">
             <div id="rateTables">
-                <input type="button" value="Video Walkthrough" onclick="videoToggle('open')" />
+                <input type="button" value="Video Walkthrough" />
                 <table id="cardPresent">
                     <thead>
                         <tr>
@@ -112,10 +112,10 @@
                 <br />
             </div>
             <div id="amexSelector">
-                <input type="checkbox" id="amexCheck" onclick="amexDisplayToggle()" />Different Amex Rates<br />
-                <input type="button" Value="Import Transactions" onclick="importToggle('open')" /><br />
-                <input type="button" value="Run Calculations" onclick="calculateDifference()" /><br />
-                <input type="button" value="Clear Table" onclick="resetTable()" />
+                <input type="checkbox" id="amexCheck" />Different Amex Rates<br />
+                <input type="button" id="import" Value="Import Transactions" /><br />
+                <input type="button" id="calculate" value="Run Calculations" /><br />
+                <input type="button" id="clear" value="Clear Table" /><br />
             </div>
             <div id="totals">
                 <table>
@@ -144,13 +144,14 @@
         </div>
         <div class="popup1 hide">
             <div class="import">
-                <input type="button" value="Import" onclick="buildObject()" /><input type="button" value="Close" onclick="importToggle('close')" />&nbsp;<span>Please paste copied data into the box below.</span><br />
+                <input type="button" id="import" value="Import" />
+                <input type="button" id="close" value="Close" />&nbsp;<span>Please paste copied data into the box below.</span><br />
                 <textarea></textarea>
             </div>
         </div>
         <div class="popup2 hide">
             <div class="wait">
-                <input id="closeDialogue" class="hide" type="button" value="Close" onclick="closeDialogue()" /><br />
+                <input id="closeDialogue" class="hide" type="button" value="Close" /><br />
                 <p style="float:left;">Work is being done on the data you gave. Please wait.</p><img src="https://media1.giphy.com/media/RgzryV9nRCMHPVVXPV/giphy.webp?cid=790b7611c78zoxuecx3k2ayi4g3lljttqwh24v314n69ezbk&ep=v1_gifs_search&rid=giphy.webp&ct=g" style="
                 width: 29px;float:left;"><br /><br />
                 <div class="errorMessage"></div>
@@ -158,7 +159,7 @@
         </div>
         <div class="video hide">
             <div class="my-player">
-                <input type="button" value="Close" onclick="videoToggle('close')" /><br />
+                <input type="button" value="Close" /><br />
                 <video
                     controls
                     style="width: 900px;"

@@ -193,3 +193,30 @@ function videoToggle(action){
         document.querySelector('.video').classList.add('hide');
     };
 }
+//set event listeners for buttons
+document.addEventListener('DOMContentLoaded', () => {
+    //toggles video popup
+    document.querySelector('#rateTables input').addEventListener('click', () => {
+        videoToggle('open');
+    });
+    document.querySelector('.my-player input').addEventListener('click', () => {
+        videoToggle('close');
+    });
+    //toggles amex display
+    document.querySelector('#amexSelector input#amexCheck').addEventListener('click', amexDisplayToggle);
+    //toggles import popup
+    document.querySelector('#amexSelector input#import').addEventListener('click', () => {
+        importToggle('open');
+    });
+    document.querySelector('.popup1 input#close').addEventListener('click', () => {
+        importToggle('close');
+    });
+    //Run calculation
+    document.querySelector('#amexSelector input#calculate').addEventListener('click', calculateDifference);
+    //toggles clear popup
+    document.querySelector('#amexSelector input#clear').addEventListener('click', resetTable);
+    //Import button
+    document.querySelector('.popup1 input#import').addEventListener('click', buildObject);
+    //close wait popup
+    document.querySelector('.popup2 input#closeDialogue').addEventListener('click', closeDialogue);
+});
