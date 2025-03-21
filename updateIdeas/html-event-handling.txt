@@ -2,9 +2,7 @@ Update html element events like onclick or onchange to use the new event listene
 regex search files
 \son\w+(!?=")
 
-src\Tools\wa-tax-rates\wa_tax_rates.html
-    onclick="toggleNav()"
-    onclick="getTaxRate()"
+
 src\Tools\Transaction-Calculator\Javascript_calculator.html
 Multiple onclick and onchange events, including:
     onclick="toggleNav()"
@@ -33,10 +31,6 @@ src\Tools\site-work\site-work.html
     onclick="validateData()"
     onclick="start_new_ticket()"
     onclick="copyTicket()"
-src\Tools\rto-payments\rto-payments.html
-    onclick="toggleNav()"
-    onclick="checkRtoInputs()"
-    onclick="clearRTOPayments()"
 src\Tools\QB-Mixed-Split\QB_Mixed_Split.html
     onclick="toggleNav()"
     onchange="totalsColCalc()"
