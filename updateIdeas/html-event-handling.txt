@@ -22,15 +22,6 @@ src\Tools\Tax-Included-Calculator\Tax-Inclusive-Calculator.html
     onclick="multiLineAdd()"
     onchange="updateTax()"
     onclick="reset()"
-src\Tools\site-work\site-work.html
-    onclick="toggleNav()"
-    onclick="addTableRow()"
-    onclick="removeTableRow()"
-    onclick="deleteRow()"
-    onclick="previousStep()"
-    onclick="validateData()"
-    onclick="start_new_ticket()"
-    onclick="copyTicket()"
 src\Tools\QB-Mixed-Split\QB_Mixed_Split.html
     onclick="toggleNav()"
     onchange="totalsColCalc()"
