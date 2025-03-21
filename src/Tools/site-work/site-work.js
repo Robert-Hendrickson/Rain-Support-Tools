@@ -190,7 +190,7 @@ function addTableRow(table){
 }
 /*function removes the last row from the table being interacted with*/
 function removeTableRow(table){
-    document.querySelector(`#${table} tr:last-child`).remove();
+    document.querySelector(`#${table} tr:last-child`)?.remove();
 }
 /*function deletes specific row being interacted with*/
 function deleteRow(el){
@@ -222,5 +222,23 @@ window.addEventListener('load', function() {
     document.querySelector('.btn-copy').addEventListener('click', async () =>{
         const copyText =  await import('/Rain-Support-Tools/src/modules/copy-data/copy-data.js');
         copyText.default(document.querySelector('#ticket-container > div > textarea'));
+    });
+    //set event listener for table controls
+    document.querySelectorAll('[table-controls] button').forEach((el,index) => {
+        if(index === 0){
+            el.addEventListener('click', () => {
+                addTableRow('work-table');
+            });
+        }else{
+            el.addEventListener('click', () => {
+                removeTableRow('work-table');
+            });
+        }
+    });
+    //set event listener for new ticket button
+    document.querySelector('#new-case').addEventListener('click', start_new_ticket);
+    //set event listener for close ticket button
+    document.querySelector('#close-case').addEventListener('click', () => {
+        document.getElementById('ticket-container').classList.add('hide');
     });
 });

@@ -60,8 +60,8 @@
                     <div id="site" style="display: none;">
                         <h2>Site Work Content:</h2>
                         <div table-controls>
-                            <button tabindex="-1" class="btn secondary" onclick="addTableRow('work-table')">Add Row</button>
-                            <button tabindex="-1" class="btn secondary" onclick="removeTableRow('work-table')">Remove Row</button>
+                            <button tabindex="-1" class="btn secondary">Add Row</button>
+                            <button tabindex="-1" class="btn secondary">Remove Row</button>
                         </div>
                         <table id="work-table">
                             <tbody>
@@ -109,18 +109,18 @@
                 </div>
             </div>
             <div flow-controls>
-                <button prev class="btn secondary hide" style="font-size: 12px;" onclick="previousStep()">Previous</button>
-                <button class="btn primary hide" finish style="float: right;" onclick="validateData()">Finish</button>
-                <button class="btn primary" next style="float: right;" onclick="validateData()">Next</button>
+                <button prev class="btn secondary hide" style="font-size: 12px;">Previous</button>
+                <button class="btn primary hide" finish style="float: right;">Finish</button>
+                <button class="btn primary" next style="float: right;">Next</button>
             </div>
         </div>
         <div id="ticket-container" class="hide">
             <div>
                 <textarea></textarea>
                 <div ticket-buttons>
-                    <button tabindex="-1" style="float: left;" class="btn terciary" onclick="start_new_ticket()">New Case</button>
-                    <button tabindex="-1" class="btn secondary" onclick="document.getElementById('ticket-container').classList.add('hide')">Close</button>
-                    <button tabindex="-1" class="btn primary btn-copy">Copy</button>
+                    <button tabindex="-1" style="float: left;" id="new-case" class="btn terciary">New Case</button>
+                    <button tabindex="-1" id="close-case" class="btn secondary">Close</button>
+                    <button tabindex="-1" id="copy-case" class="btn primary btn-copy">Copy</button>
                 </div>
             </div>
         </div>
