@@ -117,23 +117,22 @@ function addRowElement(){
 }
 function addLine(){
     number_of_lines++;
-    let current = document.getElementById('table-lines').innerHTML;
-    let newLine = `<tr id="row_${number_of_lines}">
-            <td><input id="qty" type="number" value="0" onchange="lineUpdate(${number_of_lines})" /></td>
-            <td><input id="price" type="number" value="0" onchange="lineUpdate(${number_of_lines})" /></td>
+    document.getElementById('table-lines').insertAdjacentHTML('beforeend', `<tr id="row_${number_of_lines}">
+            <td><input id="qty" type="number" value="0" /></td>
+            <td><input id="price" type="number" value="0" /></td>
             <td><input id="ext" type="number" value="0" disabled /></td>
-            <td><input id="discount" type="number" value="0" onchange="lineUpdate(${number_of_lines})" /></td>
+            <td><input id="discount" type="number" value="0" /></td>
             <td><input id="tax" type="number" value="0" disabled /></td>
             <td><input id="total" type="number" value="0" disabled/></td>
-            <td><select id="taxable" value="yes" onchange="lineUpdate(${number_of_lines})">
+            <td><select id="taxable" value="yes">
                 <option value="yes">Yes</option>
                 <option value="no">No</option>
                 </select>
             </td>
-        </tr>`;
-    current = current + newLine;
-    document.getElementById('table-lines').innerHTML = current;
-        line_entries[`row_${number_of_lines}`] = template;
+        </tr>`);
+    line_entries[`row_${number_of_lines}`] = template;
+    document.querySelector('#table-lines tr:last-child input:not([disabled])').forEach(input => input.addEventListener('change', () => lineUpdate(number_of_lines)));
+    document.querySelector('#table-lines tr:last-child select').addEventListener('change', () => lineUpdate(number_of_lines));
 };
 //sets a default first line
 document.addEventListener("DOMContentLoaded", function(){addRowElement();});
@@ -272,3 +271,9 @@ function reset() {
     document.querySelector('#total-total').value = 0;
     addRowElement();
 };
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelector('.totals #lines-to-add').addEventListener('change', lineAddCheck);
+    document.querySelector('.totals #addline-btn').addEventListener('click', multiLineAdd);
+    document.querySelector('#reset-btn').addEventListener('click', reset);
+    document.querySelector('#tax-rate').addEventListener('change', updateTax);
+});

@@ -16,12 +16,6 @@ Multiple onclick and onchange events, including:
     onchange="calcTotals()"
     onclick="breakdown_display()"
     onclick="displayBreakdown()"
-src\Tools\Tax-Included-Calculator\Tax-Inclusive-Calculator.html
-    onclick="toggleNav()"
-    onchange="lineAddCheck()"
-    onclick="multiLineAdd()"
-    onchange="updateTax()"
-    onclick="reset()"
 src\Tools\QB-Mixed-Split\QB_Mixed_Split.html
     onclick="toggleNav()"
     onchange="totalsColCalc()"
