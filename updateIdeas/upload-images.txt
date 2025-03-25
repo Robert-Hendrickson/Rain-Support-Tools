@@ -1,0 +1,5 @@
+Can we push images from the user to a zapier webhook to upload a file and return the associated link?
+
+need to use AJAX to handle the image upload and wait for response with URL link
+
+need to investigate zapier webhook functionality on what can be returned to the original request
