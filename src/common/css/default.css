@@ -11,7 +11,7 @@ table {
 .menu-wrapper{
     position: sticky;
     top: 0;
-    z-index: 5;
+    z-index: 6;
 }
 #nav-toggle{
     position: absolute;

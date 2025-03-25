@@ -23,7 +23,7 @@
     </head>
     <body>
         <div class="menu-wrapper">
-            <div onclick="toggleNav()" id="nav-toggle">
+            <div id="nav-toggle">
                 <span class="fa-solid fa-bars"></span>
             </div>
             <nav-menu></nav-menu>
@@ -39,7 +39,7 @@
             Bug Ticket Form Generator - Design by Russell Lee
         </h1>
         <div style="margin: 10px auto; width: 217px;">
-            <button class="btn secondary" onclick="document.querySelector('#salesforce-bug-calc-tips').classList = '';">
+            <button class="btn secondary sf-tips">
                 Salesforce Bug Calculator Tips
             </button>
         </div>
@@ -105,8 +105,8 @@
                         </div>
                     </h2>
                     <div table-controls>
-                        <button tabindex="-1" class="btn secondary" onclick="addTableRow('steps-table')">Add Row</button>
-                        <button tabindex="-1" class="btn secondary" onclick="removeTableRow('steps-table')">Remove Row</button>
+                        <button tabindex="-1" class="btn secondary">Add Row</button>
+                        <button tabindex="-1" class="btn secondary">Remove Row</button>
                     </div>
                     <table id="steps-table">
                         <tbody>
@@ -143,8 +143,8 @@
                         </div>
                     </h2>
                     <div table-controls>
-                        <button tabindex="-1" class="btn secondary" onclick="addTableRow('screenshot-table')">Add Row</button>
-                        <button tabindex="-1" class="btn secondary" onclick="removeTableRow('screenshot-table')">Remove Row</button>
+                        <button tabindex="-1" class="btn secondary">Add Row</button>
+                        <button tabindex="-1" class="btn secondary">Remove Row</button>
                     </div>
                     <table id="screenshot-table">
                         <tbody>
@@ -172,8 +172,8 @@
                         </div>
                     </h2>
                     <div table-controls>
-                        <button tabindex="-1" class="btn secondary" onclick="addTableRow('video-table')">Add Row</button>
-                        <button tabindex="-1" class="btn secondary" onclick="removeTableRow('video-table')">Remove Row</button>
+                        <button tabindex="-1" class="btn secondary">Add Row</button>
+                        <button tabindex="-1" class="btn secondary">Remove Row</button>
                     </div>
                     <table id="video-table">
                         <tbody>
@@ -201,23 +201,23 @@
                 </div>
             </div>
             <div flow-controls>
-                <button prev class="btn secondary hide" style="font-size: 12px;" onclick="previousStep()">Previous</button>
-                <button class="btn primary hide" finish style="float: right;" onclick="validateData()">Finish</button>
-                <button class="btn primary" next style="float: right;" onclick="validateData()">Next</button>
+                <button prev class="btn secondary hide" style="font-size: 12px;" >Previous</button>
+                <button class="btn primary hide" finish style="float: right;" >Finish</button>
+                <button class="btn primary" next style="float: right;" >Next</button>
             </div>
         </div>
         <div id="ticket-container" class="hide">
             <div>
                 <textarea></textarea>
                 <div ticket-buttons>
-                    <button style="float: left;" class="btn terciary" onclick="start_new_ticket()">New Case</button>
-                    <button class="btn secondary" onclick="document.getElementById('ticket-container').classList.add('hide')">Close</button>
+                    <button style="float: left;" class="btn terciary">New Case</button>
+                    <button class="btn secondary">Close</button>
                     <button class="btn primary copy-btn">Copy</button>
                 </div>
             </div>
         </div>
         <div id="salesforce-bug-calc-tips" class="hide">
-            <span class="close" onclick="this.parentElement.classList = 'hide'">X</span>
+            <span class="close">X</span>
             <h3 style="color: #f00;">These are just helpful suggestions to consider and not exact points. If you have concerns of a bug please consult with Support Leadership about how things should be answered.</h3>
             <div class="question-wrapper">
                 <div class="question-title">

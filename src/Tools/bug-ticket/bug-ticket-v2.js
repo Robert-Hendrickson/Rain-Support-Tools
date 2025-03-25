@@ -433,7 +433,7 @@ function addTableRow(table){
 }
 /*removes the last row from the table being interacted with*/
 function removeTableRow(table){
-    document.querySelector(`#${table} tbody tr:last-child`).remove();
+    document.querySelector(`#${table} tbody tr:last-child`)?.remove();
 }
 /*this function is used in the last step validation to make sure that if there is enough mention of website trouble that the examples include a link or ask if it was intentionally left out*/
 async function checkDescriptionNeedsLinkExamples(){
@@ -545,8 +545,9 @@ function newCookieData(){
     //updates number
     document.getElementById('list-toggle').innerText = parseInt(document.getElementById('list-toggle').innerText) + 1;
     //appends new ticket to list
-    document.querySelector('past-tickets').insertAdjacentHTML('beforeend', `<div data="${JSON.stringify(bug_object).replaceAll(`"`,"&quot;")}"><span class="close" onclick="deletePastTicketLine('bug_${now}',this)"></span>${Date(now).substring(0,24)}<br>CRM: ${bug_object.crm}<br>Description: ${bug_object.description}</div>`);
+    document.querySelector('past-tickets').insertAdjacentHTML('beforeend', `<div data="${JSON.stringify(bug_object).replaceAll(`"`,"&quot;")}"><span class="close"></span>${Date(now).substring(0,24)}<br>CRM: ${bug_object.crm}<br>Description: ${bug_object.description}</div>`);
     document.querySelector('past-tickets > div:last-child').addEventListener('click',oldTicketDataPrint);
+    document.querySelector('past-tickets > div:last-child span.close').addEventListener('click',() => deletePastTicketLine(`bug_${now}`,document.querySelector('past-tickets > div:last-child')));
 }
 /*This function bulds a list out of the data passed in the array, the array comes from displayPastTickets function*/
 function buildPastTicketDivs(array){
@@ -557,7 +558,9 @@ function buildPastTicketDivs(array){
         let date = new Date(parseInt(bug_date_string.split("_")[1])).toString().substring(0,24);
         let bug_data = bug_details_string.replaceAll(/"/g,'&quot;');
         let temp_json = JSON.parse(bug_details_string);
-        document.querySelector('past-tickets').insertAdjacentHTML('beforeend', `<div data="${bug_data}"><span class="close" onclick="deletePastTicketLine('${bug_date_string}',this)"></span>${date}<br>CRM: ${temp_json.crm}<br>Description: ${temp_json.description}</div>`);
+        document.querySelector('past-tickets').insertAdjacentHTML('beforeend', `<div data="${bug_data}"><span class="close"></span>${date}<br>CRM: ${temp_json.crm}<br>Description: ${temp_json.description}</div>`);
+        //document.querySelector('past-tickets > div:last-child').addEventListener('click',oldTicketDataPrint);
+        document.querySelector('past-tickets > div:last-child span.close').addEventListener('click',() => deletePastTicketLine(bug_date_string,document.querySelector('past-tickets > div:last-child')));
     }
 }
 /*this takes the div of a old ticket from the list and displays it in the ticket generator area so that it can be copied again if necessary*/
@@ -583,11 +586,11 @@ async function deletePastTicketLine(cookie,line){
         //deletes existing cookie
         deleteCookie(cookie);
         //removes visible line
-        line.parentElement.remove();
+        line.remove();
         //updates number
         document.getElementById('list-toggle').innerText = parseInt(document.getElementById('list-toggle').innerText)-1;
         //if last line is deleted, hide the panel entirely.
-        if (!document.querySelector('past-tickets').children.length) {
+        if (!document.querySelector('past-tickets')?.children.length) {
             document.querySelector('#past-ticket-container').style.display = 'none';
         }
     }
@@ -612,4 +615,42 @@ window.addEventListener('load', () => {
         const copyText =  await import('/Rain-Support-Tools/src/modules/copy-data/copy-data.js');
         copyText.default(document.querySelector('#ticket-container > div > textarea'));
     });
+    //this sets the event listener on the sf-tips button
+    document.querySelector('.sf-tips').addEventListener('click', () =>{
+        document.querySelector('#salesforce-bug-calc-tips').classList = '';
+    });
+    //this sets the event listener on the sf-tips close button
+    document.querySelector('#salesforce-bug-calc-tips .close').addEventListener('click', () =>{
+        document.querySelector('#salesforce-bug-calc-tips').classList = 'hide';
+    });
+    //these sets the event listener for the table controls
+    document.querySelectorAll('div[table-controls] button:first-child').forEach(
+        (el,index) => {
+            if(index === 0){
+                el.addEventListener('click',() => addTableRow('steps-table'));
+            }
+            if(index === 1){
+                el.addEventListener('click',() => addTableRow('screenshot-table'));
+            }
+            if(index === 2){
+                el.addEventListener('click',() => addTableRow('video-table'));
+            }
+        }
+    );
+    document.querySelectorAll('div[table-controls] button:last-child').forEach(
+        (el,index) => {
+            if(index === 0){
+                el.addEventListener('click',() => removeTableRow('steps-table'));
+            }
+            if(index === 1){
+                el.addEventListener('click',() => removeTableRow('screenshot-table'));
+            }
+            if(index === 2){
+                el.addEventListener('click',() => removeTableRow('video-table'));
+            }
+        }
+    );
+    //this sets the event listener for the ticket modal buttons
+    document.querySelector('div[ticket-buttons] button:first-child').addEventListener('click',start_new_ticket);
+    document.querySelector('div[ticket-buttons] button:nth-child(2)').addEventListener('click',() => document.getElementById('ticket-container').classList.add('hide'));
 });

@@ -31,7 +31,7 @@
     </head>
     <body>
         <div class="menu-wrapper">
-            <div onclick="toggleNav()" id="nav-toggle">
+            <div id="nav-toggle">
                 <span class="fa-solid fa-bars"></span>
             </div>
             <nav-menu></nav-menu>
@@ -54,7 +54,7 @@
                     </tr>
                 </tbody>
             </table>
-            <input type="button" onclick="getTaxRate()" value="Submit" />
+            <input type="button" id="submit" value="Submit" />
         </div>
         <div class="tax_output">
             <iframe id="output" style="width: 100%;" href=""></iframe>
@@ -68,6 +68,7 @@
                 const URL = baseUrl + '&addr=' + addr + '&city=' + city + '&zip=' + zip;
                 document.getElementById('output').setAttribute('src',URL);
             }
+            document.getElementById('submit').addEventListener('click',getTaxRate);
         </script>
     </body>
 </html>

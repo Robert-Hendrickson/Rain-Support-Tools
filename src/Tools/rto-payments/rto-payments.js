@@ -164,3 +164,10 @@ function calculateRTOPayments(rto_inputs) {
     console.log(rto_payments);
     updateRTOPayments(rto_payments);
 }
+//set event listeners
+document.addEventListener('DOMContentLoaded', () => {
+    //add event listeners for calculate button
+    document.getElementById('rto-calculate').addEventListener('click', checkRtoInputs);
+    //add event listeners for clear button
+    document.getElementById('rto-clear').addEventListener('click', clearRTOPayments);
+});

@@ -10,7 +10,7 @@
     </head>
     <body>
         <div class="menu-wrapper">
-            <div onclick="toggleNav()" id="nav-toggle">
+            <div id="nav-toggle">
                 <span class="fa-solid fa-bars"></span>
             </div>
             <nav-menu></nav-menu>
@@ -22,7 +22,7 @@
                 <p>Search key words or codes. Return lines will be any line that has one or more of the searched keywords.</p>
                 <div id="search-wrapper">
                     <span class="fa-solid fa-magnifying-glass"></span>
-                    <input id="searchbar" type="text" placeholder="Search Error Code/Keyword" onchange="displayMatchingRows(this.value)" />
+                    <input id="searchbar" type="text" placeholder="Search Error Code/Keyword" />
                 </div>
             </div>
             <div class="container content">

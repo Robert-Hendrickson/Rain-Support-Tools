@@ -1,5 +1,4 @@
 export default async function setFeeDifferenceData() {
-    document.querySelector('.import').insertAdjacentHTML('afterbegin',`<button onclick="testFeeDifference()">Test</button>`);
     const script = document.createElement('script');
     script.type = 'text/javascript';
     script.innerHTML = `
@@ -52,6 +51,8 @@ $26.50\`;
         };
     `;
     document.querySelector('head').appendChild(script);
+    document.querySelector('.import').insertAdjacentHTML('afterbegin',`<button class="test-btn">Test</button>`);
+    document.querySelector('.test-btn').addEventListener('click', testFeeDifference);
     document.getElementById('cardPresentRate').value = '1.95';
     document.getElementById('cardPresentAmount').value = '0.07';
     document.getElementById('cardNotPresentRate').value = '2.9';

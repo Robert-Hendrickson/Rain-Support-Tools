@@ -45,7 +45,7 @@ function importList(){
     //add new string to import box
     document.querySelector('.inputList textarea').value = import_string;
     //close import modal
-    document.querySelector('.import').classList.remove('hide');
+    document.querySelector('.import').classList.add('hide');
 }
 /*function resets page after confirming with user to continue*/
 async function clearData(){
@@ -58,3 +58,16 @@ async function clearData(){
         }
     }
 }
+//set event listeners for buttons
+document.addEventListener('DOMContentLoaded',function(){
+    //add event listener for import button
+    document.querySelector('input[value="Import"]').addEventListener('click',() => {document.querySelector('.import').classList.remove('hide')});
+    //add event listener for clear button
+    document.querySelector('input[value="Clear"]').addEventListener('click',() => {clearData()});
+    //add event listener for run check button
+    document.querySelector('input[value="Check"]').addEventListener('click',() => {runCheck()});
+    //add modal Run button
+    document.querySelector('input[value="Run"]').addEventListener('click',() => {importList()});
+    //add modal Close button
+    document.querySelector('input[value="Close"]').addEventListener('click',() => {document.querySelector('.import').classList.add('hide')});
+});

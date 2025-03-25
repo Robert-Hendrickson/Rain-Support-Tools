@@ -614,12 +614,39 @@ addEventListener("mouseup", (event) =>{
     if(Array.from(event.target.classList).includes('row-delete')){
         deleteRow(event.target)
     };
-    //controls moving forward the steps of the webpage flow
-    if(event.target.hasAttribute('next')||event.target.hasAttribute('finish')){
-        validateData();
-    }
-    //controls moving backward the steps of the webpage flow
-    if(event.target.hasAttribute('prev')){
-        previousStep();
-    }
+});
+document.addEventListener('DOMContentLoaded',function(){
+        //add event listeners for add row buttons
+        document.querySelectorAll('[table-controls] button:first-child').forEach((el,index) => {
+            if(index === 0){
+                el.addEventListener('click',() =>{addTableRow('add-record');});
+            } else if (index === 1) {
+                el.addEventListener('click',() =>{removeTableRow('correct-record');});
+            } else if (index === 2) {
+                el.addEventListener('click',() =>{removeTableRow('remove-record');});
+            }
+
+        });
+        //add event listeners for remove row buttons
+        document.querySelectorAll('[table-controls] button:last-child').forEach((el,index) => {
+            if(index === 0){
+                el.addEventListener('click',() =>{removeTableRow('add-record');});
+            } else if (index === 1) {
+                el.addEventListener('click',() =>{removeTableRow('correct-record');});
+            } else if (index === 2) {
+                el.addEventListener('click',() =>{removeTableRow('remove-record');});
+            }
+        });
+        //add event listener for close X
+        document.querySelector('.close').addEventListener('click',() =>{closeModal('record-entry-container');});
+        //add event listener for type selector
+        document.querySelector('.dns-selector').addEventListener('change',() =>{updateFields(event.target.value);});
+        //add event listener for cancel entry button
+        document.querySelector('#record-entry-box button.secondary').addEventListener('click',() =>{closeModal('record-entry-container');});
+        //add event listener for submit entry button
+        document.querySelector('#record-entry-box button.primary').addEventListener('click',validateRecordData);
+        //add event listner for reset button
+        document.querySelector('div[ticket-buttons] button:first-child').addEventListener('click',start_new_ticket);
+        //add event listener for close button
+        document.querySelector('div[ticket-buttons] button:nth-child(2)').addEventListener('click',() =>{document.getElementById('ticket-container').classList.add('hide');});
 });

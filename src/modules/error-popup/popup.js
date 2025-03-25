@@ -1,9 +1,7 @@
 //change error growl so that it has a bunch of v-if statements and only displays lines that we want based on passed in info. This should allow for more dynamic error messages so that it can be utalized for other things too.
 
 export default async function popup_error_growl(error_object){
-    if(document.getElementById('error_message')) {
-        document.getElementById('error_message').remove();
-    }
+    Close_error_growl();
     let error_growl;
     let error_div = document.createElement('div');
     error_div.id = 'error_message';
@@ -46,7 +44,7 @@ export default async function popup_error_growl(error_object){
 }`
     if(error_object.type === 'generate'){
         //set an empty html string to be edited later
-        let template_html = 'These are the issues found with the data provided:<span onclick="document.getElementById(\'error_message\').remove();">X</span><ul>';
+        let template_html = 'These are the issues found with the data provided:<span>X</span><ul>';
         //loop through object to make the template based on object data
         for (const error in error_object.list) {
             if (error_object.list[error].hasOwnProperty('html')) {
@@ -76,7 +74,7 @@ export default async function popup_error_growl(error_object){
         error_growl.mount('#error_message');
     };
     if(error_object.type === 'list'){
-        let message = `<strong>Input Warning:</strong><span onclick="Close_error_growl()">X</span><br /><div v-if='message'>You are approaching a large number of rows for this set of data. Please make sure that you are being clear, concise, and direct with your given data.</div>`;
+        let message = `<strong>Input Warning:</strong><span>X</span><br /><div v-if='message'>You are approaching a large number of rows for this set of data. Please make sure that you are being clear, concise, and direct with your given data.</div>`;
         //if the target element has a mount running, unmount it (likely to be moved to a different function later for closing popup)
         if(document.getElementById('error_message') && document.getElementById('error_message').__vue_app__){
             error_growl.unmount();
@@ -93,9 +91,10 @@ export default async function popup_error_growl(error_object){
     };
     error_div.append(style);
     function Close_error_growl(){
-        if(document.getElementById('error_message').__vue_app__){
+        if(document.querySelector('#error_message')?.__vue_app__){
             error_growl.unmount();
-            document.getElementById('error_message').classList.add('hide');
-        }
+            document.querySelector('#error_message').remove();
+        };
     };
+    document.querySelector('#error_message span').addEventListener('click', Close_error_growl);
 };

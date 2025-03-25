@@ -6,7 +6,7 @@ let totals = {
 };
 /*function controls which columns in calculator are displayed*/
 function displayColumns(column){
-    let checked = document.querySelector(`input#${column}`).checked;
+    let checked = document.querySelector(`.payment_option_list input#${column}`).checked;
     if(checked){
         document.querySelectorAll(`.id-${column}`).forEach(element => {
             element.classList.remove('hide');
@@ -62,7 +62,7 @@ function newList(name,scrubedName){
     input.setAttribute('type','checkbox');
     input.setAttribute('id',`${scrubedName}`);
     input.setAttribute('checked','');
-    input.setAttribute('onclick',`displayColumns('${scrubedName}')`)
+    input.addEventListener('click',() => displayColumns(scrubedName));
     li.append(input);
     li.append(`${name}`);
     document.querySelector('.payment_option_list ul').append(li);
@@ -92,7 +92,7 @@ function newCells(colName,className){
     data.append('$');
     data.setAttribute('class',`id-${className}`);
     let input = document.createElement('input');
-    input.setAttribute('onchange',`dataUpdate('${className}')`);
+    input.addEventListener('change',() => dataUpdate(className));
     data.append(input);
     document.querySelector('tr#totals-row').append(data);
     //creates principle cell
@@ -118,3 +118,28 @@ function hideNew(){
     document.querySelector('.newCol').classList.add('hide');
     document.querySelector('.newbtn').classList.remove('hide');
 };
+document.addEventListener('DOMContentLoaded', () => {
+   //set event listeners for default columns
+   document.querySelectorAll('tr#totals-row td input').forEach(
+    (input, index) => {
+        if (index === 0){
+            input.addEventListener('change',totalsColCalc);
+        } else {
+            input.addEventListener('change',() => dataUpdate(input.id));
+        }
+    });
+    //set event listeners for principle and tax columns
+    document.querySelector('tr#principle-row td input').addEventListener('change',totalsColCalc);
+    document.querySelector('tr#tax-row td input').addEventListener('change',totalsColCalc);
+    //set event listeners for column controls
+    document.querySelectorAll('.payment_option_list ul input').forEach(input => {
+        input.addEventListener('click',() => displayColumns(input.id));
+    });
+    //set event listeners for new column interface
+    document.querySelector('.newbtn').addEventListener('click',showNew);
+    document.querySelector('.newCol input[value="Cancel"]').addEventListener('click',hideNew);
+    document.querySelector('.newCol input[value="Save"]').addEventListener('click',() => checkNewName(document.querySelector('#new-name').value));
+    //set event listeners for help window
+    document.querySelector('.help-window input[value="Hide Video"]').addEventListener('click',() => document.querySelector('.help-window').classList.add('hide'));
+    document.querySelector('.help-window button').addEventListener('click',() => location.reload());
+});

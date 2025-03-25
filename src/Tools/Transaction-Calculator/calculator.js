@@ -47,9 +47,33 @@ function addRowElement(){
     number_of_lines++;
     let line = number_of_lines;
     //create new html element to be added to the table
-    let new_row = `<tr id='row_${line}'><td><input type='number' id='qty' value='0' onchange='lineUpdate(${line})' /></td><td><input type='number' id='price' value='0' onchange='lineUpdate(${line})' /></td><td><input type='number' id='ext' value='0' disabled /></td><td><input type='number' id='discount' value='0' onchange='lineUpdate(${line})' /></td><td><input type='number' id='tax' value='0' disabled /></td><td><input type='number' id='total' value='0' disabled /></td><td><input type='checkbox' id='row_${line}_mat' onchange='booleanUpdate(${line}, "mat")' checked /><input type='checkbox' id='row_${line}_serv' onchange='booleanUpdate(${line}, "serv")' /><input type='checkbox' id='row_${line}_class' onchange='booleanUpdate(${line}, "class")' /></td><td><input type='number' id='percent_discount' onchange='lineUpdate(${line})' /></td></tr>`;
+    let new_row = `<tr id='row_${line}'><td><input type='number' id='qty' value='0' /></td><td><input type='number' id='price' value='0' /></td><td><input type='number' id='ext' value='0' disabled /></td><td><input type='number' id='discount' value='0' /></td><td><input type='number' id='tax' value='0' disabled /></td><td><input type='number' id='total' value='0' disabled /></td><td><input type='checkbox' id='row_${line}_mat' checked /><input type='checkbox' id='row_${line}_serv' /><input type='checkbox' id='row_${line}_class' /></td><td><input type='number' id='percent_discount' /></td></tr>`;
     // add row element to the existing table
     document.getElementById('table-lines').insertAdjacentHTML('beforeend', new_row);
+    //add event listeners for new line
+    document.querySelectorAll(`#row_${line} input`).forEach((input,index) =>{
+        if(index === 0){
+            input.addEventListener('change', ()=>{lineUpdate(line)});
+        }
+        if(index === 1){
+            input.addEventListener('change', ()=>{lineUpdate(line)});
+        }
+        if(index === 3){
+            input.addEventListener('change', ()=>{lineUpdate(line)});
+        }
+        if(index === 6){
+            input.addEventListener('change', ()=>{booleanUpdate(line, 'mat')});
+        }
+        if(index === 7){
+            input.addEventListener('change', ()=>{booleanUpdate(line, 'serv')});
+        }
+        if(index === 8){
+            input.addEventListener('change', ()=>{booleanUpdate(line, 'class')});
+        }
+        if(index === 9){
+            input.addEventListener('change', ()=>{lineUpdate(line)});
+        }
+    })
     //update line_entries object to track new lines data
     line_entries[`row_${number_of_lines}`] = {
         "qty": 0,
@@ -480,3 +504,59 @@ async function enableComplexTax() {
         document.querySelector('#tax-rates thead input').setAttribute('onclick', `document.querySelector('.tax-rate-container').classList.remove('hide')`);
     }
 }
+//set event listeners
+document.addEventListener('DOMContentLoaded', () => {
+   //set listener on control buttons
+   document.querySelector('#reset-btn').addEventListener('click', reset);
+   document.querySelector('#add-lines-btn').addEventListener('click', multiLineAdd);
+   //listener for tax rate updates
+   document.querySelectorAll('[id$=-rate').forEach(element => {
+    element.addEventListener('change', updateTax);
+   });
+   //listener for shippingTax control
+   document.querySelector('#shippingtaxed').addEventListener('change', shippingDisplay);
+   //listener for complex tax being enabled
+   document.querySelector('#complex-tax-enable').addEventListener('click', enableComplexTax);
+   //listener for complex tax rate controls
+   document.querySelector('#save-tax-rates').addEventListener('click', updateTaxRates);
+   document.querySelectorAll('#rates-breakdown thead td').forEach((element,index) => {
+        switch (index) {
+            case 0:
+                rate_option = 'mat';
+                break;
+            case 1:
+                rate_option = 'ser';
+                break;
+            case 2:
+                rate_option = 'clas';
+                break;
+            default:
+                break;
+        };
+        element.querySelectorAll('input').forEach((input,option) => {
+            if(option == 0){
+                input.addEventListener('click', () => {
+                    addNewRate(rate_option, 'decrease');
+                });
+            }else{
+                input.addEventListener('click', () => {
+                    addNewRate(rate_option, 'increase');
+                });
+            };
+        });
+   });
+   //set listener for shipping update
+   document.querySelector('#shipping').addEventListener('change', calcTotals);
+   //listener for breakdown display controls
+   document.querySelectorAll('.breakdown-nav ul li').forEach(element => {
+    element.addEventListener('click', (event) => {
+        breakdown_display(event.target.id);
+    });
+   });
+   document.querySelector('.breakdown-view #break-totals button').addEventListener('click', () => {
+    displayBreakdown('totals');
+   });
+   document.querySelector('.breakdown-view #break-lines button').addEventListener('click', () => {
+    displayBreakdown('lines');
+   });
+});

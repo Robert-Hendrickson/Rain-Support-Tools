@@ -6,7 +6,7 @@ body{
 #past-ticket-container{
     position: sticky;
     top: 0;
-    z-index: 5;
+    z-index: 6;
 }
 #list-toggle{
     position: absolute;

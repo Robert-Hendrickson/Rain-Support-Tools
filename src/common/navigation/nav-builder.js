@@ -132,3 +132,6 @@ if((/Rain-Support-Tools\/.+/).test(location.pathname)){
         }
     });
 }
+document.addEventListener('DOMContentLoaded', function() {
+   document.getElementById('nav-toggle')?.addEventListener('click', toggleNav); 
+});

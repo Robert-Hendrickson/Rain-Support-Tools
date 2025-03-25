@@ -62,7 +62,7 @@ Riley page was pulled from this link: https://codepen.io/trajektorijus/pen/mdeBY
 # flow build containers
 ## nav html
     <div class="menu-wrapper">
-        <div onclick="toggleNav()" id="nav-toggle">
+        <div id="nav-toggle">
             <span class="fa-solid fa-bars"></span>
         </div>
         <nav-menu></nav-menu>
@@ -104,10 +104,13 @@ Riley page was pulled from this link: https://codepen.io/trajektorijus/pen/mdeBY
 
 ## flow controls
     <div flow-controls>
-        <button prev class="btn secondary hide" style="font-size: 12px;" onclick="previousStep()">Previous</button>
-        <button class="btn primary hide" finish style="float: right;" onclick="validateData()">Finish</button>
-        <button class="btn primary" next style="float: right;" onclick="validateData()">Next</button>
+        <button prev class="btn secondary hide" style="font-size: 12px;">Previous</button>
+        <button class="btn primary hide" finish style="float: right;">Finish</button>
+        <button class="btn primary" next style="float: right;">Next</button>
     </div>
+# the buttons have an onclick event that calls a function set in /src/common/flow-format/flow-ctrl.js file
+# next and finish buttons call function validateData()
+# previous button calls function previousStep()
 
 ## error container and ticket container
 ### ticket container
@@ -115,12 +118,15 @@ Riley page was pulled from this link: https://codepen.io/trajektorijus/pen/mdeBY
         <div>
             <textarea></textarea>
             <div ticket-buttons>
-                <button style="float: left;" class="btn terciary" onclick="start_new_ticket()">New Case</button>
-                <button class="btn secondary" onclick="document.getElementById('#ticket-container').classList.add('hide')">Close</button>
+                <button style="float: left;" class="btn terciary">New Case</button>
+                <button class="btn secondary">Close</button>
                 <button class="btn primary copy-btn">Copy</button>
             </div>
         </div>
     </div>
+# copy button has an onclick event that calls a function set in /src/common/copy-data/copy-data.js file
+# New case button calls function start_new_ticket() defined in the tools js file
+# Close button calls function document.getElementById('#ticket-container').classList.add('hide') defined in the tools js file
 
 ### add this into tool js file to import copy function
     document.querySelector('.copy-btn').addEventListener('click', async () =>{

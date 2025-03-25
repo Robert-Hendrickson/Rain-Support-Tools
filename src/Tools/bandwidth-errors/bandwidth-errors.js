@@ -1,4 +1,5 @@
-function displayMatchingRows(value){
+function displayMatchingRows(){
+    let value = this.value;
     let regex_string = value.replaceAll(' ','|');
     document.querySelectorAll('.error-list').forEach(function(list){
         let found_row = false;
@@ -19,3 +20,6 @@ function displayMatchingRows(value){
         }
     });
 };
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('searchbar').addEventListener('change', displayMatchingRows);
+});

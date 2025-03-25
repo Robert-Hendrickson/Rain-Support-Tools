@@ -21,7 +21,7 @@
     </head>
     <body>
         <div class="menu-wrapper">
-            <div onclick="toggleNav()" id="nav-toggle">
+            <div id="nav-toggle">
                 <span class="fa-solid fa-bars"></span>
             </div>
             <nav-menu></nav-menu>
@@ -60,8 +60,8 @@
                     <div id="add-record" style="display:none;">
                         <h2>Records to Add:</h2>
                         <div table-controls>
-                            <button tabindex="-1" class="btn secondary" onclick="addTableRow('add-record')">Add Row</button>
-                            <button tabindex="-1" class="btn secondary" onclick="removeTableRow('add-record')">Remove Row</button>
+                            <button tabindex="-1" class="btn secondary">Add Row</button>
+                            <button tabindex="-1" class="btn secondary">Remove Row</button>
                         </div>
                         <table id="add-record-table">
                             <tbody>
@@ -71,8 +71,8 @@
                     <div id="correct-record" style="display:none;">
                         <h2>Records to Correct:</h2>
                         <div table-controls>
-                            <button tabindex="-1" class="btn secondary" onclick="addTableRow('correct-record')">Add Row</button>
-                            <button tabindex="-1" class="btn secondary" onclick="removeTableRow('correct-record')">Remove Row</button>
+                            <button tabindex="-1" class="btn secondary">Add Row</button>
+                            <button tabindex="-1" class="btn secondary">Remove Row</button>
                         </div>
                         <table id="correct-record-table">
                             <tbody>
@@ -82,8 +82,8 @@
                     <div id="remove-record" style="display:none;">
                         <h2>Records to Remove:</h2>
                         <div table-controls>
-                            <button tabindex="-1" class="btn secondary" onclick="addTableRow('remove-record')">Add Row</button>
-                            <button tabindex="-1" class="btn secondary" onclick="removeTableRow('remove-record')">Remove Row</button>
+                            <button tabindex="-1" class="btn secondary">Add Row</button>
+                            <button tabindex="-1" class="btn secondary">Remove Row</button>
                         </div>
                         <table id="remove-record-table">
                             <tbody>
@@ -117,11 +117,11 @@
         </div>
         <div style="display: none;" id="record-entry-container">
             <div id="record-entry-box">
-                <span class="close" onclick="closeModal('record-entry-container')">X</span>
+                <span class="close">X</span>
                 <h3>Record Information</h3>
                 <div>
                     Type:<br>
-                    <select class="dns-selector" onchange="updateFields(this.value)">
+                    <select class="dns-selector">
                         <option>Select Type</option>
                         <option>A</option>
                         <option>AAAA</option>
@@ -164,16 +164,16 @@
                     Requested TTL (Optional):<br>
                     <input type="text" maxlength="5" />
                 </div>
-                <button class="btn secondary" onclick="closeModal('record-entry-container')">Cancel</button>
-                <button style="float: right;" class="btn primary" onclick="validateRecordData()">Submit</button>
+                <button class="btn secondary">Cancel</button>
+                <button style="float: right;" class="btn primary">Submit</button>
             </div>
         </div>
         <div id="ticket-container" class="hide">
             <div>
                 <textarea></textarea>
                 <div ticket-buttons>
-                    <button style="float: left;" class="btn terciary" onclick="start_new_ticket()">New Case</button>
-                    <button class="btn secondary" onclick="document.getElementById('ticket-container').classList.add('hide')">Close</button>
+                    <button style="float: left;" class="btn terciary">New Case</button>
+                    <button class="btn secondary">Close</button>
                     <button class="btn primary btn-copy">Copy</button>
                 </div>
             </div>

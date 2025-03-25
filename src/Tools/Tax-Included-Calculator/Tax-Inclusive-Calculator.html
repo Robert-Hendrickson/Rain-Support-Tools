@@ -8,7 +8,7 @@
     </head>
     <body>
         <div class="menu-wrapper">
-            <div onclick="toggleNav()" id="nav-toggle">
+            <div id="nav-toggle">
                 <span class="fa-solid fa-bars"></span>
             </div>
             <nav-menu></nav-menu>
@@ -31,12 +31,12 @@
         </table>
         <div class="totals">
             <div>
-                New Lines <input id="lines-to-add" onchange="lineAddCheck()" type="number" /><input type="submit" value="Add" onclick="multiLineAdd()" />
+                New Lines <input id="lines-to-add" type="number" /><input type="submit" id="addline-btn" value="Add" />
                 <br />
             </div>
             <div>
-                Tax Rate <input id="tax-rate" type="number" onchange="updateTax()" value="0" />
-                <input id="reset-btn" type="button" onclick="reset()" value="Reset" />
+                Tax Rate <input id="tax-rate" type="number" value="0" />
+                <input id="reset-btn" type="button" value="Reset" />
                 <a href="/Rain-Support-Tools/src/"><input type="button" value="Home" /></a>
             </div>
             <div id="addline-error" style="display: none; width: 100%; color: red;">
