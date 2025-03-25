@@ -16,8 +16,3 @@ Multiple onclick and onchange events, including:
     onchange="calcTotals()"
     onclick="breakdown_display()"
     onclick="displayBreakdown()"
-src\Tools\QB-Mixed-Split\QB_Mixed_Split.html
-    onclick="toggleNav()"
-    onchange="totalsColCalc()"
-    onchange="dataUpdate()"
-    onclick="displayColumns()"

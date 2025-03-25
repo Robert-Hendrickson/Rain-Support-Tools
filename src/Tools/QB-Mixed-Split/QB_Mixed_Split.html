@@ -38,15 +38,29 @@
                 </thead>
                 <tbody>
                     <tr id="totals-row">
-                        <td id="total-total">$<input onchange="totalsColCalc()" /></td>
-                        <td class="id-cash">$<input onchange="dataUpdate('cash')" /></td>
-                        <td class="id-credit">$<input onchange="dataUpdate('credit')" /></td>
-                        <td class="id-debit">$<input onchange="dataUpdate('debit')" /></td>
-                        <td class="id-gift-card hide">$<input onchange="dataUpdate('gift-card')" /></td>
-                        <td class="id-account hide">$<input onchange="dataUpdate('account')" /></td>
+                        <td id="total-total">
+                            $<input />
+                        </td>
+                        <td class="id-cash">
+                            $<input id="cash" />
+                        </td>
+                        <td class="id-credit">
+                            $<input id="credit" />
+                        </td>
+                        <td class="id-debit">
+                            $<input id="debit" />
+                        </td>
+                        <td class="id-gift-card hide">
+                            $<input id="gift-card" />
+                        </td>
+                        <td class="id-account hide">
+                            $<input id="account" />
+                        </td>
                     </tr>
                     <tr id="principle-row">
-                        <td id="total-principle">$<input onchange="totalsColCalc()" /></td>
+                        <td id="total-principle">
+                            $<input />
+                        </td>
                         <td class="id-cash"></td>
                         <td class="id-credit"></td>
                         <td class="id-debit"></td>
@@ -54,7 +68,9 @@
                         <td class="id-account hide"></td>
                     </tr>
                     <tr id="tax-row">
-                        <td id="total-tax">$<input onchange="totalsColCalc()" /></td>
+                        <td id="total-tax">
+                            $<input />
+                        </td>
                         <td class="id-cash"></td>
                         <td class="id-credit"></td>
                         <td class="id-debit"></td>
@@ -75,24 +91,34 @@
         <div class="payment_option_list">
             <h2>Payment List Options</h2>
             <ul>
-                <li><input checked id="cash" onclick="displayColumns('cash')" type="checkbox" />Cash</li>
-                <li><input checked id="credit" onclick="displayColumns('credit')" type="checkbox" />Credit</li>
-                <li><input checked id="debit" onclick="displayColumns('debit')" type="checkbox" />Debit</li>
-                <li><input id="gift-card" onclick="displayColumns('gift-card')" type="checkbox" />Gift Card</li>
-                <li><input id="account" onclick="displayColumns('account')" type="checkbox" />Account</li>
+                <li>
+                    <input checked id="cash" type="checkbox" />Cash
+                </li>
+                <li>
+                    <input checked id="credit" type="checkbox" />Credit
+                </li>
+                <li>
+                    <input checked id="debit" type="checkbox" />Debit
+                </li>
+                <li>
+                    <input id="gift-card" type="checkbox" />Gift Card
+                </li>
+                <li>
+                    <input id="account" type="checkbox" />Account
+                </li>
             </ul>
-            <input class="newbtn" type="button" value="+New" onclick="showNew()" />
+            <input class="newbtn" type="button" value="+New" />
             <div class="newCol hide">
                 Enter new Column Name: <br />
                 <input id="new-name" type="text" /><br />
-                <input type="button" value="Save" onclick="checkNewName(document.querySelector('#new-name').value)" />
-                <input type="button" value="Cancel" onclick="hideNew()" />
+                <input type="button" value="Save" />
+                <input type="button" value="Cancel" />
             </div>
         </div>
         <div style="float: left;" class="help-window">
             This video covers how to use this tool.
-            <input type="button" value="Hide Video" onclick="document.querySelector('.help-window').classList.add('hide')" />
-            <button onClick="location.reload()">Reset</button>
+            <input type="button" value="Hide Video" />
+            <button>Reset</button>
             <br />
             <video
                 controls
