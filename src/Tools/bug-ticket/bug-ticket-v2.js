@@ -298,16 +298,16 @@ function generateTicket(passed_object = {}){
                 screenshots: () => {
                     //function that loops through the screenshot table and builds a string then returns the string value as it's resolution when called
                     let string = '';
-                    document.querySelectorAll('#screenshot-table tr input').forEach(function (el){
-                        string += el.value + '\n\n';
+                    document.querySelectorAll('#screenshot-table tr input').forEach(function (el, index){
+                        string += `[Screenshot_${index + 1}](${el.value})\n`;
                     });
                     return string;
                 },
                 videos: () => {
                     //function that loops through the video table and builds a string then returns the string value as it's resolution when called
                     let string = '';
-                    document.querySelectorAll('#video-table tr input').forEach(function (el){
-                        string += el.value + '\n\n';
+                    document.querySelectorAll('#video-table tr input').forEach(function (el, index){
+                        string += `[Video_${index + 1}](${el.value})\n`;
                     });
                     return string;
                 },
@@ -343,7 +343,7 @@ function generateTicket(passed_object = {}){
                     }
                     let index = 1;
                     for (row in passed_object.screenshots) {
-                        string += `${index}. ` + passed_object.screenshots[row] + '\n';
+                        string += `[Screenshot_${index}](${passed_object.screenshots[row]})\n`;
                         index++;
                     }
                     return string;
@@ -356,7 +356,7 @@ function generateTicket(passed_object = {}){
                     }
                     let index = 1;
                     for (row in passed_object.videos) {
-                        string += `${index}. ` + passed_object.videos[row] + '\n';
+                        string += `[Video_${index}](${passed_object.videos[row]})\n`;
                         index++;
                     }
                     return string;
