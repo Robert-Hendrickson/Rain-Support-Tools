@@ -41,9 +41,9 @@ function imageVideoLink(url_string){
 }
 /*this function checks the list of screenshot or video links to make sure they all meet a specific url requirement and that none are either empty or have a duplicate link in them*/
 function checkLinkList(list_content, list_type){
-    error_array = [];
+    let error_array = [];
     //check that there are rows to look through
-    if (list_content.length < 1) {
+    if (list_content.length < 1 && !location.search.includes('frameready')) {
         error_array.push(`${list_type} list is empty. Please make sure that the list has at least one ${list_type} link provided.`);
     } else {
         //if list is longer than 0, loop through each element in the list with the below function, this checks that there isn't more than one link in a row. If a duplicate link is foundin the row then it is removed, if the second link found isn't a duplicate an error is thrown to the user to make sure they delete any extra data out of the row
@@ -338,6 +338,9 @@ function generateTicket(passed_object = {}){
                 screenshots: () => {
                     //function that loops through the old ticket data screenshots and builds a string then returns the string value as it's resolution when called
                     let string = '';
+                    if(location.search.includes('frameready')){
+                        return string;
+                    }
                     let index = 1;
                     for (row in passed_object.screenshots) {
                         string += `${index}. ` + passed_object.screenshots[row] + '\n';
@@ -348,6 +351,9 @@ function generateTicket(passed_object = {}){
                 videos: () => {
                     //function that loops through the old ticket data videos and builds a string then returns the string value as it's resolution when called
                     let string = '';
+                    if(location.search.includes('frameready')){
+                        return string;
+                    }
                     let index = 1;
                     for (row in passed_object.videos) {
                         string += `${index}. ` + passed_object.videos[row] + '\n';
