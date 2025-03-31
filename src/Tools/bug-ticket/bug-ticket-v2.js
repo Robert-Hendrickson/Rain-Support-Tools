@@ -468,6 +468,9 @@ async function checkUnessecaryErrors(){
     if ((/\[DOM\] Found \d{1,} elements? with non-unique id/i).test(errors)) {
         bad_error_array.push(`non-unique id : There are multiple elements with the same id`);
     }
+    if((/POST http:\/\/127.0.0.1:8090\/api\/status net::ERR_CONNECTION_REFUSED/).test(errors)) {
+        bad_error_array.push(`127.0.0.1 : This refers to the system connecting to the print Proxy.`);
+    }
     if (bad_error_array.length) {
         errors_string = () => {
             let html = `<div class="dialog-error-list">
