@@ -26,7 +26,7 @@ Riley page was pulled from this link: https://codepen.io/trajektorijus/pen/mdeBY
     <link rel="stylesheet" href="/Rain-Support-Tools/src/modules/custom-dialogue/dialog-ctrl.css" />
     <script src="/Rain-Support-Tools/src/modules/custom-dialogue/dialog-ctrl.js"></script>
 
-    Can be used to request input from the user before moving forward. If being used inside a functin the function needs the 'async' keyword added to it. The function returns a promise that is either true or false. Parameters include a text string for display message, text string for the True response with a default of "OK", and a text string for the False response with a default of "Cancel".
+    Can be used to request input from the user before moving forward. If being used inside a function the function needs the 'async' keyword added to it. The function returns a promise that is either true or false. Parameters include a text string for display message, text string for the True response with a default of "OK", and a text string for the False response with a default of "Cancel".
 
     async function(){
         if(thing){
@@ -118,7 +118,7 @@ Riley page was pulled from this link: https://codepen.io/trajektorijus/pen/mdeBY
         <div>
             <textarea></textarea>
             <div ticket-buttons>
-                <button style="float: left;" class="btn terciary">New Case</button>
+                <button style="float: left;" class="btn tertiary">New Case</button>
                 <button class="btn secondary">Close</button>
                 <button class="btn primary copy-btn">Copy</button>
             </div>
