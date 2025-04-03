@@ -1,4 +1,6 @@
 export default async function setBugTicketData() {
+    document.getElementById('Support-Rep').value = 'Test Rep';
+    document.getElementById('Store-Name').value = 'Test Store';
     document.getElementById('crm').value = '6085';
     document.getElementById('systemArea').value = 'till';
     document.querySelector('[replicable="yes"]').click();

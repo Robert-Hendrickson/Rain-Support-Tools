@@ -136,7 +136,13 @@ async function validateData(){
     let current_step = parseInt(document.querySelector('#info-tabs .active').getAttribute('step'));
     //compare current_step value against potential cases, complete the actions for any case that results as true
     switch (current_step) {
-        case 1://crm, system area, and is replicable (yes or no) check
+        case 1://Support Rep, Store Name, CRM, system area, and is replicable (yes or no) check
+            if(document.getElementById('Support-Rep').value === ''){
+                bad_object.list['SupportRep'] = 'Please enter the name of the Support Rep submitting the ticket.';
+            }
+            if(document.getElementById('Store-Name').value === ''){
+                bad_object.list['StoreName'] = 'Please enter the name of the store reporting an issue.';
+            }
             if(document.getElementById('crm').value === '' || !RegExp(/^(?:[c|C][r|R][m|M])?\d{2,}$/).test(document.getElementById('crm').value)){
                 bad_object.list['crm'] = 'The CRM needs to be a valid CRM.(2 digits or more)';
             }
@@ -283,6 +289,8 @@ function generateTicket(passed_object = {}){
         if (!Object.keys(passed_object).length) {
             //if the passed object has nothing in it, then data is set to be the below object
             data = {
+                supportRep: document.getElementById('Support-Rep').value,
+                storeName: document.getElementById('Store-Name').value,
                 crm: document.getElementById('crm').value,
                 area: document.getElementById('systemArea').value,
                 replicable: document.querySelector('[replicable].selected').getAttribute('replicable'),
@@ -320,9 +328,11 @@ function generateTicket(passed_object = {}){
         } else {
             //if passed_object has data in it, then data is set to the below object to use the old ticket data
             data = {
-                crm: passed_object.crm,
-                area: passed_object.area,
-                replicable: passed_object.replicable,
+                supportRep: passed_object.supportRep || '',
+                storeName: passed_object.storeName || '',
+                crm: passed_object.crm || '',
+                area: passed_object.area || '',
+                replicable: passed_object.replicable || '',
                 steps: () => {
                     //function that loops through the old ticket data steps and builds a string then returns the string value as it's resolution when called
                     let string = '';
@@ -371,6 +381,12 @@ function generateTicket(passed_object = {}){
     //this sets a string as the value of the textarea container when generating a ticket using the object values created from above '${}' formatting is in-line accessing for variable data.
     document.querySelector('#ticket-container > div > textarea').value = `**LOCATION:**
 **Bug Submission:**
+Reporting Tech:
+${data.supportRep}
+
+Store:
+${data.storeName}
+
 Store ID:
 ${data.crm}
 
@@ -531,6 +547,8 @@ function newCookieData(){
     }
     //creates a js object out of the current ticket data
     let bug_object = {
+        supportRep: scrubBadJsonChar(document.getElementById('Support-Rep').value),
+        storeName: scrubBadJsonChar(document.getElementById('Store-Name').value),
         crm: scrubBadJsonChar(document.querySelector('input#crm').value),
         area: scrubBadJsonChar(document.querySelector('input#systemArea').value),
         replicable: document.querySelector('[choice-selector][replicable-selector] .selected').getAttribute('replicable'),
