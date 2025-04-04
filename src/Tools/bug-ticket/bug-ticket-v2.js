@@ -11,7 +11,11 @@ addPattern('salesforce', /(?:https?:\/\/)?rainpos\.lightning\.force\.com\/lightn
 addPattern('googleDrive', /^(?:https?:\/\/)drive\.google\.com\/file\/d\/.*\/view(?:\?.+)?$/);
 addPattern('oneDrive', /^(?:https?:\/\/)?quiltsoftware-my\.sharepoint\.com\/:(i|v)\:\/p\//);
 
-/*this function builds a regular expression object out of a url so that we can check for duplicate links being provided in the checkLinkList function*/
+/**
+ * @param {string} url_string - The url to build a regular expression object from
+ * @returns {RegExp} - A regular expression object
+ * @description This function builds a regular expression object out of a url so that we can check for duplicate links being provided in the checkLinkList function
+*/
 function _urlRegEx(url_string){
     //replace characters '\/' and '?' so that they are searched correctly by the new regex expression
     url_string = url_string.replace(/[\?\\\/]/g,"\\\$&");
