@@ -4,25 +4,19 @@
  */
 import { validatePattern, addPattern, patterns } from '/Rain-Support-Tools/src/modules/regex-validator/regex-validator.js';
 window.validatePattern = validatePattern;
-window.addPattern = addPattern;
 window.patterns = patterns;
+//add patterns to the patterns object
+addPattern('slack', /(?:https?:\/\/)?raindev\.slack\.com\/archives\//);
+addPattern('salesforce', /(?:https?:\/\/)?rainpos\.lightning\.force\.com\/lightning\/r\//);
+addPattern('googleDrive', /^(?:https?:\/\/)drive\.google\.com\/file\/d\/.*\/view(?:\?.+)?$/);
+addPattern('oneDrive', /^(?:https?:\/\/)?quiltsoftware-my\.sharepoint\.com\/:(i|v)\:\/p\//);
 
-/*this function builds a regular expresion object out of a url so that we can check for duplicate links being provided in the checkLinkList function*/
+/*this function builds a regular expression object out of a url so that we can check for duplicate links being provided in the checkLinkList function*/
 function _urlRegEx(url_string){
     //replace characters '\/' and '?' so that they are searched correctly by the new regex expression
     url_string = url_string.replace(/[\?\\\/]/g,"\\\$&");
     //return the new regex expresion to be used with a global search attached
     return new RegExp(url_string, 'g');
-}
-//this function checks to see if a string has a slack link in it
-function hasSlackLink(string){
-    //returns the result of running a regex test on the passed string, true if it matches false if it doesn't
-    return new RegExp(/(?:https?:\/\/)?raindev\.slack\.com\/archives\//).test(string);    
-}
-//this function checks to see if a string has a salesforce link in it
-function hasSalesforceLink(string){
-    //https://rainpos.lightning.force.com/lightning/r/Case/500PC00000KP5STYA1/view
-    return new RegExp(/(?:https?:\/\/)?rainpos\.lightning\.force\.com\/lightning\/r\//).test(string);    
 }
 //this function will return true if the provided link is not a valid google drive or one drive link
 function imageVideoLink(url_string){
@@ -30,9 +24,9 @@ function imageVideoLink(url_string){
             url_string === '' 
             || 
             (
-                !RegExp(/^(?:https?:\/\/)drive\.google\.com\/file\/d\/.*\/view(?:\?.+)?$/).test(url_string) 
+                !validatePattern(url_string, 'googleDrive') 
                 &&
-                !RegExp(/(?:https?:\/\/)?quiltsoftware-my\.sharepoint\.com\/:(i|v)\:\/p\//).test(url_string)
+                !validatePattern(url_string, 'oneDrive')
             )
         );
     /*
@@ -95,12 +89,6 @@ function checkLinkList(list_content, list_type){
             if(imageVideoLink(element.value)){
                 error_array.push(`${list_type} ${index + 1} isn't a valid google drive or one drive link.`);
             }
-            /*
-            if(element.value === '' || !RegExp(/^(?:https?:\/\/)drive\.google\.com\/file\/d\/.*\/view(?:\?.+)?$/).test(element.value)){
-                //if not, change return value to reflect a potential issue
-                error_array.push(`${list_type} ${index + 1} isn't a google drive link.`);
-            }
-            */
         });
     }
     //return value of checks. A false return means no issues were found, a true return means we found an issue
@@ -201,10 +189,10 @@ window.validateData = async function (){
             if(document.getElementById('description').value === '' || RegExp(/^[n|N](?:\/|\\)?[a|A]\s?$/).test(document.getElementById('description').value)){
                 bad_object.list['description'] = 'Description cannot be empty or n/a. Please describe in detail what is happening.';
             }
-            if (hasSlackLink(document.getElementById('description').value)) {
+            if (validatePattern(document.getElementById('description').value, 'slack')) {
                 bad_object.list['descriptionSlack'] = "Please don't use slack links in your description. Instead describe in your own words the details of the issue that is happening.";
             }
-            if (hasSalesforceLink(document.getElementById('description').value)) {
+            if (validatePattern(document.getElementById('description').value, 'salesforce')) {
                 bad_object.list['descriptionSalesforce'] = "Don't include saleforce links in your description. Development teams do not have access to Salesforce. If there is info in a case that needs to be given to the development team, please include a screenshot of the data or include it in your video.";
             }
             if (Object.entries(bad_object.list).length) {
@@ -246,7 +234,7 @@ window.validateData = async function (){
             if(RegExp(/^[nN](?:\\|\/)?[aA]/).test(examples) || examples === ''){
                 bad_object.list['examples_blank'] = 'Examples cannot be blank or say n/a.';
             }
-            if (hasSalesforceLink(examples)) {
+            if (validatePattern(examples, 'salesforce')) {
                 bad_object.list['examplesSalesforce'] = "Don't include saleforce links in your examples. Development teams do not have access to Salesforce. If there is info in a case that needs to be given to the development team, please include a screenshot of the data or include it in your video.";
             }
             let errors = document.getElementById('errors').value;
