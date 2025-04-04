@@ -19,7 +19,7 @@ addPattern('oneDrive', /^(?:https?:\/\/)?quiltsoftware-my\.sharepoint\.com\/:(i|
 function _urlRegEx(url_string){
     //replace characters '\/' and '?' so that they are searched correctly by the new regex expression
     url_string = url_string.replace(/[\?\\\/]/g,"\\\$&");
-    //return the new regex expresion to be used with a global search attached
+    //return the new regex expression to be used with a global search attached
     return new RegExp(url_string, 'g');
 }
 //this function will return true if the provided link is not a valid google drive or one drive link
@@ -53,7 +53,7 @@ function checkLinkList(list_content, list_type){
     if (list_content.length < 1 && !location.search.includes('frameready')) {
         error_array.push(`${list_type} list is empty. Please make sure that the list has at least one ${list_type} link provided.`);
     } else {
-        //if list is longer than 0, loop through each element in the list with the below function, this checks that there isn't more than one link in a row. If a duplicate link is foundin the row then it is removed, if the second link found isn't a duplicate an error is thrown to the user to make sure they delete any extra data out of the row
+        //if list is longer than 0, loop through each element in the list with the below function, this checks that there isn't more than one link in a row. If a duplicate link is found in the row then it is removed, if the second link found isn't a duplicate an error is thrown to the user to make sure they delete any extra data out of the row
         list_content.forEach(function (element, index){
             //set current loop row value to be called on
             if(element.value != ''){//if there is data in the row, check how many links are in it
@@ -63,9 +63,9 @@ function checkLinkList(list_content, list_type){
                     //let's find where second link starts in the string
                     let dup_link_check = {//object created to find duplicate links
                         times_iterated: 0,
-                        itterator: element.value.matchAll(/https?/g),
+                        iterator: element.value.matchAll(/https?/g),
                         _constructor: () => {
-                            for(let match of dup_link_check.itterator){
+                            for(let match of dup_link_check.iterator){
                                 dup_link_check.times_iterated ++;
                                 dup_link_check[`match_${dup_link_check.times_iterated}`] = match.index;
                             }
@@ -102,7 +102,7 @@ function checkLinkList(list_content, list_type){
 function duplicateLinksFound(){
     let duplicates = [];
     let link_list = '';
-    //build link list by getting each input and making a string comma delminated (link_1,link_2,etc)
+    //build link list by getting each input and making a string comma delimited (link_1,link_2,etc)
     document.querySelectorAll('#links-content tr input').forEach(function (element){
         link_list += element.value + ',';
     })
@@ -164,7 +164,7 @@ window.validateData = async function (){
         case 2://steps for replication
             let steps_true = true;
             if(document.querySelectorAll('#steps-table tbody tr').length < 1){
-                bad_object.list['steps'] = 'Please list the steps taken to reproduct the issue.';
+                bad_object.list['steps'] = 'Please list the steps taken to reproduce the issue.';
                 steps_true = false;
             }
             let uncertain_steps = {
@@ -197,7 +197,7 @@ window.validateData = async function (){
                 bad_object.list['descriptionSlack'] = "Please don't use slack links in your description. Instead describe in your own words the details of the issue that is happening.";
             }
             if (validatePattern(document.getElementById('description').value, 'salesforce')) {
-                bad_object.list['descriptionSalesforce'] = "Don't include saleforce links in your description. Development teams do not have access to Salesforce. If there is info in a case that needs to be given to the development team, please include a screenshot of the data or include it in your video.";
+                bad_object.list['descriptionSalesforce'] = "Don't include salesforce links in your description. Development teams do not have access to Salesforce. If there is info in a case that needs to be given to the development team, please include a screenshot of the data or include it in your video.";
             }
             if (Object.entries(bad_object.list).length) {
                 error_popup.default(bad_object);
@@ -239,7 +239,7 @@ window.validateData = async function (){
                 bad_object.list['examples_blank'] = 'Examples cannot be blank or say n/a.';
             }
             if (validatePattern(examples, 'salesforce')) {
-                bad_object.list['examplesSalesforce'] = "Don't include saleforce links in your examples. Development teams do not have access to Salesforce. If there is info in a case that needs to be given to the development team, please include a screenshot of the data or include it in your video.";
+                bad_object.list['examplesSalesforce'] = "Don't include salesforce links in your examples. Development teams do not have access to Salesforce. If there is info in a case that needs to be given to the development team, please include a screenshot of the data or include it in your video.";
             }
             let errors = document.getElementById('errors').value;
             if(RegExp(/^[nN](?:\\|\/)?[aA]/).test(errors) || errors === ''){
@@ -252,7 +252,7 @@ window.validateData = async function (){
                 error_popup.default(bad_object);
             } else {
                 //before completing generating ticket check if the description has enough keywords about a website problem and that there isn't a link given in the example. Wait fro response from checkDescriptionNeedsLinkExamples function before progressing
-                if (await checkDescriptionNeedsLinkExamples() && await checkUnessecaryErrors()) {
+                if (await checkDescriptionNeedsLinkExamples() && await checkUnnecessaryErrors()) {
                     generateTicket();
                     newCookieData();
                 }
@@ -283,7 +283,7 @@ function getWhereData(){
 }
 /*this compiles all of the data and builds the ticket info and displays it to the user to copy*/
 function generateTicket(passed_object = {}){
-    //due to new updates to allow old ticket info to be accesible from saved cookies, this takes info as an object that get's passed in. If no data was passed in (we are using current page data, not old ticket data) then passed_object is set as a default of an empty object.
+    //due to new updates to allow old ticket info to be accessible from saved cookies, this takes info as an object that get's passed in. If no data was passed in (we are using current page data, not old ticket data) then passed_object is set as a default of an empty object.
     if(passed_object != null){
         let data;
         if (!Object.keys(passed_object).length) {
@@ -473,13 +473,13 @@ async function checkDescriptionNeedsLinkExamples(){
     return check;
 }
 //asks user if the errors found were actually from system break or just ones they noticed afterwards
-async function checkUnessecaryErrors(){
+async function checkUnnecessaryErrors(){
     let errors = document.querySelector('textarea#errors').value;
     let check = true;
     let bad_error_array = [];
     if ((/Blocked aria-hidden/i).test(errors)) {
         bad_error_array.push(`Blocked aria-hidden : Browser stopped an element from using attribute aria-hidden`);
-        //Usually caused by us loading or building an element that has the attribute aria-hidden. This is supposed to hide it from screen readers. Browsers sometimes stop this hidding as either the element is seen by the browser as necessary for somthing or it has a child element that isn't hidden.
+        //Usually caused by us loading or building an element that has the attribute aria-hidden. This is supposed to hide it from screen readers. Browsers sometimes stop this hiding as either the element is seen by the browser as necessary for something or it has a child element that isn't hidden.
     }
     if ((/\[DOM\] Found \d{1,} elements? with non-unique id/i).test(errors)) {
         bad_error_array.push(`non-unique id : There are multiple elements with the same id`);
@@ -576,7 +576,7 @@ function newCookieData(){
     document.querySelector('past-tickets > div:last-child').addEventListener('click',oldTicketDataPrint);
     document.querySelector('past-tickets > div:last-child span.close').addEventListener('click',() => deletePastTicketLine(`bug_${now}`,document.querySelector('past-tickets > div:last-child')));
 }
-/*This function bulds a list out of the data passed in the array, the array comes from displayPastTickets function*/
+/*This function builds a list out of the data passed in the array, the array comes from displayPastTickets function*/
 function buildPastTicketDivs(array){
     document.getElementById('list-toggle').innerText = array.length;//update the toggle to display the number of past tickets available
     for (let i=0;i<array.length;i++) {//loop through the array and build a div for each using data from the cookie
