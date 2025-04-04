@@ -1,3 +1,12 @@
+/**
+ * @module bug-ticket-v2
+ * @description This module is used to generate bug tickets for the Rain Support Team.
+ */
+import { validatePattern, addPattern, patterns } from '/Rain-Support-Tools/src/modules/regex-validator/regex-validator.js';
+window.validatePattern = validatePattern;
+window.addPattern = addPattern;
+window.patterns = patterns;
+
 /*this function builds a regular expresion object out of a url so that we can check for duplicate links being provided in the checkLinkList function*/
 function _urlRegEx(url_string){
     //replace characters '\/' and '?' so that they are searched correctly by the new regex expression
@@ -49,9 +58,8 @@ function checkLinkList(list_content, list_type){
         //if list is longer than 0, loop through each element in the list with the below function, this checks that there isn't more than one link in a row. If a duplicate link is foundin the row then it is removed, if the second link found isn't a duplicate an error is thrown to the user to make sure they delete any extra data out of the row
         list_content.forEach(function (element, index){
             //set current loop row value to be called on
-            let row_data = element.value;
-            if(row_data != ''){//if there is data in the row, check how many links are in it
-                row_data = row_data.match(/https?/g) || [];
+            if(element.value != ''){//if there is data in the row, check how many links are in it
+                let row_data = element.value.match(/https?/g) || [];
                 //if the array returned is longer than 1 then there is a duplicate
                 if(row_data.length > 1){
                     //let's find where second link starts in the string
@@ -59,7 +67,7 @@ function checkLinkList(list_content, list_type){
                         times_iterated: 0,
                         itterator: element.value.matchAll(/https?/g),
                         _constructor: () => {
-                            for(match of dup_link_check.itterator){
+                            for(let match of dup_link_check.itterator){
                                 dup_link_check.times_iterated ++;
                                 dup_link_check[`match_${dup_link_check.times_iterated}`] = match.index;
                             }
@@ -121,7 +129,7 @@ function duplicateLinksFound(){
 
 the async keyword was added to this function so that it could be used along side the custom confirmation modal in /modules/dialog-ctrl.(js|css). Async allows it to wait for a response from the dialog-ctrl.js function before moving forward where necessary
 */
-async function validateData(){
+window.validateData = async function (){
     //close any error popups currently open
     if(document.getElementById('error_message')) {
         document.getElementById('error_message').remove();
@@ -206,21 +214,21 @@ async function validateData(){
             };
             break;
         case 4://screenshot and video link lists
-            image_problems = checkLinkList(document.querySelectorAll('#screenshot-table tr input') , 'Image');
+            let image_problems = checkLinkList(document.querySelectorAll('#screenshot-table tr input') , 'Image');
             if (image_problems.length) {
-                for (i=0;i<image_problems.length;i++) {
+                for (let i=0;i<image_problems.length;i++) {
                     bad_object.list[`image_${i}`] = image_problems[i];
                 }
             };
-            video_problems = checkLinkList(document.querySelectorAll('#video-table tr input'), 'Video');
+            let video_problems = checkLinkList(document.querySelectorAll('#video-table tr input'), 'Video');
             if (video_problems.length) {
-                for (i=0;i<video_problems.length;i++) {
+                for (let i=0;i<video_problems.length;i++) {
                     bad_object.list[`video_${i}`] = video_problems[i];
                 }
             };
-            duplicate_links = duplicateLinksFound();
+            let duplicate_links = duplicateLinksFound();
             if (duplicate_links.length) {
-                for (i=0;i<duplicate_links.length;i++) {
+                for (let i=0;i<duplicate_links.length;i++) {
                     bad_object.list[`dupLink_${i}`] = `${duplicate_links[i]} was found more than one time.`;
                 };
             };
@@ -337,7 +345,7 @@ function generateTicket(passed_object = {}){
                     //function that loops through the old ticket data steps and builds a string then returns the string value as it's resolution when called
                     let string = '';
                     let index = 1;
-                    for (row in passed_object.steps) {
+                    for (let row in passed_object.steps) {
                         string += `${index}. ` + passed_object.steps[row] + '\n';
                         index++;
                     }
@@ -352,7 +360,7 @@ function generateTicket(passed_object = {}){
                         return string;
                     }
                     let index = 1;
-                    for (row in passed_object.screenshots) {
+                    for (let row in passed_object.screenshots) {
                         string += `[Screenshot_${index}](${passed_object.screenshots[row]})\n`;
                         index++;
                     }
@@ -365,7 +373,7 @@ function generateTicket(passed_object = {}){
                         return string;
                     }
                     let index = 1;
-                    for (row in passed_object.videos) {
+                    for (let row in passed_object.videos) {
                         string += `[Video_${index}](${passed_object.videos[row]})\n`;
                         index++;
                     }
@@ -579,9 +587,9 @@ function newCookieData(){
 /*This function bulds a list out of the data passed in the array, the array comes from displayPastTickets function*/
 function buildPastTicketDivs(array){
     document.getElementById('list-toggle').innerText = array.length;//update the toggle to display the number of past tickets available
-    for (i=0;i<array.length;i++) {//loop through the array and build a div for each using data from the cookie
-        bug_date_string = array[i].substring(0,array[i].indexOf('='));
-        bug_details_string = array[i].substring(array[i].indexOf('=') +1 );
+    for (let i=0;i<array.length;i++) {//loop through the array and build a div for each using data from the cookie
+        let bug_date_string = array[i].substring(0,array[i].indexOf('='));
+        let bug_details_string = array[i].substring(array[i].indexOf('=') +1 );
         let date = new Date(parseInt(bug_date_string.split("_")[1])).toString().substring(0,24);
         let bug_data = bug_details_string.replaceAll(/"/g,'&quot;');
         let temp_json = JSON.parse(bug_details_string);
