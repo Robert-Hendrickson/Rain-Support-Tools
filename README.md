@@ -58,7 +58,11 @@ Riley page was pulled from this link: https://codepen.io/trajektorijus/pen/mdeBY
         });
     </script>
     
-
+## regex checking module
+### module has predefined common options, also has a function that can add specific patterns for use
+import { validatePattern, addPattern, patterns } from '/Rain-Support-Tools/src/modules/regex-validator/regex-validator.js';
+window.validatePattern = validatePattern;
+window.patterns = patterns;
 # flow build containers
 ## nav html
     <div class="menu-wrapper">
