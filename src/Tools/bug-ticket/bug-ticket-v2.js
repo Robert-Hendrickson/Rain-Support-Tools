@@ -50,7 +50,7 @@ function imageVideoLink(url_string){
 function checkLinkList(list_content, list_type){
     let error_array = [];
     //check that there are rows to look through
-    if (list_content.length < 1 && !location.search.includes('frameready')) {
+    if (list_content.length < 1 && !location.search.includes('frameready') && !location.search.includes('tritech')) {
         error_array.push(`${list_type} list is empty. Please make sure that the list has at least one ${list_type} link provided.`);
     } else {
         //if list is longer than 0, loop through each element in the list with the below function, this checks that there isn't more than one link in a row. If a duplicate link is found in the row then it is removed, if the second link found isn't a duplicate an error is thrown to the user to make sure they delete any extra data out of the row
@@ -348,9 +348,6 @@ function generateTicket(passed_object = {}){
                 screenshots: () => {
                     //function that loops through the old ticket data screenshots and builds a string then returns the string value as it's resolution when called
                     let string = '';
-                    if(location.search.includes('frameready')){
-                        return string;
-                    }
                     let index = 1;
                     for (let row in passed_object.screenshots) {
                         string += `[Screenshot_${index}](${passed_object.screenshots[row]})\n`;
@@ -361,9 +358,6 @@ function generateTicket(passed_object = {}){
                 videos: () => {
                     //function that loops through the old ticket data videos and builds a string then returns the string value as it's resolution when called
                     let string = '';
-                    if(location.search.includes('frameready')){
-                        return string;
-                    }
                     let index = 1;
                     for (let row in passed_object.videos) {
                         string += `[Video_${index}](${passed_object.videos[row]})\n`;
