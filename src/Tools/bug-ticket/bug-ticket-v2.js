@@ -1,3 +1,8 @@
+/**
+ * @type {string}
+ * @description This variable is used to store the brand the user is under. This will be used to determine some settings for the bug ticket generator.
+ */
+let brand;
 /*this function builds a regular expresion object out of a url so that we can check for duplicate links being provided in the checkLinkList function*/
 function _urlRegEx(url_string){
     //replace characters '\/' and '?' so that they are searched correctly by the new regex expression
@@ -43,7 +48,7 @@ function imageVideoLink(url_string){
 function checkLinkList(list_content, list_type){
     let error_array = [];
     //check that there are rows to look through
-    if (list_content.length < 1 && !location.search.includes('frameready') && !location.search.includes('tritech')) {
+    if (list_content.length < 1 && !['frameready','tritech'].includes(brand)) {
         error_array.push(`${list_type} list is empty. Please make sure that the list has at least one ${list_type} link provided.`);
     } else {
         //if list is longer than 0, loop through each element in the list with the below function, this checks that there isn't more than one link in a row. If a duplicate link is foundin the row then it is removed, if the second link found isn't a duplicate an error is thrown to the user to make sure they delete any extra data out of the row
@@ -674,4 +679,23 @@ window.addEventListener('load', () => {
     //this sets the event listener for the ticket modal buttons
     document.querySelector('div[ticket-buttons] button:first-child').addEventListener('click',start_new_ticket);
     document.querySelector('div[ticket-buttons] button:nth-child(2)').addEventListener('click',() => document.getElementById('ticket-container').classList.add('hide'));
+    //this sets the event listener for the brand selector
+    document.querySelectorAll('#brand-selector-list .brand-selector-item').forEach(el => el.addEventListener('click',(e) => {
+        document.querySelector('.brand-selector-item.selected')?.classList.remove('selected');
+        e.target.classList.add('selected');
+    }));
+    document.querySelector('#brand-selector button').addEventListener('click',() => {
+        if(document.querySelector('.brand-selector-item.selected')){
+            brand = document.querySelector('.brand-selector-item.selected').id;
+            setCookie('brand',brand, 7);
+            document.querySelector('#brand-selector').classList.add('hide');
+        }
+    });
+    //this will set the brand value if it already exists
+    if(getCookie('brand')){
+        brand = getCookie('brand');
+        setCookie('brand',brand, 7);
+    } else {
+        document.querySelector('#brand-selector').classList.remove('hide');
+    }
 });
