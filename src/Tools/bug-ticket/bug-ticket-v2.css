@@ -123,3 +123,35 @@ h2.header-center{
     display: flex;
     justify-content: center;
 }
+#brand-selector{
+    position: absolute;
+    top: 10px;
+    right: calc(50vw - 250px);
+    z-index: 100;
+    background-color: #fff;
+    border: #000 solid 1px;
+    border-radius: 10px;
+    padding: 16px;
+    width: 500px;
+    button{
+        float: right;
+        cursor: pointer;
+    }
+}
+#brand-selector-list{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 16px;
+}
+.brand-selector-item{
+    border: #000 solid 1px;
+    border-radius: 10px;
+    padding: 16px;
+    cursor: pointer;
+}
+.brand-selector-item.selected{
+    background-color: #D8EDF7;
+    color: #337ABD;
+    border-color: #337ABD;
+}
