@@ -8,6 +8,8 @@ const regexPatterns = {
     email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
     phone: /^\+?[\d\s-()]{10,}$/,
     url: /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/,
+    googleDrive: /^(?:https?:\/\/)drive\.google\.com\/file\/d\/.*\/view(?:\?.+)?$/,
+    oneDrive: /^(?:https?:\/\/)?quiltsoftware-my\.sharepoint\.com\/:(i|v)\:\/p\//,
     // Add more patterns as needed
 };
 

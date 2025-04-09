@@ -4,12 +4,10 @@
  */
 import { validatePattern, addPattern, patterns } from '/Rain-Support-Tools/src/modules/regex-validator/regex-validator.js';
 window.validatePattern = validatePattern;
-window.patterns = patterns;
 //add patterns to the patterns object
 addPattern('slack', /(?:https?:\/\/)?raindev\.slack\.com\/archives\//);
 addPattern('salesforce', /(?:https?:\/\/)?rainpos\.lightning\.force\.com\/lightning\/r\//);
-addPattern('googleDrive', /^(?:https?:\/\/)drive\.google\.com\/file\/d\/.*\/view(?:\?.+)?$/);
-addPattern('oneDrive', /^(?:https?:\/\/)?quiltsoftware-my\.sharepoint\.com\/:(i|v)\:\/p\//);
+addPattern('admin_domains', /rainadmin|quiltstorewebsites|jewel360|musicshop360/);
 /**
  * @type {string}
  * @description This variable is used to store the brand the user is under. This will be used to determine some settings for the bug ticket generator.
@@ -237,7 +235,7 @@ window.validateData = async function (){
             break;
         case 5://Examples and Errors
             let examples = document.getElementById('examples').value;
-            if(RegExp(/rainadmin|quiltstorewebsites|jewel360|musicshop360/).test(examples)){
+            if(validatePattern(examples, 'admin_domains')){
                 bad_object.list['examples_links'] = 'Please make sure that all links do not point to an admin domain such as rainadmin.com. If there is a report or a product that has an issue please write the report name and filters used to find the issue or and unique ids needed to find the data.';
             }
             if(RegExp(/^[nN](?:\\|\/)?[aA]/).test(examples) || examples === ''){
