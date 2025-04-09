@@ -35,6 +35,23 @@
             </div>
             <past-tickets></past-tickets>
         </div>
+        <div id="brand-selector" class="hide">
+            <h2>Brand</h2>
+            <div id="brand-selector-list">
+                <div id="rain" class="brand-selector-item">
+                    Rain
+                </div>
+                <div id="frameready" class="brand-selector-item">
+                    FrameReady
+                </div>
+                <div id="tritech" class="brand-selector-item">
+                    Tri-Tech
+                </div>
+            </div>
+            <button class="btn primary">
+                Select
+            </button>
+        </div>
         <h1>
             Bug Ticket Form Generator - Design by Russell Lee
         </h1>
@@ -345,6 +362,11 @@
                         }
                     })
                 });
+                if(!getCookie('brand')) {
+                    console.log('no brand selected');
+                } else {
+                    console.log('brand selected: ' + getCookie('brand'));
+                }
             </script>
         </div>
     </body>

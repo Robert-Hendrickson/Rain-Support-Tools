@@ -621,9 +621,9 @@ document.addEventListener('DOMContentLoaded',function(){
             if(index === 0){
                 el.addEventListener('click',() =>{addTableRow('add-record');});
             } else if (index === 1) {
-                el.addEventListener('click',() =>{removeTableRow('correct-record');});
+                el.addEventListener('click',() =>{addTableRow('correct-record');});
             } else if (index === 2) {
-                el.addEventListener('click',() =>{removeTableRow('remove-record');});
+                el.addEventListener('click',() =>{addTableRow('remove-record');});
             }
 
         });
