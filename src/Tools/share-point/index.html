@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="\Rain-Support-Tools\src\common\css\default.css" />
+        <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <style>
+            .content-container {
+                width: 70%;
+                margin: 50px auto;
+                display: flex;
+                justify-content: center;
+            }
+            .container {
+                border: 1px solid black;
+                border-radius: 8px;
+                padding: 16px;
+                background-color: #dedede;
+                min-width: 400px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="content-container">
+            <div class="container">
+                <div id="app">
+                    <div v-if="!isAuthenticated">
+                        <h2>Authentication Required</h2>
+                        <p>You need to authenticate with Microsoft to continue.</p>
+                        <button @click="startAuth">Authenticate</button>
+                    </div>
+                    <div v-else>
+                        <h2>Welcome!</h2>
+                        <p>You are authenticated. You can now proceed to the upload page.</p>
+                        <button @click="goToUpload">Go to Upload Page</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            const { createApp } = Vue;
+
+            createApp({
+                data() {
+                    return {
+                        isAuthenticated: false,
+                        accessToken: null
+                    }
+                },
+                methods: {
+                    checkAuth() {
+                        // Check if we have a token in localStorage
+                        const token = localStorage.getItem('access_token');
+                        if (token) {
+                            this.isAuthenticated = true;
+                            this.accessToken = token;
+                        }
+                    },
+                    startAuth() {
+                        // Redirect to auth page
+                        window.location.href = 'auth.html';
+                    },
+                    goToUpload() {
+                        // Redirect to upload page
+                        window.location.href = 'upload.html';
+                    }
+                },
+                mounted() {
+                    this.checkAuth();
+                }
+            }).mount('#app');
+        </script>
+    </body>
+</html> 
