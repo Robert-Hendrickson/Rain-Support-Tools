@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="\Rain-Support-Tools\src\common\css\default.css" />
+        <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <style>
+            .content-container {
+                width: 70%;
+                margin: 50px auto;
+                display: flex;
+                justify-content: center;
+            }
+            .container {
+                border: 1px solid black;
+                border-radius: 8px;
+                padding: 16px;
+                background-color: #dedede;
+                min-width: 400px;
+            }
+            .upload-area {
+                border: 2px dashed #ccc;
+                border-radius: 8px;
+                padding: 20px;
+                text-align: center;
+                margin-bottom: 20px;
+                cursor: pointer;
+            }
+            .upload-area:hover {
+                border-color: #666;
+            }
+            .preview-image {
+                max-width: 200px;
+                max-height: 200px;
+                margin-top: 10px;
+            }
+            .preview-video {
+                max-width: 200px;
+                max-height: 200px;
+                margin-top: 10px;
+            }
+            .status {
+                margin-top: 10px;
+                padding: 10px;
+                border-radius: 4px;
+            }
+            .status.success {
+                background-color: #d4edda;
+                color: #155724;
+            }
+            .status.error {
+                background-color: #f8d7da;
+                color: #721c24;
+            }
+            .link-container {
+                margin-top: 10px;
+                padding: 10px;
+                background-color: #f8f9fa;
+                border: 1px solid #ddd;
+                border-radius: 4px;
+            }
+            .link-input {
+                width: 100%;
+                padding: 5px;
+                margin-top: 5px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+            }
+            .copy-button {
+                margin-left: 5px;
+                padding: 5px 10px;
+                background-color: #0078d4;
+                color: white;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+            }
+            .copy-button:hover {
+                background-color: #106ebe;
+            }
+            .file-list {
+                margin-top: 10px;
+                max-height: 200px;
+                overflow-y: auto;
+            }
+            .file-item {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 5px;
+                border-bottom: 1px solid #eee;
+            }
+            .action-container {
+                margin-top: 10px;
+            }
+            .action-button {
+                padding: 5px 10px;
+                background-color: #0078d4;
+                color: white;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+            }
+            .action-button:hover {
+                background-color: #106ebe;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="content-container">
+            <div class="container">
+                <div id="app">
+                    <h2>Upload Image to SharePoint</h2>
+                    
+                    <div v-if="!isAuthenticated">
+                        <p>You need to authenticate first.</p>
+                        <button @click="goToAuth">Authenticate</button>
+                    </div>
+                    
+                    <div v-else>
+                        <div class="upload-area" @click="triggerFileInput" @dragover.prevent @drop.prevent="handleDrop">
+                            <input type="file" ref="fileInput" @change="handleFileSelect" accept="image/*,video/*" style="display: none" />
+                            <p>Click or drag and drop an image or video here</p>
+                            <img v-if="previewUrl && isImage" :src="previewUrl" class="preview-image" />
+                            <video v-if="previewUrl && !isImage" :src="previewUrl" class="preview-video" controls></video>
+                        </div>
+                        
+                        <div v-if="selectedFiles.length > 0">
+                            <div class="file-list">
+                                <div v-for="(file, index) in selectedFiles" :key="index" class="file-item">
+                                    <span>{{ file.name }}</span>
+                                    <button @click="removeFile(index)" class="copy-button">Remove</button>
+                                </div>
+                            </div>
+                            <button @click="uploadFiles" :disabled="uploading">
+                                {{ uploading ? 'Uploading...' : 'Upload All' }}
+                            </button>
+                        </div>
+                        
+                        <div v-if="uploadStatus" :class="['status', uploadStatus.type]">
+                            {{ uploadStatus.message }}
+                            <div v-if="uploadStatus.action" class="action-container">
+                                <button @click="uploadStatus.action.handler" class="action-button">
+                                    {{ uploadStatus.action.text }}
+                                </button>
+                            </div>
+                            <div v-if="uploadStatus.links && uploadStatus.links.length > 0" class="link-container">
+                                <h4>Uploaded Files:</h4>
+                                <div v-for="(link, index) in uploadStatus.links" :key="index" class="file-item">
+                                    <input type="text" :value="link" readonly class="link-input" />
+                                    <button @click="copyLink(link)" class="copy-button">Copy</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script type="module">
+            import { getValidToken } from './token-utils.js';
+            const { createApp } = Vue;
+
+            createApp({
+                data() {
+                    return {
+                        isAuthenticated: false,
+                        selectedFiles: [],
+                        previewUrls: [],
+                        uploading: false,
+                        uploadStatus: null,
+                        isImages: []
+                    }
+                },
+                methods: {
+                    checkAuth() {
+                        const token = localStorage.getItem('access_token');
+                        this.isAuthenticated = !!token;
+                    },
+                    goToAuth() {
+                        window.location.href = 'auth.html';
+                    },
+                    triggerFileInput() {
+                        this.$refs.fileInput.click();
+                    },
+                    handleFileSelect(event) {
+                        const files = Array.from(event.target.files);
+                        this.handleFiles(files);
+                    },
+                    handleDrop(event) {
+                        const files = Array.from(event.dataTransfer.files);
+                        this.handleFiles(files);
+                    },
+                    handleFiles(files) {
+                        const validFiles = files.filter(file => 
+                            file.type.startsWith('image/') || file.type.startsWith('video/')
+                        );
+                        
+                        if (validFiles.length === 0) {
+                            alert('Please select image or video files');
+                            return;
+                        }
+                        
+                        this.selectedFiles = [...this.selectedFiles, ...validFiles];
+                        this.previewUrls = this.selectedFiles.map(file => URL.createObjectURL(file));
+                        this.isImages = this.selectedFiles.map(file => file.type.startsWith('image/'));
+                    },
+                    removeFile(index) {
+                        this.selectedFiles.splice(index, 1);
+                        this.previewUrls.splice(index, 1);
+                        this.isImages.splice(index, 1);
+                    },
+                    copyLink(link) {
+                        navigator.clipboard.writeText(link).then(() => {
+                            alert('Link copied to clipboard!');
+                        }).catch(err => {
+                            console.error('Failed to copy link:', err);
+                        });
+                    },
+                    async uploadFiles() {
+                        if (this.selectedFiles.length === 0) return;
+
+                        this.uploading = true;
+                        this.uploadStatus = null;
+                        const uploadedLinks = [];
+
+                        try {
+                            // Get a valid token (will refresh if needed)
+                            const token = await getValidToken();
+
+                            // First, ensure the Bug Data folder exists
+                            try {
+                                await axios.put(
+                                    'https://graph.microsoft.com/v1.0/me/drive/root:/Bug Data:/children',
+                                    { name: 'Bug Data', folder: {} },
+                                    {
+                                        headers: {
+                                            'Authorization': `Bearer ${token}`
+                                        }
+                                    }
+                                );
+                            } catch (folderError) {
+                                console.log('Folder creation skipped:', folderError.message);
+                            }
+
+                            // Upload all files
+                            for (const file of this.selectedFiles) {
+                                // First upload the file
+                                const uploadResponse = await axios.put(
+                                    `https://graph.microsoft.com/v1.0/me/drive/root:/Bug Data/${encodeURIComponent(file.name)}:/content`,
+                                    file,
+                                    {
+                                        headers: {
+                                            'Authorization': `Bearer ${token}`,
+                                            'Content-Type': file.type
+                                        }
+                                    }
+                                );
+
+                                // Then create a permanent sharing link
+                                const shareResponse = await axios.post(
+                                    `https://graph.microsoft.com/v1.0/me/drive/items/${uploadResponse.data.id}/createLink`,
+                                    {
+                                        type: "view",
+                                        scope: "organization"
+                                    },
+                                    {
+                                        headers: {
+                                            'Authorization': `Bearer ${token}`
+                                        }
+                                    }
+                                );
+
+                                uploadedLinks.push(shareResponse.data.link.webUrl);
+                            }
+
+                            this.uploadStatus = {
+                                type: 'success',
+                                message: `Successfully uploaded ${uploadedLinks.length} file(s)!`,
+                                links: uploadedLinks
+                            };
+
+                            // Clear the selected files after successful upload
+                            this.selectedFiles = [];
+                            this.previewUrls = [];
+                            this.isImages = [];
+                        } catch (error) {
+                            console.error('Upload error:', error);
+                            let errorMessage = 'Error uploading files';
+                            
+                            if (error.response) {
+                                // Check for invalid authentication token
+                                if (error.response.data?.error?.code === 'InvalidAuthenticationToken') {
+                                    this.uploadStatus = {
+                                        type: 'error',
+                                        message: 'Your session has expired. Please authenticate again.',
+                                        action: {
+                                            text: 'Re-authenticate',
+                                            handler: () => this.goToAuth()
+                                        }
+                                    };
+                                    return;
+                                }
+                                
+                                errorMessage += `: ${error.response.status} - ${error.response.data?.error?.message || 'Unknown error'}`;
+                            } else if (error.request) {
+                                errorMessage += ': No response from server';
+                            } else {
+                                errorMessage += `: ${error.message}`;
+                            }
+
+                            this.uploadStatus = {
+                                type: 'error',
+                                message: errorMessage
+                            };
+                        } finally {
+                            this.uploading = false;
+                        }
+                    }
+                },
+                mounted() {
+                    this.checkAuth();
+                }
+            }).mount('#app');
+        </script>
+    </body>
+</html> 
