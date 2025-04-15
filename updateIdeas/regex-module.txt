@@ -1,2 +1,3 @@
 create a module for regex checking
 /(?:\.match)?(\(\/.+(!?\/(?:\w+)?\)))(?:\.test\()?/
+module can be imported into other tools now.

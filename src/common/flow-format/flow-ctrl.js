@@ -43,7 +43,7 @@ function updateTabs(add_tab,remove_tab){
     });
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+window.addEventListener('load', () => {
     document.querySelectorAll('div[flow-controls] button').forEach((el)=>{
         if(el.hasAttribute('prev')){
             el.addEventListener('click', previousStep);

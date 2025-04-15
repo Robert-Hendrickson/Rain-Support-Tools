@@ -2,12 +2,11 @@
  * @module bug-ticket-v2
  * @description This module is used to generate bug tickets for the Rain Support Team.
  */
-import { validatePattern, addPattern, patterns } from '/Rain-Support-Tools/src/modules/regex-validator/regex-validator.js';
-window.validatePattern = validatePattern;
+window.regexController = (await import('/Rain-Support-Tools/src/modules/regex-patterns/patterns.js')).regexController;
 //add patterns to the patterns object
-addPattern('slack', /(?:https?:\/\/)?raindev\.slack\.com\/archives\//);
-addPattern('salesforce', /(?:https?:\/\/)?rainpos\.lightning\.force\.com\/lightning\/r\//);
-addPattern('admin_domains', /rainadmin|quiltstorewebsites|jewel360|musicshop360/);
+regexController.addPattern('slack', /(?:https?:\/\/)?raindev\.slack\.com\/archives\//);
+regexController.addPattern('salesforce', /(?:https?:\/\/)?rainpos\.lightning\.force\.com\/lightning\/r\//);
+regexController.addPattern('admin_domains', /rainadmin|quiltstorewebsites|jewel360|musicshop360/);
 /**
  * @type {string}
  * @description This variable is used to store the brand the user is under. This will be used to determine some settings for the bug ticket generator.
@@ -31,9 +30,9 @@ function imageVideoLink(url_string){
             url_string === '' 
             || 
             (
-                !validatePattern(url_string, 'googleDrive') 
+                !regexController.regexPatterns.googleDrive.test(url_string) 
                 &&
-                !validatePattern(url_string, 'oneDrive')
+                !regexController.regexPatterns.oneDrive.test(url_string)
             )
         );
     /*
@@ -124,7 +123,7 @@ function duplicateLinksFound(){
 
 the async keyword was added to this function so that it could be used along side the custom confirmation modal in /modules/dialog-ctrl.(js|css). Async allows it to wait for a response from the dialog-ctrl.js function before moving forward where necessary
 */
-window.validateData = async function (){
+window.validateData = async function () {
     //close any error popups currently open
     if(document.getElementById('error_message')) {
         document.getElementById('error_message').remove();
@@ -196,10 +195,10 @@ window.validateData = async function (){
             if(document.getElementById('description').value === '' || RegExp(/^[n|N](?:\/|\\)?[a|A]\s?$/).test(document.getElementById('description').value)){
                 bad_object.list['description'] = 'Description cannot be empty or n/a. Please describe in detail what is happening.';
             }
-            if (validatePattern(document.getElementById('description').value, 'slack')) {
+            if (regexController.regexPatterns.slack.test(document.getElementById('description').value)) {
                 bad_object.list['descriptionSlack'] = "Please don't use slack links in your description. Instead describe in your own words the details of the issue that is happening.";
             }
-            if (validatePattern(document.getElementById('description').value, 'salesforce')) {
+            if (regexController.regexPatterns.salesforce.test(document.getElementById('description').value)) {
                 bad_object.list['descriptionSalesforce'] = "Don't include salesforce links in your description. Development teams do not have access to Salesforce. If there is info in a case that needs to be given to the development team, please include a screenshot of the data or include it in your video.";
             }
             if (Object.entries(bad_object.list).length) {
@@ -235,13 +234,13 @@ window.validateData = async function (){
             break;
         case 5://Examples and Errors
             let examples = document.getElementById('examples').value;
-            if(validatePattern(examples, 'admin_domains')){
+            if(regexController.regexPatterns.admin_domains.test(examples)){
                 bad_object.list['examples_links'] = 'Please make sure that all links do not point to an admin domain such as rainadmin.com. If there is a report or a product that has an issue please write the report name and filters used to find the issue or and unique ids needed to find the data.';
             }
             if(RegExp(/^[nN](?:\\|\/)?[aA]/).test(examples) || examples === ''){
                 bad_object.list['examples_blank'] = 'Examples cannot be blank or say n/a.';
             }
-            if (validatePattern(examples, 'salesforce')) {
+            if (regexController.regexPatterns.salesforce.test(examples)) {
                 bad_object.list['examplesSalesforce'] = "Don't include salesforce links in your examples. Development teams do not have access to Salesforce. If there is info in a case that needs to be given to the development team, please include a screenshot of the data or include it in your video.";
             }
             let errors = document.getElementById('errors').value;
