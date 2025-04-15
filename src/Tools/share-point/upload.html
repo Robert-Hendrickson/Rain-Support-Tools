@@ -90,6 +90,20 @@
                 padding: 5px;
                 border-bottom: 1px solid #eee;
             }
+            .action-container {
+                margin-top: 10px;
+            }
+            .action-button {
+                padding: 5px 10px;
+                background-color: #0078d4;
+                color: white;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+            }
+            .action-button:hover {
+                background-color: #106ebe;
+            }
         </style>
     </head>
     <body>
@@ -125,6 +139,11 @@
                         
                         <div v-if="uploadStatus" :class="['status', uploadStatus.type]">
                             {{ uploadStatus.message }}
+                            <div v-if="uploadStatus.action" class="action-container">
+                                <button @click="uploadStatus.action.handler" class="action-button">
+                                    {{ uploadStatus.action.text }}
+                                </button>
+                            </div>
                             <div v-if="uploadStatus.links && uploadStatus.links.length > 0" class="link-container">
                                 <h4>Uploaded Files:</h4>
                                 <div v-for="(link, index) in uploadStatus.links" :key="index" class="file-item">
@@ -138,7 +157,8 @@
             </div>
         </div>
 
-        <script>
+        <script type="module">
+            import { getValidToken } from './token-utils.js';
             const { createApp } = Vue;
 
             createApp({
@@ -205,6 +225,9 @@
                         const uploadedLinks = [];
 
                         try {
+                            // Get a valid token (will refresh if needed)
+                            const token = await getValidToken();
+
                             // First, ensure the Bug Data folder exists
                             try {
                                 await axios.put(
@@ -212,7 +235,7 @@
                                     { name: 'Bug Data', folder: {} },
                                     {
                                         headers: {
-                                            'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+                                            'Authorization': `Bearer ${token}`
                                         }
                                     }
                                 );
@@ -228,7 +251,7 @@
                                     file,
                                     {
                                         headers: {
-                                            'Authorization': `Bearer ${localStorage.getItem('access_token')}`,
+                                            'Authorization': `Bearer ${token}`,
                                             'Content-Type': file.type
                                         }
                                     }
@@ -243,7 +266,7 @@
                                     },
                                     {
                                         headers: {
-                                            'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+                                            'Authorization': `Bearer ${token}`
                                         }
                                     }
                                 );
@@ -266,6 +289,19 @@
                             let errorMessage = 'Error uploading files';
                             
                             if (error.response) {
+                                // Check for invalid authentication token
+                                if (error.response.data?.error?.code === 'InvalidAuthenticationToken') {
+                                    this.uploadStatus = {
+                                        type: 'error',
+                                        message: 'Your session has expired. Please authenticate again.',
+                                        action: {
+                                            text: 'Re-authenticate',
+                                            handler: () => this.goToAuth()
+                                        }
+                                    };
+                                    return;
+                                }
+                                
                                 errorMessage += `: ${error.response.status} - ${error.response.data?.error?.message || 'Unknown error'}`;
                             } else if (error.request) {
                                 errorMessage += ': No response from server';
