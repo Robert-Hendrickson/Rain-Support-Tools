@@ -11,7 +11,7 @@ export async function getValidToken() {
 
         try {
             const { config } = await import('./auth-config.js');
-            const response = await axios.post('https://login.microsoftonline.com/common/oauth2/v2.0/token', {
+            const response = await axios.post(`https://login.microsoftonline.com/${config.tenantId}/oauth2/v2.0/token`, {
                 client_id: config.clientId,
                 refresh_token: refreshToken,
                 grant_type: 'refresh_token',
