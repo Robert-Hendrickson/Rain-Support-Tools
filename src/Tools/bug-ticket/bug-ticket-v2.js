@@ -684,6 +684,25 @@ window.addEventListener('load', () => {
             document.querySelector('#brand-selector').classList.add('hide');
         }
     });
+    //this will set the brand value if it already exists
+    if(getCookie('brand')){
+        brand = getCookie('brand');
+        setCookie('brand',brand, 7);
+    } else {
+        document.querySelector('#brand-selector').classList.remove('hide');
+    }
+    //this sets the event listener for the brand selector
+    document.querySelectorAll('#brand-selector-list .brand-selector-item').forEach(el => el.addEventListener('click',(e) => {
+        document.querySelector('.brand-selector-item.selected')?.classList.remove('selected');
+        e.target.classList.add('selected');
+    }));
+    document.querySelector('#brand-selector button').addEventListener('click',() => {
+        if(document.querySelector('.brand-selector-item.selected')){
+            brand = document.querySelector('.brand-selector-item.selected').id;
+            setCookie('brand',brand, 7);
+            document.querySelector('#brand-selector').classList.add('hide');
+        }
+    });
     //add event listener for validateData custom event
     document.addEventListener('validateData', validateData);
     //this will set the brand value if it already exists

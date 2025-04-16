@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="\Rain-Support-Tools\src\common\css\default.css" />
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <style>
+            .content-container {
+                width: 70%;
+                margin: 50px auto;
+                display: flex;
+                justify-content: center;
+            }
+            .container {
+                border: 1px solid black;
+                border-radius: 8px;
+                padding: 16px;
+                background-color: #dedede;
+                min-width: 400px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="content-container">
+            <div class="container">
+                <div id="status">Processing authentication...</div>
+            </div>
+        </div>
+
+        <script>
+            async function handleCallback() {
+                const urlParams = new URLSearchParams(window.location.search);
+                const code = urlParams.get('code');
+                const error = urlParams.get('error');
+                
+                if (error) {
+                    document.getElementById('status').textContent = `Error: ${error}`;
+                    return;
+                }
+
+                if (!code) {
+                    document.getElementById('status').textContent = 'No authorization code received';
+                    return;
+                }
+
+                try {
+                    // Get the code verifier we stored earlier
+                    const codeVerifier = localStorage.getItem('code_verifier');
+                    // Get the config
+                    const { config } = await import('./auth-config.js');
+                    
+                    // Exchange the code for tokens
+                    const response = await axios.post(`https://login.microsoftonline.com/${config.tenantId}/oauth2/v2.0/token`, {
+                        client_id: config.clientId,
+                        scope: config.scopes,
+                        code: code,
+                        redirect_uri: config.redirectUri,
+                        grant_type: 'authorization_code',
+                        code_verifier: codeVerifier
+                    }, {
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        }
+                    });
+
+                    // Store both access token and refresh token
+                    localStorage.setItem('access_token', response.data.access_token);
+                    localStorage.setItem('refresh_token', response.data.refresh_token);
+                    localStorage.setItem('token_expires_at', Date.now() + (response.data.expires_in * 1000));
+                    
+                    // Redirect back to the main page
+                    window.location.href = './upload.html';
+                } catch (error) {
+                    document.getElementById('status').textContent = `Error exchanging code: ${error.message}`;
+                }
+            }
+
+            // Handle the callback when the page loads
+            window.onload = handleCallback;
+        </script>
+    </body>
+</html> 

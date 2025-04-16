@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="\Rain-Support-Tools\src\common\css\default.css" />
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <style>
+            .content-container {
+                width: 70%;
+                margin: 50px auto;
+                display: flex;
+                justify-content: center;
+            }
+            .container {
+                border: 1px solid black;
+                border-radius: 8px;
+                padding: 16px;
+                background-color: #dedede;
+                min-width: 400px;
+                text-align: center;
+            }
+            .auth-button {
+                padding: 10px 20px;
+                font-size: 16px;
+                background-color: #0078d4;
+                color: white;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                margin-top: 20px;
+            }
+            .auth-button:hover {
+                background-color: #106ebe;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="content-container">
+            <div class="container">
+                <h2>Microsoft Authentication Required</h2>
+                <p>You need to authenticate with Microsoft to access SharePoint features.</p>
+                <button class="auth-button" id="auth-button">Authenticate with Microsoft</button>
+            </div>
+        </div>
+
+        <script>
+
+            async function startAuth() {
+                const { config } = await import('./auth-config.js');
+                // Generate PKCE code verifier and challenge
+                const codeVerifier = generateCodeVerifier();
+                const codeChallenge = await generateCodeChallenge(codeVerifier);
+                
+                // Store code verifier for later use
+                localStorage.setItem('code_verifier', codeVerifier);
+                
+                // Redirect to Microsoft login
+                window.location.href = `https://login.microsoftonline.com/${config.tenantId}/oauth2/v2.0/authorize?client_id=${config.clientId}&response_type=code&redirect_uri=${config.redirectUri}&state=12345&scope=${config.scopes}&code_challenge=${codeChallenge}&code_challenge_method=S256`;
+            }
+
+            // Generate a random code verifier
+            function generateCodeVerifier() {
+                const array = new Uint8Array(32);
+                window.crypto.getRandomValues(array);
+                return base64URLEncode(array);
+            }
+
+            // Generate code challenge from verifier
+            async function generateCodeChallenge(codeVerifier) {
+                const encoder = new TextEncoder();
+                const data = encoder.encode(codeVerifier);
+                const digest = await window.crypto.subtle.digest('SHA-256', data);
+                return base64URLEncode(new Uint8Array(digest));
+            }
+
+            // Helper function to base64 URL encode
+            function base64URLEncode(buffer) {
+                return btoa(String.fromCharCode.apply(null, new Uint8Array(buffer)))
+                    .replace(/\+/g, '-')
+                    .replace(/\//g, '_')
+                    .replace(/=+$/, '');
+            }
+
+            document.getElementById('auth-button').addEventListener('click', startAuth);
+        </script>
+    </body>
+</html> 
