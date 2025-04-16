@@ -688,6 +688,8 @@ window.addEventListener('load', () => {
             document.querySelector('#brand-selector').classList.add('hide');
         }
     });
+    //add event listener for validateData custom event
+    document.addEventListener('validateData', validateData);
     //this will set the brand value if it already exists
     if(getCookie('brand')){
         brand = getCookie('brand');

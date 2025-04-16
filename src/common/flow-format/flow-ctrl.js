@@ -15,6 +15,16 @@ function nextStep(current_step){
     }
     updateTabs(current_step,current_step+1);
 }
+
+/*function to dispatch validate event*/
+function dispatchValidateEvent() {
+    const validateEvent = new CustomEvent('validateData', {
+        bubbles: true,
+        cancelable: true
+    });
+    document.dispatchEvent(validateEvent);
+}
+
 /*moves to previous step from current display*/
 function previousStep(){
     let current_step = parseInt(document.querySelector('#info-tabs .active').getAttribute('step'));
@@ -49,7 +59,7 @@ window.addEventListener('load', () => {
             el.addEventListener('click', previousStep);
         }
         if(el.hasAttribute('next') || el.hasAttribute('finish')){
-            el.addEventListener('click', validateData);
+            el.addEventListener('click', dispatchValidateEvent);
         }
     })
 });

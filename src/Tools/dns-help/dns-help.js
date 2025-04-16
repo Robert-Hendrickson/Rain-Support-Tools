@@ -649,4 +649,6 @@ document.addEventListener('DOMContentLoaded',function(){
         document.querySelector('div[ticket-buttons] button:first-child').addEventListener('click',start_new_ticket);
         //add event listener for close button
         document.querySelector('div[ticket-buttons] button:nth-child(2)').addEventListener('click',() =>{document.getElementById('ticket-container').classList.add('hide');});
+        //add event listener for validateData custom event
+        document.addEventListener('validateData', validateData);
 });

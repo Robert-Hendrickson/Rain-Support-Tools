@@ -241,4 +241,6 @@ window.addEventListener('load', function() {
     document.querySelector('#close-case').addEventListener('click', () => {
         document.getElementById('ticket-container').classList.add('hide');
     });
+    //add event listener for validateData custom event
+    document.addEventListener('validateData', validateData);
 });
