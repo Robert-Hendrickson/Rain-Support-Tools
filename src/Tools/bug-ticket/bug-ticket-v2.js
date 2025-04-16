@@ -3,10 +3,6 @@
  * @description This module is used to generate bug tickets for the Rain Support Team.
  */
 window.regexController = (await import('/Rain-Support-Tools/src/modules/regex-patterns/patterns.js')).regexController;
-//add patterns to the patterns object
-regexController.addPattern('slack', /(?:https?:\/\/)?raindev\.slack\.com\/archives\//);
-regexController.addPattern('salesforce', /(?:https?:\/\/)?rainpos\.lightning\.force\.com\/lightning\/r\//);
-regexController.addPattern('admin_domains', /rainadmin|quiltstorewebsites|jewel360|musicshop360/);
 /**
  * @type {string}
  * @description This variable is used to store the brand the user is under. This will be used to determine some settings for the bug ticket generator.
