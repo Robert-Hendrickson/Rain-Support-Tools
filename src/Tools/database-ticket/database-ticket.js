@@ -188,4 +188,6 @@ document.addEventListener('DOMContentLoaded',function(){
     document.getElementById('close-case').addEventListener('click',() => {
         document.getElementById('ticket-container').classList.add('hide');
     });
+    //add event listener for validateData custom event
+    document.addEventListener('validateData', validateData);
 });

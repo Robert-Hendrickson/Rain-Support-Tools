@@ -1,2 +1,0 @@
-create a module for regex checking
-/(?:\.match)?(\(\/.+(!?\/(?:\w+)?\)))(?:\.test\()?/

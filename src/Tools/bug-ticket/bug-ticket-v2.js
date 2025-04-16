@@ -1,24 +1,24 @@
 /**
+ * @module bug-ticket-v2
+ * @description This module is used to generate bug tickets for the Rain Support Team.
+ */
+window.regexController = (await import('/Rain-Support-Tools/src/modules/regex-patterns/patterns.js')).regexController;
+/**
  * @type {string}
  * @description This variable is used to store the brand the user is under. This will be used to determine some settings for the bug ticket generator.
  */
 let brand;
-/*this function builds a regular expresion object out of a url so that we can check for duplicate links being provided in the checkLinkList function*/
+
+/**
+ * @param {string} url_string - The url to build a regular expression object from
+ * @returns {RegExp} - A regular expression object
+ * @description This function builds a regular expression object out of a url so that we can check for duplicate links being provided in the checkLinkList function
+*/
 function _urlRegEx(url_string){
     //replace characters '\/' and '?' so that they are searched correctly by the new regex expression
     url_string = url_string.replace(/[\?\\\/]/g,"\\\$&");
-    //return the new regex expresion to be used with a global search attached
+    //return the new regex expression to be used with a global search attached
     return new RegExp(url_string, 'g');
-}
-//this function checks to see if a string has a slack link in it
-function hasSlackLink(string){
-    //returns the result of running a regex test on the passed string, true if it matches false if it doesn't
-    return new RegExp(/(?:https?:\/\/)?raindev\.slack\.com\/archives\//).test(string);    
-}
-//this function checks to see if a string has a salesforce link in it
-function hasSalesforceLink(string){
-    //https://rainpos.lightning.force.com/lightning/r/Case/500PC00000KP5STYA1/view
-    return new RegExp(/(?:https?:\/\/)?rainpos\.lightning\.force\.com\/lightning\/r\//).test(string);    
 }
 //this function will return true if the provided link is not a valid google drive or one drive link
 function imageVideoLink(url_string){
@@ -26,9 +26,9 @@ function imageVideoLink(url_string){
             url_string === '' 
             || 
             (
-                !RegExp(/^(?:https?:\/\/)drive\.google\.com\/file\/d\/.*\/view(?:\?.+)?$/).test(url_string) 
+                !regexController.regexPatterns.googleDrive.test(url_string) 
                 &&
-                !RegExp(/(?:https?:\/\/)?quiltsoftware-my\.sharepoint\.com\/:(i|v)\:\/p\//).test(url_string)
+                !regexController.regexPatterns.oneDrive.test(url_string)
             )
         );
     /*
@@ -51,20 +51,19 @@ function checkLinkList(list_content, list_type){
     if (list_content.length < 1 && !['frameready','tritech'].includes(brand)) {
         error_array.push(`${list_type} list is empty. Please make sure that the list has at least one ${list_type} link provided.`);
     } else {
-        //if list is longer than 0, loop through each element in the list with the below function, this checks that there isn't more than one link in a row. If a duplicate link is foundin the row then it is removed, if the second link found isn't a duplicate an error is thrown to the user to make sure they delete any extra data out of the row
+        //if list is longer than 0, loop through each element in the list with the below function, this checks that there isn't more than one link in a row. If a duplicate link is found in the row then it is removed, if the second link found isn't a duplicate an error is thrown to the user to make sure they delete any extra data out of the row
         list_content.forEach(function (element, index){
             //set current loop row value to be called on
-            let row_data = element.value;
-            if(row_data != ''){//if there is data in the row, check how many links are in it
-                row_data = row_data.match(/https?/g) || [];
+            if(element.value != ''){//if there is data in the row, check how many links are in it
+                let row_data = element.value.match(/https?/g) || [];
                 //if the array returned is longer than 1 then there is a duplicate
                 if(row_data.length > 1){
                     //let's find where second link starts in the string
                     let dup_link_check = {//object created to find duplicate links
                         times_iterated: 0,
-                        itterator: element.value.matchAll(/https?/g),
+                        iterator: element.value.matchAll(/https?/g),
                         _constructor: () => {
-                            for(match of dup_link_check.itterator){
+                            for(let match of dup_link_check.iterator){
                                 dup_link_check.times_iterated ++;
                                 dup_link_check[`match_${dup_link_check.times_iterated}`] = match.index;
                             }
@@ -92,12 +91,6 @@ function checkLinkList(list_content, list_type){
             if(imageVideoLink(element.value)){
                 error_array.push(`${list_type} ${index + 1} isn't a valid google drive or one drive link.`);
             }
-            /*
-            if(element.value === '' || !RegExp(/^(?:https?:\/\/)drive\.google\.com\/file\/d\/.*\/view(?:\?.+)?$/).test(element.value)){
-                //if not, change return value to reflect a potential issue
-                error_array.push(`${list_type} ${index + 1} isn't a google drive link.`);
-            }
-            */
         });
     }
     //return value of checks. A false return means no issues were found, a true return means we found an issue
@@ -107,7 +100,7 @@ function checkLinkList(list_content, list_type){
 function duplicateLinksFound(){
     let duplicates = [];
     let link_list = '';
-    //build link list by getting each input and making a string comma delminated (link_1,link_2,etc)
+    //build link list by getting each input and making a string comma delimited (link_1,link_2,etc)
     document.querySelectorAll('#links-content tr input').forEach(function (element){
         link_list += element.value + ',';
     })
@@ -126,7 +119,7 @@ function duplicateLinksFound(){
 
 the async keyword was added to this function so that it could be used along side the custom confirmation modal in /modules/dialog-ctrl.(js|css). Async allows it to wait for a response from the dialog-ctrl.js function before moving forward where necessary
 */
-async function validateData(){
+window.validateData = async function () {
     //close any error popups currently open
     if(document.getElementById('error_message')) {
         document.getElementById('error_message').remove();
@@ -169,7 +162,7 @@ async function validateData(){
         case 2://steps for replication
             let steps_true = true;
             if(document.querySelectorAll('#steps-table tbody tr').length < 1){
-                bad_object.list['steps'] = 'Please list the steps taken to reproduct the issue.';
+                bad_object.list['steps'] = 'Please list the steps taken to reproduce the issue.';
                 steps_true = false;
             }
             let uncertain_steps = {
@@ -198,11 +191,11 @@ async function validateData(){
             if(document.getElementById('description').value === '' || RegExp(/^[n|N](?:\/|\\)?[a|A]\s?$/).test(document.getElementById('description').value)){
                 bad_object.list['description'] = 'Description cannot be empty or n/a. Please describe in detail what is happening.';
             }
-            if (hasSlackLink(document.getElementById('description').value)) {
+            if (regexController.regexPatterns.slack.test(document.getElementById('description').value)) {
                 bad_object.list['descriptionSlack'] = "Please don't use slack links in your description. Instead describe in your own words the details of the issue that is happening.";
             }
-            if (hasSalesforceLink(document.getElementById('description').value)) {
-                bad_object.list['descriptionSalesforce'] = "Don't include saleforce links in your description. Development teams do not have access to Salesforce. If there is info in a case that needs to be given to the development team, please include a screenshot of the data or include it in your video.";
+            if (regexController.regexPatterns.salesforce.test(document.getElementById('description').value)) {
+                bad_object.list['descriptionSalesforce'] = "Don't include salesforce links in your description. Development teams do not have access to Salesforce. If there is info in a case that needs to be given to the development team, please include a screenshot of the data or include it in your video.";
             }
             if (Object.entries(bad_object.list).length) {
                 error_popup.default(bad_object);
@@ -211,21 +204,21 @@ async function validateData(){
             };
             break;
         case 4://screenshot and video link lists
-            image_problems = checkLinkList(document.querySelectorAll('#screenshot-table tr input') , 'Image');
+            let image_problems = checkLinkList(document.querySelectorAll('#screenshot-table tr input') , 'Image');
             if (image_problems.length) {
-                for (i=0;i<image_problems.length;i++) {
+                for (let i=0;i<image_problems.length;i++) {
                     bad_object.list[`image_${i}`] = image_problems[i];
                 }
             };
-            video_problems = checkLinkList(document.querySelectorAll('#video-table tr input'), 'Video');
+            let video_problems = checkLinkList(document.querySelectorAll('#video-table tr input'), 'Video');
             if (video_problems.length) {
-                for (i=0;i<video_problems.length;i++) {
+                for (let i=0;i<video_problems.length;i++) {
                     bad_object.list[`video_${i}`] = video_problems[i];
                 }
             };
-            duplicate_links = duplicateLinksFound();
+            let duplicate_links = duplicateLinksFound();
             if (duplicate_links.length) {
-                for (i=0;i<duplicate_links.length;i++) {
+                for (let i=0;i<duplicate_links.length;i++) {
                     bad_object.list[`dupLink_${i}`] = `${duplicate_links[i]} was found more than one time.`;
                 };
             };
@@ -237,14 +230,14 @@ async function validateData(){
             break;
         case 5://Examples and Errors
             let examples = document.getElementById('examples').value;
-            if(RegExp(/rainadmin|quiltstorewebsites|jewel360|musicshop360/).test(examples)){
+            if(regexController.regexPatterns.admin_domains.test(examples)){
                 bad_object.list['examples_links'] = 'Please make sure that all links do not point to an admin domain such as rainadmin.com. If there is a report or a product that has an issue please write the report name and filters used to find the issue or and unique ids needed to find the data.';
             }
             if(RegExp(/^[nN](?:\\|\/)?[aA]/).test(examples) || examples === ''){
                 bad_object.list['examples_blank'] = 'Examples cannot be blank or say n/a.';
             }
-            if (hasSalesforceLink(examples)) {
-                bad_object.list['examplesSalesforce'] = "Don't include saleforce links in your examples. Development teams do not have access to Salesforce. If there is info in a case that needs to be given to the development team, please include a screenshot of the data or include it in your video.";
+            if (regexController.regexPatterns.salesforce.test(examples)) {
+                bad_object.list['examplesSalesforce'] = "Don't include salesforce links in your examples. Development teams do not have access to Salesforce. If there is info in a case that needs to be given to the development team, please include a screenshot of the data or include it in your video.";
             }
             let errors = document.getElementById('errors').value;
             if(RegExp(/^[nN](?:\\|\/)?[aA]/).test(errors) || errors === ''){
@@ -257,7 +250,7 @@ async function validateData(){
                 error_popup.default(bad_object);
             } else {
                 //before completing generating ticket check if the description has enough keywords about a website problem and that there isn't a link given in the example. Wait fro response from checkDescriptionNeedsLinkExamples function before progressing
-                if (await checkDescriptionNeedsLinkExamples() && await checkUnessecaryErrors()) {
+                if (await checkDescriptionNeedsLinkExamples() && await checkUnnecessaryErrors()) {
                     generateTicket();
                     newCookieData();
                 }
@@ -288,7 +281,7 @@ function getWhereData(){
 }
 /*this compiles all of the data and builds the ticket info and displays it to the user to copy*/
 function generateTicket(passed_object = {}){
-    //due to new updates to allow old ticket info to be accesible from saved cookies, this takes info as an object that get's passed in. If no data was passed in (we are using current page data, not old ticket data) then passed_object is set as a default of an empty object.
+    //due to new updates to allow old ticket info to be accessible from saved cookies, this takes info as an object that get's passed in. If no data was passed in (we are using current page data, not old ticket data) then passed_object is set as a default of an empty object.
     if(passed_object != null){
         let data;
         if (!Object.keys(passed_object).length) {
@@ -342,7 +335,7 @@ function generateTicket(passed_object = {}){
                     //function that loops through the old ticket data steps and builds a string then returns the string value as it's resolution when called
                     let string = '';
                     let index = 1;
-                    for (row in passed_object.steps) {
+                    for (let row in passed_object.steps) {
                         string += `${index}. ` + passed_object.steps[row] + '\n';
                         index++;
                     }
@@ -354,7 +347,7 @@ function generateTicket(passed_object = {}){
                     //function that loops through the old ticket data screenshots and builds a string then returns the string value as it's resolution when called
                     let string = '';
                     let index = 1;
-                    for (row in passed_object.screenshots) {
+                    for (let row in passed_object.screenshots) {
                         string += `[Screenshot_${index}](${passed_object.screenshots[row]})\n`;
                         index++;
                     }
@@ -364,7 +357,7 @@ function generateTicket(passed_object = {}){
                     //function that loops through the old ticket data videos and builds a string then returns the string value as it's resolution when called
                     let string = '';
                     let index = 1;
-                    for (row in passed_object.videos) {
+                    for (let row in passed_object.videos) {
                         string += `[Video_${index}](${passed_object.videos[row]})\n`;
                         index++;
                     }
@@ -472,13 +465,13 @@ async function checkDescriptionNeedsLinkExamples(){
     return check;
 }
 //asks user if the errors found were actually from system break or just ones they noticed afterwards
-async function checkUnessecaryErrors(){
+async function checkUnnecessaryErrors(){
     let errors = document.querySelector('textarea#errors').value;
     let check = true;
     let bad_error_array = [];
     if ((/Blocked aria-hidden/i).test(errors)) {
         bad_error_array.push(`Blocked aria-hidden : Browser stopped an element from using attribute aria-hidden`);
-        //Usually caused by us loading or building an element that has the attribute aria-hidden. This is supposed to hide it from screen readers. Browsers sometimes stop this hidding as either the element is seen by the browser as necessary for somthing or it has a child element that isn't hidden.
+        //Usually caused by us loading or building an element that has the attribute aria-hidden. This is supposed to hide it from screen readers. Browsers sometimes stop this hiding as either the element is seen by the browser as necessary for something or it has a child element that isn't hidden.
     }
     if ((/\[DOM\] Found \d{1,} elements? with non-unique id/i).test(errors)) {
         bad_error_array.push(`non-unique id : There are multiple elements with the same id`);
@@ -575,12 +568,12 @@ function newCookieData(){
     document.querySelector('past-tickets > div:last-child').addEventListener('click',oldTicketDataPrint);
     document.querySelector('past-tickets > div:last-child span.close').addEventListener('click',() => deletePastTicketLine(`bug_${now}`,document.querySelector('past-tickets > div:last-child')));
 }
-/*This function bulds a list out of the data passed in the array, the array comes from displayPastTickets function*/
+/*This function builds a list out of the data passed in the array, the array comes from displayPastTickets function*/
 function buildPastTicketDivs(array){
     document.getElementById('list-toggle').innerText = array.length;//update the toggle to display the number of past tickets available
-    for (i=0;i<array.length;i++) {//loop through the array and build a div for each using data from the cookie
-        bug_date_string = array[i].substring(0,array[i].indexOf('='));
-        bug_details_string = array[i].substring(array[i].indexOf('=') +1 );
+    for (let i=0;i<array.length;i++) {//loop through the array and build a div for each using data from the cookie
+        let bug_date_string = array[i].substring(0,array[i].indexOf('='));
+        let bug_details_string = array[i].substring(array[i].indexOf('=') +1 );
         let date = new Date(parseInt(bug_date_string.split("_")[1])).toString().substring(0,24);
         let bug_data = bug_details_string.replaceAll(/"/g,'&quot;');
         let temp_json = JSON.parse(bug_details_string);
@@ -691,6 +684,27 @@ window.addEventListener('load', () => {
             document.querySelector('#brand-selector').classList.add('hide');
         }
     });
+    //this will set the brand value if it already exists
+    if(getCookie('brand')){
+        brand = getCookie('brand');
+        setCookie('brand',brand, 7);
+    } else {
+        document.querySelector('#brand-selector').classList.remove('hide');
+    }
+    //this sets the event listener for the brand selector
+    document.querySelectorAll('#brand-selector-list .brand-selector-item').forEach(el => el.addEventListener('click',(e) => {
+        document.querySelector('.brand-selector-item.selected')?.classList.remove('selected');
+        e.target.classList.add('selected');
+    }));
+    document.querySelector('#brand-selector button').addEventListener('click',() => {
+        if(document.querySelector('.brand-selector-item.selected')){
+            brand = document.querySelector('.brand-selector-item.selected').id;
+            setCookie('brand',brand, 7);
+            document.querySelector('#brand-selector').classList.add('hide');
+        }
+    });
+    //add event listener for validateData custom event
+    document.addEventListener('validateData', validateData);
     //this will set the brand value if it already exists
     if(getCookie('brand')){
         brand = getCookie('brand');

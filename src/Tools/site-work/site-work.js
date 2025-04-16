@@ -1,14 +1,20 @@
+/**
+ * @type {Object}
+ * @description This object contains all the regex patterns that are used in the application.
+ */
+const regexController = (await import('/Rain-Support-Tools/src/modules/regex-patterns/patterns.js')).regexController;
+
 //variable to hold what work type is being done
 let work_type_selected;
 /*function handles moving through flow*/
-function imageVideoLink(url_string, type){
+function imageVideoLink(url_string){
     return (
             url_string === '' 
             || 
             (
-                !RegExp(/^(?:https?:\/\/)drive\.google\.com\/file\/d\/.*\/view(?:\?.+)?$/).test(url_string) 
+                !regexController.regexPatterns.googleDrive.test(url_string) 
                 &&
-                !RegExp(`(?:https?:\/\/)?quiltsoftware-my\.sharepoint\.com\/:(${type})\:\/p\/`).test(url_string)
+                !regexController.regexPatterns.oneDrive.test(url_string)
             )
         );
     /*
@@ -106,16 +112,16 @@ function checkSiteWork(){
         if (el.querySelector('select').value === 'Select an Option') {
             list_object['work_type'] = 'Please select a type of work for all rows.';
         }
-        if (!(/^(https?\:\/\/)?(\w+\.)?([\w\-\_]{2,}\/?)+\.\w{2,}((\/[\w\-\_]+)+(\.\w{2,})?)?\/?(\?[\w=&]+)?$/).test(el.querySelector('#url').value)) {
+        if (!regexController.regexPatterns.url.test(el.querySelector('#url').value)) {
             list_object['url'] = 'Make sure each row has a url for the page that needs work done.';
         }
-        if ((/rainadmin|quiltstorewebsites|musicshop360|jewel360/g).test(el.querySelector('#url').value)) {
+        if (regexController.regexPatterns.admin_domains.test(el.querySelector('#url').value)) { 
             list_object['restricted_domain'] = 'Use domains from the customers site. Do not use admin domains. (i.e. rainadmin, jewel360, musicshop360)';
         }
-        if (imageVideoLink(el.querySelector('#screenshot').value, 'i')) {
+        if (imageVideoLink(el.querySelector('#screenshot').value)) {
             list_object['screenshot'] = 'Please enter a google drive or onedrive screenshot link for each row.';
         }
-        if (imageVideoLink(el.querySelector('#video').value, 'v') && el.querySelector('#video').value != '') {
+        if (imageVideoLink(el.querySelector('#video').value) && el.querySelector('#video').value != '') {
             list_object['video'] = 'Make sure any videos given are a google drive or onedrive video link.';
         }
         if (el.querySelector('textarea').value === '') {
@@ -241,4 +247,6 @@ window.addEventListener('load', function() {
     document.querySelector('#close-case').addEventListener('click', () => {
         document.getElementById('ticket-container').classList.add('hide');
     });
+    //add event listener for validateData custom event
+    document.addEventListener('validateData', validateData);
 });
