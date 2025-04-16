@@ -54,7 +54,7 @@
                 localStorage.setItem('code_verifier', codeVerifier);
                 
                 // Redirect to Microsoft login
-                window.location.href = `https://login.microsoftonline.com/${config.tenantId}/oauth2/v2.0/authorize?client_id=${config.clientId}&response_type=code&redirect_uri=${config.redirectUri}&state=12345&scope=${config.scopes}&code_challenge=${codeChallenge}&code_challenge_method=S256`;
+                window.location.href = `https://login.microsoftonline.com/${config.tenantId}/oauth2/v2.0/authorize?client_id=${config.clientId}&response_type=code&redirect_uri=${/localhost/.test(window.location.hostname) ? config.testRedirectUri : config.redirectUri}&state=12345&scope=${config.scopes}&code_challenge=${codeChallenge}&code_challenge_method=S256`;
             }
 
             // Generate a random code verifier
