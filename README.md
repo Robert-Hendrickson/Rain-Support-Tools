@@ -62,7 +62,7 @@ Riley page was pulled from this link: https://codepen.io/trajektorijus/pen/mdeBY
 ### module has predefined common options, also has a function that can add specific patterns for use
 window.regexController = (await import('/Rain-Support-Tools/src/modules/regex-patterns/patterns.js')).regexController;
 //add patterns to the patterns object
-regexController.addPattern('slack', /(?:https?:\/\/)?raindev\.slack\.com\/archives\//);
+regexController.addPattern({{string-title}}, {{regexPattern}});
 # flow build containers
 ## nav html
     <div class="menu-wrapper">
