@@ -1,0 +1,23 @@
+{
+  "name": "rain-support-tools",
+  "version": "1.0.0",
+  "description": "A set of tools that I built to help our support team in being able to consolidate information for consistency and use for testing purposes Riley page was pulled from this link: https://codepen.io/trajektorijus/pen/mdeBYrX",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Robert-Hendrickson/Rain-Support-Tools.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Robert-Hendrickson/Rain-Support-Tools/issues"
+  },
+  "homepage": "https://github.com/Robert-Hendrickson/Rain-Support-Tools#readme",
+  "dependencies": {
+    "vue": "^3.5.13"
+  }
+}
