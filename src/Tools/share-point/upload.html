@@ -337,21 +337,6 @@
                             // Get a valid token (will refresh if needed)
                             const token = await getValidToken();
 
-                            // First, ensure the Bug Data folder exists
-                            try {
-                                await axios.put(
-                                    'https://graph.microsoft.com/v1.0/me/drive/root:/Bug Data:/children',
-                                    { name: 'Bug Data', folder: {} },
-                                    {
-                                        headers: {
-                                            'Authorization': `Bearer ${token}`
-                                        }
-                                    }
-                                );
-                            } catch (folderError) {
-                                console.log('Folder creation skipped:', folderError.message);
-                            }
-
                             // Upload all files
                             for (const file of this.selectedFiles) {
                                 // First upload the file

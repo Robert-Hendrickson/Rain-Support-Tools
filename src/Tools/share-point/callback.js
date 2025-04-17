@@ -38,6 +38,21 @@ async function handleCallback() {
         localStorage.setItem('refresh_token', response.data.refresh_token);
         localStorage.setItem('token_expires_at', Date.now() + (response.data.expires_in * 1000));
         
+        // Ensure the Bug Data folder exists
+        try {
+            await axios.put(
+                'https://graph.microsoft.com/v1.0/me/drive/root:/Bug Data:/children',
+                { name: 'Bug Data', folder: {} },
+                {
+                    headers: {
+                        'Authorization': `Bearer ${response.data.access_token}`
+                    }
+                }
+            );
+        } catch (folderError) {
+            console.log('Folder creation skipped:', folderError.message);
+        }
+
         // Redirect back to the main page
         window.location.href = './upload.html';
     } catch (error) {
