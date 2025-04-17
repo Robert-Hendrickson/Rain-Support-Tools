@@ -2,6 +2,7 @@
 <html>
     <head>
         <link rel="stylesheet" href="\Rain-Support-Tools\src\common\css\default.css" />
+        <script src="https://kit.fontawesome.com/8e52a98e38.js" crossorigin="anonymous"></script>
         <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
         <style>
@@ -90,6 +91,40 @@
                 padding: 5px;
                 border-bottom: 1px solid #eee;
             }
+            .file-preview {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+            .preview-image, .preview-video {
+                max-width: 50px;
+                max-height: 50px;
+                object-fit: cover;
+            }
+            .video-thumbnail, .image-thumbnail {
+                position: relative;
+                cursor: pointer;
+                min-width: 50px;
+            }
+            .play-icon, .zoom-icon {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background-color: rgba(0, 0, 0, 0.5);
+                color: white;
+                width: 30px;
+                height: 30px;
+                border-radius: 50%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 12px;
+                transition: transform 0.2s;
+            }
+            .video-thumbnail:hover .play-icon, .image-thumbnail:hover .zoom-icon {
+                transform: translate(-50%, -50%) scale(1.1);
+            }
             .action-container {
                 margin-top: 10px;
             }
@@ -103,6 +138,40 @@
             }
             .action-button:hover {
                 background-color: #106ebe;
+            }
+            .modal {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.7);
+                z-index: 1000;
+            }
+            .modal.active {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+            .modal-content {
+                background-color: white;
+                padding: 20px;
+                border-radius: 8px;
+                max-width: 80%;
+                max-height: 80%;
+            }
+            .modal-video, .modal-image {
+                max-width: 100%;
+                max-height: 70vh;
+            }
+            .close-modal {
+                position: absolute;
+                top: 20px;
+                right: 20px;
+                color: white;
+                font-size: 30px;
+                cursor: pointer;
             }
         </style>
     </head>
@@ -119,16 +188,24 @@
                     
                     <div v-else>
                         <div class="upload-area" @click="triggerFileInput" @dragover.prevent @drop.prevent="handleDrop">
-                            <input type="file" ref="fileInput" @change="handleFileSelect" accept="image/*,video/*" style="display: none" />
-                            <p>Click or drag and drop an image or video here</p>
-                            <img v-if="previewUrl && isImage" :src="previewUrl" class="preview-image" />
-                            <video v-if="previewUrl && !isImage" :src="previewUrl" class="preview-video" controls></video>
+                            <input type="file" ref="fileInput" @change="handleFileSelect" accept="image/*,video/*" multiple style="display: none" />
+                            <p>Click or drag and drop images or videos here</p>
                         </div>
                         
                         <div v-if="selectedFiles.length > 0">
                             <div class="file-list">
                                 <div v-for="(file, index) in selectedFiles" :key="index" class="file-item">
-                                    <span>{{ file.name }}</span>
+                                    <div class="file-preview">
+                                        <div v-if="isImages[index]" class="image-thumbnail" @click="openImageModal(index)">
+                                            <img :src="previewUrls[index]" class="preview-image" />
+                                            <span class="zoom-icon fa-solid fa-magnifying-glass-plus"></span>
+                                        </div>
+                                        <div v-else class="video-thumbnail" @click="openImageModal(index)">
+                                            <img :src="previewUrls[index]" class="preview-image" />
+                                            <div class="play-icon fa-solid fa-play"></div>
+                                        </div>
+                                        <span>{{ file.name }}</span>
+                                    </div>
                                     <button @click="removeFile(index)" class="copy-button">Remove</button>
                                 </div>
                             </div>
@@ -152,6 +229,15 @@
                                 </div>
                             </div>
                         </div>
+
+                        <!-- Preview Modal -->
+                        <div class="modal" :class="{ active: showPreviewModal }">
+                            <div class="close-modal" @click="closePreviewModal">&times;</div>
+                            <div class="modal-content">
+                                <img v-if="showImagePreview" :src="currentPreviewUrl" class="modal-image" />
+                                <video v-else :src="currentPreviewUrl" class="modal-video" controls autoplay></video>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -169,7 +255,12 @@
                         previewUrls: [],
                         uploading: false,
                         uploadStatus: null,
-                        isImages: []
+                        isImages: [],
+                        showVideoModal: false,
+                        currentVideoUrl: null,
+                        showPreviewModal: false,
+                        currentPreviewUrl: null,
+                        showImagePreview: false
                     }
                 },
                 methods: {
@@ -216,6 +307,24 @@
                         }).catch(err => {
                             console.error('Failed to copy link:', err);
                         });
+                    },
+                    openVideoModal(index) {
+                        this.currentVideoUrl = this.previewUrls[index];
+                        this.showVideoModal = true;
+                    },
+                    closeVideoModal() {
+                        this.showVideoModal = false;
+                        this.currentVideoUrl = null;
+                    },
+                    openImageModal(index) {
+                        this.currentPreviewUrl = this.previewUrls[index];
+                        this.showImagePreview = this.isImages[index];
+                        this.showPreviewModal = true;
+                    },
+                    closePreviewModal() {
+                        this.showPreviewModal = false;
+                        this.currentPreviewUrl = null;
+                        this.showImagePreview = false;
                     },
                     async uploadFiles() {
                         if (this.selectedFiles.length === 0) return;
