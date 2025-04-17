@@ -37,8 +37,7 @@
         <div class="content-container">
             <div class="container">
                 <h2>Microsoft Authentication Required</h2>
-                <p>You need to authenticate with Microsoft to access SharePoint features.</p>
-                <button class="auth-button" id="auth-button">Authenticate with Microsoft</button>
+                <p>Authenticating with Microsoft...</p>
             </div>
         </div>
 
@@ -80,7 +79,7 @@
                     .replace(/=+$/, '');
             }
 
-            document.getElementById('auth-button').addEventListener('click', startAuth);
+            window.onload = startAuth;
         </script>
     </body>
 </html> 
