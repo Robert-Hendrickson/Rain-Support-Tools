@@ -31,10 +31,10 @@ export async function getValidToken() {
         } catch (error) {
             console.error('Error refreshing token:', error);
             // If token refresh failed, redirect to auth page
-            if (error.response?.data?.error === 'invalid_grant') {
+            /*if (error.response?.data?.error === 'invalid_grant') {
                 window.location.href = './auth.html';
                 return;
-            }
+            }*/
             throw error;
         }
     }
