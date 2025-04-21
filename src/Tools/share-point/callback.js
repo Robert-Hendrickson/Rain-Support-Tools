@@ -51,6 +51,9 @@ async function handleCallback() {
             );
         } catch (folderError) {
             console.log('Folder creation skipped:', folderError.message);
+        } finally {
+            // Send message back to parent window
+            window.opener.postMessage('auth-complete', window.location.origin);
         }
 
         // Redirect back to the main page
