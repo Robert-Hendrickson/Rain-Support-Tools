@@ -1,15 +1,23 @@
-.content-container {
+.sharepoint-content-container {
     width: 70%;
     margin: 50px auto;
     display: flex;
-    justify-content: center;
-}
-.container {
+    flex-direction: column;
+    align-items: center;
     border: 1px solid black;
     border-radius: 8px;
+    background-color: #dedede;
+}
+.sharepoint-container {
     padding: 16px;
     background-color: #dedede;
     min-width: 400px;
+}
+.toggle-header {
+    min-height: 46px;
+}
+.toggle-header > .toggle-icon {
+    padding: 10px;
 }
 .upload-area {
     border: 2px dashed #ccc;
