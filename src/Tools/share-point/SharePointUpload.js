@@ -3,10 +3,12 @@ import { getValidToken } from './token-utils.js';
 const SharePointUpload = {
     name: 'SharePointUpload',
     template: `
-        <div class="content-container">
-            <div class="container">
-                <h2>Upload Image to SharePoint</h2>
-                
+        <div class="sharepoint-content-container">
+            <h2 @click="toggleContainer" class="toggle-header" style="cursor: pointer; display: flex; justify-content: space-between; align-items: center;">
+                Upload to Quilt SharePoint
+                <span class="toggle-icon" style="font-size: 0.8em;">{{ isContainerVisible ? '▼' : '▶' }}</span>
+            </h2>
+            <div class="sharepoint-container" v-show="isContainerVisible">
                 <div v-if="!isAuthenticated">
                     <p>You need to authenticate first.</p>
                     <button @click="goToAuth">Authenticate</button>
@@ -80,16 +82,20 @@ const SharePointUpload = {
             currentVideoUrl: null,
             showPreviewModal: false,
             currentPreviewUrl: null,
-            showImagePreview: false
+            showImagePreview: false,
+            isContainerVisible: true
         }
     },
     methods: {
+        toggleContainer() {
+            this.isContainerVisible = !this.isContainerVisible;
+        },
         checkAuth() {
             const token = localStorage.getItem('access_token');
             this.isAuthenticated = !!token;
         },
         goToAuth() {
-            const authTab = window.open('auth.html', '_blank');
+            const authTab = window.open('../share-point/auth.html', '_blank');
             window.addEventListener('message', (event) => {
                 if (event.origin !== window.location.origin) {
                     return;
@@ -207,7 +213,11 @@ const SharePointUpload = {
                     message: `Successfully uploaded ${uploadedLinks.length} file(s)!`,
                     links: uploadedLinks
                 };
-
+                document.dispatchEvent(new CustomEvent('sharepoint-upload-complete', {
+                    detail: {
+                        links: uploadedLinks
+                    }
+                }));
                 // Clear the selected files after successful upload
                 this.selectedFiles = [];
                 this.previewUrls = [];

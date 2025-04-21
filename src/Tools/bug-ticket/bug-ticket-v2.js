@@ -705,6 +705,19 @@ window.addEventListener('load', () => {
     });
     //add event listener for validateData custom event
     document.addEventListener('validateData', validateData);
+    //add event listener for sharepoint-upload-complete custom event
+    document.addEventListener('sharepoint-upload-complete', (e) => {
+        for (let i = 0; i < e.detail.links.length; i++) {
+            if (e.detail.links[i].includes(":i:")) {
+                addTableRow('screenshot-table');
+                document.querySelector('#screenshot-table tbody tr:last-child td:last-child input').value = e.detail.links[i];
+            }
+            if (e.detail.links[i].includes(":v:")) {
+                addTableRow('video-table');
+                document.querySelector('#video-table tbody tr:last-child td:last-child input').value = e.detail.links[i];
+            }
+        }
+    });
     //this will set the brand value if it already exists
     if(getCookie('brand')){
         brand = getCookie('brand');
