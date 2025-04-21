@@ -263,7 +263,7 @@ TTL: ${row_inputs[7].innerText}
 function updateFields(record_type){
     if (record_type === 'MX') {
         document.querySelectorAll('#record-entry-box div[srv]').forEach(el => {el.style.display = 'none';});
-        document.querySelector('#record-entry-box div[value]').style.display = '';
+        document.querySelector('#record-entry-box div[value]').style.display = 'none';
         document.querySelectorAll('#record-entry-box div[mx]').forEach(el => {el.style.display = '';});
     } else if(record_type === 'SRV') {
         document.querySelector('#record-entry-box div[value]').style.display = 'none';
