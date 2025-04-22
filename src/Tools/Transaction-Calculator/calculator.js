@@ -1,22 +1,28 @@
-//sets beta flag data as on or off by default
+/**
+ * @fileoverview This file contains the code for the transaction calculator tool.
+ * @author Robert
+ * @version 1.0.0
+ * @since 2025-04-22
+ */
+/**
+ * @description This determines if complex tax is enabled.
+ * @type {boolean}
+ */
 let complex_tax = false;
-//beta flag end
-//set variable to track the number of lines
+/**
+ * @description This tracks the number of lines in the transaction calculator.
+ * @type {number}
+ */
 let number_of_lines = 0;
-//set template object to be used for other builders
-let template = {
-        "qty": 0,
-        "price": 0,
-        "ext": 0,
-        "disc": 0,
-        "tax": 0,
-        "taxable_amount": 0,
-        "total": 0,
-        "taxable": "yes"
-}
-//set object to hold data for lines as they get created
+/**
+ * @description This holds data for lines as they get created.
+ * @type {object}
+ */
 let line_entries = {};
-//set object to hold data for transaction totals
+/**
+ * @description This holds data for transaction totals.
+ * @type {object}
+ */
 let totals = {
     'sub_total': 0,
     'disc': 0,
@@ -29,7 +35,10 @@ let totals = {
     },
     'total': 0
 };
-//set object to hold tax rates for complex tax rate usage
+/**
+ * @description This holds tax rates for complex tax rate usage.
+ * @type {object}
+ */
 let taxRates = {
     material: {
         '1': 0
@@ -41,7 +50,9 @@ let taxRates = {
         '1': 0
     }
 };
-//Add new lines without removing data.
+/**
+ * @description This function adds a new row element to the table to be used for the transaction calculator.
+ */
 function addRowElement(){
     //get row line number to make
     number_of_lines++;
@@ -95,19 +106,21 @@ function addRowElement(){
         }
     };
 };
-/*updates individual lines for which tax jurisdictions are assigned, updates the line_entries object for the specific line to update which jurisdictions are applicable*/
-function booleanUpdate(row_line,tax_jusisdiction) {
+/**
+ * @description This function updates individual lines for which tax jurisdictions are assigned, updates the line_entries object for the specific line to update which jurisdictions are applicable
+*/
+function booleanUpdate(row_line,tax_jurisdiction) {
     let row = line_entries[`row_${row_line}`];
-    if(document.querySelector(`#row_${row_line}_${tax_jusisdiction}`).checked){
-        row.taxable[`${tax_jusisdiction}`] = true;
+    if(document.querySelector(`#row_${row_line}_${tax_jurisdiction}`).checked){
+        row.taxable[`${tax_jurisdiction}`] = true;
     } else {
-        row.taxable[`${tax_jusisdiction}`] = false;
+        row.taxable[`${tax_jurisdiction}`] = false;
     }
     lineUpdate(row_line);
 };
-//sets a default first line on page load
-document.addEventListener("DOMContentLoaded", function(){addRowElement();});
-/*function for making more than one line at a time*/
+/**
+ * @description This function uses the value given by the user to determine how many lines to add to the table.
+ */
 function multiLineAdd() {
     let number_of_lines_to_add = document.getElementById('lines-to-add').value;
     if (number_of_lines_to_add == ''){
@@ -121,7 +134,9 @@ function multiLineAdd() {
         console.log(`Added ${number_of_lines_to_add} Lines`);
     };
 };
-/*function updates the used tax rates to match any changes made by the user*/
+/**
+ * @description This function updates the used tax rates to match any changes made by the user
+ */
 function updateTax(){
     if(complex_tax){//if complex_tax is enabled, set the tax rates as equal to the rate object
         materialTax = taxRates.material;
@@ -193,7 +208,9 @@ function updateTax(){
     //run function to calculat transaction totals
     calcTotals();
 };
-/*funciton to calculate the transactions totals, also updates the totals table for user visibility*/
+/**
+ * @description This function calculates the transactions totals, also updates the totals table for user visibility
+ */
 function calcTotals() {
     //clear totals to start from scratch
     totals = {
@@ -249,6 +266,10 @@ function calcTotals() {
     document.querySelector('#tax-service').value = totals.tax.service;
     document.querySelector('#tax-class').value = totals.tax.class;
 };
+/**
+ * @description This function updates the line data for a given line number
+ * @param {number} line_number - The line number to update
+ */
 function lineUpdate(line_number){
     let row = line_entries[`row_${line_number}`];
     console.log('Begin line update');
@@ -306,7 +327,9 @@ function lineUpdate(line_number){
     //run function to update transaction totals since we have new line totals
     calcTotals();
 };
-/*function resets all data to be empty like freshly loading the page*/
+/**
+ * @description This function resets all data to be empty like freshly loading the page
+ */
 function reset() {
     line_entries = {};
     number_of_lines = 0;
@@ -333,7 +356,10 @@ function reset() {
     console.clear();
     console.log('Values have been reset');
 };
-/*function updates text area box with raw object data for either lines or totals*/
+/**
+ * @description This function updates the text area box with raw object data for either lines or totals
+ * @param {string} breakdown_type - The type of breakdown to display
+ */
 function displayBreakdown(breakdown_type) {
     //for totals
     console.log(breakdown_type);
@@ -392,7 +418,10 @@ total: ${line_entries[line].total}
         document.querySelector('#break-lines textarea').innerHTML = breakdown_lines;
     };
 };
-/*funciton controls if text area for raw data is displaying info for lines or totals*/
+/**
+ * @description This function controls if text area for raw data is displaying info for lines or totals
+ * @param {string} breakdown_type - The type of breakdown to display
+ */
 function breakdown_display(breakdown_type) {
     if(breakdown_type=="totals"){
         document.querySelector('div#break-lines').classList.toggle('active');
@@ -405,7 +434,9 @@ function breakdown_display(breakdown_type) {
         console.log('switched to taxes');
     };
 };
-/*updates totals area to display shipping tax or hide it*/
+/**
+ * @description This function updates the totals area to display shipping tax or hide it
+ */
 function shippingDisplay() {
     if(document.querySelector('select#shippingtaxed').value == 'yes'){
         document.querySelector('tr.subrow.ship-tax').style.display = '';
@@ -416,8 +447,10 @@ function shippingDisplay() {
     //runs function to calculate transaction totals since there has been a change
     calcTotals();
 };
-//calculating percantage discount
-//if a percentage is given to a line the discount box should become disabled to prevent direct editing and update the internal value to be the percentage discount calculated as EXT * {{discount_percentage}} rounded to 2 decimals
+/**
+ * @description This function calculates the percentage discount for a given line
+ * @param {number} row - The line number to calculate the discount for
+ */
 function percentDiscountCalc(row) {
     console.log(`Updating percent discount of row_${row}`);
     let linedisc = document.querySelector(`#row_${row} #discount`);
@@ -436,7 +469,11 @@ function percentDiscountCalc(row) {
         linedisc.value = discval.toFixed(2);
     };
 };
-/*add rows to rate table by type to complex tax rate table*/
+/**
+ * @description This function adds rows to the rate table by type to complex tax rate table
+ * @param {string} type - The type of rate to add
+ * @param {string} direction - The direction to add the rate
+ */
 function addNewRate(type, direction){
     if(direction === 'increase'){
         document.querySelector(`table#rates-breakdown tbody td#${type} ul`).insertAdjacentHTML('beforeend',`<li><input value="0" /></li>`);
@@ -445,7 +482,9 @@ function addNewRate(type, direction){
         document.querySelector(`table#rates-breakdown tbody td#${type} ul li:last-child`).remove();
     };
 };
-/*funciton updates total tax rate based on total rates per column in complex tax table*/
+/**
+ * @description This function updates the total tax rate based on total rates per column in complex tax table
+ */
 function updateTaxRates(){
     //get each ul for complex tax columns
     let rate_list = document.querySelectorAll('table#rates-breakdown tbody tr td > ul');
@@ -491,7 +530,9 @@ function updateTaxRates(){
     //needs to update lines after saving new rates
     updateTax();
 };
-/*function is used to change the way that taxes rates are edited and listed*/
+/**
+ * @description This function is used to change the way that taxes rates are edited and listed
+ */
 async function enableComplexTax() {
     //this will chnage the way it's entered and can't go back. Confirm with user their intention before proceeding
     let custom_dialogue = await import('/Rain-Support-Tools/src/modules/custom-dialogue/dialog-ctrl.js');
@@ -504,22 +545,26 @@ async function enableComplexTax() {
         document.querySelector('#tax-rates thead input').setAttribute('onclick', `document.querySelector('.tax-rate-container').classList.remove('hide')`);
     }
 }
-//set event listeners
+/**
+ * @description This function sets event listeners for the page
+ */
 document.addEventListener('DOMContentLoaded', () => {
-   //set listener on control buttons
-   document.querySelector('#reset-btn').addEventListener('click', reset);
-   document.querySelector('#add-lines-btn').addEventListener('click', multiLineAdd);
-   //listener for tax rate updates
-   document.querySelectorAll('[id$=-rate').forEach(element => {
-    element.addEventListener('change', updateTax);
-   });
-   //listener for shippingTax control
-   document.querySelector('#shippingtaxed').addEventListener('change', shippingDisplay);
-   //listener for complex tax being enabled
-   document.querySelector('#complex-tax-enable').addEventListener('click', enableComplexTax);
-   //listener for complex tax rate controls
-   document.querySelector('#save-tax-rates').addEventListener('click', updateTaxRates);
-   document.querySelectorAll('#rates-breakdown thead td').forEach((element,index) => {
+    //sets a default first line on page load
+    addRowElement();
+    //set listener on control buttons
+    document.querySelector('#reset-btn').addEventListener('click', reset);
+    document.querySelector('#add-lines-btn').addEventListener('click', multiLineAdd);
+    //listener for tax rate updates
+    document.querySelectorAll('[id$=-rate').forEach(element => {
+        element.addEventListener('change', updateTax);
+    });
+    //listener for shippingTax control
+    document.querySelector('#shippingtaxed').addEventListener('change', shippingDisplay);
+    //listener for complex tax being enabled
+    document.querySelector('#complex-tax-enable').addEventListener('click', enableComplexTax);
+    //listener for complex tax rate controls
+    document.querySelector('#save-tax-rates').addEventListener('click', updateTaxRates);
+    document.querySelectorAll('#rates-breakdown thead td').forEach((element,index) => {
         switch (index) {
             case 0:
                 rate_option = 'mat';
