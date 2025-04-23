@@ -18,27 +18,8 @@
                     </button>
                 </a>
             </div>
-            <div class="menu_links">
-                <div id="menu_tabs">
-                    <div list="support" class="active" >Support Tools</div>
-                    <div list="system" >System Tools</div>
-                    <div list="misc" >Misc Tools</div>
-                </div>
-                <nav-menu></nav-menu>
-                <script src="/Rain-Support-Tools/src/common/navigation/nav-builder.js"></script>
-            </div>
+            <nav-menu></nav-menu>
+            <script src="/Rain-Support-Tools/src/common/navigation/nav-builder.js" type="module"></script>
         </div>
-        <script>
-            function updateNavButtons(eventTarget){
-                //change the active selection for list type
-                document.querySelector('div.active').classList.remove('active');
-                eventTarget.classList.add('active');
-                //change visible list of links
-                document.querySelectorAll('.toolButtonsList > div').forEach( element => element.style.display = 'none');
-                document.querySelector(`#${eventTarget.getAttribute('list')}`).removeAttribute('style');
-            }
-            //sets function to run when each tab is clicked
-            document.querySelectorAll('div#menu_tabs > div').forEach( element => element.addEventListener('click', (eventTarget) => updateNavButtons(eventTarget.srcElement)));
-        </script>
     </body>
 </html>
