@@ -66,11 +66,8 @@ regexController.addPattern({{string-title}}, {{regexPattern}});
 # flow build containers
 ## nav html
     <div class="menu-wrapper">
-        <div id="nav-toggle">
-            <span class="fa-solid fa-bars"></span>
-        </div>
         <nav-menu></nav-menu>
-        <script src="/Rain-Support-Tools/src/common/navigation/nav-builder.js"></script>
+        <script src="/Rain-Support-Tools/src/common/navigation/nav-builder.js" type="module"></script>
     </div>
 
 ## add steps as needed and give an id that matches the container area

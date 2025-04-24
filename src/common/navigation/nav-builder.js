@@ -7,7 +7,7 @@ if ((/Rain-Support-Tools\/$/).test(location.pathname)) {
     html = await import('./toolNavTemplate.js').then(module => module.toolNavTemplate);
 }
 /*this creates a new vue app that uses the html from above to build the navigation based on the provided navigation links.
-Editing links in the object here updates the navigation accross the entire website.
+Editing links in the object here updates the navigation across the entire website.
 */
 //nav list items are built as follows {name: Display text for link, url: file needing to be directed to when link is clicked, icon: fontawesome classes used for applying icons in navigation}
 const app = Vue.createApp({
@@ -15,14 +15,14 @@ const app = Vue.createApp({
     data() {
         return {nav_list : {
                 home: {
-                    title: 'Home',
+                    title: 'General',
                     link_data: [
                         {name: 'Home', url: '/Rain-Support-Tools/', icon: 'fa-solid fa-house'},
                         {name: 'System Updates', url: 'https://github.com/Robert-Hendrickson/Rain-Support-Tools/pulls?q=is%3Amerged', target:'blank', icon: 'fa-solid fa-wrench'}
                     ]
                 },
-                support: {
-                    title: 'Support Tools',
+                ticket: {
+                    title: 'Ticket Tools',
                     link_data: [
                         {name: 'Bug Ticket v2', url: '/Rain-Support-Tools/src/Tools/bug-ticket/bug-ticket-v2.html', icon: 'fa-solid fa-bug'},
                         {name:'Database', url: '/Rain-Support-Tools/src/Tools/database-ticket/database-ticket.html', icon: 'fa-solid fa-database'},
@@ -57,8 +57,7 @@ const app = Vue.createApp({
     },
     methods: {
         toggleNav(eventTarget){
-            document.querySelector('div.active').classList.remove('active');
-            eventTarget.classList.add('active');
+            document.querySelector('.secondary_menu_links').classList.toggle('active')
         },
         updateNavButtons(eventTarget){
             //change the active selection for list type
@@ -76,14 +75,6 @@ const app = Vue.createApp({
 });
 //now that app is built, accessing it and apply it to the html element on the page <nav-menu></nav-menu>
 app.mount('nav-menu');
-/*function controls toggling the navigation menu as visible and not visible*/
-function toggleNav(){
-    if(document.querySelector('.secondary_menu_links').classList.value.match(/active/) != null){
-        document.querySelector('.secondary_menu_links').classList.remove('active');
-    } else {
-        document.querySelector('.secondary_menu_links').classList.add('active');
-    }
-}
 //this finds the link in the navigation for the page the user is currently looking at and highlights it to indicate current location
 if((/Rain-Support-Tools\/.+/).test(location.pathname)){
     //find current page and apply current-page class to nav
@@ -96,10 +87,7 @@ if((/Rain-Support-Tools\/.+/).test(location.pathname)){
 }
 //remove Home from nav list
 if(/Rain-Support-Tools\/$/.test(location.pathname)){
-    document.querySelectorAll('div#Home').forEach(div => {
+    document.querySelectorAll('div#General').forEach(div => {
         div.remove();
     });
 }
-document.addEventListener('DOMContentLoaded', function() {
-   document.getElementById('nav-toggle')?.addEventListener('click', toggleNav); 
-});

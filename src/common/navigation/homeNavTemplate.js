@@ -1,9 +1,9 @@
 export const homeNavTemplate = `<div class="menu_links">
     <div id="menu_tabs">
-        <div v-for="nav_item in nav_list" v-if="this.title != 'Home'" :class="nav_item.title === 'Support Tools' ? 'active' : ''" @click="updateNavButtons($event.target)" :id="nav_item.title.replace(' ', '-')">{{nav_item.title}}</div>
+        <div v-for="nav_item in nav_list" :class="nav_item.title === 'Ticket Tools' ? 'active' : ''" @click="updateNavButtons($event.target)" :id="nav_item.title.replace(' ', '-')">{{nav_item.title}}</div>
     </div>
     <div class="toolButtonsList">
-        <div v-for="nav_item in nav_list" :class="nav_item.title === 'Support Tools' ? 'active' : ''" :id="nav_item.title.replace(' ', '-')">
+        <div v-for="nav_item in nav_list" :class="nav_item.title === 'Ticket Tools' ? 'active' : ''" :id="nav_item.title.replace(' ', '-')">
             <div v-for="nav_link_item in nav_item.link_data" class="toolButton">
                 <a v-bind:href="nav_link_item.url" v-bind:target="nav_link_item.target">
                     <button>
