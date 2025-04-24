@@ -15,6 +15,9 @@
     justify-content: center;
     flex-wrap: wrap;
 }
+.toolButtonsList > div:not(.active){
+    display: none;
+}
 .toolButtonsList .toolButton{
     width: 125px;
     padding: 5px;
@@ -48,7 +51,6 @@
     background-color: #eeeeee;
 }
 div.active{
-    background-color: #ffffff !important;
     font-weight: bold;
 }
 /*updates css*/
