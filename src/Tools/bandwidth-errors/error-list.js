@@ -1,5 +1,6 @@
-{
+export const errorList = {
     "Bandwidth Detected Client Errors": {
+        "name": "Bandwidth Detected Client Errors",
         "errors": [
             {
                 "code": "4001",
@@ -190,6 +191,7 @@
         ]
     },
     "Carrier Reported Client Errors": {
+        "name": "Carrier Reported Client Errors",
         "errors": [
             {
                 "code": "4700",
@@ -356,6 +358,7 @@
         ]
     },
     "Bandwidth Service Errors": {
+        "name": "Bandwidth Service Errors",
         "errors": [
             {
                 "code": "5100",
@@ -426,6 +429,7 @@
         ]
     },
     "Carrier Reported Service Failures": {
+        "name": "Carrier Reported Service Failures",
         "errors": [
             {
                 "code": "5600",
@@ -460,6 +464,7 @@
         ]
     },
     "Carrier Errors with Ambiguous Cause": {
+        "name": "Carrier Errors with Ambiguous Cause",
         "errors": [
             {
                 "code": "9902",
