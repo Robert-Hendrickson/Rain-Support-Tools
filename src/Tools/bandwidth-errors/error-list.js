@@ -1,3 +1,11 @@
+/**
+ * @description List of errors for bandwidth-errors tool, defined as an object with a name and an array of errors.
+ * @typedef {Object} Error
+ * @property {string} code
+ * @property {string} description
+ * @property {string} friendlyDescription
+ * @property {string} explanationOfError
+ */
 export const errorList = {
     "Bandwidth Detected Client Errors": {
         "name": "Bandwidth Detected Client Errors",

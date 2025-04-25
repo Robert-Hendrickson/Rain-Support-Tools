@@ -1,5 +1,11 @@
+/**
+ * @description Main script for bandwidth-errors tool, defines the Vue app and its template.
+ */
+//import the error list
 import { errorList } from './error-list.js';
+//create the Vue app
 const app = Vue.createApp({
+    //define the template
     template: `<div v-for="errorType in filteredErrorTypes" class="error-list">
     <h2>{{errorType.name}}</h2>
     <div id="column-headers">
@@ -16,12 +22,14 @@ const app = Vue.createApp({
     </div>
 </div>
 <div v-if="Object.entries(filteredErrorTypes).length === 0">No errors found</div>`,
-    data(){
+    //define the data
+        data(){
         return {
             errorList: errorList,
             searchValue: '',
         }
     },
+    //define the computed properties
     computed: {
         filteredErrorTypes() {
             return Object.entries(this.errorList)
@@ -32,6 +40,7 @@ const app = Vue.createApp({
                 }, {});
         }
     },
+    //define the methods
     methods: {
         updateErrorSearch(value){
             this.searchValue = value;
@@ -50,7 +59,9 @@ const app = Vue.createApp({
     }
 });
 document.addEventListener('DOMContentLoaded', function() {
+    //mount the app
     window.vm = app.mount('error-list');
+    //add the event listener to the searchbar
     document.getElementById('searchbar').addEventListener('change', function(){
         vm.updateErrorSearch(this.value);
     });
