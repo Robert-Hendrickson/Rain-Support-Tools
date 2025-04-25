@@ -1,99 +1,69 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <script src="/Rain-Support-Tools/src/common/vue/vue.global.prod.js"></script>
+        <script src="https://kit.fontawesome.com/8e52a98e38.js" crossorigin="anonymous"></script>
+        <script src="./css-tester.js" type="module"></script>
+        <link href="/Rain-Support-Tools/src/common/navigation/nav-menu.css" rel="stylesheet" />
         <link href="./css-tester.css" rel="stylesheet" />
-        <!--CSS entered in the side panel will be added to the below style tag to update the page with new styling-->
-        <style id="page-css" type="text/css">
-            /****base page styling****/
-            .pgBackground{
-                width: 100%;
-                background: linear-gradient(135deg, #ee7070, #2fd481);
-                min-height: 800px;
-            }
-            h1,h2,h3,h4,h5{
-                text-align: center;
-                color: #ffffff;
-            }
-            .container.content{
-                width: 65%;
-                margin: 0px auto;
-                background-color:#be45eebb;
-            }
-            .container{
-                width: 65%;
-                margin: 0px auto;
-            }
-            /****summary styling*****/
-            .summary{
-                background-color: #fefefe;
-                margin: 0px auto;
-                padding: 5px;
-            }
-            /*****Color Picker*****/
-            .userColor p{
-                margin: 0px auto;
-                background-color: #457eee;
-            }
-            /*****list styling*****/
-            ul{
-                list-style-type: decimal;
-            }
-            .item{
-                font-weight: bold;
-            }
-            .odd{
-                text-decoration: underline;
-            }
-            .even{
-                color: #FFA500;
-            }
-            /****table styling****/
-            th{
-                border: #000 solid 1px;
-                padding: 0px 5px;
-            }
-            th:first-child{
-                border: none;
-            }
-            td{
-                border: #000 solid 1px;
-                text-align: right;
-            }
-            /****filler styling****/
-            .filler{
-                padding: 5px;
-            }
-            #image img{
-                width: 40%;
-                height: auto;
-                margin: 0px auto;
-                display: block;
-            }
-        </style>
     </head>
     <body>
+        <div class="menu-wrapper">
+            <nav-menu></nav-menu>
+            <script src="/Rain-Support-Tools/src/common/navigation/nav-builder.js" type="module"></script>
+        </div>
         <div class="pgBackground">
             <div class="container content">
-                <h1>Welcome to CSS!</h1>
+                <div class="container">
+                    <style id="page-css" type="text/css"></style>
+                    <content-header>
+                        <h1>Welcome to CSS!</h1>
+                        <span id="page-css" class="fa-solid fa-pencil edit-button"></span>
+                    </content-header>
+                </div>
                 <div class="container summary">
-                    This page is for the purpose of being able to test targeting css. On the right side there is a button (<<). Clicking this will open a side panel which will display the current css being used for the webpage. Editing this data will allow you to change, add, or remove css to see how it affects the page.
+                    <style id="summary-css" type="text/css"></style>
+                    <content-header>
+                        <h3>Page Summary</h3>
+                        <span id="summary-css" class="fa-solid fa-pencil edit-button"></span>
+                    </content-header>
+                    <html-content>
+                        This page is for the purpose of being able to test targeting css. On the right side there is a button (<span class="fa-solid fa-pencil"></span>). Clicking this will open a side panel which will display the current css being used for the webpage. Editing this data will allow you to change, add, or remove css to see how it affects the page.
+                    </html-content>
                 </div>
                 <div class="container userColor">
-                    <h3>Try making your own color to use!</h3>
-                    <p>You can either enter a hex color code into the text box to see what the color will look like before applying it to the page or you can use the color box to the left to use a color picker to find a color you like and then copy the hex code out of the text box.</p>
-                    <input type="color" value="#457e96" />
-                    <input type="text" value="#457e96" />
+                    <style id="color-css" type="text/css"></style>
+                    <content-header>
+                        <h3>Try making your own color to use!</h3>
+                        <span id="color-css" class="fa-solid fa-pencil edit-button"></span>
+                    </content-header>
+                    <html-content>
+                        <p>You can either enter a hex color code into the text box to see what the color will look like before applying it to the page or you can use the color box to the left to use a color picker to find a color you like and then copy the hex code out of the text box.</p>
+                        <input type="color" value="#457e96" />
+                        <input type="text" value="#457e96" />
+                    </html-content>
                 </div>
                 <div class="container grocery">
-                    <h3>Grocery List</h3>
-                    <ul class="list">
-                        <li class="odd item">Apples</li>
+                    <style id="list-css" type="text/css"></style>
+                    <content-header>
+                        <h3>Grocery List</h3>
+                        <span id="list-css" class="fa-solid fa-pencil edit-button"></span>
+                    </content-header>
+                    <html-content>
+                        <ul class="list">
+                            <li class="odd item">Apples</li>
                         <li class="even item">Oranges</li>
-                        <li class="odd item">Grapes</li>
-                    </ul>
+                            <li class="odd item">Grapes</li>
+                        </ul>
+                    </html-content>
                 </div>
                 <div class="container stores">
-                    <h3>Stores and Prices</h3>
+                    <style id="table-css" type="text/css"></style>
+                    <content-header>
+                        <h3>Stores and Prices</h3>
+                        <span id="table-css" class="fa-solid fa-pencil edit-button"></span>
+                    </content-header>
+                    <html-content>
                     <table>
                         <thead>
                             <tr>
@@ -140,25 +110,32 @@
                                     $3.99
                                 </td>
                             </tr>
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
+                    </html-content>
                 </div>
                 <div class="container">
-                    <h3>Filler Text and Image</h3>
+                    <style id="filler-css" type="text/css"></style>
+                    <content-header>
+                        <h3>Filler Text and Image</h3>
+                        <span id="filler-css" class="fa-solid fa-pencil edit-button"></span>
+                    </content-header>
+                    <html-content>
                     <div class="filler">
                         <div id="text">
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Eleifend quam adipiscing vitae proin sagittis nisl. Erat pellentesque adipiscing commodo elit at imperdiet dui accumsan sit. Fringilla ut morbi tincidunt augue. Leo duis ut diam quam nulla porttitor massa. Blandit volutpat maecenas volutpat blandit. Cum sociis natoque penatibus et magnis. Id porta nibh venenatis cras sed. Id venenatis a condimentum vitae. Urna id volutpat lacus laoreet non curabitur gravida arcu. Posuere lorem ipsum dolor sit amet consectetur adipiscing elit duis. Et malesuada fames ac turpis egestas sed tempus urna. Diam quam nulla porttitor massa id. Mi bibendum neque egestas congue quisque egestas diam in arcu. Mauris nunc congue nisi vitae suscipit. Auctor eu augue ut lectus arcu. Sapien faucibus et molestie ac. Bibendum ut tristique et egestas quis ipsum.
                         </div>
                         <div id="image">
                             <img src="/Rain-Support-Tools/src/media/imgs/This_is_fine.png" />
+                            </div>
                         </div>
-                    </div>
+                    </html-content>
                 </div>
             </div>
         </div>
         <div class="closed" id="userInput">
             <div id="panelToggle">
-                <<
+                <span class="fa-solid fa-angles-left"></span>
             </div>
             <div class="container">
                 <input type="button" id="submit" value="Submit" />
@@ -166,44 +143,13 @@
                 <input type="button" id="home" value="Home" /><br />
                 <h2 style="margin: unset; display: unset;">Page CSS</h2><br />
                 <textarea id="user-css"></textarea>
+                <textarea id="page-css"></textarea>
+                <textarea id="summary-css"></textarea>
+                <textarea id="color-css"></textarea>
+                <textarea id="list-css"></textarea>
+                <textarea id="table-css"></textarea>
+                <textarea id="filler-css"></textarea>
             </div>
         </div>
-        <script>
-            function updateCSS(){
-                let new_css = document.querySelector('textarea').value.replaceAll('\n','');
-                document.getElementById('page-css').innerHTML = new_css;
-            };
-            function toggleControl(){
-                let current = document.getElementById('userInput').classList[0];
-                if(current === 'closed'){
-                    document.getElementById('userInput').classList = 'open';
-                    document.getElementById('panelToggle').innerText = '>>';
-                }else{
-                    document.getElementById('userInput').classList = 'closed';
-                    document.getElementById('panelToggle').innerText = '<<';
-                };
-            };
-            let base_css = document.getElementById('page-css').innerHTML.replaceAll(/\n\s*/g,'\n').substring(1);
-            function setBaseCSS(){
-                document.getElementById('user-css').value = base_css;
-                updateCSS();
-            };
-            setBaseCSS();
-            //this is for the color getter to display the hex color code easily
-            function getColor(){
-                document.querySelector('.container input[type="text"]').value = document.querySelector('.container input[type="color"]').value;
-            };
-            function checkColor(){
-                document.querySelector('.container input[type="color"]').value = document.querySelector('.container input[type="text"]').value;
-            };
-            document.addEventListener('DOMContentLoaded',() => {
-                document.querySelector('.container input[type="color"]').addEventListener('change',getColor);
-                document.querySelector('.container input[type="text"]').addEventListener('change',checkColor);
-                document.getElementById('panelToggle').addEventListener('click',toggleControl);
-                document.getElementById('submit').addEventListener('click',updateCSS);
-                document.getElementById('reset').addEventListener('click',setBaseCSS);
-                document.getElementById('home').addEventListener('click',() => {location.pathname = '/Rain-Support-Tools/';});
-            });
-        </script>
     </body>
 </html>
