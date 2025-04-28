@@ -9,20 +9,23 @@ const css_tester_app = Vue.createApp({
     <html-content v-if="value.html.content" v-html="value.html.content" :class="key">
     </html-content>
 </div>
-<div v-if="edit_content" class="edit-container">
+<div v-show="edit_content" class="edit-container">
     <div class="edit-content-container">
         <div class="edit-header">
-            <div class="active">HTML</div>
-            <div>CSS</div>
+            <div :class="{'active': edit_content_type == 'html'}" v-if="edit_content_key != 'page'" @click="edit_content_type = 'html'">HTML</div>
+            <div :class="{'active': edit_content_type == 'css'}" @click="edit_content_type = 'css'">CSS</div>
         </div>
         <div class="edit-content">
-            <div class="edit-html active">
+            <div v-if="edit_content_key != 'page'" class="edit-html" :class="{'active': edit_content_type == 'html'}">
                 <textarea id="html-text"></textarea>
             </div>
-            <div class="edit-css">
+            <div class="edit-css" :class="{'active': edit_content_type == 'css'}">
                 <textarea id="css-text"></textarea>
             </div>
         </div>
+    </div>
+    <div class="edit-footer">
+        <button @click="handleSave">Save</button>
     </div>
 </div>`,
     data(){
@@ -32,12 +35,33 @@ const css_tester_app = Vue.createApp({
             css_defaults_values: Object.values(cssDefaults),
             edit_content: false,
             edit_content_key: '',
+            edit_content_type: 'html',
         }
     },
     methods: {
         handleEdit(id){
             this.edit_content = !this.edit_content;
+            if(id == 'page'){
+                this.edit_content_type = 'css';
+            }else{
+                this.edit_content_type = 'html';
+            }
             this.edit_content_key = id;
+            document.querySelector(`textarea#css-text`).value = document.querySelector(`#${id}-css`).innerHTML;
+            //document.querySelector(`textarea#html-text`).value = document.querySelector(`#${id}-html`).innerHTML;
+        },
+        handleSave(){
+            this.edit_content = false;
+            document.querySelector(`#${this.edit_content_key}-css`).innerHTML = document.getElementById('css-text').value;
+            if(this.edit_content_key != 'page'){
+                //document.querySelector(`#${this.edit_content_key}-html`).innerHTML = document.getElementById('html-text').value;
+            }
+        },
+        handleCancel(){
+            this.edit_content = false;
+        },
+        handleSwitchEditBox(){
+            this.edit_content = !this.edit_content;
         },
         setDefaultCSS(){
             document.querySelectorAll('style[id$="-css"]').forEach(style => {
