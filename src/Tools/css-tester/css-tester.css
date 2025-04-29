@@ -125,3 +125,29 @@ content-header .edit-button{
     overflow-y: scroll;
     padding: 0 7px;
 }
+.btn{
+    border: unset;
+    border-radius: 4px;
+    padding: 8px 16px;
+    cursor: pointer;
+}
+.edit-footer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
+    border-top: 1px solid #000;
+    background-color: #ddd;
+}
+.btn.primary{
+    background: #337ab7;
+    color: #fff;
+}
+.btn.secondary{
+    border: #DDDDDD solid 1px;
+    background: #FFFFFF;
+    color: #000000;
+}
+.btn.tertiary{
+    background: #ff0000ab;
+}

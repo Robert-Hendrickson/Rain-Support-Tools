@@ -23,9 +23,10 @@ const css_tester_app = Vue.createApp({
                 <textarea id="css-text"></textarea>
             </div>
         </div>
-    </div>
-    <div class="edit-footer">
-        <button @click="handleSave">Save</button>
+        <div class="edit-footer">
+            <button class="btn primary" @click="handleSave">Save</button>
+            <button class="btn secondary" @click="handleCancel">Cancel</button>
+        </div>
     </div>
 </div>`,
     data(){
@@ -48,13 +49,48 @@ const css_tester_app = Vue.createApp({
             }
             this.edit_content_key = id;
             document.querySelector(`textarea#css-text`).value = document.querySelector(`#${id}-css`).innerHTML;
-            //document.querySelector(`textarea#html-text`).value = document.querySelector(`#${id}-html`).innerHTML;
+            if(id != 'page'){
+                document.querySelector(`textarea#html-text`).value = document.querySelector(`html-content.${id}`).innerHTML;
+            }
         },
         handleSave(){
             this.edit_content = false;
             document.querySelector(`#${this.edit_content_key}-css`).innerHTML = document.getElementById('css-text').value;
             if(this.edit_content_key != 'page'){
-                //document.querySelector(`#${this.edit_content_key}-html`).innerHTML = document.getElementById('html-text').value;
+                document.querySelector(`html-content.${this.edit_content_key}`).innerHTML = document.getElementById('html-text').value;
+
+                const container = document.querySelector(`html-content.${this.edit_content_key}`);
+                container.innerHTML = '';
+                const userHTML = document.getElementById('html-text').value;
+
+                // Step 1: Create a temporary container to parse the HTML
+                const temp = document.createElement('div');
+                temp.innerHTML = userHTML;
+
+                // Step 2: Move non-script elements first
+                [...temp.children].forEach(child => {
+                if (child.tagName.toLowerCase() !== 'script') {
+                    container.appendChild(child);
+                }
+                });
+
+                // Step 3: Handle <script> separately
+                [...temp.querySelectorAll('script')].forEach(script => {
+                const newScript = document.createElement('script');
+                
+                // Inline script
+                if (script.textContent) {
+                    newScript.textContent = script.textContent;
+                }
+
+                // External script
+                if (script.src) {
+                    newScript.src = script.src;
+                }
+
+                container.appendChild(newScript);
+            });
+            
             }
         },
         handleCancel(){
