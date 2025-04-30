@@ -53,6 +53,12 @@ h1,h2,h3,h4,h5{
 ul{
 	list-style-type: decimal;
 }
+ul li:nth-child(odd){
+	color: green;
+}
+ul li:nth-child(even){
+	color: red;
+}
 .item{
 	font-weight: bold;
 }
@@ -60,14 +66,14 @@ ul{
 	text-decoration: underline;
 }
 .even{
-	color: #FFA500;
+	text-decoration: line-through;
 }`,
 		html: {
 			header: `Grocery List`,
 			content: `<ul>
-<li class="odd item">Apples</li>
-<li class="even item">Oranges</li>
-<li class="odd item">Grapes</li>
+	<li class="odd item">Apples</li>
+	<li class="even item">Oranges</li>
+	<li class="odd item">Grapes</li>
 </ul>`
 		}
 	},
