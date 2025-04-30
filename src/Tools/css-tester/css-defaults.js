@@ -32,7 +32,7 @@ h1,h2,h3,h4,h5{
 }`,
 		html: {
 			header: `Page Summary`,
-			content: `<p>This page is for the purpose of being able to test targeting css. On the right side there is a button (<span class="fa-solid fa-pencil"></span>). Clicking this will open a side panel which will display the current css being used for the webpage. Editing this data will allow you to change, add, or remove css to see how it affects the page.</p>`
+			content: `<p>This page is for the purpose of being able to test targeting css. On the right side there is a button (<span class="fa-solid fa-pencil"></span>). Clicking this will open a panel which will display the current css and html being used for the webpage. Editing this data will allow you to change, add, or remove css to see how it affects the page.</p>`
 		}
 	},
 	"color": {
