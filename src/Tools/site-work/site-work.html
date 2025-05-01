@@ -8,6 +8,11 @@
         <script src="./site-work.js" type="module"></script>
         <script src="/Rain-Support-Tools/src/common/flow-format/flow-ctrl.js"></script>
         <script src="/Rain-Support-Tools/src/common/testing/test_data.js"></script>
+        <!-- Sharepoint Upload -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.7/axios.min.js"></script>
+        <script src="/Rain-Support-Tools/src/Tools/share-point/SharePointUpload.js" type="module"></script>
+        <link rel="stylesheet" href="/Rain-Support-Tools/src/Tools/share-point/SharePointUpload.css" />
+        <!-- End Sharepoint Upload -->
         <meta title="Site Work" />
         <!-- Google tag (gtag.js) -->
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZBB64CR2LL"></script>
@@ -59,6 +64,9 @@
                         <div table-controls>
                             <button tabindex="-1" class="btn secondary">Add Row</button>
                             <button tabindex="-1" class="btn secondary">Remove Row</button>
+                        </div>
+                        <div id="sharepoint-app">
+                            <share-point-upload></share-point-upload>
                         </div>
                         <table id="work-table">
                             <tbody>
