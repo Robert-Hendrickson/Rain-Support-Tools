@@ -1,78 +1,85 @@
-//This funciton takes an element and checks it's value to make sure it meets the necessary criteria
-function updateDisplay(el){
-    //get id value of the element being checked
-    let event_id = el.target.id;
-    //get the value of the element being checked
-    let event_value = el.target.value;
-    //pass id through switch to find which set of instructions to follow based on what event_id is
-    switch (event_id) {
-        case 'owner':
-            //check that owner exactly equals 'New-Unsolved-Bugs'
-            if ((/^[\s]?New[\s\_\-]Unsolved[\s\_\-]Bugs/i).test(event_value)) {
-                toggleDisplay(event_id, 'good');
+/**
+ * @description This builds the app that checks the fields of a sales force case to make sure they are correct.
+ */
+const app = Vue.createApp({
+    template: `<div class="container">
+    <div data entry>
+            Case Owner<br>
+            <input id="owner" type="text" placeholder="Enter Case Owner Name" @keyup="checkOwner" />
+            <br>
+            Case Status<br>
+            <input id="status" type="text" placeholder="Enter Case Status" @keyup="checkStatus" />
+            <br>
+            Case Reason<br>
+            <input id="reason" type="text" placeholder="Enter Case Reason" @keyup="checkReason" />
+            <br>
+            Case Issue<br>
+            <input id="issue" type="text" placeholder="Enter Case Issue" @keyup="checkIssue" />
+            <br>
+            Case Description<br>
+            <textarea id="description" placeholder="Paste Case Description Details" @keyup="checkDescription"></textarea>
+            <br>
+    </div>
+    <div data check-list>
+        <div id="owner" :class="owner ? 'good' : 'bad'">Case Owner: <span :class="owner ? 'fa-regular fa-circle-check' : 'fa-regular fa-circle-xmark'"></span></div>
+        <div id="status" :class="status ? 'good' : 'bad'">Status: <span :class="status ? 'fa-regular fa-circle-check' : 'fa-regular fa-circle-xmark'"></span></div>
+        <div id="reason" :class="reason ? 'good' : 'bad'">Case Reason: <span :class="reason ? 'fa-regular fa-circle-check' : 'fa-regular fa-circle-xmark'"></span></div>
+        <div id="issue" :class="issue ? 'good' : 'bad'">Issue: <span :class="issue ? 'fa-regular fa-circle-check' : 'fa-regular fa-circle-xmark'"></span></div>
+        <div id="description" :class="description ? 'good' : 'bad'">Description: <span :class="description ? 'fa-regular fa-circle-check' : 'fa-regular fa-circle-xmark'"></span></div>
+    </div>
+</div>`,
+    data() {
+        return {
+            owner: false,
+            status: false,
+            reason: false,
+            issue: false,
+            description: false
+        }
+    },
+    methods: {
+        checkOwner() {
+            let value = document.getElementById('owner').value;
+            console.log(value);
+            if ((/^[\s]?New[\s\_\-]Unsolved[\s\_\-]Bugs/i).test(value)) {
+                this.owner = true;
             } else {
-                toggleDisplay(event_id, 'bad');
+                this.owner = false;
             }
-            break;
-        case 'status':
-            //check that status exactly matches 'Open'
-            if ((/^[\s]?open/i).test(event_value)) {
-                toggleDisplay(event_id, 'good');
+        },
+        checkStatus() {
+            let value = document.getElementById('status').value;
+            if ((/^[\s]?open/i).test(value)) {
+                this.status = true;
             } else {
-                toggleDisplay(event_id, 'bad');
+                this.status = false;
             }
-            break;
-        case 'reason':
-            //check that reason exactly matches 'software'
-            if ((/^[\s]?software/i).test(event_value)) {
-                toggleDisplay(event_id, 'good');
+        },
+        checkReason() {
+            let value = document.getElementById('reason').value;
+            if ((/^[\s]?software/i).test(value)) {
+                this.reason = true;
             } else {
-                toggleDisplay(event_id, 'bad');
+                this.reason = false;
             }
-            break;
-        case 'issue':
-            //check that issue exactly matches 'bug-parent'
-            if ((/^[\s]?bug[ ]?\-[ ]?parent/i).test(event_value)) {
-                toggleDisplay(event_id, 'good');
+        },
+        checkIssue() {
+            let value = document.getElementById('issue').value;
+            if ((/^[\s]?bug[ ]?\-[ ]?parent/i).test(value)) {
+                this.issue = true;
             } else {
-                toggleDisplay(event_id, 'bad');
+                this.issue = false;
             }
-            break;
-        case 'description':
-            //make sure that description contains exactly '**LOCAITON:**'
-            if ((/\*\*LOCATION\:\*\*/g).test(event_value)) {
-                toggleDisplay(event_id, 'good');
+        },
+        checkDescription() {
+            let value = document.getElementById('description').value;
+            if ((/\*\*LOCATION\:\*\*/g).test(value)) {
+                this.description = true;
             } else {
-                toggleDisplay(event_id, 'bad');
+                this.description = false;
             }
-            break;
-        default:
-            //if none of the above are run, log an error to the console that gives the passed id and values that weren't used
-            console.error(`Something didn't work right. Please try again.` + event_id + event_value);
-            break;
+        }
     }
-}
-//takes changed value and updates display area at the bottom to show good or bad depending on the value entered into the box
-function toggleDisplay(id,good_bad){
-    //if passed value from updateDisplay function was 'good' do the first set of instructions, otherwise do the second set
-    if (good_bad === 'good') {
-        //using passed id value change classes of elements to be good or a check mark in a circle
-        document.querySelector(`[check-list] #${id}`).classList.remove('bad');
-        document.querySelector(`[check-list] #${id}`).classList.add('good');
-        document.querySelector(`[check-list] #${id} > span`).classList.remove('fa-circle-xmark');
-        document.querySelector(`[check-list] #${id} > span`).classList.add('fa-circle-check');
-    } else {
-        //using passed id value change classes of elements to be bad or an 'X' in a circle
-        document.querySelector(`[check-list] #${id}`).classList.remove('good');
-        document.querySelector(`[check-list] #${id}`).classList.add('bad');
-        document.querySelector(`[check-list] #${id} > span`).classList.remove('fa-circle-check');
-        document.querySelector(`[check-list] #${id} > span`).classList.add('fa-circle-xmark');
-    }
-}
-//This function sets a listener on each input and text area when the window has finished loading so that as the data is typed in it runs the listed function name on the element
-window.addEventListener('load',function (){
-    document.querySelectorAll('[entry] input').forEach(function (element) {
-        element.addEventListener('keyup',updateDisplay)
-    });
-    document.querySelector('[entry] textarea').addEventListener('keyup',updateDisplay)
 });
+
+app.mount('#app');
