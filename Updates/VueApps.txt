@@ -1,0 +1,16 @@
+These files need updated to use vue
+----Smaller
+- WA Tax Rates
+- Salesforce Errors
+- Email List Checker
+- Inventory Checker
+- QB Mixed Payments
+- Fee Difference Calculator
+
+----Bigger
+- Transaction Calculator
+- Tax Inclusive Transaction Calculator
+- Bug Ticket
+- Database Ticket
+- DNS Help
+- Site Work
