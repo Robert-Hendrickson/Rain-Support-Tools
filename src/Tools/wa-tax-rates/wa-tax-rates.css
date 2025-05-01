@@ -1,0 +1,14 @@
+@import url('/Rain-Support-Tools/src/common/css/default.css');
+
+div.addr_input{
+    width: 50%;
+    float: left;
+}
+div.tax_output{
+    width: 50%;
+    float: left;
+    background-color: #fff;
+}
+div.addr_input table tr > td{
+    text-align: right;
+}
