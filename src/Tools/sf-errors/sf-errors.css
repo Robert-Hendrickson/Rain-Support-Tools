@@ -10,7 +10,6 @@
     }
 }
 #results .results-wrapper{
-    display: none;
     border: #000 solid 1px;
     border-radius: 16px;
     padding: 16px;
@@ -21,4 +20,8 @@
 }
 #results .results-wrapper p{
     text-align: center;
+}
+#results .results-wrapper ul{
+    list-style-type: none;
+    padding: 0;
 }

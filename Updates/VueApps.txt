@@ -1,6 +1,5 @@
 These files need updated to use vue
 ----Smaller
-- Salesforce Errors
 - Email List Checker
 - Inventory Checker
 - QB Mixed Payments
