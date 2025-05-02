@@ -1,13 +1,8 @@
 /**
  * @description This is the app that runs the WA Tax Rates tool
  */
-/*
-6500 Linderson way
-
-98501
-*/
 let waTaxRates = Vue.createApp({
-    template: `<div class="addr_input" style="margin-left: 50px;">
+    template: `<div class="addr_input">
     <table>
         <tbody>
             <tr>
@@ -26,7 +21,7 @@ let waTaxRates = Vue.createApp({
     </table>
     <input type="button" id="submit" value="Submit" @click="getTaxRates"/>
 </div>
-<div class="tax_output">
+<div class="tax_output" :class="appMessage ? appMessage.type : ''">
     <div v-if="appMessage">
         <div v-if="appMessage.type == 'error'">
             <p>{{ appMessage.message }}</p>
@@ -37,7 +32,7 @@ let waTaxRates = Vue.createApp({
             <p>State Rate: {{ appMessage.State_rate }}%</p>
             <p>County Rate: {{ appMessage.County_rate }}%</p>
         </div>
-        <div v-if="appMessage.type == 'waiting'">
+        <div v-if="appMessage.type == 'waiting'" id="waiting">
             <span class="fa-solid fa-spinner fa-spin-pulse"></span>
             <p>{{ appMessage.message }}</p>
         </div>
@@ -76,10 +71,16 @@ let waTaxRates = Vue.createApp({
                 message: 'Getting tax rates...',
                 type: 'waiting'
             }
-            try{
+            try {
                 const response = await axios.get(`https://webgis.dor.wa.gov/webapi/AddressRates.aspx?addr=${encodeURIComponent(address)}&city=${encodeURIComponent(city)}&zip=${encodeURIComponent(zip)}`);
-                console.log(response , response.data);
                 const data = response.data;
+                if (typeof data !== 'object' && (/LocCode=-1/).test(data)) {
+                    this.appMessage = {
+                        message: 'Invalid address',
+                        type: 'error'
+                    }
+                    return;
+                }
                 this.appMessage = {
                     message: 'Tax rates retrieved successfully',
                     type: 'success',
@@ -88,8 +89,12 @@ let waTaxRates = Vue.createApp({
                     County_rate: Math.round(parseFloat(data.LocalRate) * 10000)/100
 
                 }
-            }catch(error){
-                this.setMessage('Error getting tax rates', 'error');
+            } catch(error) {
+                this.appMessage = {
+                    message: 'Error getting tax rates',
+                    type: 'error'
+                }
+                throw error;
             }
         },
         setMessage(object){
@@ -98,4 +103,4 @@ let waTaxRates = Vue.createApp({
     }
 })
 
-window.waTaxRates = waTaxRates.mount('#wa-tax-rates');
+waTaxRates.mount('#wa-tax-rates');

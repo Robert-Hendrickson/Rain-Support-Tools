@@ -19,6 +19,8 @@ async function setTestData() {
             testModule = await import('./pageData/databaseData.js');
         } else if((/fee-difference-calculator/).test(path)) {
             testModule = await import('./pageData/feeDifferenceData.js');
+        } else if((/wa-tax-rates/).test(path)) {
+            testModule = await import('./pageData/waTaxRatesData.js');
         }
         
         if (testModule && testModule.default) {
