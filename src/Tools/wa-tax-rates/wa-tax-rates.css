@@ -1,0 +1,38 @@
+@import url('/Rain-Support-Tools/src/common/css/default.css');
+#wa-tax-rates{
+    width: 400px;
+    min-height: 200px;
+    background-color: #eee;
+    padding: 8px;
+    border-radius: 8px;
+    position: relative;
+    top: 20px;
+    left: calc(50% - 200px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+div.tax_output{
+    padding: 4px;
+    background-color: #fff;
+    border-radius: 8px;
+}
+.tax_output.error{
+    background-color: rgba(255, 0, 0, 0.495);
+}
+.tax_output.success{
+    background-color: rgba(0, 255, 0, 0.495);
+}
+.tax_output.waiting{
+    background-color: #ddd;
+}
+div.addr_input table tr > td{
+    text-align: right;
+}
+#waiting{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+

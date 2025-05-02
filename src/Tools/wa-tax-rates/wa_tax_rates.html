@@ -11,61 +11,18 @@
 
             %20 -> urlspace" "
         -->
-        <link rel="stylesheet" href="/Rain-Support-Tools/src/common/css/default.css" />
-        <style>
-            div.addr_input{
-                width: 50%;
-                float: left;
-            }
-            div.tax_output{
-                width: 50%;
-                float: left;
-                background-color: #fff;
-            }
-            div.addr_input table tr > td{
-                text-align: right;
-            }
-        </style>
+        <link rel="stylesheet" href="./wa-tax-rates.css" />
         <script src="/Rain-Support-Tools/src/common/vue/vue.global.prod.js"></script>
         <script src="https://kit.fontawesome.com/8e52a98e38.js" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.7/axios.min.js"></script>
+        <script src="wa-tax-rates.js" type="module"></script>
+        <script src="/Rain-Support-Tools/src/common/testing/test_data.js" type="module"></script>
     </head>
     <body>
         <div class="menu-wrapper">
             <nav-menu></nav-menu>
             <script src="/Rain-Support-Tools/src/common/navigation/nav-builder.js" type="module"></script>
         </div>
-        <div class="addr_input" style="margin-left: 50px;">
-            <table>
-                <tbody>
-                    <tr>
-                        <td>Address:</td>
-                        <td><input type="text" id="address"/></td>
-                    </tr>
-                    <tr>
-                        <td>City:</td>
-                        <td><input type="text" id="city"/></td>
-                    </tr>
-                    <tr>
-                        <td>Zip:</td>
-                        <td><input type="text" id="zip"/></td>
-                    </tr>
-                </tbody>
-            </table>
-            <input type="button" id="submit" value="Submit" />
-        </div>
-        <div class="tax_output">
-            <iframe id="output" style="width: 100%;" href=""></iframe>
-        </div>
-        <script>
-            function getTaxRate(){
-                const baseUrl = 'https://webgis.dor.wa.gov/webapi/AddressRates.aspx?output=text';
-                const addr = document.getElementById('address').value.replaceAll(' ','%20');
-                const city = document.getElementById('city').value;
-                const zip = document.getElementById('zip').value;
-                const URL = baseUrl + '&addr=' + addr + '&city=' + city + '&zip=' + zip;
-                document.getElementById('output').setAttribute('src',URL);
-            }
-            document.getElementById('submit').addEventListener('click',getTaxRate);
-        </script>
+        <div id="wa-tax-rates"></div>
     </body>
 </html>

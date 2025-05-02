@@ -1,6 +1,5 @@
 These files need updated to use vue
 ----Smaller
-- WA Tax Rates
 - Salesforce Errors
 - Email List Checker
 - Inventory Checker
