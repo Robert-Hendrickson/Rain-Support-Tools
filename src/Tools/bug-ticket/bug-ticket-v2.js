@@ -617,112 +617,105 @@ async function deletePastTicketLine(cookie,line){
         document.getElementById('list-toggle').click();
     }
 }
-/*this waits for the window to finish loading everything then executes a set of commands for the page on initial load*/
-window.addEventListener('load', () => {
-    //sets event listener on replicable buttons
-    document.querySelectorAll('div[replicable]').forEach(el => el.addEventListener('click',selectReplicability));
-    //sets event listener on where buttons
-    document.querySelectorAll('div[where]').forEach(el => el.addEventListener('click',selectWhere));
-    //this sets the toggle functionality of the past tickets toggle
-    document.getElementById('list-toggle').addEventListener('click', function (){
-        document.querySelector('past-tickets').classList.toggle('active');
-    });
-    //this runs the function to check for any old tickets still saved in cookies
-    displayPastTickets();
-    //this sets the event listener on the copy button
-    document.querySelector('.copy-btn').addEventListener('click', async () =>{
-        const copyText =  await import('/Rain-Support-Tools/src/modules/copy-data/copy-data.js');
-        copyText.default(document.querySelector('#ticket-container > div > textarea'));
-    });
-    //this sets the event listener on the sf-tips button
-    document.querySelector('.sf-tips').addEventListener('click', () =>{
-        document.querySelector('#salesforce-bug-calc-tips').classList = '';
-    });
-    //this sets the event listener on the sf-tips close button
-    document.querySelector('#salesforce-bug-calc-tips .close').addEventListener('click', () =>{
-        document.querySelector('#salesforce-bug-calc-tips').classList = 'hide';
-    });
-    //these sets the event listener for the table controls
-    document.querySelectorAll('div[table-controls] button:first-child').forEach(
-        (el,index) => {
-            if(index === 0){
-                el.addEventListener('click',() => addTableRow('steps-table'));
-            }
-            if(index === 1){
-                el.addEventListener('click',() => addTableRow('screenshot-table'));
-            }
-            if(index === 2){
-                el.addEventListener('click',() => addTableRow('video-table'));
-            }
+/*
+Below is what set's up the page on initial load.
+*/
+//sets event listener on replicable buttons
+document.querySelectorAll('div[replicable]').forEach(el => el.addEventListener('click',selectReplicability));
+//sets event listener on where buttons
+document.querySelectorAll('div[where]').forEach(el => el.addEventListener('click',selectWhere));
+//this sets the toggle functionality of the past tickets toggle
+document.getElementById('list-toggle').addEventListener('click', function (){
+    document.querySelector('past-tickets').classList.toggle('active');
+});
+//this runs the function to check for any old tickets still saved in cookies
+displayPastTickets();
+//this sets the event listener on the copy button
+document.querySelector('.copy-btn').addEventListener('click', async () =>{
+    const copyText =  await import('/Rain-Support-Tools/src/modules/copy-data/copy-data.js');
+    copyText.default(document.querySelector('#ticket-container > div > textarea'));
+});
+//this sets the event listener on the sf-tips button
+document.querySelector('.sf-tips').addEventListener('click', () =>{
+    document.querySelector('#salesforce-bug-calc-tips').classList = '';
+});
+//this sets the event listener on the sf-tips close button
+document.querySelector('#salesforce-bug-calc-tips .close').addEventListener('click', () =>{
+    document.querySelector('#salesforce-bug-calc-tips').classList = 'hide';
+});
+//these sets the event listener for the table controls
+document.querySelectorAll('div[table-controls] button:first-child').forEach(
+    (el,index) => {
+        if(index === 0){
+            el.addEventListener('click',() => addTableRow('steps-table'));
         }
-    );
-    document.querySelectorAll('div[table-controls] button:last-child').forEach(
-        (el,index) => {
-            if(index === 0){
-                el.addEventListener('click',() => removeTableRow('steps-table'));
-            }
-            if(index === 1){
-                el.addEventListener('click',() => removeTableRow('screenshot-table'));
-            }
-            if(index === 2){
-                el.addEventListener('click',() => removeTableRow('video-table'));
-            }
+        if(index === 1){
+            el.addEventListener('click',() => addTableRow('screenshot-table'));
         }
-    );
-    //this sets the event listener for the ticket modal buttons
-    document.querySelector('div[ticket-buttons] button:first-child').addEventListener('click',start_new_ticket);
-    document.querySelector('div[ticket-buttons] button:nth-child(2)').addEventListener('click',() => document.getElementById('ticket-container').classList.add('hide'));
-    //this sets the event listener for the brand selector
-    document.querySelectorAll('#brand-selector-list .brand-selector-item').forEach(el => el.addEventListener('click',(e) => {
-        document.querySelector('.brand-selector-item.selected')?.classList.remove('selected');
-        e.target.classList.add('selected');
-    }));
-    document.querySelector('#brand-selector button').addEventListener('click',() => {
-        if(document.querySelector('.brand-selector-item.selected')){
-            brand = document.querySelector('.brand-selector-item.selected').id;
-            setCookie('brand',brand, 7);
-            document.querySelector('#brand-selector').classList.add('hide');
+        if(index === 2){
+            el.addEventListener('click',() => addTableRow('video-table'));
         }
-    });
-    //this will set the brand value if it already exists
-    if(getCookie('brand')){
-        brand = getCookie('brand');
-        setCookie('brand',brand, 7);
-    } else {
-        document.querySelector('#brand-selector').classList.remove('hide');
     }
-    //this sets the event listener for the brand selector
-    document.querySelectorAll('#brand-selector-list .brand-selector-item').forEach(el => el.addEventListener('click',(e) => {
-        document.querySelector('.brand-selector-item.selected')?.classList.remove('selected');
-        e.target.classList.add('selected');
-    }));
-    document.querySelector('#brand-selector button').addEventListener('click',() => {
-        if(document.querySelector('.brand-selector-item.selected')){
-            brand = document.querySelector('.brand-selector-item.selected').id;
-            setCookie('brand',brand, 7);
-            document.querySelector('#brand-selector').classList.add('hide');
+);
+document.querySelectorAll('div[table-controls] button:last-child').forEach(
+    (el,index) => {
+        if(index === 0){
+            el.addEventListener('click',() => removeTableRow('steps-table'));
         }
-    });
-    //add event listener for validateData custom event
-    document.addEventListener('validateData', validateData);
-    //add event listener for sharepoint-upload-complete custom event
-    document.addEventListener('sharepoint-upload-complete', (e) => {
-        for (let i = 0; i < e.detail.links.length; i++) {
-            if (e.detail.links[i].includes(":i:")) {
-                addTableRow('screenshot-table');
-                document.querySelector('#screenshot-table tbody tr:last-child td:last-child input').value = e.detail.links[i];
-            }
-            if (e.detail.links[i].includes(":v:")) {
-                addTableRow('video-table');
-                document.querySelector('#video-table tbody tr:last-child td:last-child input').value = e.detail.links[i];
-            }
+        if(index === 1){
+            el.addEventListener('click',() => removeTableRow('screenshot-table'));
         }
-    });
-    //this will set the brand value if it already exists
-    if(getCookie('brand')){
-        brand = getCookie('brand');
+        if(index === 2){
+            el.addEventListener('click',() => removeTableRow('video-table'));
+        }
+    }
+);
+//this sets the event listener for the ticket modal buttons
+document.querySelector('div[ticket-buttons] button:first-child').addEventListener('click',start_new_ticket);
+document.querySelector('div[ticket-buttons] button:nth-child(2)').addEventListener('click',() => document.getElementById('ticket-container').classList.add('hide'));
+//this sets the event listener for the brand selector
+document.querySelectorAll('#brand-selector-list .brand-selector-item').forEach(el => el.addEventListener('click',(e) => {
+    document.querySelector('.brand-selector-item.selected')?.classList.remove('selected');
+    e.target.classList.add('selected');
+}));
+document.querySelector('#brand-selector button').addEventListener('click',() => {
+    if(document.querySelector('.brand-selector-item.selected')){
+        brand = document.querySelector('.brand-selector-item.selected').id;
         setCookie('brand',brand, 7);
-    } else {
-        document.querySelector('#brand-selector').classList.remove('hide');
+        document.querySelector('#brand-selector').classList.add('hide');
+    }
+});
+//this sets the event listener for the Calculator Question Tip Titles
+document.querySelectorAll('.question-title').forEach((element) => {
+    element.addEventListener('click',(el) => {
+        let suggestion_element = el.target.nextElementSibling;
+        if (suggestion_element.classList.contains('show')) {
+            suggestion_element.classList.remove('show');
+        } else {
+            document.querySelector('.question-suggestion.show')?.classList.remove('show');
+            suggestion_element.classList.add('show');
+        }
+    })
+});
+//this will set the brand value if it already exists
+if(getCookie('brand')){
+    brand = getCookie('brand');
+    setCookie('brand',brand, 7);
+} else {
+    document.querySelector('#brand-selector').classList.remove('hide');
+}
+//add event listener for validateData custom event
+document.addEventListener('validateData', validateData);
+//add event listener for sharepoint-upload-complete custom event
+document.addEventListener('sharepoint-upload-complete', (e) => {
+    for (let i = 0; i < e.detail.links.length; i++) {
+        if (e.detail.links[i].includes(":i:")) {
+            addTableRow('screenshot-table');
+            document.querySelector('#screenshot-table tbody tr:last-child td:last-child input').value = e.detail.links[i];
+        }
+        if (e.detail.links[i].includes(":v:")) {
+            addTableRow('video-table');
+            document.querySelector('#video-table tbody tr:last-child td:last-child input').value = e.detail.links[i];
+        }
     }
 });
