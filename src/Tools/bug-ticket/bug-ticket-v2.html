@@ -338,32 +338,6 @@
                     </ul>
                 </div>
             </div>
-            <script>
-                document.querySelectorAll('.question-title').forEach((element) => {
-                    element.addEventListener('click',(el) => {
-                        let suggestion_element = el.target.nextElementSibling;
-                        if (suggestion_element.classList.contains('show')) {
-                            suggestion_element.classList.remove('show');
-                        } else {
-                            document.querySelector('.question-suggestion.show')?.classList.remove('show');
-                            suggestion_element.classList.add('show');
-                        }
-                    })
-                });
-                if(!getCookie('brand')) {
-                    console.log('no brand selected');
-                } else {
-                    console.log('brand selected: ' + getCookie('brand'));
-                }
-            </script>
-        <script>
-            buildBanner([
-                'Upload to Quilt SharePoint!',
-                'There is now a new section in Step 4 of the bug ticket form that allows you to upload images and videos directly to Quilt SharePoint. This will also give you a copy of the link to the file as well as auto add the links to the correct sections of the ticket.',
-                'sharepoint-upload-banner'],
-                ['2025-04-21','2025-04-25']
-            );
-        </script>
         </div>
     </body>
 </html>
