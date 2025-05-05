@@ -7,9 +7,7 @@ async function setTestData() {
     try {
         let testModule;
         
-        if(path.match(/email-list-checker/)) {
-            testModule = await import('./pageData/emailListData.js');
-        } else if(path.match(/bug-ticket-v2/)) {
+        if(path.match(/bug-ticket-v2/)) {
             testModule = await import('./pageData/bugTicketData.js');
         } else if(RegExp(/dns\-help/).test(path)) {
             testModule = await import('./pageData/dnsHelpData.js');

@@ -1,73 +1,80 @@
-//sets variable as a regular expresion that will be used to test emails against, expression build is designed to check for most common allowed character types in an email address
-let email_check = new RegExp(/^[\w\-\_\+\.\&]+@[\w\-]+(?:\.[\w]{2,})+$/gm);
-
-/*function runs through imported list of emails and checks each to see if it's a good or bad email configuration following the regular expression check from email_check*/
-function runCheck(){
-    //set object to hold data
-    let email_lists = {
-        input: [],
-        good: [],
-        bad: []
-    }
-    //get an array of emails from the input list and assign it to the input value of email_lists object
-    email_lists.input = document.querySelector('.inputList > textarea').value.split('\n');
-    //count how many emails are in the array and update the number above the input box to display correct number
-    document.querySelector(`.inputList count`).innerText = email_lists.input.length;
-    //loop through the arrayed list and compare the email address to the check
-    for(i=0;i<email_lists.input.length;i++){
-        if(email_lists.input[i].match(email_check)){//if it passes, add it to the good email list
-            email_lists.good[email_lists.good.length] = email_lists.input[i];
-        } else {//else add it to the bad email list
-            email_lists.bad[email_lists.bad.length] = email_lists.input[i];
+/**
+ * @description This is the main app for the email list checker tool.
+ */
+const email_list_checker_app = Vue.createApp({
+    data(){
+        return {
+            email_check: new RegExp(/^[\w\-\_\+\.\&]+@[\w\-]+(?:\.[\w]{2,})+$/gm),
+            input_list: [],
+            good_list: [],
+            bad_list: [],
+            show_import: false,
+            code_copied: false
         }
-    };
-    //loop through good and bad email lists and display the new emails and the counts in their respective text boxes
-    for(list in email_lists){
-        if(list != 'input'){
-            //update the count of the email list column
-            document.querySelector(`.${list}List count`).innerText = email_lists[list].length;
-            //create a string of the emails and display them in the text box for the correct column
+    },
+    methods: {
+        runCheck(){
+            //loop through the arrayed list and compare the email address to the check
+            this.good_list = [];
+            this.bad_list = [];
+            for(let i=0; i<this.input_list.length; i++){
+                if(this.email_check.test(this.input_list[i])){//if it passes, add it to the good email list
+                    this.good_list.push(this.input_list[i]);
+                } else {//else add it to the bad email list
+                    this.bad_list.push(this.input_list[i]);
+                }
+            };
+        },
+        importList(){
+            //get string of emails
+            let import_string = document.querySelector('.import textarea').value;
+            //email string will look like (email_1\\nemail_2\\n...), replace all \\n with \n, this will make a readable list in the text area
+            import_string = import_string.replaceAll("'","").replaceAll('\\n','\n');
+            //add new string to import box
+            this.inputListText = import_string;
+            //close import modal
+            this.show_import = false;
+        },
+        async clearData(){
+            let custom_dialogue = await import('/Rain-Support-Tools/src/modules/custom-dialogue/dialog-ctrl.js');
+            if(await custom_dialogue.default("You are about to clear all current data and won't able to reclaim it. Are you sure you want to proceed?","Continue","Cancel")) {
+                this.input_list = [];
+                this.good_list = [];
+                this.bad_list = [];
+            };
+        },
+        copyCode(){
+            let code = `let email_list = document.querySelectorAll('table > tbody tr td:first-child');\nlet email_list_string = '';\nfor(i=1;i<email_list.length;i++){\nemail_list_string += email_list[i].innerText + \`\n\`;\n};\nemail_list_string.substring(0, email_list_string.length -1);`;
+            navigator.clipboard.writeText(code);
+            this.code_copied = true;
+            setTimeout(() => {
+                this.code_copied = false;
+            }, 3000);
+        },
+        testImport(){
+            document.querySelector('.import textarea').value = '13528849392@163.com\\naebarlow@ucdavis\\nbjt@lcc-inc.cim\\nbunsterof3@hotmailcom\\nCathyVan910@icloud.co\\ncrrwebinfo@gmail.co\\ndrosas916@gmailcom\\nGrandmagerry @sncglobal.net\\njeanmail@earthlink.net; JKNIESE@COMCAST.NET\\njholmes@221bbakerstreet\\njlarson67rsss@icloud.om\\njoy@blackcat@amas.com\\nkdeliramich@yahoo.co\\nkleger@csu@chico.edu\\nlauramara@peoplepc.co\\nMickeys54@gmail\\nmmpblack@yahoo .com\\nmomofbnw@yahoo.co\\nmotomxmarissa@gmail.co\\nnrloezburton@ucdavisedu\\nPurtillk@yahoo.cm\\nrbconnelly@frontiernetnet\\nrosemu@sbcglobal.et\\nsandraross6051@sbcglobalnet\\nsensei@pinewood Kante.com\\nsflynn6892@aol.co\\nslfillo77@gmail.co\\nsmccutler@gmail.om\\nsnowbird86@hotmail.co\\nsofiab@sbservices.co\\ntboyd8@yahoo\\nunionhackett@comcast..net\\nwestcoastwool@gmail.co\\nwunderwomen2@hotmail\\nyas2@say@aol.com';
+            console.log('Test email list set in import modal');
+        },
+        array_string(list){
             let temp = '';
-            for(i=0;i<email_lists[list].length;i++){
-                temp += email_lists[list][i] + '\n';
+            for(let i=0;i<list.length;i++){
+                temp += list[i] + '\n';
             }
-            document.querySelector(`.${list}List > textarea`).value = temp.substring(0,temp.length -1);
+            return temp.substring(0,temp.length -1);
+        }
+    },
+    computed: {
+        isTest(){
+            return (location.hostname == 'localhost' || location.search.includes('test'));
+        },
+        inputListText: {
+            get() {
+                return this.array_string(this.input_list);
+            },
+            set(value) {
+                this.input_list = value ? value.split('\n') : [];
+            }
         }
     }
-}
-
-/*function takes a string of emails provided by the user and adds them in the correct formatting to the text area for imported emails list*/
-function importList(){
-    //get string of emails
-    let import_string = document.querySelector('.import textarea').value;
-    //email string will look like (email_1\\nemail_2\\n...), replace all \\n with \n, this will make a readable list in the text area
-    import_string = import_string.replaceAll("'","").replaceAll('\\n','\n');
-    //add new string to import box
-    document.querySelector('.inputList textarea').value = import_string;
-    //close import modal
-    document.querySelector('.import').classList.add('hide');
-}
-/*function resets page after confirming with user to continue*/
-async function clearData(){
-    let custom_dialogue = await import('/Rain-Support-Tools/src/modules/custom-dialogue/dialog-ctrl.js');
-    if(await custom_dialogue.default("You are about to clear all current data and won't able to reclaim it. Are you sure you want to proceed?","Continue","Cancel")){
-        let data = document.querySelectorAll('.mainContent div');
-        for(i=0;i<data.length;i++){
-            data[i].querySelector('count').innerText = '0';
-            data[i].querySelector('textarea').value = '';
-        }
-    }
-}
-//set event listeners for buttons
-document.addEventListener('DOMContentLoaded',function(){
-    //add event listener for import button
-    document.querySelector('input[value="Import"]').addEventListener('click',() => {document.querySelector('.import').classList.remove('hide')});
-    //add event listener for clear button
-    document.querySelector('input[value="Clear"]').addEventListener('click',() => {clearData()});
-    //add event listener for run check button
-    document.querySelector('input[value="Check"]').addEventListener('click',() => {runCheck()});
-    //add modal Run button
-    document.querySelector('input[value="Run"]').addEventListener('click',() => {importList()});
-    //add modal Close button
-    document.querySelector('input[value="Close"]').addEventListener('click',() => {document.querySelector('.import').classList.add('hide')});
 });
+email_list_checker_app.mount('#email-list-checker');
