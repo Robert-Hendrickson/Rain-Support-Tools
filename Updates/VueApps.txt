@@ -1,6 +1,5 @@
 These files need updated to use vue
 ----Smaller
-- Inventory Checker
 - QB Mixed Payments
 - Fee Difference Calculator
 
