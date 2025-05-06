@@ -16,7 +16,7 @@ const inventory_check = Vue.createApp({
                 }
                 this.instock += inventory_change;
                 this.reserved += reserved_change;
-                if(inventory_change < 0 || reserved_change < 0){
+                if(inventory_change != 0 || reserved_change != 0){
                     this.recordChange(inventory_change,reserved_change);
                 }
                 document.getElementById('inventory-change').value = '';
