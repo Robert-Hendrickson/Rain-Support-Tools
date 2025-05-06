@@ -2,135 +2,96 @@
 <html>
     <head>
         <link rel="stylesheet" href="./qb-mixed-calculator.css" />
-        <script src="./qb-mixed-calculator.js"></script>
         <script src="/Rain-Support-Tools/src/common/vue/vue.global.prod.js"></script>
+        <script src="./qb-mixed-calculator.js" type="module"></script>
         <script src="https://kit.fontawesome.com/8e52a98e38.js" crossorigin="anonymous"></script>
-        <style>
-            .help-window div.video-js{
-                width: 1000px;
-                height: 500px;
-            }
-            .help-window div.video-js.vjsfullscreen{
-                width:100%;
-                height: auto;
-            }
-        </style>
     </head>
     <body>
         <div class="menu-wrapper">
             <nav-menu></nav-menu>
             <script src="/Rain-Support-Tools/src/common/navigation/nav-builder.js" type="module"></script>
         </div>
-        <div class="calculator" style="margin-top: 50px;">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Totals</th>
-                        <th class="id-cash">Cash</th>
-                        <th class="id-credit">Credit</th>
-                        <th class="id-debit">Debit</th>
-                        <th class="id-gift-card hide">Gift Card</th>
-                        <th class="id-account hide">Account</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr id="totals-row">
-                        <td id="total-total">
-                            $<input />
-                        </td>
-                        <td class="id-cash">
-                            $<input id="cash" />
-                        </td>
-                        <td class="id-credit">
-                            $<input id="credit" />
-                        </td>
-                        <td class="id-debit">
-                            $<input id="debit" />
-                        </td>
-                        <td class="id-gift-card hide">
-                            $<input id="gift-card" />
-                        </td>
-                        <td class="id-account hide">
-                            $<input id="account" />
-                        </td>
-                    </tr>
-                    <tr id="principle-row">
-                        <td id="total-principle">
-                            $<input />
-                        </td>
-                        <td class="id-cash"></td>
-                        <td class="id-credit"></td>
-                        <td class="id-debit"></td>
-                        <td class="id-gift-card hide"></td>
-                        <td class="id-account hide"></td>
-                    </tr>
-                    <tr id="tax-row">
-                        <td id="total-tax">
-                            $<input />
-                        </td>
-                        <td class="id-cash"></td>
-                        <td class="id-credit"></td>
-                        <td class="id-debit"></td>
-                        <td class="id-gift-card hide"></td>
-                        <td class="id-account hide"></td>
-                    </tr>
-                    <tr id="column-totals-row">
-                        <td id="total-principle2"></td>
-                        <td class="id-cash"></td>
-                        <td class="id-credit"></td>
-                        <td class="id-debit"></td>
-                        <td class="id-gift-card hide"></td>
-                        <td class="id-account hide"></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="payment_option_list">
-            <h2>Payment List Options</h2>
-            <ul>
-                <li>
-                    <input checked id="cash" type="checkbox" />Cash
-                </li>
-                <li>
-                    <input checked id="credit" type="checkbox" />Credit
-                </li>
-                <li>
-                    <input checked id="debit" type="checkbox" />Debit
-                </li>
-                <li>
-                    <input id="gift-card" type="checkbox" />Gift Card
-                </li>
-                <li>
-                    <input id="account" type="checkbox" />Account
-                </li>
-            </ul>
-            <input class="newbtn" type="button" value="+New" />
-            <div class="newCol hide">
-                Enter new Column Name: <br />
-                <input id="new-name" type="text" /><br />
-                <input type="button" value="Save" />
-                <input type="button" value="Cancel" />
+        <div id="qb-mixed-split">
+            <div class="content-wrapper">
+                <div class="calculator" style="margin-top: 50px;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Totals</th>
+                                <th v-for="(option, key) in payment_options" :key="key" :class="option.checked ? '' : 'hide'">{{key}}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr id="totals-row">
+                                <td id="total-total">
+                                    $<input v-model.number="totals.total" />
+                                </td>
+                                <td v-for="(option, key) in payment_options" :key="key" :class="option.checked ? '' : 'hide'">
+                                    $<input v-model.number="payment_options[key].amount" />
+                                </td>
+                            </tr>
+                            <tr id="principle-row">
+                                <td id="total-principle">
+                                    $<input v-model.number="totals.principle" />
+                                </td>
+                                <td v-for="(option, key) in payment_options" :key="key" :class="option.checked ? '' : 'hide'">
+                                    ${{ paymentCalculations[key]?.principle || 0 }}
+                                </td>
+                            </tr>
+                            <tr id="tax-row">
+                                <td id="total-tax">
+                                    $<input v-model.number="totals.tax" />
+                                </td>
+                                <td v-for="(option, key) in payment_options" :key="key" :class="option.checked ? '' : 'hide'">
+                                    ${{ paymentCalculations[key]?.tax || 0 }}
+                                </td>
+                            </tr>
+                            <tr id="column-totals-row">
+                                <td id="total-principle2">{{is_totals_correct ? 'True' : 'False'}}</td>
+                                <td v-for="(option, key) in payment_options" :key="key" :class="option.checked ? '' : 'hide'">
+                                    {{ paymentCalculations[key]?.isCorrect ? 'True' : 'False' }}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="payment_option_list">
+                    <h2>Payment List options</h2>
+                    <ul>
+                        <li v-for="(option, key) in payment_options" :key="key">
+                            <input :id="key" type="checkbox" :checked="option.checked" @change="updateColumn(key)" />{{key}}
+                        </li>
+                    </ul>
+                    <input v-if="!new_column" class="newbtn" type="button" value="+New" @click="new_column = true" />
+                    <div v-if="new_column" class="newCol">
+                        Enter new Column Name: <br />
+                        <input id="new-name" type="text" /><br />
+                        <input type="button" value="Save" @click="addNewColumn()" />
+                        <input type="button" value="Cancel" @click="new_column = false" />
+                    </div>
+                </div>
             </div>
-        </div>
-        <div style="float: left;" class="help-window">
-            This video covers how to use this tool.
-            <input type="button" value="Hide Video" />
-            <button>Reset</button>
-            <br />
-            <video
-                controls
-                style="width: 900px;"
-                controlslist="nodownload"
-            >
-            <source src="\Rain-Support-Tools\src\media\videos\qbmixedoverview.mp4" type="video/mp4"></source>
-            <p class="vjs-no-js">
-                To view this video please enable JavaScript, and consider upgrading to a
-                web browser that
-                <a href="https://videojs.com/html5-video-support/" target="_blank">
-                supports HTML5 video
-                </a>
-            </p>
-            </video>
+            <div style="float: left;">
+                This video covers how to use this tool.
+                <input type="button" :value="show_video ? 'Hide Video' : 'Show Video'" @click="show_video = !show_video" />
+                <button @click="resetColumns()">Reset Columns</button>
+            </div>
+            <div class="help-window" v-show="show_video">
+                <video
+                    controls
+                    style="width: 900px;"
+                    controlslist="nodownload"
+                >
+                <source src="\Rain-Support-Tools\src\media\videos\qbmixedoverview.mp4" type="video/mp4"></source>
+                <p class="vjs-no-js">
+                    To view this video please enable JavaScript, and consider upgrading to a
+                    web browser that
+                    <a href="https://videojs.com/html5-video-support/" target="_blank">
+                    supports HTML5 video
+                    </a>
+                </p>
+                </video>
+            </div>
         </div>
     </body>
 </html>

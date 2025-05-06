@@ -1,4 +1,11 @@
 @import '/Rain-Support-Tools/src/common/css/default.css';
+/*content wrapper*/
+.content-wrapper{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
 /*Options list style*/
 .payment_option_list ul{
     list-style: none;
@@ -29,4 +36,19 @@ td input{
 }
 #column-totals-row{
     height: 25px;
+}
+/*video player*/
+.help-window{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.help-window div.video-js{
+    width: 1000px;
+    height: 500px;
+}
+.help-window div.video-js.vjsfullscreen{
+    width:100%;
+    height: auto;
 }

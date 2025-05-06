@@ -1,6 +1,5 @@
 These files need updated to use vue
 ----Smaller
-- QB Mixed Payments
 - Fee Difference Calculator
 
 ----Bigger
