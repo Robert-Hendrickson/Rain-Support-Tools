@@ -116,27 +116,3 @@ const qb_mixed_split = Vue.createApp({
     }
 });
 qb_mixed_split.mount('#qb-mixed-split');
-/*function updates individual columns when there is a change made to that column using the passed in value to decide which column needs updating*/
-function dataUpdate(colName){
-    //save inputs in an array to use later
-    let column_data = document.querySelectorAll(`td.id-${colName}`);
-    let entered_amount = parseFloat(column_data[0].querySelector('input').value);
-    if(!isNaN(entered_amount)){
-        let percentage = entered_amount/totals.total;
-        let principle = totals.principle * percentage;
-        let tax = totals.tax * percentage;
-        principle = principle.toFixed(2);
-        tax = tax.toFixed(2);
-        column_data[1].innerText = principle;
-        column_data[2].innerText = tax;
-        if((parseFloat(principle) + parseFloat(tax)) === entered_amount){
-            column_data[3].innerText = 'True';
-        }else{
-            column_data[3].innerText = 'False';
-        };
-    }else{
-        column_data[1].innerText = '';
-        column_data[2].innerText = '';
-        column_data[3].innerText = '';
-    };
-};
