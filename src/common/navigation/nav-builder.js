@@ -27,7 +27,8 @@ const app = Vue.createApp({
                         {name: 'Bug Ticket v2', url: '/Rain-Support-Tools/src/Tools/bug-ticket/bug-ticket-v2.html', icon: 'fa-solid fa-bug'},
                         {name:'Database', url: '/Rain-Support-Tools/src/Tools/database-ticket/database-ticket.html', icon: 'fa-solid fa-database'},
                         {name:'Site Work', url: '/Rain-Support-Tools/src/Tools/site-work/site-work.html', icon: 'fa-solid fa-hammer'},
-                        {name: 'DNS Record Tool', url: '/Rain-Support-Tools/src/Tools/dns-help/dns-help.html', icon: 'fa-regular fa-compass'}
+                        {name: 'DNS Record Tool', url: '/Rain-Support-Tools/src/Tools/dns-help/dns-help.html', icon: 'fa-regular fa-compass'},
+                        {name: 'Image Uploader', url: '/Rain-Support-Tools/src/Tools/share-point/upload.html', icon: 'fa-solid fa-upload'}
                     ]
                 },
                 system: {
