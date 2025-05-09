@@ -2,7 +2,7 @@
 <html>
     <head>
         <link rel="stylesheet" href="./fee-difference-calc.css">
-        <script src=".\fee-difference-calc.js"></script>
+        <script src=".\fee-difference-calc.js" type="module"></script>
         <script src="/Rain-Support-Tools/src/common/vue/vue.global.prod.js"></script>
         <script src="https://kit.fontawesome.com/8e52a98e38.js" crossorigin="anonymous"></script>
         <script src="/Rain-Support-Tools/src/common/testing/test_data.js"></script>
@@ -12,165 +12,169 @@
             <nav-menu></nav-menu>
             <script src="/Rain-Support-Tools/src/common/navigation/nav-builder.js" type="module"></script>
         </div>
-        <div id="transactions" style="margin-left: 50px;">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Transaction Date</th>
-                        <th>Transactions</th>
-                        <th>Method</th>
-                        <th>Status</th>
-                        <th>Payout</th>
-                        <th>Collected</th>
-                        <th>Fees</th>
-                        <th>Refunds</th>
-                        <th>Net</th>
-                        <th>New Fee</th>
-                        <th>Difference</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
-        </div>
-        <div id="rates">
-            <div id="rateTables">
-                <input type="button" value="Video Walkthrough" />
-                <table id="cardPresent">
-                    <thead>
-                        <tr>
-                            <th colspan="2">Card Present</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Fee Rate</td>
-                            <td><input id="cardPresentRate" /></td>
-                        </tr>
-                        <tr>
-                            <td>Amount per transaction</td>
-                            <td><input id="cardPresentAmount" /></td>
-                        </tr>
-                    </tbody>
-                </table>
-                <br />
-                <table class="amex" id="amexcardPresent">
-                    <thead>
-                        <tr>
-                            <th colspan="2">Amex Card Present</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Fee Rate</td>
-                            <td><input id="amexcardPresentRate" /></td>
-                        </tr>
-                        <tr>
-                            <td>Amount per transaction</td>
-                            <td><input id="amexcardPresentAmount" /></td>
-                        </tr>
-                    </tbody>
-                </table>
-                <br />
-                <table id="cardNotPresent">
-                    <thead>
-                        <tr>
-                            <th colspan="2">Card Not Present</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Fee Rate</td>
-                            <td><input id="cardNotPresentRate" /></td>
-                        </tr>
-                        <tr>
-                            <td>Amount per transaction</td>
-                            <td><input id="cardNotPresentAmount" /></td>
-                        </tr>
-                    </tbody>
-                </table>
-                <br />
-                <table class="amex" id="amexcardNotPresent">
-                    <thead>
-                        <tr>
-                            <th colspan="2">Amex Card Not Present</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Fee Rate</td>
-                            <td><input id="amexcardNotPresentRate" /></td>
-                        </tr>
-                        <tr>
-                            <td>Amount per transaction</td>
-                            <td><input id="amexcardNotPresentAmount" /></td>
-                        </tr>
-                    </tbody>
-                </table>
-                <br />
-            </div>
-            <div id="amexSelector">
-                <input type="checkbox" id="amexCheck" />Different Amex Rates<br />
-                <input type="button" id="import" Value="Import Transactions" /><br />
-                <input type="button" id="calculate" value="Run Calculations" /><br />
-                <input type="button" id="clear" value="Clear Table" /><br />
-            </div>
-            <div id="totals">
+        <div id="fee-difference-calculator">
+            <div id="transactions" style="margin-left: 50px;">
                 <table>
                     <thead>
                         <tr>
-                            <th>
-                                Fees Collected
-                            </th>
-                            <th>
-                                Total fees calculated
-                            </th>
-                            <th>
-                                Total Difference
-                            </th>
+                            <th>Transaction Date</th>
+                            <th>Transactions</th>
+                            <th>Method</th>
+                            <th>Status</th>
+                            <th>Payout</th>
+                            <th>Collected</th>
+                            <th>Fees</th>
+                            <th>Refunds</th>
+                            <th>Net</th>
+                            <th>New Fee</th>
+                            <th>Difference</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>$0.00</td>
-                            <td>$0.00</td>
-                            <td>$0.00</td>
-                        </tr>
+                        <tr v-for="row in tableRows"><td>{{row.dateNum}}</td><td>{{row.transaction}}</td><td>{{row.atTill}}</td><td>{{row.status}}</td><td>{{row.dateText}}</td><td>{{row.collected}}</td><td>{{row.fee}}</td><td>{{row.return}}</td><td>{{row.totalPayout}}</td><td></td><td></td></tr>
                     </tbody>
                 </table>
             </div>
-        </div>
-        <div class="popup1 hide">
-            <div class="import">
-                <input type="button" id="import" value="Import" />
-                <input type="button" id="close" value="Close" />&nbsp;<span>Please paste copied data into the box below.</span><br />
-                <textarea></textarea>
+            <div id="rates">
+                <div id="rateTables">
+                    <input type="button" value="Video Walkthrough" @click="showVideo = true" /><br />
+                    <input type="checkbox" id="amexCheck" @change="amexRates = !amexRates"/>Different Amex Rates<br />
+                    <table id="cardPresent">
+                        <thead>
+                            <tr>
+                                <th colspan="2">Card Present</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Fee Rate</td>
+                                <td><input id="cardPresentRate" /></td>
+                            </tr>
+                            <tr>
+                                <td>Amount per transaction</td>
+                                <td><input id="cardPresentAmount" /></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <br />
+                    <table class="amex" id="amexcardPresent" v-show="amexRates">
+                        <thead>
+                            <tr>
+                                <th colspan="2">Amex Card Present</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Fee Rate</td>
+                                <td><input id="amexcardPresentRate" /></td>
+                            </tr>
+                            <tr>
+                                <td>Amount per transaction</td>
+                                <td><input id="amexcardPresentAmount" /></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <br />
+                    <table id="cardNotPresent">
+                        <thead>
+                            <tr>
+                                <th colspan="2">Card Not Present</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Fee Rate</td>
+                                <td><input id="cardNotPresentRate" /></td>
+                            </tr>
+                            <tr>
+                                <td>Amount per transaction</td>
+                                <td><input id="cardNotPresentAmount" /></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <br />
+                    <table class="amex" id="amexcardNotPresent" v-show="amexRates">
+                        <thead>
+                            <tr>
+                                <th colspan="2">Amex Card Not Present</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Fee Rate</td>
+                                <td><input id="amexcardNotPresentRate" /></td>
+                            </tr>
+                            <tr>
+                                <td>Amount per transaction</td>
+                                <td><input id="amexcardNotPresentAmount" /></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <br />
+                </div>
+                <div id="amexSelector">
+                    <input type="button" id="import" value="Import Transactions" @click="showImport = true"/><br />
+                    <input type="button" id="calculate" value="Run Calculations" /><br />
+                    <input type="button" id="clear" value="Clear Table" @click="this.tableRows = []"/><br />
+                </div>
+                <div id="totals">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>
+                                    Fees Collected
+                                </th>
+                                <th>
+                                    Total fees calculated
+                                </th>
+                                <th>
+                                    Total Difference
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>$0.00</td>
+                                <td>$0.00</td>
+                                <td>$0.00</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-        </div>
-        <div class="popup2 hide">
-            <div class="wait">
-                <input id="closeDialogue" class="hide" type="button" value="Close" /><br />
-                <p style="float:left;">Work is being done on the data you gave. Please wait.</p><img src="https://media1.giphy.com/media/RgzryV9nRCMHPVVXPV/giphy.webp?cid=790b7611c78zoxuecx3k2ayi4g3lljttqwh24v314n69ezbk&ep=v1_gifs_search&rid=giphy.webp&ct=g" style="
-                width: 29px;float:left;"><br /><br />
-                <div class="errorMessage"></div>
+            <div class="popup1" v-show="showImport">
+                <div class="import">
+                    <input type="button" id="import" value="Import" @click="importTransactions()" />
+                    <input type="button" id="close" value="Close" @click="showImport = false" />&nbsp;<span>Please paste copied data into the box below.</span><br />
+                    <textarea></textarea>
+                </div>
             </div>
-        </div>
-        <div class="video hide">
-            <div class="my-player">
-                <input type="button" value="Close" /><br />
-                <video
-                    controls
-                    style="width: 900px;"
-                    controlslist="nodownload"
-                >
-                <source src="\Rain-Support-Tools\src\media\videos\feecalculatoroverview.mp4" type="video/mp4"></source>
-                <p class="vjs-no-js">
-                    To view this video please enable JavaScript, and consider upgrading to a
-                    web browser that
-                    <a href="https://videojs.com/html5-video-support/" target="_blank">
-                    supports HTML5 video
-                    </a>
-                </p>
-                </video>
+            <div class="popup2" v-show="showWait">
+                <div class="wait">
+                    <input id="closeDialogue" type="button" value="Close" v-show="errorMessage" @click="closeError()" /><br />
+                    <p style="float:left;">Work is being done on the data you gave. Please wait.</p><img src="https://media1.giphy.com/media/RgzryV9nRCMHPVVXPV/giphy.webp?cid=790b7611c78zoxuecx3k2ayi4g3lljttqwh24v314n69ezbk&ep=v1_gifs_search&rid=giphy.webp&ct=g" style="
+                    width: 29px;float:left;"><br /><br />
+                    <div class="errorMessage" v-show="errorMessage"><p>{{errorMessage}}</p></div>
+                </div>
+            </div>
+            <div class="video" v-show="showVideo">
+                <div class="my-player">
+                    <input type="button" value="Close" @click="showVideo = false"/><br />
+                    <video
+                        controls
+                        style="width: 900px;"
+                        controlslist="nodownload"
+                    >
+                    <source src="\Rain-Support-Tools\src\media\videos\feecalculatoroverview.mp4" type="video/mp4"></source>
+                    <p class="vjs-no-js">
+                        To view this video please enable JavaScript, and consider upgrading to a
+                        web browser that
+                        <a href="https://videojs.com/html5-video-support/" target="_blank">
+                        supports HTML5 video
+                        </a>
+                    </p>
+                    </video>
+                </div>
             </div>
         </div>
     </body>
