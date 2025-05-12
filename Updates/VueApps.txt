@@ -1,7 +1,4 @@
 These files need updated to use vue
-----Smaller
-- Fee Difference Calculator
-
 ----Bigger
 - Transaction Calculator
 - Tax Inclusive Transaction Calculator
