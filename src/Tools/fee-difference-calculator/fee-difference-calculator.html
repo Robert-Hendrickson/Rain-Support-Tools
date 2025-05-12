@@ -114,7 +114,7 @@
                 </div>
                 <div id="amexSelector">
                     <input type="button" id="import" value="Import Transactions" @click="showImport = true"/><br />
-                    <input type="button" id="calculate" value="Run Calculations" /><br />
+                    <input type="button" id="calculate" value="Run Calculations" @click="calculateDifference()"/><br />
                     <input type="button" id="clear" value="Clear Table" @click="this.tableRows = []"/><br />
                 </div>
                 <div id="totals">
