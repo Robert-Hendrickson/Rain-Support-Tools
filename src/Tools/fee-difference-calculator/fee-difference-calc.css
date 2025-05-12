@@ -7,6 +7,8 @@ div#transactions{
 }
 div#rates{
     width: 400px;
+    display: flex;
+    flex-direction: column;
     float: left;
 }
 div#rates #rateTables, div#rates #amexSelector{
@@ -33,13 +35,6 @@ table thead th:first-child, table tbody td:first-child{
 }
 #transactions th:nth-child(3), td:nth-child(3) {
     width: 30px;
-}
-/*amex card rates*/
-.amex{
-    display: none;
-}
-.amex.show{
-    display: block;
 }
 /*import popup*/
 .popup1{
