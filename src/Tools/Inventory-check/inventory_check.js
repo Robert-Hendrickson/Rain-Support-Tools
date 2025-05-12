@@ -1,4 +1,5 @@
-const inventory_check = Vue.createApp({
+import { createApp } from '/Rain-Support-Tools/src/common/vue/vue.esm-browser.prod.js';
+const inventory_check = createApp({
     //set variable to hold totals
     data(){
         return {

@@ -1,7 +1,8 @@
 /**
  * @description This builds the app that checks the fields of a sales force case to make sure they are correct.
  */
-const app = Vue.createApp({
+import { createApp } from '/Rain-Support-Tools/src/common/vue/vue.esm-browser.prod.js';
+const app = createApp({
     template: `<div class="container">
     <div data entry>
             Case Owner<br>

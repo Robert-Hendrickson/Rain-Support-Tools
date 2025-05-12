@@ -1,7 +1,8 @@
 /**
  * @description This is the app that runs the WA Tax Rates tool
  */
-let waTaxRates = Vue.createApp({
+import { createApp } from '/Rain-Support-Tools/src/common/vue/vue.esm-browser.prod.js';
+let waTaxRates = createApp({
     template: `<div class="addr_input">
     <table>
         <tbody>

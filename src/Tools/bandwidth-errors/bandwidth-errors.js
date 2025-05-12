@@ -3,8 +3,9 @@
  */
 //import the error list
 import { errorList } from './error-list.js';
+import { createApp } from '/Rain-Support-Tools/src/common/vue/vue.esm-browser.prod.js';
 //create the Vue app
-const app = Vue.createApp({
+const app = createApp({
     //define the template
     template: `<div v-for="errorType in filteredErrorTypes" class="error-list">
     <h2>{{errorType.name}}</h2>

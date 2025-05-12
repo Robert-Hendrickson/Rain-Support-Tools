@@ -1,7 +1,8 @@
 /**
  * @description This is the main app for the email list checker tool.
  */
-const email_list_checker_app = Vue.createApp({
+import { createApp } from '/Rain-Support-Tools/src/common/vue/vue.esm-browser.prod.js';
+const email_list_checker_app = createApp({
     data(){
         return {
             email_check: new RegExp(/^[\w\-\_\+\.\&]+@[\w\-]+(?:\.[\w]{2,})+$/gm),

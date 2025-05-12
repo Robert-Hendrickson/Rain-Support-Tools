@@ -1,7 +1,8 @@
 /**
  * @description This app searches for the error message in the textarea and adds the appropriate class to the results wrapper
  */
-const salesforce_errors = Vue.createApp({
+import { createApp } from '/Rain-Support-Tools/src/common/vue/vue.esm-browser.prod.js';
+const salesforce_errors = createApp({
     template: `<div id="search-wrapper">
     <span class="fa-solid fa-magnifying-glass"></span>
     <textarea id="searchbar" placeholder="Paste error message here" @input="search"></textarea>

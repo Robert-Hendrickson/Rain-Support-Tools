@@ -1,3 +1,4 @@
+import { createApp } from '/Rain-Support-Tools/src/common/vue/vue.esm-browser.prod.js';
 //define variable to be used later to hold html to be used
 let html;
 //if url points to the home page use this html as the builder for the navigation links
@@ -10,7 +11,7 @@ if ((/Rain-Support-Tools\/$/).test(location.pathname)) {
 Editing links in the object here updates the navigation across the entire website.
 */
 //nav list items are built as follows {name: Display text for link, url: file needing to be directed to when link is clicked, icon: fontawesome classes used for applying icons in navigation}
-const app = Vue.createApp({
+const app = createApp({
     template: html,
     data() {
         return {nav_list : {

@@ -4,7 +4,8 @@
  * @author Robert Hendrickson
  * @version 1.0.0
  */
-const qb_mixed_split = Vue.createApp({
+import { createApp } from '/Rain-Support-Tools/src/common/vue/vue.esm-browser.prod.js';
+const qb_mixed_split = createApp({
     data(){
         return {
             payment_options: {

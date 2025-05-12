@@ -1,6 +1,6 @@
 import { cssDefaults } from './css-defaults.js';
-
-const css_tester_app = Vue.createApp({
+import { createApp } from '/Rain-Support-Tools/src/common/vue/vue.esm-browser.prod.js';
+const css_tester_app = createApp({
     template: `<div v-for="(value, key) in css_defaults" class="container">
     <content-header>
         <h1>{{ value.html.header }}</h1>
