@@ -1,4 +1,5 @@
 import { getValidToken } from './token-utils.js';
+import { createApp } from '/Rain-Support-Tools/src/common/vue/vue.esm-browser.prod.js';
 
 const SharePointUpload = {
     name: 'SharePointUpload',
@@ -256,6 +257,4 @@ const SharePointUpload = {
     }
 };
 
-document.addEventListener('DOMContentLoaded', () => {
-    Vue.createApp(SharePointUpload).mount('#sharepoint-app');
-});
+createApp(SharePointUpload).mount('#sharepoint-app');
