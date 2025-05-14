@@ -2,7 +2,6 @@
 body{
     background-image: linear-gradient(135deg, #337AB7, #17234B);
     min-height: 96vh;
-    /*padding-left: 23px;*/
 }
 table {
     background: #fff;
@@ -26,6 +25,7 @@ table {
 }
 .btn.tertiary{
     background: #ff0000ab;
+    color: #fff;
 }
 /*span close modal X*/
 span.close{

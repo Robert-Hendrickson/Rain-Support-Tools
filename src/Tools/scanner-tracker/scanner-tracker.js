@@ -24,20 +24,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Add clear button functionality
-    const clearButton = document.createElement('button');
-    clearButton.textContent = 'Clear Keystrokes';
-    clearButton.style.marginTop = '10px';
-    clearButton.style.padding = '8px 16px';
-    clearButton.style.backgroundColor = '#dc3545';
-    clearButton.style.color = 'white';
-    clearButton.style.border = 'none';
-    clearButton.style.borderRadius = '4px';
-    clearButton.style.cursor = 'pointer';
-
-    clearButton.addEventListener('click', () => {
+    document.querySelector('#clearButton button').addEventListener('click', () => {
         keystrokes = [];
+        textInput.value = '';
         updateKeystrokeDisplay();
+        textInput.focus();
     });
-
-    document.querySelector('#clearButton').appendChild(clearButton);
+    textInput.focus();
 });
