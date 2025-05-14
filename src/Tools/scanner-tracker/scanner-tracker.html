@@ -5,22 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Keystroke Tracker</title>
     <link rel="stylesheet" href="scanner-tracker.css">
+    <script src="scanner-tracker.js" type="module"></script>
 </head>
 <body>
-    <div class="container">
+    <div class="container" id="scanner-tracker-app">
         <h1>Scanner Tracker</h1>
         <div class="input-section">
             <label for="textInput">Scan barcode here:</label>
-            <textarea id="textInput" placeholder="Scan barcode..."></textarea>
+            <textarea id="textInput" ref="textInput" placeholder="Scan barcode..." @keydown="handleKeydown"></textarea>
         </div>
         <div class="output-section">
             <h2>Scanner Information</h2>
             <div id="clearButton">
-                <button class="btn tertiary">Clear Data</button>
+                <button class="btn tertiary" @click="clearKeystrokes">Clear Data</button>
             </div>
-            <div id="keystrokeInfo"></div>
+            <div id="keystrokeInfo">
+                <p v-for="keystroke in keystrokes" :key="keystroke.timestamp">
+                    {{ keystroke.timestamp }} - {{ keystroke.type }}: {{ keystroke.key }} (Code: {{ keystroke.keyCode }})
+                </p>
+            </div>
         </div>
     </div>
-    <script src="scanner-tracker.js"></script>
 </body>
 </html>
