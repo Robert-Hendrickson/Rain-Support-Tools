@@ -15,11 +15,17 @@ const scanner_tracker_app = createApp({
                 type: 'keydown'
             };
             this.keystrokes.push(keyInfo);
+            this.$nextTick(() => {
+                this.scrollToBottom();
+            });
         },
         clearKeystrokes() {
             this.keystrokes = [];
             this.$refs.textInput.value = '';
             this.$refs.textInput.focus();
+        },
+        scrollToBottom() {
+            this.$refs.keystrokeInfo.scrollTop = this.$refs.keystrokeInfo.scrollHeight;
         }
     },
     mounted() {

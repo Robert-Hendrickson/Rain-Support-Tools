@@ -19,9 +19,9 @@
             <div id="clearButton">
                 <button class="btn tertiary" @click="clearKeystrokes">Clear Data</button>
             </div>
-            <div id="keystrokeInfo">
+            <div id="keystrokeInfo" ref="keystrokeInfo">
                 <p v-for="keystroke in keystrokes" :key="keystroke.timestamp">
-                    {{ keystroke.timestamp }} - {{ keystroke.type }}: {{ keystroke.key }} (Code: {{ keystroke.keyCode }})
+                    {{ keystroke.timestamp }} - {{ keystroke.type }}: "{{ keystroke.key }}" (Code: {{ keystroke.keyCode }})
                 </p>
             </div>
         </div>
