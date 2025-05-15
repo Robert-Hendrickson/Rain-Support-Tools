@@ -67,3 +67,6 @@ textarea {
     font-family: monospace;
     white-space: pre-wrap;
 }
+.bad-scan {
+    color: red;
+}

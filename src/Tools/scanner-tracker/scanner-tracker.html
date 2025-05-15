@@ -16,11 +16,12 @@
         </div>
         <div class="output-section">
             <h2>Scanner Information</h2>
+            <p>Data shown in <span class="bad-scan">red</span> marks potential problems from the scanned data.</p>
             <div id="clearButton">
                 <button class="btn tertiary" @click="clearKeystrokes">Clear Data</button>
             </div>
             <div id="keystrokeInfo" ref="keystrokeInfo">
-                <p v-for="keystroke in keystrokes" :key="keystroke.timestamp">
+                <p v-for="keystroke in keystrokes" :key="keystroke.timestamp" :class="{ 'bad-scan': isBadScan(keystroke) }">
                     {{ keystroke.timestamp }} - {{ keystroke.type }}: "{{ keystroke.key }}" (Code: {{ keystroke.keyCode }})
                 </p>
             </div>

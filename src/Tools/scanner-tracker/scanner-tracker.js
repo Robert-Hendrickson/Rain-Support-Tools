@@ -26,6 +26,10 @@ const scanner_tracker_app = createApp({
         },
         scrollToBottom() {
             this.$refs.keystrokeInfo.scrollTop = this.$refs.keystrokeInfo.scrollHeight;
+        },
+        isBadScan(keystroke) {
+            console.log(keystroke.key, keystroke.key.length,/^[[:alpha:]]$/.test(keystroke.key),/^(Enter)$/.test(keystroke.key));
+            return (keystroke.key.length > 1 && keystroke.key !== 'Enter');
         }
     },
     mounted() {
