@@ -63,7 +63,7 @@
                 Salesforce Bug Calculator Tips
             </button>
         </div>
-        <div class="body-container">
+        <div id="bug-ticket-v2" class="body-container">
             <div id="info-tabs">
                 <div id="basic-tab" step="1" class="active">
                     <div class="step-circle">1</div>
@@ -222,6 +222,13 @@
                 <button class="btn primary hide" finish style="float: right;" >Finish</button>
                 <button class="btn primary" next style="float: right;" >Next</button>
             </div>
+            <flow-ctrl-app 
+            ref="flowCtrlApp" 
+            :max-step="5"
+            @step-change-request="validateStepData"
+            @step-changed="onStepChanged"
+            @finish="onFinish">
+            </flow-ctrl-app>
         </div>
         <div id="ticket-container" class="hide">
             <div>
