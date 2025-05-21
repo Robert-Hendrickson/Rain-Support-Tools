@@ -115,6 +115,25 @@ function duplicateLinksFound(){
     //return true if duplicates found, false if no duplicates found
     return [... new Set(duplicates)];
 }
+function checkCRM(value){
+    if(brand === 'etailpet'){
+        if(
+            value === '' || 
+            (
+                !RegExp(/^https?:\/\//).test(value) 
+                || 
+                !RegExp(/\/retailer\/dash\/$/).test(value)
+            )
+        ){
+            return false;
+        }
+        return true;
+    }
+    if(value === '' || !RegExp(/^(?:[c|C][r|R][m|M])?\d{2,}$/).test(value)){
+        return false;
+    }
+    return true;
+}
 /*this function is used to when clicking the "Next" and "Finish" buttons on the bug ticket generator. It validates that the data on the current step the user is making edits to has passed specific validations. If they don't an error message is generated. If it passes then the display moves to the next step for inputs
 
 the async keyword was added to this function so that it could be used along side the custom confirmation modal in /modules/dialog-ctrl.(js|css). Async allows it to wait for a response from the dialog-ctrl.js function before moving forward where necessary
@@ -141,8 +160,12 @@ window.validateData = async function () {
             if(document.getElementById('Store-Name').value === ''){
                 bad_object.list['StoreName'] = 'Please enter the name of the store reporting an issue.';
             }
-            if(document.getElementById('crm').value === '' || !RegExp(/^(?:[c|C][r|R][m|M])?\d{2,}$/).test(document.getElementById('crm').value)){
-                bad_object.list['crm'] = 'The CRM needs to be a valid CRM.(2 digits or more)';
+            if(!checkCRM(document.getElementById('crm').value)){
+                if(brand === 'etailpet'){
+                    bad_object.list['crm'] = 'Please make sure the CRM Field has a valid dashboard URL.';
+                } else {
+                    bad_object.list['crm'] = 'The CRM needs to be a valid CRM.(2 digits or more)';
+                }
             }
             if (document.getElementById('systemArea').value === '') {
                 bad_object.list['system'] = 'Please enter the area of the system that is affected.';
