@@ -19,8 +19,18 @@ const BugTicketV2 = createApp({
     },
     methods: {
         async validateStepData(step, resolve){
-            console.log('validateStepData', step);
+            //this will run a different check before for each step
+            this.handleNextStep();
             resolve(true);
+        },
+        handleNextStep(){
+            this.currentStep++;
+        },
+        handlePreviousStep(){
+            this.currentStep--;
+        },
+        handleFinish(){
+            this.isFinished = true;
         }
     }
 });

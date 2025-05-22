@@ -19,8 +19,6 @@ export default {
                     this.$emit('step-change-request', this.currentStep, resolve);
                 });
                 
-                console.log('canProceed', canProceed);
-                
                 // Only proceed if parent returned true
                 if (canProceed) {
                     this.currentStep++;
@@ -32,7 +30,7 @@ export default {
         },
         previousStep(){
             this.currentStep--;
-            this.$emit('step-changed', this.currentStep);
+            this.$emit('previous-step', this.currentStep);
         },
         finish(){
             this.$emit('finish');

@@ -68,29 +68,29 @@
         </div>
         <div id="bug-ticket-v2" class="body-container">
             <div id="info-tabs">
-                <div id="basic-tab" step="1" class="active">
+                <div id="basic-tab" step="1" :class="{active: currentStep === 1, complete: currentStep > 1}">
                     <div class="step-circle">1</div>
                     Basic
                 </div>
-                <div id="steps-tab" step="2">
+                <div id="steps-tab" step="2" :class="{active: currentStep === 2, complete: currentStep > 2}">
                     <div class="step-circle">2</div>
                     Steps
                 </div>
-                <div id="description-tab" step="3">
+                <div id="description-tab" step="3" :class="{active: currentStep === 3, complete: currentStep > 3}">
                     <div class="step-circle">3</div>
                     Desc.
                 </div>
-                <div id="links-tab" step="4">
+                <div id="links-tab" step="4" :class="{active: currentStep === 4, complete: currentStep > 4}">
                     <div class="step-circle">4</div>
                     Screenshots
                 </div>
-                <div id="examples-errors-tab" step="5">
+                <div id="examples-errors-tab" step="5" :class="{active: currentStep === 5, complete: currentStep > 5}">
                     <div class="step-circle">5</div>
                     Examples
                 </div>
             </div>
             <div class="container content">
-                <div style="z-index: 1;" id="basic-content" data="1"  class="active">
+                <div style="z-index: 1;" id="basic-content" data="1"  :class="{active: currentStep === 1, 'in-active': currentStep < 1, complete: currentStep > 1}">
                     <div title="The Support Rep submitting the ticket." class="note-wrapper">
                         Support Tech Name
                         <span class="fa-solid fa-question"></span>
@@ -132,7 +132,7 @@
                         <div where='Customer'>Customer Site</div>
                     </div>
                 </div>
-                <div style="z-index: 2;" id="steps-content" data="2" class="in-active">
+                <div style="z-index: 2;" id="steps-content" data="2" :class="{active: currentStep === 2, 'in-active': currentStep < 2, complete: currentStep > 2}">
                     <h2 class="header-center">
                         <div title="Step by step instructions on how to reproduce the issue." class="note-wrapper">
                             Steps to Reproduce
@@ -163,14 +163,14 @@
                         </tbody>
                     </table>
                 </div>
-                <div style="z-index: 3;" id="description-content" data="3" class="in-active">
+                <div style="z-index: 3;" id="description-content" data="3" :class="{active: currentStep === 3, 'in-active': currentStep < 3, complete: currentStep > 3}">
                     <div title="Please provide a detailed description of the bug behavior and what issue it is causing." class="note-wrapper">
                         <h2>Description</h2>
                         <span class="fa-solid fa-question"></span>
                     </div>
                     <textarea tabindex="-1" placeholder="Enter a Description" id="description"></textarea>
                 </div>
-                <div style="z-index: 4;" id="links-content" data="4" class="in-active">
+                <div style="z-index: 4;" id="links-content" data="4" :class="{active: currentStep === 4, 'in-active': currentStep < 4, complete: currentStep > 4}">
                     <div id="sharepoint-app">
                         <share-point-upload></share-point-upload>
                     </div>
@@ -205,7 +205,7 @@
                         </tbody>
                     </table>
                 </div>
-                <div style="z-index: 5;" id="examples-errors-content" data="5" class="in-active">
+                <div style="z-index: 5;" id="examples-errors-content" data="5" :class="{active: currentStep === 5, 'in-active': currentStep < 5, complete: currentStep > 5}">
                     <div title="Data that is currently showing the issue that can be referenced for investigation." class="note-wrapper">
                         <h2>Examples</h2>
                         <span class="fa-solid fa-question"></span>
@@ -229,7 +229,7 @@
             ref="flowCtrlApp" 
             :max-step="5"
             @step-change-request="validateStepData"
-            @step-changed="onStepChanged"
+            @previous-step="handlePreviousStep"
             @finish="onFinish">
             </flow-ctrl-app>
         </div>
