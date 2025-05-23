@@ -45,9 +45,6 @@ const BugTicketV2 = createApp({
         handleFinish(){
             this.isFinished = true;
         }
-    },
-    mounted(){
-        this.handleNextStep();
     }
 });
 window.BugTicketV2 = BugTicketV2.mount('#bug-ticket-v2');
