@@ -2,39 +2,6 @@
  * @module bug-ticket-v2
  * @description This module is used to generate bug tickets for the Rain Support Team.
  */
-import { createApp } from '/Rain-Support-Tools/src/common/vue/vue.esm-browser.prod.js';
-import flowCtrlApp from '/Rain-Support-Tools/src/common/flow-format/flow-ctrl-app.js';
-const BugTicketV2 = createApp({
-    components: {
-        //'nav-menu': () => import('/Rain-Support-Tools/src/common/navigation/nav-menu.js'),
-        //'past-tickets': () => import('/Rain-Support-Tools/src/common/past-tickets/past-tickets.js'),
-        flowCtrlApp
-    },
-    data() {
-        return {
-            brand: '',
-            currentStep: 1,
-            isFinished: false
-        }
-    },
-    methods: {
-        async validateStepData(step, resolve){
-            //this will run a different check before for each step
-            this.handleNextStep();
-            resolve(true);
-        },
-        handleNextStep(){
-            this.currentStep++;
-        },
-        handlePreviousStep(){
-            this.currentStep--;
-        },
-        handleFinish(){
-            this.isFinished = true;
-        }
-    }
-});
-BugTicketV2.mount('#bug-ticket-v2');
 window.regexController = (await import('/Rain-Support-Tools/src/modules/regex-patterns/patterns.js')).regexController;
 /**
  * @type {string}
