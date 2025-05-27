@@ -6,18 +6,27 @@ import { createApp } from '/Rain-Support-Tools/src/common/vue/vue.esm-browser.pr
 //import component pieces
 import flowCtrlApp from '/Rain-Support-Tools/src/common/flow-format/flow-ctrl-app.js';
 import validateStep1 from './validate-step-1.js';
+import validateStep2 from './validate-step-2.js';
 const BugTicketV2 = createApp({
     components: {
         //'nav-menu': () => import('/Rain-Support-Tools/src/common/navigation/nav-menu.js'),
         //'past-tickets': () => import('/Rain-Support-Tools/src/common/past-tickets/past-tickets.js'),
         flowCtrlApp,
-        validateStep1
+        validateStep1,
+        validateStep2
     },
     data() {
         return {
             brand: '',
             currentStep: 1,
-            isFinished: false
+            isFinished: false,
+            formData: {
+                step1: null,
+                step2: null,
+                step3: null,
+                step4: null,
+                step5: null
+            }
         }
     },
     methods: {
@@ -29,6 +38,17 @@ const BugTicketV2 = createApp({
                     validation_result = await new Promise((result) => {
                         this.$refs.validateStep1.validate(result);
                     });
+                    if (validation_result.success) {
+                        this.formData.step1 = validation_result.data;
+                    }
+                    break;
+                case 2:
+                    validation_result = await new Promise((result) => {
+                        this.$refs.validateStep2.validate(result);
+                    });
+                    if (validation_result.success) {
+                        this.formData.step2 = validation_result.data;
+                    }
                     break;
                 default:
                     break;
@@ -43,6 +63,8 @@ const BugTicketV2 = createApp({
             this.currentStep--;
         },
         handleFinish(){
+            // Now you can access all the compiled data from this.formData
+            console.log('Final form data:', this.formData);
             this.isFinished = true;
         }
     }

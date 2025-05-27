@@ -7,32 +7,16 @@ export default {
     props: {
         brand: String
     },
-    data(){
-        return {
-            formData: {
-                tech: '',
-                store: '',
-                store_id: '',
-                area: '',
-                replicable: '',
-                where: []
-            }
-        }
-    },
     methods: {
         async validate(returnData){
             //create object to store any errors found in the form
             let bad_data_list = {};
             if (document.getElementById('Support-Rep').value === '') {
                 bad_data_list['SupportRep'] = 'Please enter the name of the Support Rep submitting the ticket.';
-            } else {
-                this.formData.tech = document.getElementById('Support-Rep').value;
             }
 
             if (document.getElementById('Store-Name').value === '') {
                 bad_data_list['StoreName'] = 'Please enter the name of the store reporting an issue.';
-            } else {
-                this.formData.store = document.getElementById('Store-Name').value;
             }
 
             if (!this.checkCRM(document.getElementById('crm').value)) {
@@ -41,32 +25,32 @@ export default {
                 } else {
                     bad_data_list['crm'] = 'The CRM needs to be a valid CRM.(2 digits or more)';
                 }
-            } else {
-                this.formData.store_id = document.getElementById('crm').value;
             }
 
             if (document.getElementById('systemArea').value === '') {
                 bad_data_list['system'] = 'Please enter the area of the system that is affected.';
-            } else {
-                this.formData.area = document.getElementById('systemArea').value;
             }
 
             if (!document.querySelectorAll('[replicable].selected').length) {
                 bad_data_list['replicable'] = 'Please select if this is replicable or not.';
-            } else {
-                this.formData.replicable = document.querySelector('[replicable].selected').textContent;
             }
 
             if (document.querySelector('[replicable].selected').textContent === 'Yes' && !document.querySelectorAll('[where].selected').length) {
                 bad_data_list['where'] = 'Make sure to select at least one place where replication happened.';
-            } else {
-                this.formData.where = Array.from(document.querySelectorAll('[where].selected')).map(el => el.textContent);
             }
 
             if (Object.entries(bad_data_list).length) {
                 returnData({success: false, data: bad_data_list});
             } else {
-                returnData({success: true, data: this.formData});
+                let step1_data = {
+                    tech: document.getElementById('Support-Rep').value,
+                    store: document.getElementById('Store-Name').value,
+                    store_id: document.getElementById('crm').value,
+                    area: document.getElementById('systemArea').value,
+                    replicable: document.querySelector('[replicable].selected').textContent,
+                    where: Array.from(document.querySelectorAll('[where].selected')).map(el => el.textContent)
+                }
+                returnData({success: true, data: step1_data});
             };
         },
         checkCRM(value){

@@ -164,6 +164,7 @@
                             </tr>
                         </tbody>
                     </table>
+                    <validate-step-2 ref="validateStep2" :brand="brand"></validate-step-2>
                 </div>
                 <div style="z-index: 3;" id="description-content" data="3" :class="{active: currentStep === 3, 'in-active': currentStep < 3, complete: currentStep > 3}">
                     <div title="Please provide a detailed description of the bug behavior and what issue it is causing." class="note-wrapper">
