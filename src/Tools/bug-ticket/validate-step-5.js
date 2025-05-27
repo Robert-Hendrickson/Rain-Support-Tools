@@ -3,6 +3,7 @@
  * @description This module is used to validate the data entered on step 5 of the bug ticket form.
  */
 import {regexController} from '/Rain-Support-Tools/src/modules/regex-patterns/patterns.js';
+import customDialogue from '/Rain-Support-Tools/src/modules/custom-dialogue/dialog-ctrl.js';
 export default {
     name: 'validate-step-5',
     props: {
@@ -39,14 +40,60 @@ export default {
                     examples: examples,
                     errors: errors
                 }
-                returnData({success: true, data: examples_data});
-                /*
-                if (await checkDescriptionNeedsLinkExamples() && await checkUnnecessaryErrors()) {
-                    generateTicket();
-                    newCookieData();
+                if (await this.checkDescriptionNeedsLinkExamples() && await this.checkUnnecessaryErrors()) {
+                    returnData({success: true, data: examples_data});
+                } else {
+                    returnData({success: false, data: null});
                 }
-                */
             };
+        },
+        async checkDescriptionNeedsLinkExamples(){
+            //function returns true if there is no need to add more data
+            //find out how many times the description uses any of the listed keywords by matching them in an array for each instance
+            let description_check_array = document.getElementById('description').value.match(/website|cart|checkout|add to cart/gi) || [];
+            //check if there is a link in the examples data
+            let example_check_for_links = (/(?:https?:\/\/)?(?:\w+\.)?(\w+\.)+\w{3,}/g).test(document.getElementById('examples').value);
+            let check = true;
+            if (description_check_array.length > 2 && !example_check_for_links) {
+                //if array has 3 or more matches and there isn't a link in the example use custom modal popup to ask if user wants to continue without adding a link
+                check = await customDialogue(`It looks like there was mention of website issues, but there were no links provided in the examples. Do you want to continue without adding links to website issue areas?`,'Continue','Go Back');
+            }
+            return check;
+        },
+        async checkUnnecessaryErrors(){
+            let errors = document.querySelector('textarea#errors').value;
+            let check = true;
+            let bad_error_array = [];
+            if ((/Blocked aria-hidden/i).test(errors)) {
+                bad_error_array.push(`Blocked aria-hidden : Browser stopped an element from using attribute aria-hidden`);
+                //Usually caused by us loading or building an element that has the attribute aria-hidden. This is supposed to hide it from screen readers. Browsers sometimes stop this hiding as either the element is seen by the browser as necessary for something or it has a child element that isn't hidden.
+            }
+            if ((/\[DOM\] Found \d{1,} elements? with non-unique id/i).test(errors)) {
+                bad_error_array.push(`non-unique id : There are multiple elements with the same id`);
+            }
+            if((/POST http:\/\/127.0.0.1:8090\/api\/status net::ERR_CONNECTION_REFUSED/).test(errors)) {
+                bad_error_array.push(`127.0.0.1 : This refers to the system connecting to the print Proxy.`);
+            }
+            if (bad_error_array.length) {
+                let errors_string = () => {
+                    let html = `<div class="dialog-error-list">
+                    <div class="dialog-error-header"><strong>Error : Usual Reason</strong></div><br />
+                    `;
+                    for (let i=0;i<bad_error_array.length;i++){
+                        html += `<div class="dialog-error-item">${bad_error_array[i]}</div>`;
+                    }
+                    html += '</div>'
+                    return html;
+                }
+                check = await customDialogue(
+                    `There were some errors found that might not be system problems. Please remember that during testing:<ul><li>You should have the console open and only include errors that appear at the time of the bad behavior you are noticing</li><li>Console logs that are yellow usually do not indicate a problem</li></ul> If any of the below errors did not happen at the time of bad behavior remove them from the list of errors before continuing.<br>
+                    <br>
+                    ${errors_string()}`,
+                    'Continue',
+                    'Cancel'
+                )
+            }
+            return check;
         }
     }
 }
