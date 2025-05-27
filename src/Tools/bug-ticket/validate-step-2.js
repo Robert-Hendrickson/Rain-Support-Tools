@@ -33,9 +33,9 @@ export default {
                 returnData({success: false, data: bad_data_list});
             } else {
                 //if there are no errors, return the steps
-                let steps = [];
-                document.querySelectorAll('#steps-table tbody tr input').forEach(function (element){
-                    steps.push(element.value);
+                let steps = '';
+                document.querySelectorAll('#steps-table tbody tr input').forEach((element,index) => {
+                    steps += `${index + 1}. ${element.value}\n`;
                 });
                 returnData({success: true, data: steps});
             };

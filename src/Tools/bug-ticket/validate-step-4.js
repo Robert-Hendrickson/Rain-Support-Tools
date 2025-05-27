@@ -37,14 +37,14 @@ export default {
             } else {
                 //if there are no errors, return the steps
                 let links = {
-                    images: [],
-                    videos: []
+                    images: '',
+                    videos: ''
                 }
-                document.querySelectorAll('#screenshot-table tr input').forEach((element) => {
-                    links.images.push(element.value);
+                document.querySelectorAll('#screenshot-table tr input').forEach((element, index) => {
+                    links.images += `[Screenshot_${index + 1}](${element.value})\n\n`;
                 });
-                document.querySelectorAll('#video-table tr input').forEach((element) => {
-                    links.videos.push(element.value);
+                document.querySelectorAll('#video-table tr input').forEach((element, index) => {
+                    links.videos += `[Video_${index + 1}](${element.value})\n\n`;
                 });
                 returnData({success: true, data: links});
             };

@@ -25,7 +25,7 @@
         gtag('config', 'G-ZBB64CR2LL');
         </script>
     </head>
-    <body>
+    <body id="bug-ticket-v2">
         <div class="menu-wrapper">
             <nav-menu></nav-menu>
             <script src="/Rain-Support-Tools/src/common/navigation/nav-builder.js" type="module"></script>
@@ -67,7 +67,7 @@
                 Salesforce Bug Calculator Tips
             </button>
         </div>
-        <div id="bug-ticket-v2" class="body-container">
+        <div class="body-container">
             <div id="info-tabs">
                 <div id="basic-tab" step="1" :class="{active: currentStep === 1, complete: currentStep > 1}">
                     <div class="step-circle">1</div>
@@ -237,12 +237,12 @@
             @step-change-request="validateStepData"
             @step-changed="handleNextStep"
             @previous-step="handlePreviousStep"
-            @finish="displayTicket">
+            @finish="handleFinish">
             </flow-ctrl-app>
         </div>
-        <div id="ticket-container" class="hide">
+        <div id="ticket-container" v-show="showTicketContainer">
             <div>
-                <textarea></textarea>
+                <textarea v-model="ticketData" autofocus></textarea>
                 <div ticket-buttons>
                     <button style="float: left;" class="btn tertiary">New Case</button>
                     <button class="btn secondary">Close</button>

@@ -25,12 +25,13 @@ const BugTicketV2 = createApp({
         return {
             brand: '',
             currentStep: 1,
-            isFinished: false,
+            showTicketContainer: false,
+            ticketData: '',
             formData: {
                 step1: {},
-                step2: [],
+                step2: '',
                 step3: '',
-                step4: {},
+                step4: '',
                 step5: {}
             }
         }
@@ -93,9 +94,63 @@ const BugTicketV2 = createApp({
             this.currentStep--;
         },
         handleFinish(){
+            this.showTicketContainer = true;
             // Now you can access all the compiled data from this.formData
             console.log('Final form data:', this.formData);
-            this.isFinished = true;
+            this.generateTicket();
+        },
+        markdownScrubbing(string_data){//currently this finds any '#' characters and adds a space to them so it looks like '# ' so it doesn't try to link the following data and says a normal '#'
+            let characters_to_adjust = new RegExp(/#/g);
+            return string_data.replaceAll(characters_to_adjust, "$& ");
+        },
+        generateTicket(){
+            this.ticketData = `**LOCATION:**
+**Bug Submission:**
+Reporting Tech:
+${this.formData.step1.tech}
+
+Store:
+${this.formData.step1.store}
+
+Store ID:
+${this.formData.step1.store_id}
+
+System Area:
+${this.formData.step1.area}
+
+Can you recreate the problem on your demo site or Customers Site?
+${this.formData.step1.replicable}
+
+` +
+
+(this.formData.step1.where ? this.formData.step1.where.toString() : ``)
+
++ `
+
+STEPS TO REPRODUCE:
+${this.formData.step2}
+
+ACTUAL RESULTS:(Please be as detailed as possible.)
+
+Description:
+${this.markdownScrubbing(this.formData.step3)}
+
+Example:(If this pertains to the customer's site, please provide links to the relevant pages.)
+${this.markdownScrubbing(this.formData.step5.examples)}
+
+Screenshot:
+${this.formData.step4.images}
+
+Video:
+${this.formData.step4.videos}
+
+Expected Results:
+
+CONSOLE ERRORS:
+\`\`\`
+${this.formData.step5.errors}
+\`\`\`
+`;
         }
     }
 });
