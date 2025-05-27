@@ -32,8 +32,17 @@ export default {
             this.currentStep--;
             this.$emit('previous-step', this.currentStep);
         },
-        finish(){
-            this.$emit('finish');
+        async finish(){
+            try{
+                const canProceed = await new Promise((resolve) => {
+                    this.$emit('step-change-request', this.currentStep, resolve);
+                });
+                if (canProceed) {
+                    this.$emit('finish');
+                }
+            } catch (error) {
+                console.error('Error during step change:', error);
+            }
         }
     },
     template: `<div class="flow-controls">

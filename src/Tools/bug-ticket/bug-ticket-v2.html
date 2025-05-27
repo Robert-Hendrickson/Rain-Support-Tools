@@ -172,6 +172,7 @@
                         <span class="fa-solid fa-question"></span>
                     </div>
                     <textarea tabindex="-1" placeholder="Enter a Description" id="description"></textarea>
+                    <validate-step-3 ref="validateStep3" :brand="brand"></validate-step-3>
                 </div>
                 <div style="z-index: 4;" id="links-content" data="4" :class="{active: currentStep === 4, 'in-active': currentStep < 4, complete: currentStep > 4}">
                     <div id="sharepoint-app">
@@ -207,6 +208,7 @@
                             
                         </tbody>
                     </table>
+                    <validate-step-4 ref="validateStep4" :brand="brand"></validate-step-4>
                 </div>
                 <div style="z-index: 5;" id="examples-errors-content" data="5" :class="{active: currentStep === 5, 'in-active': currentStep < 5, complete: currentStep > 5}">
                     <div title="Data that is currently showing the issue that can be referenced for investigation." class="note-wrapper">
@@ -221,6 +223,7 @@
                     </div>
                     <span class="sub-text">Copy the console error from the console then paste the info into the below box. Do not enter this box with "See Video" or similar options.</span>
                     <textarea tabindex="-1" placeholder="Enter any console errors that appear during the issue" id="errors"></textarea>
+                    <validate-step-5 ref="validateStep5" :brand="brand"></validate-step-5>
                 </div>
             </div>
             <div flow-controls>
@@ -234,7 +237,7 @@
             @step-change-request="validateStepData"
             @step-changed="handleNextStep"
             @previous-step="handlePreviousStep"
-            @finish="onFinish">
+            @finish="displayTicket">
             </flow-ctrl-app>
         </div>
         <div id="ticket-container" class="hide">
