@@ -103,6 +103,37 @@ const BugTicketV2 = createApp({
             let characters_to_adjust = new RegExp(/#/g);
             return string_data.replaceAll(characters_to_adjust, "$& ");
         },
+        addTableRow(table){
+            let row_label;//switch statement finds the correct row label
+            switch(table) {
+                case 'steps-table':
+                    row_label = 'Step';
+                    break;
+                case 'screenshot-table':
+                    row_label = 'Image';
+                    break;
+                case 'video-table':
+                    row_label = 'Video';
+                    break;
+                default:
+                    console.error('Something went wrong. Passed table type was not of an expected value: ' + table);
+            }
+            //finds what row is being added by how many already exist
+            let new_row_number = document.querySelectorAll(`#${table} tbody tr`).length + 1;
+            //create a new table row and append it to the table
+            try{
+                document.querySelector(`#${table} tbody`).insertAdjacentHTML('beforeend', `<tr><td>${row_label} ${new_row_number}<input placeholder="Enter ${row_label} ${new_row_number}" type="text" /></td></tr>`);
+            }catch(error){
+                console.error(`Error adding table row: ${table}`, error);
+            }
+        },
+        removeTableRow(table){
+            try{
+                document.querySelector(`#${table} tbody tr:last-child`).remove();
+            }catch(error){
+                console.error(`Error removing table row: ${table}`, error);
+            }
+        },
         generateTicket(){
             this.ticketData = `**LOCATION:**
 **Bug Submission:**
@@ -152,6 +183,21 @@ ${this.formData.step5.errors}
 \`\`\`
 `;
         }
+    },
+    mounted() {
+        // Listen for SharePoint upload completion
+        document.addEventListener('sharepoint-upload-complete', (e) => {
+            for (let i = 0; i < e.detail.links.length; i++) {
+                if (e.detail.links[i].includes(":i:")) {
+                    this.addTableRow('screenshot-table');
+                    document.querySelector('#screenshot-table tbody tr:last-child td:last-child input').value = e.detail.links[i];
+                }
+                if (e.detail.links[i].includes(":v:")) {
+                    this.addTableRow('video-table');
+                    document.querySelector('#video-table tbody tr:last-child td:last-child input').value = e.detail.links[i];
+                }
+            }
+        });
     }
 });
 window.BugTicketV2 = BugTicketV2.mount('#bug-ticket-v2');

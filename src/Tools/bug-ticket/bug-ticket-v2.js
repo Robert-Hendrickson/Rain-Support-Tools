@@ -667,6 +667,7 @@ document.querySelector('#salesforce-bug-calc-tips .close').addEventListener('cli
     document.querySelector('#salesforce-bug-calc-tips').classList = 'hide';
 });
 //these sets the event listener for the table controls
+/*
 document.querySelectorAll('div[table-controls] button:first-child').forEach(
     (el,index) => {
         if(index === 0){
@@ -693,6 +694,7 @@ document.querySelectorAll('div[table-controls] button:last-child').forEach(
         }
     }
 );
+*/
 //this sets the event listener for the ticket modal buttons
 document.querySelector('div[ticket-buttons] button:first-child').addEventListener('click',start_new_ticket);
 document.querySelector('div[ticket-buttons] button:nth-child(2)').addEventListener('click',() => document.getElementById('ticket-container').classList.add('hide'));
@@ -730,6 +732,7 @@ if(getCookie('brand')){
 //add event listener for validateData custom event
 document.addEventListener('validateData', validateData);
 //add event listener for sharepoint-upload-complete custom event
+/*
 document.addEventListener('sharepoint-upload-complete', (e) => {
     for (let i = 0; i < e.detail.links.length; i++) {
         if (e.detail.links[i].includes(":i:")) {
@@ -742,3 +745,4 @@ document.addEventListener('sharepoint-upload-complete', (e) => {
         }
     }
 });
+*/
