@@ -5,6 +5,7 @@
 import { createApp } from '/Rain-Support-Tools/src/common/vue/vue.esm-browser.prod.js';
 //import component pieces
 import flowCtrlApp from '/Rain-Support-Tools/src/common/flow-format/flow-ctrl-app.js';
+import pastTicketsCtrl from './past-tickets.js';
 import validateStep1 from './validate-step-1.js';
 import validateStep2 from './validate-step-2.js';
 import validateStep3 from './validate-step-3.js';
@@ -13,7 +14,7 @@ import validateStep5 from './validate-step-5.js';
 const BugTicketV2 = createApp({
     components: {
         //'nav-menu': () => import('/Rain-Support-Tools/src/common/navigation/nav-menu.js'),
-        //'past-tickets': () => import('/Rain-Support-Tools/src/common/past-tickets/past-tickets.js'),
+        pastTicketsCtrl,
         flowCtrlApp,
         validateStep1,
         validateStep2,

@@ -24,7 +24,7 @@ body{
     justify-content: center;
     align-items: center;
 }
-past-tickets{
+.past-tickets-container{
     position: absolute;
     top: 45px;
     right: 15px;
@@ -51,10 +51,10 @@ past-tickets{
         }
     }
 }
-past-tickets.active{
+.past-tickets-container.active{
     translate: none;
 }
-past-tickets div{
+.past-tickets-container div{
     border: #dddddd solid 1px;
     border-radius: 8px;
     margin-bottom: 8px;
@@ -62,17 +62,17 @@ past-tickets div{
     overflow: hidden;
     position: relative;
 }
-past-tickets div:hover{
+.past-tickets-container div:hover{
     border-color: #000;
     cursor: pointer;
     background-color: #EEEEEE;
 }
-past-tickets div > span.close{
+.past-tickets-container div > span.close{
     position: absolute;
     top: 5px;
     right: 5px;
 }
-past-tickets div > span.close::before{
+.past-tickets-container div > span.close::before{
     content: "X";
     font-family: sans-serif;
 }

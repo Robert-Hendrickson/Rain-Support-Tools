@@ -59,3 +59,10 @@ function deleteCookie(cookie_name){
 	//sets cookie expiration to yesterday which causes the browser to delete the cookie
 	setCookie(cookie_name,'deleted',-1);
 }
+
+const cookieCtrl = {
+	getCookie,
+	setCookie,
+	deleteCookie
+}
+export default cookieCtrl;
