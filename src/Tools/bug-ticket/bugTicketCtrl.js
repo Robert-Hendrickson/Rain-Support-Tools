@@ -86,7 +86,7 @@ const BugTicketV2 = createApp({
                 default:
                     break;
             }
-            console.log(validation_result);
+            console.log(validation_result.data);
             resolve(validation_result.success);
         },
         handleNextStep(){
