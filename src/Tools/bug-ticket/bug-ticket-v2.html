@@ -29,14 +29,9 @@
             <nav-menu></nav-menu>
             <script src="/Rain-Support-Tools/src/common/navigation/nav-builder.js" type="module"></script>
         </div>
-        <past-tickets-ctrl ref="pastTicketsCtrl">
-            <div id="past-ticket-container" style="display: none;">
-                <div id="list-toggle">
-                    0
-                </div>
-                <div class="past-tickets-container"></div>
-            </div>
-        </past-tickets-ctrl>
+        <past-tickets-ctrl ref="pastTicketsCtrl"
+            @open-past-ticket="generateTicket"
+        ></past-tickets-ctrl>
         <div id="brand-selector" class="hide">
             <h2>Brand</h2>
             <div id="brand-selector-list">
@@ -246,7 +241,7 @@
                 <textarea v-model="ticketData" autofocus></textarea>
                 <div ticket-buttons>
                     <button style="float: left;" class="btn tertiary">New Case</button>
-                    <button class="btn secondary">Close</button>
+                    <button class="btn secondary" @click="this.showTicketContainer = false">Close</button>
                     <button class="btn primary copy-btn">Copy</button>
                 </div>
             </div>

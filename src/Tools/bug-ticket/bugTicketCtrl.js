@@ -3,6 +3,7 @@
  * @description This module is used to generate bug tickets for the Rain Support Team.
  */
 import { createApp } from '/Rain-Support-Tools/src/common/vue/vue.esm-browser.prod.js';
+import cookieCtrl from '/Rain-Support-Tools/src/common/ctrl/cookie_ctrl.js';
 //import component pieces
 import flowCtrlApp from '/Rain-Support-Tools/src/common/flow-format/flow-ctrl-app.js';
 import pastTicketsCtrl from './past-tickets.js';
@@ -32,7 +33,7 @@ const BugTicketV2 = createApp({
                 step1: {},
                 step2: '',
                 step3: '',
-                step4: '',
+                step4: {},
                 step5: {}
             }
         }
@@ -98,7 +99,8 @@ const BugTicketV2 = createApp({
             this.showTicketContainer = true;
             // Now you can access all the compiled data from this.formData
             console.log('Final form data:', this.formData);
-            this.generateTicket();
+            this.saveTicket(this.formData);
+            this.generateTicket(this.formData);
         },
         markdownScrubbing(string_data){//currently this finds any '#' characters and adds a space to them so it looks like '# ' so it doesn't try to link the following data and says a normal '#'
             let characters_to_adjust = new RegExp(/#/g);
@@ -135,32 +137,38 @@ const BugTicketV2 = createApp({
                 console.error(`Error removing table row: ${table}`, error);
             }
         },
-        generateTicket(){
+        saveTicket(data){
+            let now = Date.now();
+            cookieCtrl.setCookie(`bug_${now}`,JSON.stringify(data));
+            this.$refs.pastTicketsCtrl.pastTickets[now] = data;
+            this.$refs.pastTicketsCtrl.pastTicketsLength++;
+        },
+        generateTicket(data){
             this.ticketData = `**LOCATION:**
 **Bug Submission:**
 Reporting Tech:
-${this.formData.step1.tech}
+${data.step1.tech}
 
 Store:
-${this.formData.step1.store}
+${data.step1.store}
 
 Store ID:
-${this.formData.step1.store_id}
+${data.step1.store_id}
 
 System Area:
-${this.formData.step1.area}
+${data.step1.area}
 
 Can you recreate the problem on your demo site or Customers Site?
-${this.formData.step1.replicable}
+${data.step1.replicable}
 
 ` +
 
-(this.formData.step1.where ? this.formData.step1.where.toString() : ``)
+(data.step1.where ? data.step1.where.toString() : ``)
 
 + `
 
 STEPS TO REPRODUCE:
-${this.formData.step2}
+${data.step2}
 
 ACTUAL RESULTS:(Please be as detailed as possible.)
 
@@ -168,21 +176,22 @@ Description:
 ${this.markdownScrubbing(this.formData.step3)}
 
 Example:(If this pertains to the customer's site, please provide links to the relevant pages.)
-${this.markdownScrubbing(this.formData.step5.examples)}
+${this.markdownScrubbing(data.step5.examples)}
 
 Screenshot:
-${this.formData.step4.images}
+${data.step4.images}
 
 Video:
-${this.formData.step4.videos}
+${data.step4.videos}
 
 Expected Results:
 
 CONSOLE ERRORS:
 \`\`\`
-${this.formData.step5.errors}
+${data.step5.errors}
 \`\`\`
 `;
+            this.showTicketContainer = true;
         }
     },
     mounted() {

@@ -54,7 +54,7 @@ body{
 .past-tickets-container.active{
     translate: none;
 }
-.past-tickets-container div{
+.past-ticket-wrapper{
     border: #dddddd solid 1px;
     border-radius: 8px;
     margin-bottom: 8px;
@@ -62,19 +62,21 @@ body{
     overflow: hidden;
     position: relative;
 }
-.past-tickets-container div:hover{
+.past-ticket-wrapper:hover{
     border-color: #000;
     cursor: pointer;
     background-color: #EEEEEE;
 }
-.past-tickets-container div > span.close{
+.past-ticket-wrapper > .past-ticket-delete{
     position: absolute;
     top: 5px;
     right: 5px;
 }
-.past-tickets-container div > span.close::before{
-    content: "X";
-    font-family: sans-serif;
+.past-ticket-wrapper > .past-ticket-delete > button{
+    border: none;
+    border-radius: 5px;
+    padding: 5px;
+    cursor: pointer;
 }
 #salesforce-bug-calc-tips{
     background: #fefefe;
