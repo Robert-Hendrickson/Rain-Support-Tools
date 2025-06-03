@@ -97,9 +97,7 @@ const BugTicketV2 = createApp({
         },
         handleFinish(){
             this.showTicketContainer = true;
-            // Now you can access all the compiled data from this.formData
-            console.log('Final form data:', this.formData);
-            this.saveTicket(this.formData);
+            this.$refs.pastTicketsCtrl.saveTicket(this.formData);
             this.generateTicket(this.formData);
         },
         markdownScrubbing(string_data){//currently this finds any '#' characters and adds a space to them so it looks like '# ' so it doesn't try to link the following data and says a normal '#'
@@ -136,12 +134,6 @@ const BugTicketV2 = createApp({
             }catch(error){
                 console.error(`Error removing table row: ${table}`, error);
             }
-        },
-        saveTicket(data){
-            let now = Date.now();
-            cookieCtrl.setCookie(`bug_${now}`,JSON.stringify(data));
-            this.$refs.pastTicketsCtrl.pastTickets[now] = data;
-            this.$refs.pastTicketsCtrl.pastTicketsLength++;
         },
         generateTicket(data){
             this.ticketData = `**LOCATION:**

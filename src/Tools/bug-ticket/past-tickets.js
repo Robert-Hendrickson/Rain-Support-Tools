@@ -49,6 +49,12 @@ export default {
                 cookieCtrl.deleteCookie(`bug_${date}`);
             }
         },
+        saveTicket(data){
+            let now = Date.now();
+            cookieCtrl.setCookie(`bug_${now}`,JSON.stringify(data));
+            this.pastTickets[now] = data;
+            this.pastTicketsLength++;
+        },
         openPastTicket(data){
             let ticket = this.processPastTicket(data);
             this.$emit('open-past-ticket', ticket);
