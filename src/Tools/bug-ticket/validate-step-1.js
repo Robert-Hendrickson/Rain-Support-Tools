@@ -18,11 +18,11 @@ export default {
         </div>
         <input id="Store-Name" type="text" placeholder="Enter Store Name" />
         <br>
-        <div title="The CRM ID of the client you are submitting the ticket for." class="note-wrapper">
-            CRM
+        <div :title="this.$props.brand === 'etailpet' ? 'The Dashboard URL of the client you are submitting the ticket for.' : 'The CRM ID of the client you are submitting the ticket for.'" class="note-wrapper">
+            {{ this.$props.brand === 'etailpet' ? 'Dashboard URL' : 'CRM' }}
             <span class="fa-solid fa-question"></span>
         </div>
-        <input id="crm" type="text" placeholder="Enter a CRM" />
+        <input id="crm" type="text" :placeholder="this.$props.brand === 'etailpet' ? 'Enter a Dashboard URL' : 'Enter a CRM'" />
         <br>
         <div title="The part of the system affected by the bug." class="note-wrapper">
             System Area Affected

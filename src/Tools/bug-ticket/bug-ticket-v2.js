@@ -704,6 +704,7 @@ document.querySelectorAll('div[table-controls] button:last-child').forEach(
 document.querySelector('div[ticket-buttons] button:nth-child(2)').addEventListener('click',() => document.getElementById('ticket-container').classList.add('hide'));
 */
 //this sets the event listener for the brand selector
+/*
 document.querySelectorAll('#brand-selector-list .brand-selector-item').forEach(el => el.addEventListener('click',(e) => {
     document.querySelector('.brand-selector-item.selected')?.classList.remove('selected');
     e.target.classList.add('selected');
@@ -715,6 +716,7 @@ document.querySelector('#brand-selector button').addEventListener('click',() => 
         document.querySelector('#brand-selector').classList.add('hide');
     }
 });
+*/
 //this sets the event listener for the Calculator Question Tip Titles
 document.querySelectorAll('.question-title').forEach((element) => {
     element.addEventListener('click',(el) => {
@@ -728,12 +730,14 @@ document.querySelectorAll('.question-title').forEach((element) => {
     })
 });
 //this will set the brand value if it already exists
+/*
 if(cookieCtrl.getCookie('brand')){
     brand = cookieCtrl.getCookie('brand');
     cookieCtrl.setCookie('brand',brand, 7);
 } else {
     document.querySelector('#brand-selector').classList.remove('hide');
 }
+    */
 //add event listener for validateData custom event
 document.addEventListener('validateData', validateData);
 //add event listener for sharepoint-upload-complete custom event

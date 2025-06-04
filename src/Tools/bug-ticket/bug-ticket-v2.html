@@ -32,29 +32,8 @@
         <past-tickets-ctrl ref="pastTicketsCtrl"
             @open-past-ticket="generateTicket"
         ></past-tickets-ctrl>
-        <div id="brand-selector" class="hide">
-            <h2>Brand</h2>
-            <div id="brand-selector-list">
-                <div id="rain" class="brand-selector-item">
-                    Rain
-                </div>
-                <div id="frameready" class="brand-selector-item">
-                    FrameReady
-                </div>
-                <div id="tritech" class="brand-selector-item">
-                    Tri-Tech
-                </div>
-                <div id="dive360" class="brand-selector-item">
-                    Dive360
-                </div>
-                <div id="etailpet" class="brand-selector-item">
-                    Etailpet
-                </div>
-            </div>
-            <button class="btn primary">
-                Select
-            </button>
-        </div>
+        <brand-selector
+        @brand-selected="handleBrandSelector"></brand-selector>
         <error-ctrl ref="errorCtrl"></error-ctrl>
         <h1>
             Bug Ticket Form Generator - Design by Russell Lee

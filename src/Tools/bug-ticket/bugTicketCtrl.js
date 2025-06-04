@@ -6,6 +6,7 @@ import { createApp } from '/Rain-Support-Tools/src/common/vue/vue.esm-browser.pr
 //import component pieces
 import flowCtrlApp from '/Rain-Support-Tools/src/common/flow-format/flow-ctrl-app.js';
 import pastTicketsCtrl from './past-tickets.js';
+import brandSelector from '/Rain-Support-Tools/src/modules/brand-selector/brand-selector.js';
 import validateStep1 from './validate-step-1.js';
 import validateStep2 from './validate-step-2.js';
 import validateStep3 from './validate-step-3.js';
@@ -17,6 +18,7 @@ const BugTicketV2 = createApp({
     components: {
         //'nav-menu': () => import('/Rain-Support-Tools/src/common/navigation/nav-menu.js'),
         pastTicketsCtrl,
+        brandSelector,
         flowCtrlApp,
         validateStep1,
         validateStep2,
@@ -106,6 +108,9 @@ const BugTicketV2 = createApp({
             this.showTicketContainer = true;
             this.$refs.pastTicketsCtrl.saveTicket(this.formData);
             this.generateTicket(this.formData);
+        },
+        handleBrandSelector(brand_value){
+            this.brand = brand_value;
         },
         markdownScrubbing(string_data){//currently this finds any '#' characters and adds a space to them so it looks like '# ' so it doesn't try to link the following data and says a normal '#'
             let characters_to_adjust = new RegExp(/#/g);
