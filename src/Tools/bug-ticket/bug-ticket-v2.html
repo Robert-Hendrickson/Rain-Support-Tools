@@ -55,6 +55,7 @@
                 Select
             </button>
         </div>
+        <error-ctrl ref="errorCtrl"></error-ctrl>
         <h1>
             Bug Ticket Form Generator - Design by Russell Lee
         </h1>
@@ -87,145 +88,11 @@
                 </div>
             </div>
             <div class="container content">
-                <div style="z-index: 1;" id="basic-content" data="1"  :class="{active: currentStep === 1, 'in-active': currentStep < 1, complete: currentStep > 1}">
-                    <div title="The Support Rep submitting the ticket." class="note-wrapper">
-                        Support Tech Name
-                        <span class="fa-solid fa-question"></span>
-                    </div>
-                    <input id="Support-Rep" type="text" placeholder="Enter Support Rep" />
-                    <br>
-                    <div title="The name of the store you are submitting the ticket for." class="note-wrapper">
-                        Store Name
-                        <span class="fa-solid fa-question"></span>
-                    </div>
-                    <input id="Store-Name" type="text" placeholder="Enter Store Name" />
-                    <br>
-                    <div title="The CRM ID of the client you are submitting the ticket for." class="note-wrapper">
-                        CRM
-                        <span class="fa-solid fa-question"></span>
-                    </div>
-                    <input id="crm" type="text" placeholder="Enter a CRM" />
-                    <br>
-                    <div title="The part of the system affected by the bug." class="note-wrapper">
-                        System Area Affected
-                        <span class="fa-solid fa-question"></span>
-                    </div>
-                    <input id="systemArea" type="text" placeholder="Enter Part of the System Affected" />
-                    <br>
-                    <div title="Are you able to follow a set of steps to reproduce the bug consistently?" class="note-wrapper">
-                        Can you replicate this on a Test Site or Customers Site?
-                        <span class="fa-solid fa-question"></span>
-                    </div>
-                    <div choice-selector replicable-selector>
-                        <div replicable='yes'>Yes</div>
-                        <div replicable='no'>No</div>
-                    </div><br>
-                    <div title="If 'yes' to above select any below that apply." class="note-wrapper">
-                        Where were able to replicate the behavior?(If 'yes' to above select any below that apply)
-                        <span class="fa-solid fa-question"></span>
-                    </div>
-                    <div choice-selector where-selector>
-                        <div where='Test'>Test Site</div>
-                        <div where='Customer'>Customer Site</div>
-                    </div>
-                    <validate-step-1 ref="validateStep1" :brand="brand"></validate-step-1>
-                </div>
-                <div style="z-index: 2;" id="steps-content" data="2" :class="{active: currentStep === 2, 'in-active': currentStep < 2, complete: currentStep > 2}">
-                    <h2 class="header-center">
-                        <div title="Step by step instructions on how to reproduce the issue." class="note-wrapper">
-                            Steps to Reproduce
-                            <span class="fa-solid fa-question"></span>
-                        </div>
-                    </h2>
-                    <div table-controls>
-                        <button tabindex="-1" class="btn secondary" @click="addTableRow('steps-table')">Add Row</button>
-                        <button tabindex="-1" class="btn secondary" @click="removeTableRow('steps-table')">Remove Row</button>
-                    </div>
-                    <table id="steps-table">
-                        <tbody>
-                            <tr>
-                                <td>
-                                    Step 1<input tabindex="-1" placeholder="Enter Step 1" type="text" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    Step 2<input tabindex="-1" placeholder="Enter Step 2" type="text" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    Step 3<input tabindex="-1" placeholder="Enter Step 3" type="text" />
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <validate-step-2 ref="validateStep2" :brand="brand"></validate-step-2>
-                </div>
-                <div style="z-index: 3;" id="description-content" data="3" :class="{active: currentStep === 3, 'in-active': currentStep < 3, complete: currentStep > 3}">
-                    <div title="Please provide a detailed description of the bug behavior and what issue it is causing." class="note-wrapper">
-                        <h2>Description</h2>
-                        <span class="fa-solid fa-question"></span>
-                    </div>
-                    <textarea tabindex="-1" placeholder="Enter a Description" id="description"></textarea>
-                    <validate-step-3 ref="validateStep3" :brand="brand"></validate-step-3>
-                </div>
-                <div style="z-index: 4;" id="links-content" data="4" :class="{active: currentStep === 4, 'in-active': currentStep < 4, complete: currentStep > 4}">
-                    <div id="sharepoint-app">
-                        <share-point-upload></share-point-upload>
-                    </div>
-                    <h2 class="header-center">
-                        <div title="Please provide links to any screenshots that show the bug in action." class="note-wrapper">
-                            Screenshots
-                            <span class="fa-solid fa-question"></span>
-                        </div>
-                    </h2>
-                    <div table-controls>
-                        <button tabindex="-1" class="btn secondary" @click="addTableRow('screenshot-table')">Add Row</button>
-                        <button tabindex="-1" class="btn secondary" @click="removeTableRow('screenshot-table')">Remove Row</button>
-                    </div>
-                    <table id="screenshot-table">
-                        <tbody>
-                            
-                        </tbody>
-                    </table>
-                    <h2 class="header-center">
-                        <div title="Please provide links to any videos that show the bug in action." class="note-wrapper">
-                            Videos
-                            <span class="fa-solid fa-question"></span>
-                        </div>
-                    </h2>
-                    <div table-controls>
-                        <button tabindex="-1" class="btn secondary" @click="addTableRow('video-table')">Add Row</button>
-                        <button tabindex="-1" class="btn secondary" @click="removeTableRow('video-table')">Remove Row</button>
-                    </div>
-                    <table id="video-table">
-                        <tbody>
-                            
-                        </tbody>
-                    </table>
-                    <validate-step-4 ref="validateStep4" :brand="brand"></validate-step-4>
-                </div>
-                <div style="z-index: 5;" id="examples-errors-content" data="5" :class="{active: currentStep === 5, 'in-active': currentStep < 5, complete: currentStep > 5}">
-                    <div title="Data that is currently showing the issue that can be referenced for investigation." class="note-wrapper">
-                        <h2>Examples</h2>
-                        <span class="fa-solid fa-question"></span>
-                    </div><br>
-                    <textarea tabindex="-1" placeholder="Enter example data. This can be links to web pages where things are wrong or id's of products, RTO's, etc." id="examples"></textarea>
-                    <br>
-                    <div title="Errors found in the browser console when the bug happened." class="note-wrapper">
-                        <h2>Console Errors</h2>
-                        <span class="fa-solid fa-question"></span>
-                    </div>
-                    <span class="sub-text">Copy the console error from the console then paste the info into the below box. Do not enter this box with "See Video" or similar options.</span>
-                    <textarea tabindex="-1" placeholder="Enter any console errors that appear during the issue" id="errors"></textarea>
-                    <validate-step-5 ref="validateStep5" :brand="brand"></validate-step-5>
-                </div>
-            </div>
-            <div flow-controls>
-                <button prev class="btn secondary hide" style="font-size: 12px;" >Previous</button>
-                <button class="btn primary hide" finish style="float: right;" >Finish</button>
-                <button class="btn primary" next style="float: right;" >Next</button>
+                <validate-step-1 ref="validateStep1" :brand="brand" :step="currentStep"></validate-step-1>
+                <validate-step-2 ref="validateStep2" :brand="brand" :step="currentStep"></validate-step-2>
+                <validate-step-3 ref="validateStep3" :brand="brand" :step="currentStep"></validate-step-3>
+                <validate-step-4 ref="validateStep4" :brand="brand" :step="currentStep"></validate-step-4>
+                <validate-step-5 ref="validateStep5" :brand="brand" :step="currentStep"></validate-step-5>
             </div>
             <flow-ctrl-app 
             ref="flowCtrlApp" 

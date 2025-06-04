@@ -5,8 +5,17 @@
 import {regexController} from '/Rain-Support-Tools/src/modules/regex-patterns/patterns.js';
 export default {
     name: 'validate-step-3',
+    template: `
+        <div style="z-index: 3;" id="description-content" data="3" :class="{active: this.$props.step === 3, 'in-active': this.$props.step < 3, complete: this.$props.step > 3}">
+            <div title="Please provide a detailed description of the bug behavior and what issue it is causing." class="note-wrapper">
+                <h2>Description</h2>
+                <span class="fa-solid fa-question"></span>
+            </div>
+            <textarea tabindex="-1" placeholder="Enter a Description" id="description"></textarea>
+        </div>`,
     props: {
-        brand: String
+        brand: String,
+        step: Number
     },
     methods: {
         async validate(returnData){

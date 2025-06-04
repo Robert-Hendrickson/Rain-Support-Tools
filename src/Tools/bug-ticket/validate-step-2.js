@@ -4,8 +4,41 @@
  */
 export default {
     name: 'validate-step-2',
+    template: `
+    <div style="z-index: 2;" id="steps-content" data="2" :class="{active: this.$props.step === 2, 'in-active': this.$props.step < 2, complete: this.$props.step > 2}">
+        <h2 class="header-center">
+            <div title="Step by step instructions on how to reproduce the issue." class="note-wrapper">
+                Steps to Reproduce
+                <span class="fa-solid fa-question"></span>
+            </div>
+        </h2>
+        <div table-controls>
+            <button tabindex="-1" class="btn secondary" @click="addTableRow('steps-table')">Add Row</button>
+            <button tabindex="-1" class="btn secondary" @click="removeTableRow('steps-table')">Remove Row</button>
+        </div>
+        <table id="steps-table">
+            <tbody>
+                <tr>
+                    <td>
+                        Step 1<input tabindex="-1" placeholder="Enter Step 1" type="text" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Step 2<input tabindex="-1" placeholder="Enter Step 2" type="text" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Step 3<input tabindex="-1" placeholder="Enter Step 3" type="text" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>`,
     props: {
-        brand: String
+        brand: String,
+        step: Number
     },
     methods: {
         async validate(returnData){
@@ -39,6 +72,37 @@ export default {
                 });
                 returnData({success: true, data: steps});
             };
-        }
+        },
+        addTableRow(table){
+            let row_label;//switch statement finds the correct row label
+            switch(table) {
+                case 'steps-table':
+                    row_label = 'Step';
+                    break;
+                case 'screenshot-table':
+                    row_label = 'Image';
+                    break;
+                case 'video-table':
+                    row_label = 'Video';
+                    break;
+                default:
+                    console.error('Something went wrong. Passed table type was not of an expected value: ' + table);
+            }
+            //finds what row is being added by how many already exist
+            let new_row_number = document.querySelectorAll(`#${table} tbody tr`).length + 1;
+            //create a new table row and append it to the table
+            try{
+                document.querySelector(`#${table} tbody`).insertAdjacentHTML('beforeend', `<tr><td>${row_label} ${new_row_number}<input placeholder="Enter ${row_label} ${new_row_number}" type="text" /></td></tr>`);
+            }catch(error){
+                console.error(`Error adding table row: ${table}`, error);
+            }
+        },
+        removeTableRow(table){
+            try{
+                document.querySelector(`#${table} tbody tr:last-child`).remove();
+            }catch(error){
+                console.error(`Error removing table row: ${table}`, error);
+            }
+        },
     }
 }

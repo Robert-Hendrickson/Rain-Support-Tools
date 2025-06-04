@@ -3,7 +3,6 @@
  * @description This module is used to generate bug tickets for the Rain Support Team.
  */
 import { createApp } from '/Rain-Support-Tools/src/common/vue/vue.esm-browser.prod.js';
-import cookieCtrl from '/Rain-Support-Tools/src/common/ctrl/cookie_ctrl.js';
 //import component pieces
 import flowCtrlApp from '/Rain-Support-Tools/src/common/flow-format/flow-ctrl-app.js';
 import pastTicketsCtrl from './past-tickets.js';
@@ -12,6 +11,7 @@ import validateStep2 from './validate-step-2.js';
 import validateStep3 from './validate-step-3.js';
 import validateStep4 from './validate-step-4.js';
 import validateStep5 from './validate-step-5.js';
+import errorCtrl from '/Rain-Support-Tools/src/modules/error-popup/errorCtrl.js';
 const BugTicketV2 = createApp({
     components: {
         //'nav-menu': () => import('/Rain-Support-Tools/src/common/navigation/nav-menu.js'),
@@ -21,7 +21,8 @@ const BugTicketV2 = createApp({
         validateStep2,
         validateStep3,
         validateStep4,
-        validateStep5
+        validateStep5,
+        errorCtrl
     },
     data() {
         return {
@@ -41,6 +42,8 @@ const BugTicketV2 = createApp({
     methods: {
         async validateStepData(step, resolve){
             let validation_result;
+            //make sure error growl is empty
+            this.$refs.errorCtrl.closeErrorDisplay();
             //this will run a different check before for each step
             switch(step){
                 case 1:
@@ -86,7 +89,9 @@ const BugTicketV2 = createApp({
                 default:
                     break;
             }
-            console.log(validation_result.data);
+            if(!validation_result.success){
+                this.$refs.errorCtrl.updateErrorObject(validation_result.data);
+            }
             resolve(validation_result.success);
         },
         handleNextStep(){
@@ -103,37 +108,6 @@ const BugTicketV2 = createApp({
         markdownScrubbing(string_data){//currently this finds any '#' characters and adds a space to them so it looks like '# ' so it doesn't try to link the following data and says a normal '#'
             let characters_to_adjust = new RegExp(/#/g);
             return string_data.replaceAll(characters_to_adjust, "$& ");
-        },
-        addTableRow(table){
-            let row_label;//switch statement finds the correct row label
-            switch(table) {
-                case 'steps-table':
-                    row_label = 'Step';
-                    break;
-                case 'screenshot-table':
-                    row_label = 'Image';
-                    break;
-                case 'video-table':
-                    row_label = 'Video';
-                    break;
-                default:
-                    console.error('Something went wrong. Passed table type was not of an expected value: ' + table);
-            }
-            //finds what row is being added by how many already exist
-            let new_row_number = document.querySelectorAll(`#${table} tbody tr`).length + 1;
-            //create a new table row and append it to the table
-            try{
-                document.querySelector(`#${table} tbody`).insertAdjacentHTML('beforeend', `<tr><td>${row_label} ${new_row_number}<input placeholder="Enter ${row_label} ${new_row_number}" type="text" /></td></tr>`);
-            }catch(error){
-                console.error(`Error adding table row: ${table}`, error);
-            }
-        },
-        removeTableRow(table){
-            try{
-                document.querySelector(`#${table} tbody tr:last-child`).remove();
-            }catch(error){
-                console.error(`Error removing table row: ${table}`, error);
-            }
         },
         generateTicket(data){
             this.ticketData = `**LOCATION:**
@@ -191,11 +165,11 @@ ${data.step5.errors}
         document.addEventListener('sharepoint-upload-complete', (e) => {
             for (let i = 0; i < e.detail.links.length; i++) {
                 if (e.detail.links[i].includes(":i:")) {
-                    this.addTableRow('screenshot-table');
+                    this.$refs.validateStep4.addTableRow('screenshot-table');
                     document.querySelector('#screenshot-table tbody tr:last-child td:last-child input').value = e.detail.links[i];
                 }
                 if (e.detail.links[i].includes(":v:")) {
-                    this.addTableRow('video-table');
+                    this.$refs.validateStep4.addTableRow('video-table');
                     document.querySelector('#video-table tbody tr:last-child td:last-child input').value = e.detail.links[i];
                 }
             }

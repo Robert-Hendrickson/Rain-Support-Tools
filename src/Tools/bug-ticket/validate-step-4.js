@@ -5,8 +5,45 @@
 import {regexController} from '/Rain-Support-Tools/src/modules/regex-patterns/patterns.js';
 export default {
     name: 'validate-step-4',
+    template: `
+        <div style="z-index: 4;" id="links-content" data="4" :class="{active: this.$props.step === 4, 'in-active': this.$props.step < 4, complete: this.$props.step > 4}">
+            <div id="sharepoint-app">
+                <share-point-upload></share-point-upload>
+            </div>
+            <h2 class="header-center">
+                <div title="Please provide links to any screenshots that show the bug in action." class="note-wrapper">
+                    Screenshots
+                    <span class="fa-solid fa-question"></span>
+                </div>
+            </h2>
+            <div table-controls>
+                <button tabindex="-1" class="btn secondary" @click="addTableRow('screenshot-table')">Add Row</button>
+                <button tabindex="-1" class="btn secondary" @click="removeTableRow('screenshot-table')">Remove Row</button>
+            </div>
+            <table id="screenshot-table">
+                <tbody>
+                    
+                </tbody>
+            </table>
+            <h2 class="header-center">
+                <div title="Please provide links to any videos that show the bug in action." class="note-wrapper">
+                    Videos
+                    <span class="fa-solid fa-question"></span>
+                </div>
+            </h2>
+            <div table-controls>
+                <button tabindex="-1" class="btn secondary" @click="addTableRow('video-table')">Add Row</button>
+                <button tabindex="-1" class="btn secondary" @click="removeTableRow('video-table')">Remove Row</button>
+            </div>
+            <table id="video-table">
+                <tbody>
+                    
+                </tbody>
+            </table>
+        </div>`,
     props: {
-        brand: String
+        brand: String,
+        step: Number
     },
     methods: {
         async validate(returnData){
@@ -146,6 +183,34 @@ export default {
             url_string = url_string.replace(/[\?\\\/]/g,"\\\$&");
             //return the new regex expression to be used with a global search attached
             return new RegExp(url_string, 'g');
+        },
+        addTableRow(table){
+            let row_label;//switch statement finds the correct row label
+            switch(table) {
+                case 'screenshot-table':
+                    row_label = 'Image';
+                    break;
+                case 'video-table':
+                    row_label = 'Video';
+                    break;
+                default:
+                    console.error('Something went wrong. Passed table type was not of an expected value: ' + table);
+            }
+            //finds what row is being added by how many already exist
+            let new_row_number = document.querySelectorAll(`#${table} tbody tr`).length + 1;
+            //create a new table row and append it to the table
+            try{
+                document.querySelector(`#${table} tbody`).insertAdjacentHTML('beforeend', `<tr><td>${row_label} ${new_row_number}<input placeholder="Enter ${row_label} ${new_row_number}" type="text" /></td></tr>`);
+            }catch(error){
+                console.error(`Error adding table row: ${table}`, error);
+            }
+        },
+        removeTableRow(table){
+            try{
+                document.querySelector(`#${table} tbody tr:last-child`).remove();
+            }catch(error){
+                console.error(`Error removing table row: ${table}`, error);
+            }
         }
     }
 }   

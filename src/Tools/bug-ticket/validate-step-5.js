@@ -6,8 +6,24 @@ import {regexController} from '/Rain-Support-Tools/src/modules/regex-patterns/pa
 import customDialogue from '/Rain-Support-Tools/src/modules/custom-dialogue/dialog-ctrl.js';
 export default {
     name: 'validate-step-5',
+    template: `
+        <div style="z-index: 5;" id="examples-errors-content" data="5" :class="{active: this.$props.step === 5, 'in-active': this.$props.step < 5, complete: this.$props.step > 5}">
+            <div title="Data that is currently showing the issue that can be referenced for investigation." class="note-wrapper">
+                <h2>Examples</h2>
+                <span class="fa-solid fa-question"></span>
+            </div><br>
+            <textarea tabindex="-1" placeholder="Enter example data. This can be links to web pages where things are wrong or id's of products, RTO's, etc." id="examples"></textarea>
+            <br>
+            <div title="Errors found in the browser console when the bug happened." class="note-wrapper">
+                <h2>Console Errors</h2>
+                <span class="fa-solid fa-question"></span>
+            </div>
+            <span class="sub-text">Copy the console error from the console then paste the info into the below box. Do not enter this box with "See Video" or similar options.</span>
+            <textarea tabindex="-1" placeholder="Enter any console errors that appear during the issue" id="errors"></textarea>
+        </div>`,
     props: {
-        brand: String
+        brand: String,
+        step: Number
     },
     methods: {
         async validate(returnData){
