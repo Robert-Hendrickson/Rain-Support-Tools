@@ -647,22 +647,20 @@ document.querySelectorAll('div[replicable]').forEach(el => el.addEventListener('
 //sets event listener on where buttons
 document.querySelectorAll('div[where]').forEach(el => el.addEventListener('click',selectWhere));
 //this sets the toggle functionality of the past tickets toggle
-/*
 document.getElementById('list-toggle').addEventListener('click', function (){
     document.querySelector('.past-tickets-container').classList.toggle('active');
 });
-*/
 //this runs the function to check for any old tickets still saved in cookies
-//displayPastTickets();
+displayPastTickets();
 //this sets the event listener on the copy button
-/*
+
 document.querySelector('.copy-btn').addEventListener('click', async () =>{
     const copyText =  await import('/Rain-Support-Tools/src/modules/copy-data/copy-data.js');
     copyText.default(document.querySelector('#ticket-container > div > textarea'));
 });
-*/
+
 //this sets the event listener on the sf-tips button
-/*
+
 document.querySelector('.sf-tips').addEventListener('click', () =>{
     document.querySelector('#salesforce-bug-calc-tips').classList = '';
 });
@@ -670,9 +668,9 @@ document.querySelector('.sf-tips').addEventListener('click', () =>{
 document.querySelector('#salesforce-bug-calc-tips .close').addEventListener('click', () =>{
     document.querySelector('#salesforce-bug-calc-tips').classList = 'hide';
 });
-*/
+
 //these sets the event listener for the table controls
-/*
+
 document.querySelectorAll('div[table-controls] button:first-child').forEach(
     (el,index) => {
         if(index === 0){
@@ -699,14 +697,14 @@ document.querySelectorAll('div[table-controls] button:last-child').forEach(
         }
     }
 );
-*/
+
 //this sets the event listener for the ticket modal buttons
-//document.querySelector('div[ticket-buttons] button:first-child').addEventListener('click',start_new_ticket);
-/*
+document.querySelector('div[ticket-buttons] button:first-child').addEventListener('click',start_new_ticket);
+
 document.querySelector('div[ticket-buttons] button:nth-child(2)').addEventListener('click',() => document.getElementById('ticket-container').classList.add('hide'));
-*/
+
 //this sets the event listener for the brand selector
-/*
+
 document.querySelectorAll('#brand-selector-list .brand-selector-item').forEach(el => el.addEventListener('click',(e) => {
     document.querySelector('.brand-selector-item.selected')?.classList.remove('selected');
     e.target.classList.add('selected');
@@ -718,9 +716,9 @@ document.querySelector('#brand-selector button').addEventListener('click',() => 
         document.querySelector('#brand-selector').classList.add('hide');
     }
 });
-*/
+
 //this sets the event listener for the Calculator Question Tip Titles
-/*
+
 document.querySelectorAll('.question-title').forEach((element) => {
     element.addEventListener('click',(el) => {
         let suggestion_element = el.target.nextElementSibling;
@@ -732,20 +730,20 @@ document.querySelectorAll('.question-title').forEach((element) => {
         }
     })
 });
-*/
+
 //this will set the brand value if it already exists
-/*
+
 if(cookieCtrl.getCookie('brand')){
     brand = cookieCtrl.getCookie('brand');
     cookieCtrl.setCookie('brand',brand, 7);
 } else {
     document.querySelector('#brand-selector').classList.remove('hide');
 }
-    */
+
 //add event listener for validateData custom event
 document.addEventListener('validateData', validateData);
 //add event listener for sharepoint-upload-complete custom event
-/*
+
 document.addEventListener('sharepoint-upload-complete', (e) => {
     for (let i = 0; i < e.detail.links.length; i++) {
         if (e.detail.links[i].includes(":i:")) {
@@ -758,4 +756,3 @@ document.addEventListener('sharepoint-upload-complete', (e) => {
         }
     }
 });
-*/
