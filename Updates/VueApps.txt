@@ -6,3 +6,11 @@ These files need updated to use vue
 - Database Ticket
 - DNS Help
 - Site Work
+
+
+
+Modules need removed after making sure all instances are moved to new vue formatting
+- flow-ctrl.js
+- banner_updates.js
+- copy-data.js
+- popup.js
