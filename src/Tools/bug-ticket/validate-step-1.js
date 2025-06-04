@@ -35,16 +35,16 @@ export default {
             <span class="fa-solid fa-question"></span>
         </div>
         <div choice-selector replicable-selector>
-            <div replicable='yes'>Yes</div>
-            <div replicable='no'>No</div>
+            <div replicable='yes' @click="handleReplicableToggle">Yes</div>
+            <div replicable='no' @click="handleReplicableToggle">No</div>
         </div><br>
         <div title="If 'yes' to above select any below that apply." class="note-wrapper">
             Where were able to replicate the behavior?(If 'yes' to above select any below that apply)
             <span class="fa-solid fa-question"></span>
         </div>
         <div choice-selector where-selector>
-            <div where='Test'>Test Site</div>
-            <div where='Customer'>Customer Site</div>
+            <div where='Test' @click="handleWhereToggle">Test Site</div>
+            <div where='Customer' @click="handleWhereToggle">Customer Site</div>
         </div>
     </div>`,
     props: {
@@ -121,6 +121,13 @@ export default {
                 return false;
             }
             return true;
+        },
+        handleReplicableToggle(event){
+            document.querySelector('[replicable].selected')?.classList.remove('selected');
+            event.target.classList.add('selected');
+        },
+        handleWhereToggle(event){
+            event.target.classList.toggle('selected');
         }
     }
 }

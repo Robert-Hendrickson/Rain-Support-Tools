@@ -662,6 +662,7 @@ document.querySelector('.copy-btn').addEventListener('click', async () =>{
 });
 */
 //this sets the event listener on the sf-tips button
+/*
 document.querySelector('.sf-tips').addEventListener('click', () =>{
     document.querySelector('#salesforce-bug-calc-tips').classList = '';
 });
@@ -669,6 +670,7 @@ document.querySelector('.sf-tips').addEventListener('click', () =>{
 document.querySelector('#salesforce-bug-calc-tips .close').addEventListener('click', () =>{
     document.querySelector('#salesforce-bug-calc-tips').classList = 'hide';
 });
+*/
 //these sets the event listener for the table controls
 /*
 document.querySelectorAll('div[table-controls] button:first-child').forEach(
@@ -718,6 +720,7 @@ document.querySelector('#brand-selector button').addEventListener('click',() => 
 });
 */
 //this sets the event listener for the Calculator Question Tip Titles
+/*
 document.querySelectorAll('.question-title').forEach((element) => {
     element.addEventListener('click',(el) => {
         let suggestion_element = el.target.nextElementSibling;
@@ -729,6 +732,7 @@ document.querySelectorAll('.question-title').forEach((element) => {
         }
     })
 });
+*/
 //this will set the brand value if it already exists
 /*
 if(cookieCtrl.getCookie('brand')){

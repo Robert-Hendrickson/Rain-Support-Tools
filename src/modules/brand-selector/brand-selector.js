@@ -30,6 +30,7 @@ export default {
         updateBrand(){
             let brand = document.querySelector('.brand-selector-item.selected').textContent.toLowerCase();
             this.$emit('brand-selected', brand);
+            cookieCtrl.setCookie('brand',brand, 7);
             this.showBrandSelector = false;
         },
         handleBrandSelection(element){
@@ -40,7 +41,6 @@ export default {
     mounted(){
         if(cookieCtrl.getCookie('brand')){
             let brand = cookieCtrl.getCookie('brand');
-            this.updateBrand(brand);
             cookieCtrl.setCookie('brand',brand, 7);
         } else {
             this.showBrandSelector = true;
