@@ -655,10 +655,12 @@ document.getElementById('list-toggle').addEventListener('click', function (){
 //this runs the function to check for any old tickets still saved in cookies
 //displayPastTickets();
 //this sets the event listener on the copy button
+/*
 document.querySelector('.copy-btn').addEventListener('click', async () =>{
     const copyText =  await import('/Rain-Support-Tools/src/modules/copy-data/copy-data.js');
     copyText.default(document.querySelector('#ticket-container > div > textarea'));
 });
+*/
 //this sets the event listener on the sf-tips button
 document.querySelector('.sf-tips').addEventListener('click', () =>{
     document.querySelector('#salesforce-bug-calc-tips').classList = '';
@@ -697,7 +699,7 @@ document.querySelectorAll('div[table-controls] button:last-child').forEach(
 );
 */
 //this sets the event listener for the ticket modal buttons
-document.querySelector('div[ticket-buttons] button:first-child').addEventListener('click',start_new_ticket);
+//document.querySelector('div[ticket-buttons] button:first-child').addEventListener('click',start_new_ticket);
 /*
 document.querySelector('div[ticket-buttons] button:nth-child(2)').addEventListener('click',() => document.getElementById('ticket-container').classList.add('hide'));
 */

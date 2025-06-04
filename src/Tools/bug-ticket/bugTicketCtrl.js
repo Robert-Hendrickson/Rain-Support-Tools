@@ -12,6 +12,7 @@ import validateStep3 from './validate-step-3.js';
 import validateStep4 from './validate-step-4.js';
 import validateStep5 from './validate-step-5.js';
 import errorCtrl from '/Rain-Support-Tools/src/modules/error-popup/errorCtrl.js';
+import ticketDataCtrl from '/Rain-Support-Tools/src/modules/copy-data/ticketDataCtrl.js';
 const BugTicketV2 = createApp({
     components: {
         //'nav-menu': () => import('/Rain-Support-Tools/src/common/navigation/nav-menu.js'),
@@ -22,7 +23,8 @@ const BugTicketV2 = createApp({
         validateStep3,
         validateStep4,
         validateStep5,
-        errorCtrl
+        errorCtrl,
+        ticketDataCtrl
     },
     data() {
         return {
@@ -157,7 +159,10 @@ CONSOLE ERRORS:
 ${data.step5.errors}
 \`\`\`
 `;
-            this.showTicketContainer = true;
+            this.$refs.ticketDataCtrl.showTicketContainer = true;
+        },
+        handleReset(){
+            window.location.reload();
         }
     },
     mounted() {

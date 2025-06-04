@@ -103,16 +103,7 @@
             @finish="handleFinish">
             </flow-ctrl-app>
         </div>
-        <div id="ticket-container" v-show="showTicketContainer">
-            <div>
-                <textarea v-model="ticketData" autofocus></textarea>
-                <div ticket-buttons>
-                    <button style="float: left;" class="btn tertiary">New Case</button>
-                    <button class="btn secondary" @click="this.showTicketContainer = false">Close</button>
-                    <button class="btn primary copy-btn">Copy</button>
-                </div>
-            </div>
-        </div>
+        <ticket-data-ctrl ref="ticketDataCtrl" :ticket-data="ticketData" @reset-ticket="handleReset"></ticket-data-ctrl>
         <div id="salesforce-bug-calc-tips" class="hide">
             <span class="close">X</span>
             <h3 style="color: #f00;">These are just helpful suggestions to consider and not exact points. If you have concerns of a bug please consult with Support Leadership about how things should be answered.</h3>
