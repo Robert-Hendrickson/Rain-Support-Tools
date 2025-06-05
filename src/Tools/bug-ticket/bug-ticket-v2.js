@@ -48,7 +48,7 @@ function imageVideoLink(url_string){
 function checkLinkList(list_content, list_type){
     let error_array = [];
     //check that there are rows to look through
-    if (list_content.length < 1 && !['frameready','tritech'].includes(brand)) {
+    if (list_content.length < 1 && !['frameready','tritech','dive360'].includes(brand)) {
         error_array.push(`${list_type} list is empty. Please make sure that the list has at least one ${list_type} link provided.`);
     } else {
         //if list is longer than 0, loop through each element in the list with the below function, this checks that there isn't more than one link in a row. If a duplicate link is found in the row then it is removed, if the second link found isn't a duplicate an error is thrown to the user to make sure they delete any extra data out of the row
