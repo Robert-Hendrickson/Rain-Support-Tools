@@ -42,6 +42,7 @@ export default {
         if(cookieCtrl.getCookie('brand')){
             let brand = cookieCtrl.getCookie('brand');
             cookieCtrl.setCookie('brand',brand, 7);
+            this.$emit('brand-selected', brand);
         } else {
             this.showBrandSelector = true;
         }

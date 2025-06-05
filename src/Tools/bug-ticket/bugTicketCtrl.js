@@ -95,7 +95,7 @@ const BugTicketV2 = createApp({
                 default:
                     break;
             }
-            if(!validation_result.success){
+            if(!validation_result.success && validation_result.data){
                 this.$refs.errorCtrl.updateErrorObject(validation_result.data);
             }
             resolve(validation_result.success);

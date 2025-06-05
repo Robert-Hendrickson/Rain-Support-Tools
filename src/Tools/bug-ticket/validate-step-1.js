@@ -63,11 +63,13 @@ export default {
                 bad_data_list['StoreName'] = 'Please enter the name of the store reporting an issue.';
             }
 
-            if (!this.checkCRM(document.getElementById('crm').value)) {
-                if (this.$props.brand === 'etailpet') {
-                    bad_data_list['crm'] = 'Please make sure the CRM Field has a valid dashboard URL.';
-                } else {
-                    bad_data_list['crm'] = 'The CRM needs to be a valid CRM.(2 digits or more)';
+            //check the CRM field for errors
+            let crm_valid;
+            try {
+                crm_valid = this.checkCRM(document.getElementById('crm').value);
+            } finally {
+                if(crm_valid.error){
+                    bad_data_list['crm'] = crm_valid.error;
                 }
             }
 
@@ -79,7 +81,7 @@ export default {
                 bad_data_list['replicable'] = 'Please select if this is replicable or not.';
             }
 
-            if (document.querySelector('[replicable].selected').textContent === 'Yes' && !document.querySelectorAll('[where].selected').length) {
+            if (document.querySelector('[replicable].selected')?.textContent === 'Yes' && !document.querySelectorAll('[where].selected').length) {
                 bad_data_list['where'] = 'Make sure to select at least one place where replication happened.';
             }
 
@@ -98,29 +100,38 @@ export default {
             };
         },
         checkCRM(value){
-            //check the value of the crm field meets the requirements for the brand
-            //if the value is empty, return false
-            if(value === ''){
-                return false;
-            }
+            //custom brand behaviors
+
+            /*Etailpet CRM Check behaviors*/
             //etailpet uses a url for accessing store dashboards
             //confirm the url contains the correct components
-            if(
-                this.$props.brand === 'etailpet'
-                &&
-                (
+            if (this.$props.brand === 'etailpet' ){
+                //check for value
+                if (value === '' ||
+                    (
                     !RegExp(/^https?:\/\//).test(value) 
                     || 
                     !RegExp(/\/retailer\/dash\/$/).test(value)
-                )
+                    )
+                ){
+                    return {error: 'Please enter a valid Dashboard URL. Example: https://etailpet.com/retailer/dash/'};
+                }
+                return {success: true};
+            }
+            /*End Etailpet CRM Check behaviors*/
+
+
+            /*Default CRM Check behaviors*/
+            //check the value of the crm field meets the requirements for the brand
+            //if the value is empty, return false
+            if(
+                value === ''
+                ||
+                !RegExp(/^(?:[c|C][r|R][m|M])?\d{2,}$/).test(value)
             ){
-                return false;
+                return {error: 'Please enter a valid CRM.'};
             }
-            //default check for a valid CRM number
-            if(!RegExp(/^(?:[c|C][r|R][m|M])?\d{2,}$/).test(value)){
-                return false;
-            }
-            return true;
+            return {success: true};
         },
         handleReplicableToggle(event){
             document.querySelector('[replicable].selected')?.classList.remove('selected');
