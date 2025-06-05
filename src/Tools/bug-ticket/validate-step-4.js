@@ -89,7 +89,7 @@ export default {
         checkLinkList(list_content, list_type){
             let error_array = [];
             //check that there are rows to look through
-            if (list_content.length < 1 && !['frameready','tritech'].includes(this.brand)) {
+            if (list_content.length < 1 && !['frameready','tritech','dive360'].includes(this.brand)) {
                 error_array.push(`${list_type} list is empty. Please make sure that the list has at least one ${list_type} link provided.`);
                 return error_array;
             }
