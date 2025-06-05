@@ -127,7 +127,7 @@ ${data.step1.tech}
 Store:
 ${data.step1.store}
 
-Store ID:
+${this.brand === 'etailpet' ? 'Dashboard URL:' : 'Store ID:'}
 ${data.step1.store_id}
 
 System Area:
