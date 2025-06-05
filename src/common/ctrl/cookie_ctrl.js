@@ -1,7 +1,13 @@
 //reloadpage=1; expires=Thu, 01 Jan 1970 00:00:00 UTC; delete a cookie
 function getCookie(cookie_name) {
 	cookie_name += "=";
-	let decodedCookie = decodeURIComponent(document.cookie);
+	let decodedCookie;
+	try {
+		decodedCookie = decodeURIComponent(document.cookie);
+	} catch (e) {
+		// If decoding fails, use the raw cookie string
+		decodedCookie = document.cookie;
+	}
 	let cookie_array = decodedCookie.split(';');
 	for(let i = 0; i <cookie_array.length; i++) {
 		let cookie_iteration = cookie_array[i];
