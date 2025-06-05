@@ -67,6 +67,14 @@ body{
     cursor: pointer;
     background-color: #EEEEEE;
 }
+.past-ticket-wrapper > .past-ticket-item{
+    padding-right: 26px;
+}
+.past-ticket-wrapper > .past-ticket-item > .past-ticket-store{
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
 .past-ticket-wrapper > .past-ticket-delete{
     position: absolute;
     top: 5px;

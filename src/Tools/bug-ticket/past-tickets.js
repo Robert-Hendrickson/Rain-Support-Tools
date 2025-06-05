@@ -10,7 +10,15 @@ export default {
         <div class="past-tickets-container" :class="{'active': showPastTickets}">
             <div v-for="(ticket, date) in pastTickets" :key="date" class="past-ticket-wrapper">
                 <div class="past-ticket-item" @click="openPastTicket(ticket)">
-                    {{ dateFormatter(date) }}<br>CRM: {{ ticket.crm ? ticket.crm : ticket.step1.store_id }}<br>Description: {{ ticket.description ? ticket.description : ticket.step3 }}
+                    <div class="past-ticket-date">
+                        {{ dateFormatter(date) }}
+                    </div>
+                    <div class="past-ticket-store">
+                        Store: {{ ticket.crm ? ticket.crm : ticket.step1.store_id }}
+                    </div>
+                    <div class="past-ticket-description">
+                        Description: {{ ticket.description ? ticket.description : ticket.step3 }}
+                    </div>
                 </div>
                  <div class="past-ticket-delete">
                     <button class="btn tertiary fa fa-trash" @click="deletePastTicket(date)"></button>
@@ -34,8 +42,13 @@ export default {
         getPastTickets() {
             let bug_array = document.cookie.split('; ').filter((value) => (/^bug\_\d+/).test(value));
             for(let i = 0; i < bug_array.length; i++){
-                let bug_data = bug_array[i].split('=')[1];
                 let bug_date = bug_array[i].split('=')[0].split('_')[1];
+                let bug_data;
+                try {
+                    bug_data = decodeURIComponent(bug_array[i].split('=')[1]);
+                } catch (e) {
+                    bug_data = bug_array[i].split('=')[1];
+                }
                 this.pastTickets[bug_date] = JSON.parse(bug_data);
             }
         },

@@ -58,7 +58,7 @@ function setCookie(cookie_name,cookie_value,cookie_life_length = 7){
 		}
 	};
 	let cookieExpiration = ';expires='+get_day(current_date.getDay())+', '+get_dd(current_date.getDate())+', '+get_month(current_date.getMonth())+' '+ current_date.getFullYear()+' 01:00:00 GMT';
-	document.cookie = cookie_name + '=' + cookie_value + cookieExpiration;
+	document.cookie = cookie_name + '=' + encodeURIComponent(cookie_value) + cookieExpiration;
 };
 
 function deleteCookie(cookie_name){
