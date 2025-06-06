@@ -12,21 +12,42 @@ export default {
         }
     },
     methods: {
-        nextStep(){
-            this.currentStep++;
-            this.$emit('step-changed', this.currentStep);
+        async nextStep(){
+            try {
+                // Create a Promise that will be resolved by the parent
+                const canProceed = await new Promise((resolve) => {
+                    this.$emit('step-change-request', this.currentStep, resolve);
+                });
+                
+                // Only proceed if parent returned true
+                if (canProceed) {
+                    this.currentStep++;
+                    this.$emit('step-changed', this.currentStep);
+                }
+            } catch (error) {
+                console.error('Error during step change:', error);
+            }
         },
         previousStep(){
             this.currentStep--;
-            this.$emit('step-changed', this.currentStep);
+            this.$emit('previous-step', this.currentStep);
         },
-        finish(){
-            this.$emit('finish');
+        async finish(){
+            try{
+                const canProceed = await new Promise((resolve) => {
+                    this.$emit('step-change-request', this.currentStep, resolve);
+                });
+                if (canProceed) {
+                    this.$emit('finish');
+                }
+            } catch (error) {
+                console.error('Error during step change:', error);
+            }
         }
     },
-    template: `<div>
-    <button @click="previousStep" v-show="currentStep > 1">Previous</button>
-    <button @click="nextStep" v-show="currentStep < maxStep">Next</button>
-    <button @click="finish" v-show="currentStep === maxStep">Finish</button>
+    template: `<div class="flow-controls">
+    <button class="btn secondary" @click="previousStep" v-show="currentStep > 1">Previous</button>
+    <button class="btn primary" @click="nextStep" v-show="currentStep < maxStep">Next</button>
+    <button class="btn primary" @click="finish" v-show="currentStep === maxStep">Finish</button>
 </div>`
 };

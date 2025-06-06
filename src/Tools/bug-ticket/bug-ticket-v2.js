@@ -8,7 +8,7 @@ window.regexController = (await import('/Rain-Support-Tools/src/modules/regex-pa
  * @description This variable is used to store the brand the user is under. This will be used to determine some settings for the bug ticket generator.
  */
 let brand;
-
+import cookieCtrl from '/Rain-Support-Tools/src/common/ctrl/cookie_ctrl.js';
 /**
  * @param {string} url_string - The url to build a regular expression object from
  * @returns {RegExp} - A regular expression object
@@ -581,15 +581,15 @@ function newCookieData(){
     //turns the js object into a string of data and saves it as the value of a new cookie using the current time stamp as a unique id
     setCookie(`bug_${now}`,JSON.stringify(bug_object));
     //update existing list
-    if (!document.querySelector('past-tickets').children.length) {
+    if (!document.querySelector('.past-tickets-container').children.length) {
         document.querySelector('#past-ticket-container').removeAttribute('style');
     }
     //updates number
     document.getElementById('list-toggle').innerText = parseInt(document.getElementById('list-toggle').innerText) + 1;
     //appends new ticket to list
-    document.querySelector('past-tickets').insertAdjacentHTML('beforeend', `<div data="${JSON.stringify(bug_object).replaceAll(`"`,"&quot;")}"><span class="close"></span>${Date(now).substring(0,24)}<br>CRM: ${bug_object.crm}<br>Description: ${bug_object.description}</div>`);
-    document.querySelector('past-tickets > div:last-child').addEventListener('click',oldTicketDataPrint);
-    document.querySelector('past-tickets > div:last-child span.close').addEventListener('click',() => deletePastTicketLine(`bug_${now}`,document.querySelector('past-tickets > div:last-child')));
+    document.querySelector('.past-tickets-container').insertAdjacentHTML('beforeend', `<div data="${JSON.stringify(bug_object).replaceAll(`"`,"&quot;")}"><span class="close"></span>${Date(now).substring(0,24)}<br>CRM: ${bug_object.crm}<br>Description: ${bug_object.description}</div>`);
+    document.querySelector('.past-tickets-container > div:last-child').addEventListener('click',oldTicketDataPrint);
+    document.querySelector('.past-tickets-container > div:last-child span.close').addEventListener('click',() => deletePastTicketLine(`bug_${now}`,document.querySelector('.past-tickets-container > div:last-child')));
 }
 /*This function builds a list out of the data passed in the array, the array comes from displayPastTickets function*/
 function buildPastTicketDivs(array){
@@ -600,9 +600,8 @@ function buildPastTicketDivs(array){
         let date = new Date(parseInt(bug_date_string.split("_")[1])).toString().substring(0,24);
         let bug_data = bug_details_string.replaceAll(/"/g,'&quot;');
         let temp_json = JSON.parse(bug_details_string);
-        document.querySelector('past-tickets').insertAdjacentHTML('beforeend', `<div data="${bug_data}"><span class="close"></span>${date}<br>CRM: ${temp_json.crm}<br>Description: ${temp_json.description}</div>`);
-        //document.querySelector('past-tickets > div:last-child').addEventListener('click',oldTicketDataPrint);
-        document.querySelector('past-tickets > div:last-child span.close').addEventListener('click',() => deletePastTicketLine(bug_date_string,document.querySelector('past-tickets > div:last-child')));
+        document.querySelector('.past-tickets-container').insertAdjacentHTML('beforeend', `<div data="${bug_data}"><span class="close"></span>${date}<br>CRM: ${temp_json.crm}<br>Description: ${temp_json.description}</div>`);
+        document.querySelector('.past-tickets-container > div:last-child span.close').addEventListener('click',() => deletePastTicketLine(bug_date_string,document.querySelector('.past-tickets-container > div:last-child')));
     }
 }
 /*this takes the div of a old ticket from the list and displays it in the ticket generator area so that it can be copied again if necessary*/
@@ -616,7 +615,7 @@ function displayPastTickets(){
     let bug_array = document.cookie.split('; ').filter((value) => (/^bug\_\d+/).test(value));
     if (bug_array.length > 0) {
         buildPastTicketDivs(bug_array);
-        document.querySelectorAll('past-tickets > div').forEach(el => el.addEventListener('click',oldTicketDataPrint));
+        document.querySelectorAll('.past-tickets-container > div').forEach(el => el.addEventListener('click',oldTicketDataPrint));
         document.querySelector('#past-ticket-container').removeAttribute('style');
     }
 }
@@ -632,7 +631,7 @@ async function deletePastTicketLine(cookie,line){
         //updates number
         document.getElementById('list-toggle').innerText = parseInt(document.getElementById('list-toggle').innerText)-1;
         //if last line is deleted, hide the panel entirely.
-        if (!document.querySelector('past-tickets')?.children.length) {
+        if (!document.querySelector('.past-tickets-container')?.children.length) {
             document.querySelector('#past-ticket-container').style.display = 'none';
         }
     }
@@ -649,16 +648,19 @@ document.querySelectorAll('div[replicable]').forEach(el => el.addEventListener('
 document.querySelectorAll('div[where]').forEach(el => el.addEventListener('click',selectWhere));
 //this sets the toggle functionality of the past tickets toggle
 document.getElementById('list-toggle').addEventListener('click', function (){
-    document.querySelector('past-tickets').classList.toggle('active');
+    document.querySelector('.past-tickets-container').classList.toggle('active');
 });
 //this runs the function to check for any old tickets still saved in cookies
 displayPastTickets();
 //this sets the event listener on the copy button
+
 document.querySelector('.copy-btn').addEventListener('click', async () =>{
     const copyText =  await import('/Rain-Support-Tools/src/modules/copy-data/copy-data.js');
     copyText.default(document.querySelector('#ticket-container > div > textarea'));
 });
+
 //this sets the event listener on the sf-tips button
+
 document.querySelector('.sf-tips').addEventListener('click', () =>{
     document.querySelector('#salesforce-bug-calc-tips').classList = '';
 });
@@ -666,7 +668,9 @@ document.querySelector('.sf-tips').addEventListener('click', () =>{
 document.querySelector('#salesforce-bug-calc-tips .close').addEventListener('click', () =>{
     document.querySelector('#salesforce-bug-calc-tips').classList = 'hide';
 });
+
 //these sets the event listener for the table controls
+
 document.querySelectorAll('div[table-controls] button:first-child').forEach(
     (el,index) => {
         if(index === 0){
@@ -693,10 +697,14 @@ document.querySelectorAll('div[table-controls] button:last-child').forEach(
         }
     }
 );
+
 //this sets the event listener for the ticket modal buttons
 document.querySelector('div[ticket-buttons] button:first-child').addEventListener('click',start_new_ticket);
+
 document.querySelector('div[ticket-buttons] button:nth-child(2)').addEventListener('click',() => document.getElementById('ticket-container').classList.add('hide'));
+
 //this sets the event listener for the brand selector
+
 document.querySelectorAll('#brand-selector-list .brand-selector-item').forEach(el => el.addEventListener('click',(e) => {
     document.querySelector('.brand-selector-item.selected')?.classList.remove('selected');
     e.target.classList.add('selected');
@@ -708,7 +716,9 @@ document.querySelector('#brand-selector button').addEventListener('click',() => 
         document.querySelector('#brand-selector').classList.add('hide');
     }
 });
+
 //this sets the event listener for the Calculator Question Tip Titles
+
 document.querySelectorAll('.question-title').forEach((element) => {
     element.addEventListener('click',(el) => {
         let suggestion_element = el.target.nextElementSibling;
@@ -720,16 +730,20 @@ document.querySelectorAll('.question-title').forEach((element) => {
         }
     })
 });
+
 //this will set the brand value if it already exists
-if(getCookie('brand')){
-    brand = getCookie('brand');
-    setCookie('brand',brand, 7);
+
+if(cookieCtrl.getCookie('brand')){
+    brand = cookieCtrl.getCookie('brand');
+    cookieCtrl.setCookie('brand',brand, 7);
 } else {
     document.querySelector('#brand-selector').classList.remove('hide');
 }
+
 //add event listener for validateData custom event
 document.addEventListener('validateData', validateData);
 //add event listener for sharepoint-upload-complete custom event
+
 document.addEventListener('sharepoint-upload-complete', (e) => {
     for (let i = 0; i < e.detail.links.length; i++) {
         if (e.detail.links[i].includes(":i:")) {
