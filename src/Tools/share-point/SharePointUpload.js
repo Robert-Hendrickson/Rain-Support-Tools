@@ -197,7 +197,7 @@ const SharePointUpload = {
                         `https://graph.microsoft.com/v1.0/me/drive/items/${uploadResponse.data.id}/createLink`,
                         {
                             type: "view",
-                            scope: "organization"
+                            scope: "anonymous"
                         },
                         {
                             headers: {
