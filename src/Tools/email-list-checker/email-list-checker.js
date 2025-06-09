@@ -5,12 +5,13 @@ import { createApp } from '/Rain-Support-Tools/src/common/vue/vue.esm-browser.pr
 const email_list_checker_app = createApp({
     data(){
         return {
-            email_check: new RegExp(/^[\w\-\_\+\.\&]+@[\w\-]+(?:\.[\w]{2,})+$/gm),
+            email_check: new RegExp(/^[\w\-\_\+\.\&]+@[\w\-]+(?:\.[\w]{2,})+$/),
             input_list: [],
             good_list: [],
             bad_list: [],
             show_import: false,
-            code_copied: false
+            code_copied: false,
+            show_video: false
         }
     },
     methods: {
@@ -24,6 +25,7 @@ const email_list_checker_app = createApp({
                 } else {//else add it to the bad email list
                     this.bad_list.push(this.input_list[i]);
                 }
+                console.log(this.input_list[i], this.email_check.test(this.input_list[i]));
             };
         },
         importList(){

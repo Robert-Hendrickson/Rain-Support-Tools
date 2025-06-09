@@ -78,21 +78,24 @@ email_list_string.substring(0, email_list_string.length -1);
                         </pre>
                     </div>
                     <br>
-                    <video
-                    controls
-                    style="width: 400px;"
-                    controlslist="nodownload"
-                    >
-                        <source src="/Rain-Support-Tools/src/media/videos/email-list-checker-overview.mp4" type="video/mp4"></source>
-                        <p class="vjs-no-js">
-                            To view this video please enable JavaScript, and consider upgrading to a
-                            web browser that
-                            <a href="https://videojs.com/html5-video-support/" target="_blank">
-                            supports HTML5 video
-                            </a>
-                        </p>
-                    </video>
+                    <button class="btn primary" @click="this.show_video = true">Watch Video</button>
                 </div>
+            </div>
+            <div v-show="this.show_video" class="video-container">
+                <input type="button" value="Close" @click="this.show_video = false" />
+                <video
+                controls
+                controlslist="nodownload"
+                >
+                    <source src="/Rain-Support-Tools/src/media/videos/email-list-checker-overview.mp4" type="video/mp4"></source>
+                    <p class="vjs-no-js">
+                        To view this video please enable JavaScript, and consider upgrading to a
+                        web browser that
+                        <a href="https://videojs.com/html5-video-support/" target="_blank">
+                        supports HTML5 video
+                        </a>
+                    </p>
+                </video>
             </div>
         </div>
     </body>
