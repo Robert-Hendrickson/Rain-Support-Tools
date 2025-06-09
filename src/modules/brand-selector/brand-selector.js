@@ -24,7 +24,7 @@ export default {
                 </div>
             </div>
             <div class="brand-selector-buttons">
-                <button class="btn secondary" @click="showBrandSelector = false" v-if="this.$props.brand">Cancel</button>
+                <button class="btn secondary" @click="closeBrandSelector" v-if="this.$props.brand">Cancel</button>
                 <button class="btn primary" @click="updateBrand">
                     Select
                 </button>
@@ -39,6 +39,10 @@ export default {
         }
     },
     methods: {
+        closeBrandSelector(){
+            this.showBrandSelector = false;
+            this.selectedBrand = this.$props.brand;
+        },
         updateBrand(){
             if (!this.selectedBrand) return;
             let brand = this.selectedBrand.toLowerCase();
