@@ -45,7 +45,7 @@ const email_list_checker_app = createApp({
             };
         },
         copyCode(){
-            let code = `let email_list = document.querySelectorAll('table > tbody tr td:first-child');\nlet email_list_string = '';\nfor(i=1;i<email_list.length;i++){\nemail_list_string += email_list[i].innerText + \`\n\`;\n};\nemail_list_string.substring(0, email_list_string.length -1);`;
+            let code = `let email_list = document.querySelectorAll('table > tbody tr td:first-child');\nlet email_list_string = '';\nfor(i=1;i<email_list.length;i++){\n\temail_list_string += email_list[i].innerText + \`\\n\`;\n};\nemail_list_string.substring(0, email_list_string.length -1);`;
             navigator.clipboard.writeText(code);
             this.code_copied = true;
             setTimeout(() => {

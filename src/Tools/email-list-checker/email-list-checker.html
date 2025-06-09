@@ -61,16 +61,19 @@
                         <br>
                         After running the code, click the copy link that appears and paste the content into the box to the left.
                     </p>
-                    <p v-show="code_copied">Code copied to clipboard!</p>
+                    <div class="code-copied-message">
+                        <p v-if="code_copied">Code copied to clipboard!</p>
+                        <p v-else @click="copyCode()">Click Here to Copy Code</p>
+                    </div>
                     <div class="code-display" @click="copyCode()">
                         <pre>
                             <code>
-            let email_list = document.querySelectorAll('table > tbody tr td:first-child');
-            let email_list_string = '';
-            for(i=1;i&#60;email_list.length;i++){
-            email_list_string += email_list[i].innerText + \`\n\`;
-            };
-            email_list_string.substring(0, email_list_string.length -1);
+let email_list = document.querySelectorAll('table > tbody tr td:first-child');
+let email_list_string = '';
+for(i=1;i&#60;email_list.length;i++){
+    email_list_string += email_list[i].innerText + `\n`;
+};
+email_list_string.substring(0, email_list_string.length -1);
                             </code>
                         </pre>
                     </div>
