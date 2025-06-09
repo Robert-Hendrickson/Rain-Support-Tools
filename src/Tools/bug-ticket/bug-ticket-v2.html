@@ -30,13 +30,16 @@
         <past-tickets-ctrl ref="pastTicketsCtrl"
             @open-past-ticket="generateTicket"
         ></past-tickets-ctrl>
-        <brand-selector
-        @brand-selected="handleBrandSelector"></brand-selector>
         <error-ctrl ref="errorCtrl"></error-ctrl>
         <h1>
             Bug Ticket Form Generator - Design by Russell Lee
         </h1>
-        <bug-question-tips ref="bugQuestionTips"></bug-question-tips>
+        <div class="header-container">
+            <bug-question-tips ref="bugQuestionTips"></bug-question-tips>
+            <brand-selector
+            :brand="brand"
+            @brand-selected="handleBrandSelector"></brand-selector>
+        </div>
         <div class="body-container">
             <div id="info-tabs">
                 <div id="basic-tab" step="1" :class="{active: currentStep === 1, complete: currentStep > 1}">

@@ -6,11 +6,9 @@
 export default {
     name: 'bug-question-tips',
     template: `
-        <div style="margin: 10px auto; width: 217px;">
-            <button class="btn secondary sf-tips" @click="handleShowTips">
-                Salesforce Bug Calculator Tips
-            </button>
-        </div>
+        <button class="btn secondary sf-tips" @click="handleShowTips">
+            Salesforce Bug Calculator Tips
+        </button>
         <div id="salesforce-bug-calc-tips" v-if="showTips">
             <span class="close" @click="handleShowTips">X</span>
             <h3 style="color: #f00;">These are just helpful suggestions to consider and not exact points. If you have concerns of a bug please consult with Support Leadership about how things should be answered.</h3>
