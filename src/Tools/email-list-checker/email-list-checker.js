@@ -5,12 +5,13 @@ import { createApp } from '/Rain-Support-Tools/src/common/vue/vue.esm-browser.pr
 const email_list_checker_app = createApp({
     data(){
         return {
-            email_check: new RegExp(/^[\w\-\_\+\.\&]+@[\w\-]+(?:\.[\w]{2,})+$/gm),
+            email_check: new RegExp(/^[\w\-\_\+\.\&]+@[\w\-]+(?:\.[\w]{2,})+$/),
             input_list: [],
             good_list: [],
             bad_list: [],
             show_import: false,
-            code_copied: false
+            code_copied: false,
+            show_video: false
         }
     },
     methods: {
@@ -24,6 +25,7 @@ const email_list_checker_app = createApp({
                 } else {//else add it to the bad email list
                     this.bad_list.push(this.input_list[i]);
                 }
+                console.log(this.input_list[i], this.email_check.test(this.input_list[i]));
             };
         },
         importList(){
@@ -45,7 +47,7 @@ const email_list_checker_app = createApp({
             };
         },
         copyCode(){
-            let code = `let email_list = document.querySelectorAll('table > tbody tr td:first-child');\nlet email_list_string = '';\nfor(i=1;i<email_list.length;i++){\nemail_list_string += email_list[i].innerText + \`\n\`;\n};\nemail_list_string.substring(0, email_list_string.length -1);`;
+            let code = `let email_list = document.querySelectorAll('table > tbody tr td:first-child');\nlet email_list_string = '';\nfor(i=1;i<email_list.length;i++){\n\temail_list_string += email_list[i].innerText + \`\\n\`;\n};\nemail_list_string.substring(0, email_list_string.length -1);`;
             navigator.clipboard.writeText(code);
             this.code_copied = true;
             setTimeout(() => {
