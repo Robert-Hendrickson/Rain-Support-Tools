@@ -3,6 +3,13 @@
 body{
     overflow-x: hidden;
 }
+.header-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
 #past-ticket-container{
     position: sticky;
     top: 0;
@@ -164,4 +171,10 @@ h2.header-center{
     background-color: #D8EDF7;
     color: #337ABD;
     border-color: #337ABD;
+}
+.brand-selector-buttons{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
 }

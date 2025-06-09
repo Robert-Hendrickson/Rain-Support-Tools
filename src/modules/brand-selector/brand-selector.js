@@ -7,41 +7,55 @@ import cookieCtrl from '/Rain-Support-Tools/src/common/ctrl/cookie_ctrl.js';
 
 export default {
     name: 'brandSelector',
+    props: {
+        brand: String
+    },
     template: `
-        <div id="brand-selector" v-if="showBrandSelector">
-            <h2>Brand</h2>
+        <button class="btn secondary" @click="showBrandSelector = !showBrandSelector">Change Brand</button>
+        <div id="brand-selector" v-show="showBrandSelector">
+            <h2>Select a Brand</h2>
             <div id="brand-selector-list">
-                <div v-for="brand in brandList" :key="brand" class="brand-selector-item" @click="handleBrandSelection">
+                <div v-for="brand in brandList" 
+                     :key="brand" 
+                     class="brand-selector-item" 
+                     :class="{ selected: selectedBrand === brand.toLowerCase() }"
+                     @click="handleBrandSelection(brand)">
                     {{ brand }}
                 </div>
             </div>
-            <button class="btn primary" @click="updateBrand">
-                Select
-            </button>
+            <div class="brand-selector-buttons">
+                <button class="btn secondary" @click="showBrandSelector = false" v-if="this.$props.brand">Cancel</button>
+                <button class="btn primary" @click="updateBrand">
+                    Select
+                </button>
+            </div>
         </div>
     `,
     data() {
         return {
             showBrandSelector: false,
-            brandList: ['Rain', 'FrameReady', 'Tri-Tech', 'Dive360', 'Etailpet']
+            brandList: ['Rain', 'FrameReady', 'Tri-Tech', 'Dive360', 'Etailpet'],
+            selectedBrand: null
         }
     },
     methods: {
         updateBrand(){
-            let brand = document.querySelector('.brand-selector-item.selected').textContent.toLowerCase();
+            if (!this.selectedBrand) return;
+            let brand = this.selectedBrand.toLowerCase();
             this.$emit('brand-selected', brand);
-            cookieCtrl.setCookie('brand',brand, 7);
+            cookieCtrl.setCookie('brand', brand, 7);
             this.showBrandSelector = false;
+            console.log('brand: ', brand);
         },
-        handleBrandSelection(element){
-            document.querySelector('.brand-selector-item.selected')?.classList.remove('selected');
-            element.currentTarget.classList.add('selected');
+        handleBrandSelection(brand){
+            this.selectedBrand = brand.toLowerCase();
         }
     },
     mounted(){
         if(cookieCtrl.getCookie('brand')){
             let brand = cookieCtrl.getCookie('brand');
-            cookieCtrl.setCookie('brand',brand, 7);
+            this.selectedBrand = brand;
+            cookieCtrl.setCookie('brand', brand, 7);
             this.$emit('brand-selected', brand);
         } else {
             this.showBrandSelector = true;
