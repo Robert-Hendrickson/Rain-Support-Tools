@@ -5,114 +5,48 @@
         <link rel="stylesheet" href="./database-ticket.css" />
         <!--common js scripts-->
         <script src="/Rain-Support-Tools/src/common/vue/vue.global.prod.js"></script>
-        <script src="/Rain-Support-Tools/src/common/testing/test_data.js"></script>
+        <script src="/Rain-Support-Tools/src/common/testing/test_data.js" type="module"></script>
         <script src="https://kit.fontawesome.com/8e52a98e38.js" crossorigin="anonymous"></script>
-        <script src="/Rain-Support-Tools/src/common/flow-format/flow-ctrl.js"></script>
         <script src="/Rain-Support-Tools/src/common/ctrl/banner_updates.js"></script>
         <!--page specific files-->
-        <script src="./database-ticket.js"></script>
+        <script src="./databaseCtlr.js" type="module"></script>
     </head>
-        <!--
-Business Name:
-
-CRM:
-
-Vertical:
-**Music shop, Like Sew, Rain** Likely be a dropdown option select
-
-Bug or Glitch Ticket:
-
-If no Bug/Glitch ticket, why was this approved and by whom?
-
-Details:
-What specific changes are needed? We need dates, transaction ids, every piece of data that needs to be changed. Also, if we're working with transactions, does inventory need to be updated with the development changes?
-If there is not enough information for us to know what needs done without needing to ask you further questions your ticket will be rejected!
--->
-    <body>
+    <body id="database-ticket">
         <div class="menu-wrapper">
             <nav-menu></nav-menu>
             <script src="/Rain-Support-Tools/src/common/navigation/nav-builder.js" type="module"></script>
         </div>
         <div class="body-container">
             <div id="info-tabs">
-                <div id="company-tab" step="1" class="active">
+                <div id="company-tab" step="1" :class="{active: current_step === 1, complete: current_step > 1}">
                     <div class="step-circle">1</div>
                     Company Info
                 </div>
-                <div id="associated-info-tab" step="2">
+                <div id="associated-info-tab" step="2" :class="{active: current_step === 2, complete: current_step > 2}">
                     <div class="step-circle">2</div>
                     Associated Info
                 </div>
-                <div id="details-tab" step="3">
+                <div id="details-tab" step="3" :class="{active: current_step === 3, complete: current_step > 3}">
                     <div class="step-circle">3</div>
                     Details
                 </div>
-                <div id="confirm-tab" step="4">
-                    <div class="step-circle">4</div>
-                    Confirm
-                </div>
             </div>
             <div class="container content">
-                <div id="company-content" data="1"  class="active">
-                    Business Name:<br>
-                    <input type="text" id="businessName" placeholder="Name of Company" />
-                    CRM:<br>
-                    <input type="text" id="storeID" placeholder="Store CRM" />
-                    Vertical:
-                    <select id="vertical">
-                        <option value="">Select an Option</option>
-                    </select>
-                </div>
-                <div id="associated-info-content" data="2" class="in-active">
-                    <div id="associated-ticket">
-                        <h2>Associated Bug Ticket (If applicable)</h2>
-                        <p style="color: red; font-size: 12px;">
-                            This data should only be filled out if there is a bug ticket. Please don't put id's or links for the database ticket.
-                        </p>
-                        Salesforce Ticket ID:
-                        <input tabindex="-1" id="ticketID" type="text" placeholder="Ticket Number"/>
-                        Shortcut Story Link:
-                        <input tabindex="-1" id="storyLink" type="text" placeholder="URL"/>
-                    </div>
-                    <div id="ticket-reason">
-                        <h2>Other Info</h2>
-                        Name of Team Lead who approved:
-                        <input tabindex="-1" id="agentName" type="text" placeholder="Team Lead Name" />
-                        Reason for Approval:
-                        <p style="color: red; font-size: 12px;">
-                            This field should ONLY list the reason for the ticket being approved by a team lead.
-                        </p>
-                        <textarea tabindex="-1" id="ticketReason" placeholder="Reason for Data Fix"></textarea>
-                    </div>
-                </div>
-                <div id="details-content" data="3" class="in-active">
-                    Details:<br>
-                    <p style="color: red; font-size: 12px;">
-                        What specific changes are needed? We need dates, transaction ids, every piece of data that needs to be changed. Also, if we're working with transactions, does inventory need to be updated with the development changes?<br><br>
-                        If there is not enough information for us to know what needs done without needing to ask you further questions your ticket will be rejected!
-                    </p>
-                    <textarea tabindex="-1" id="details" placeholder="Details for Dev"></textarea>
-                </div>
-                <div id="confirm-content" data="4" class="in-active">
-                    <div id="data-wrapper"></div>
-                </div>
+                <validate-step-1 ref="validateStep1" :step="current_step"></validate-step-1>
+                <validate-step-2 ref="validateStep2" :step="current_step"></validate-step-2>
+                <validate-step-3 ref="validateStep3" :step="current_step"></validate-step-3>
             </div>
-            <div flow-controls>
-                <button prev class="btn secondary hide" style="font-size: 12px;">Previous</button>
-                <button class="btn primary hide" finish style="float: right;">Finish</button>
-                <button class="btn primary" next style="float: right;">Next</button>
-            </div>
+            <flow-ctrl-app
+            ref="flowCtrlApp"
+            :max-step="3"
+            @step-change-request="validateStepData"
+            @step-changed="handleNextStep"
+            @previous-step="handlePreviousStep"
+            @finish="handleFinish"></flow-ctrl-app>
         </div>
-        <div id="ticket-container" class="hide">
-            <div>
-                <textarea id="ticket-wrapper"></textarea>
-                <div ticket-buttons>
-                    <button tabindex="-1" style="float: left;" id="new-case" class="btn tertiary">New Case</button>
-                    <button tabindex="-1" class="btn secondary" id="close-case">Close</button>
-                    <button tabindex="-1" class="btn primary copy-btn">Copy</button>
-                </div>
-            </div>
-        </div>
-        <div id="error_message" class="hide"></div>
+        <ticket-data-ctrl ref="ticketDataCtrl"
+        :ticket-data="ticketData"
+        @reset-ticket="handleResetTicket"></ticket-data-ctrl>
+        <error-ctrl ref="errorCtrl"></error-ctrl>
     </body>
 </html>

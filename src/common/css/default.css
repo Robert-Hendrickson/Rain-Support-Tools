@@ -48,3 +48,7 @@ span.close:hover{
     display: flex;
     flex-direction: column;
 }
+.warning-text {
+    color: red;
+    font-size: 12px;
+}
