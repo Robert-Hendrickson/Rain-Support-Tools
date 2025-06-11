@@ -20,6 +20,9 @@
         width: 500px;
     }
 }
+#work-table tr > td:nth-child(2).errorBorder{
+    border-color: red;
+}
 
 /*template work styles*/
 #template{
