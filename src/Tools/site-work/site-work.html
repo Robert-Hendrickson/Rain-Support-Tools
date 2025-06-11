@@ -3,11 +3,9 @@
     <head>
         <title>Site Work</title>
         <link rel="stylesheet" href="./site-work.css" />
-        <script src="https://kit.fontawesome.com/8e52a98e38.js" crossorigin="anonymous"></script>
         <script src="/Rain-Support-Tools/src/common/vue/vue.global.prod.js"></script>
-        <script src="./site-work.js" type="module"></script>
-        <script src="/Rain-Support-Tools/src/common/flow-format/flow-ctrl.js"></script>
-        <script src="/Rain-Support-Tools/src/common/testing/test_data.js"></script>
+        <script src="https://kit.fontawesome.com/8e52a98e38.js" crossorigin="anonymous"></script>
+        <script src="./siteWorkCtrl.js" type="module"></script>
         <!-- Sharepoint Upload -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.7/axios.min.js"></script>
         <script src="/Rain-Support-Tools/src/Tools/share-point/SharePointUpload.js" type="module"></script>
@@ -24,7 +22,7 @@
         gtag('config', 'G-ZBB64CR2LL');
         </script>
     </head>
-    <body>
+    <body id="site-work-container">
         <div class="menu-wrapper">
             <nav-menu></nav-menu>
             <script src="/Rain-Support-Tools/src/common/navigation/nav-builder.js" type="module"></script>
@@ -48,87 +46,25 @@
                 </div>
             </div>
             <div class="container content">
-                <div id="basic-data" data="1"  class="active">
-                        Store ID<br>
-                        <input id="crm" type="text" placeholder="Enter a CRM" />
-                        <br>
-                        Type of work to be done<br>
-                        <div choice-selector>
-                            <div work='site'>Site Work</div>
-                            <div work='template'>Template Work</div>
-                        </div>
-                </div>
-                <div id="work-content" data="2" class="in-active">
-                    <div id="site" style="display: none;">
-                        <h2>Site Work Content:</h2>
-                        <div table-controls>
-                            <button tabindex="-1" class="btn secondary">Add Row</button>
-                            <button tabindex="-1" class="btn secondary">Remove Row</button>
-                        </div>
-                        <div id="sharepoint-app">
-                            <share-point-upload></share-point-upload>
-                        </div>
-                        <table id="work-table">
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <span onclick='deleteRow(this)'>X</span>
-                                    </td>
-                                    <td>
-                                        <div>
-                                            <select tabindex="-1">
-                                                <option>Select an Option</option>
-                                                <option value="fix">Site Fix</option>
-                                                <option value="custom">Custom Work</option>
-                                            </select>
-                                            <div><input tabindex="-1" id="url" type="text" placeholder="Page URL" /></div>
-                                        </div>
-                                        <div>
-                                            <div><input tabindex="-1" id="screenshot" type="text" placeholder="screenshot" /></div>
-                                            <div><input tabindex="-1" id="video" type="text" placeholder="video(optional)" /></div>
-                                        </div>
-                                        <textarea tabindex="-1" placeholder="details"></textarea>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div id="template" style="display: none;">
-                        <h2>Template Update/Responsive Upgrade:</h2>
-                        <div>
-                            Update Type: <select tabindex="-1">
-                                <option>Select an Option</option>
-                                <option>Template Change</option>
-                                <option>Responsive Upgrade</option>
-                            </select><br>
-                            Template Number: <input tabindex="-1" id="number" placeholder="Template Number or Name" id="number" type="text"><br>
-                            Template CRM: <input tabindex="-1" placeholder="Template CRM ID" id="crm" type="text">
-                        </div>
-                        <div>
-                            Customer Request Notes:<textarea tabindex="-1" placeholder="Any notes about changes being made. Colors they want, fonts, etc."></textarea>
-                        </div>
-                    </div>
-                </div>
-                <div id="confirm-content" data="3" class="in-active">
-                    <data></data>
+                <validate-step-1 ref="validateStep1" :step="currentStep"></validate-step-1>
+                <validate-site-work ref="validateSiteWork" :step="currentStep" :work-type="workType"></validate-site-work>
+                <validate-template-work ref="validateTemplateWork" :step="currentStep" :work-type="workType"></validate-template-work>
+                <div id="confirm-content" data="3" :class="{'in-active': currentStep !== 3, 'active': currentStep === 3}">
+                    
                 </div>
             </div>
-            <div flow-controls>
-                <button prev class="btn secondary hide" style="font-size: 12px;">Previous</button>
-                <button class="btn primary hide" finish style="float: right;">Finish</button>
-                <button class="btn primary" next style="float: right;">Next</button>
-            </div>
+            <flow-ctrl-app 
+            ref="flowCtrlApp"
+            :max-step="3"
+            :current-step="currentStep"
+            @step-change-request="validateStepData"
+            @step-changed="handleNextStep"
+            @previous-step="handlePreviousStep"
+            @finish="handleFinish"></flow-ctrl-app>
         </div>
-        <div id="ticket-container" class="hide">
-            <div>
-                <textarea></textarea>
-                <div ticket-buttons>
-                    <button tabindex="-1" style="float: left;" id="new-case" class="btn tertiary">New Case</button>
-                    <button tabindex="-1" id="close-case" class="btn secondary">Close</button>
-                    <button tabindex="-1" id="copy-case" class="btn primary btn-copy">Copy</button>
-                </div>
-            </div>
-        </div>
-        <div id="error_message" class="hide"></div>
+        <ticket-data-ctrl ref="ticketDataCtrl"
+        :ticket-data="ticketData"
+        @reset-ticket="handleResetTicket"></ticket-data-ctrl>
+        <error-ctrl ref="errorCtrl"></error-ctrl>
     </body>
 </html>
