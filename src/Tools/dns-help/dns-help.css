@@ -86,12 +86,13 @@ div.value-header div{
 }
 /*start edit value styling*/
 #record-entry-container{
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
     background-color: #747171b5;
+    z-index: 1000;
 }
 #record-entry-box {
     width: 500px;
