@@ -56,13 +56,15 @@ export default {
     },
     methods: {
         deleteRow(id) {
-            this.add_record = this.add_record.filter(record => record.id !== id);
+            this.$emit('update:add_record', this.add_record.filter(record => record.id !== id));
         },
         removeRow() {
-            this.add_record.pop();
+            const newRecords = [...this.add_record];
+            newRecords.pop();
+            this.$emit('update:add_record', newRecords);
         },
         addRow() {
-            this.add_record.push({
+            const newRecord = {
                 id: this.$refs.idGenerator.generateUniqueId(),
                 type: '',
                 name: '',
@@ -73,7 +75,8 @@ export default {
                 port: '',
                 serverHost: '',
                 ttl: ''
-            });
+            };
+            this.$emit('update:add_record', [...this.add_record, newRecord]);
         },
         openEditor(record) {
             this.currentRecord = { ...record };
@@ -82,7 +85,9 @@ export default {
         updateRecord(updatedRecord) {
             const index = this.add_record.findIndex(r => r.id === this.currentRecord.id);
             if (index !== -1) {
-                this.add_record[index] = { ...updatedRecord, id: this.currentRecord.id };
+                const newRecords = [...this.add_record];
+                newRecords[index] = { ...updatedRecord, id: this.currentRecord.id };
+                this.$emit('update:add_record', newRecords);
             }
             this.$parent.closeRecordEditor();
         }

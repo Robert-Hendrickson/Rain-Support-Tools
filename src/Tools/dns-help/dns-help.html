@@ -50,17 +50,17 @@
                     <add-records 
                     ref="addRecords" 
                     :actions="actions.add_record"
-                    :add_record="add_record"
+                    v-model:add_record="add_record"
                     ></add-records>
                     <correct-records 
                     ref="correctRecords" 
                     :actions="actions.correct_record"
-                    :correct_record="correct_record"
+                    v-model:correct_record="correct_record"
                     ></correct-records>
                     <remove-records 
                     ref="removeRecords" 
                     :actions="actions.remove_record"
-                    :remove_record="remove_record"
+                    v-model:remove_record="remove_record"
                     ></remove-records>
                 </div>
                 <div id="confirm" data="3" :class="{'active': current_step === 3, 'in-active': current_step < 3}">

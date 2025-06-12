@@ -207,6 +207,9 @@ export default {
             if(Object.keys(error_list).length > 0){
                 this.$refs.errorCtrl.updateErrorObject(error_list);
             }else{
+                if(this.record.ttl === ''){
+                    this.record.ttl = 3600;
+                }
                 this.submitRecord();
             }
         }
