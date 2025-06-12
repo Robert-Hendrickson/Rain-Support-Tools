@@ -20,7 +20,7 @@ export default {
         <h2>Records to Remove:</h2>
         <div table-controls>
             <button tabindex="-1" class="btn secondary" @click="addRow">Add Row</button>
-            <button tabindex="-1" class="btn secondary">Remove Row</button>
+            <button tabindex="-1" class="btn secondary" @click="removeRow">Remove Row</button>
         </div>
         <table id="remove-record-table">
             <tbody>
@@ -56,27 +56,35 @@ export default {
     },
     methods: {
         addRow() {
-            this.remove_record.push({
+            let newRecord = {
                 id: this.$refs.idGenerator.generateUniqueId(),
                 type: '',
                 name: '',
                 value: '',
                 ttl: ''
-            });
+            }
+            this.$emit('update:remove_record', [...this.remove_record, newRecord]);
         },
         deleteRow(id) {
-            this.remove_record = this.remove_record.filter(record => record.id !== id);
+            this.$emit('update:remove_record', this.remove_record.filter(record => record.id !== id));
+        },
+        removeRow(){
+            const newRecords = [...this.remove_record];
+            newRecords.pop();
+            this.$emit('update:remove_record', newRecords);
         },
         openEditor(record) {
             this.currentRecord = { ...record };
-            globalRecordEditor.openEditor(this.currentRecord, false, this.domain, this.updateRecord);
+            this.$parent.openRecordEditor(record, false, this.updateRecord);
         },
         updateRecord(updatedRecord) {
             const index = this.remove_record.findIndex(r => r.id === this.currentRecord.id);
             if (index !== -1) {
-                this.remove_record[index] = { ...updatedRecord, id: this.currentRecord.id };
+                const newRecords = [...this.remove_record];
+                newRecords[index] = { ...updatedRecord, id: this.currentRecord.id };
+                this.$emit('update:remove_record', newRecords);
             }
-            this.currentRecord = null;
+            this.$parent.closeRecordEditor();
         }
     }
 }

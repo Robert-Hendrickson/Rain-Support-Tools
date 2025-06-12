@@ -133,11 +133,10 @@ export default {
     },
     methods: {
         closeEditor() {
-            this.$emit('closeEditor');
+            this.$emit('close-editor');
         },
         submitRecord() {
-            console.log(this.recordData);
-            this.$emit('save', { ...this.recordData });
+            this.$emit('save', { ...this.record });
         },
         isSubDomain(){
             return [(/^[\w\-]+\.[\w\-]+\.\w{2,}$/).test(this.domain),this.domain.match(/^[\w-]+/g)[0]];
