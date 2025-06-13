@@ -2,7 +2,6 @@ These files need updated to use vue
 ----Bigger
 - Transaction Calculator
 - Tax Inclusive Transaction Calculator
-- DNS Help
 
 
 
