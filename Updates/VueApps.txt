@@ -2,7 +2,7 @@ These files need updated to use vue
 ----Bigger
 - Transaction Calculator
 - Tax Inclusive Transaction Calculator
-
+- RTO Payment Calculator
 
 
 Modules need removed after making sure all instances are moved to new vue formatting
