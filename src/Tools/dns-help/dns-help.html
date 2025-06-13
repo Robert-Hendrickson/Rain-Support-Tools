@@ -5,9 +5,7 @@
         <link rel="stylesheet" href="./dns-help.css" />
         <script src="https://kit.fontawesome.com/8e52a98e38.js" crossorigin="anonymous"></script>
         <script src="/Rain-Support-Tools/src/common/vue/vue.global.prod.js"></script>
-        <script src="./dns-help.js"></script>
-        <script src="/Rain-Support-Tools/src/common/flow-format/flow-ctrl.js"></script>
-        <script src="/Rain-Support-Tools/src/common/testing/test_data.js"></script>
+        <script src="./dnsCtrl.js" type="module"></script>
         <meta title="DNS-Tool" />
         <!-- Google tag (gtag.js) -->
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZBB64CR2LL"></script>
@@ -19,7 +17,7 @@
         gtag('config', 'G-ZBB64CR2LL');
         </script>
     </head>
-    <body>
+    <body id="dns-help">
         <div class="menu-wrapper">
             <nav-menu></nav-menu>
             <script src="/Rain-Support-Tools/src/common/navigation/nav-builder.js" type="module"></script>
@@ -29,152 +27,115 @@
         </h1>
         <div class="body-container">
             <div id="info-tabs">
-                <div id="action-tab" step="1" class="active">
+                <div id="action-tab" step="1" :class="{'active': current_step === 1, 'complete': current_step > 1}">
                     <div class="step-circle">1</div>
-                    Action Type
+                    Record Information
                 </div>
-                <div id="records-tab" step="2">
-                    <div class="step-circle">2</div>
-                    Record Data
-                </div>
-                <div id="confirmation-tab" step="3">
+                <div id="confirmation-tab" step="3" :class="{'active': current_step === 2,'in-active': current_step < 2}">
                     <div class="step-circle">3</div>
                     Confirm Information
                 </div>
             </div>
             <div class="container content">
-                <div id="basic-content" data="1"  class="active">
+                <div id="basic-content" data="1"  :class="{'active': current_step === 1, 'complete': current_step > 1}">
                     <p>Enter Domain being worked on:</p>
-                    <input id="domain" type="text" placeholder="websiteUrl.com" />
+                    <input id="domain" type="text" placeholder="websiteUrl.com" v-model="domain"/>
                     <p>Select the action that needs to happen with Records:</p>
                     <div choice-selector>
-                        <div action='add-record'>Add Record(s)</div>
-                        <div action='correct-record'>Correct Existing Record(s)</div>
-                        <div action='remove-record'>Remove Record(s)</div>
+                        <div action='add-record' :class="{'selected': actions.add_record}" @click="actions.add_record = !actions.add_record">Add Record(s)</div>
+                        <div action='correct-record' :class="{'selected': actions.correct_record}" @click="actions.correct_record = !actions.correct_record">Correct Existing Record(s)</div>
+                        <div action='remove-record' :class="{'selected': actions.remove_record}" @click="actions.remove_record = !actions.remove_record">Remove Record(s)</div>
                     </div>
+                    <add-records 
+                    ref="addRecords" 
+                    :actions="actions.add_record"
+                    v-model:add_record="add_record"
+                    ></add-records>
+                    <correct-records 
+                    ref="correctRecords" 
+                    :actions="actions.correct_record"
+                    v-model:correct_record="correct_record"
+                    ></correct-records>
+                    <remove-records 
+                    ref="removeRecords" 
+                    :actions="actions.remove_record"
+                    v-model:remove_record="remove_record"
+                    ></remove-records>
                 </div>
-                <div data="2" class="in-active">
-                    <div id="add-record" style="display:none;">
-                        <h2>Records to Add:</h2>
-                        <div table-controls>
-                            <button tabindex="-1" class="btn secondary">Add Row</button>
-                            <button tabindex="-1" class="btn secondary">Remove Row</button>
-                        </div>
-                        <table id="add-record-table">
-                            <tbody>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div id="correct-record" style="display:none;">
-                        <h2>Records to Correct:</h2>
-                        <div table-controls>
-                            <button tabindex="-1" class="btn secondary">Add Row</button>
-                            <button tabindex="-1" class="btn secondary">Remove Row</button>
-                        </div>
-                        <table id="correct-record-table">
-                            <tbody>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div id="remove-record" style="display:none;">
-                        <h2>Records to Remove:</h2>
-                        <div table-controls>
-                            <button tabindex="-1" class="btn secondary">Add Row</button>
-                            <button tabindex="-1" class="btn secondary">Remove Row</button>
-                        </div>
-                        <table id="remove-record-table">
-                            <tbody>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div id="confirm" data="3" class="in-active">
+                <div id="confirm" data="3" :class="{'active': current_step === 2, 'in-active': current_step < 2}">
                     <div compiled-results>
                         <h2>Please Confirm records are correct and none are missing.</h2>
-                        <div add-record style="display: none;">
+                        <div v-if="actions.add_record">
                             <h2>Records to be Added</h2>
-                            <data></data>
+                            <data>
+                                <div class="value-display" v-for="record in add_record">
+                                    Record Type: {{record.type}}<br>
+                                    Name: {{record.name}}<br>
+                                    Value: {{record.value}}<br>
+                                    TTL: {{record.ttl}}
+                                </div>
+                            </data>
                         </div>
-                        <div correct-record style="display: none;">
+                        <div v-if="actions.correct_record">
                             <h2>Records to be Corrected</h2>
-                            <data></data>
+                            <data>
+                                <div class="value-display" v-for="record in correct_record">
+                                    <div class="value-header">
+                                        <div>Original Values</div>
+                                        <div>New Values</div>
+                                    </div>
+                                    <div class="correct-record">
+                                        <div class="value-display">
+                                            Record Type: {{record.type}}<br>
+                                            Name: {{record.name}}<br>
+                                            Value: {{record.value}}<br>
+                                            TTL: {{record.ttl}}
+                                        </div>
+                                        <div class="value-display">
+                                            Record Type: {{record.newType}}<br>
+                                            Name: {{record.newName}}<br>
+                                            Value: {{record.newValue}}<br>
+                                            TTL: {{record.newTtl}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </data>
                         </div>
-                        <div remove-record style="display: none;">
+                        <div v-if="actions.remove_record">
                             <h2>Records to be Removed</h2>
-                            <data></data>
+                            <data>
+                                <div class="value-display" v-for="record in remove_record">
+                                    Record Type: {{record.type}}<br>
+                                    Name: {{record.name}}<br>
+                                    Value: {{record.value}}<br>
+                                    TTL: {{record.ttl}}
+                                </div>
+                            </data>
                         </div>
                     </div>
                 </div>
             </div>
-            <div flow-controls>
-                <button prev class="btn secondary hide" style="font-size: 12px;">Previous</button>
-                <button class="btn primary hide" finish style="float: right;">Finish</button>
-                <button class="btn primary" next style="float: right;">Next</button>
-            </div>
+            <flow-ctrl-app 
+            ref="flowCtrlApp"
+            :max-step="2"
+            @step-change-request="validateStepData"
+            @step-changed="handleNextStep"
+            @previous-step="handlePreviousStep"
+            @finish="handleFinish"></flow-ctrl-app>
         </div>
-        <div style="display: none;" id="record-entry-container">
-            <div id="record-entry-box">
-                <span class="close">X</span>
-                <h3>Record Information</h3>
-                <div>
-                    Type:<br>
-                    <select class="dns-selector">
-                        <option>Select Type</option>
-                        <option>A</option>
-                        <option>AAAA</option>
-                        <option>CNAME</option>
-                        <option>MX</option>
-                        <option>TXT</option>
-                        <option>PTR</option>
-                        <option>SRV</option>
-                    </select>
-                </div>
-                <div name>
-                    Name:<br>
-                    <input type="text" />
-                </div>
-                <div value>
-                    Value:<br>
-                    <input type="text" />
-                </div>
-                <div style="display: none;" mx srv priority>
-                    Priority:<br>
-                    <input type="text" />
-                </div>
-                <div style="display: none;" mx mail-host-name>
-                    Mail Host Name:<br>
-                    <input type="text" />
-                </div>
-                <div style="display: none;" srv weight>
-                    Weight:<br>
-                    <input type="text" />
-                </div>
-                <div style="display: none;" srv port>
-                    Port:<br>
-                    <input type="text" />
-                </div>
-                <div style="display: none;" srv server-host>
-                    Server Host Name:<br>
-                    <input type="text" />
-                </div>
-                <div ttl>
-                    Requested TTL (Optional):<br>
-                    <input type="text" maxlength="5" />
-                </div>
-                <button class="btn secondary">Cancel</button>
-                <button style="float: right;" class="btn primary">Submit</button>
-            </div>
-        </div>
-        <div id="ticket-container" class="hide">
-            <div>
-                <textarea></textarea>
-                <div ticket-buttons>
-                    <button style="float: left;" class="btn tertiary">New Case</button>
-                    <button class="btn secondary">Close</button>
-                    <button class="btn primary btn-copy">Copy</button>
-                </div>
-            </div>
-        </div>
-        <div id="error_message" class="hide"></div>
+        <ticket-data-ctrl
+        ref="ticketDataCtrl"
+        :ticket-data="ticketData"
+        @reset-ticket="resetTicket"
+        ></ticket-data-ctrl>
+        <error-ctrl ref="errorCtrl"></error-ctrl>
+        <record-editor ref="recordEditor"
+        :show="showRecordEditor"
+        :record="currentRecord"
+        :is-correction="isCorrection"
+        :domain="domain"
+        @save="updateRecord"
+        @close-editor="closeRecordEditor"
+        ></record-editor>
     </body>
 </html>
