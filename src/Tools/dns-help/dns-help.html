@@ -66,17 +66,52 @@
                 <div id="confirm" data="3" :class="{'active': current_step === 3, 'in-active': current_step < 3}">
                     <div compiled-results>
                         <h2>Please Confirm records are correct and none are missing.</h2>
-                        <div add-record style="display: none;">
+                        <div v-if="actions.add_record">
                             <h2>Records to be Added</h2>
-                            <data></data>
+                            <data>
+                                <div class="value-display" v-for="record in add_record">
+                                    Record Type: {{record.type}}<br>
+                                    Name: {{record.name}}<br>
+                                    Value: {{record.value}}<br>
+                                    TTL: {{record.ttl}}
+                                </div>
+                            </data>
                         </div>
-                        <div correct-record style="display: none;">
+                        <div v-if="actions.correct_record">
                             <h2>Records to be Corrected</h2>
-                            <data></data>
+                            <data>
+                                <div class="value-display" v-for="record in correct_record">
+                                    <div class="value-header">
+                                        <div>Original Values</div>
+                                        <div>New Values</div>
+                                    </div>
+                                    <div class="correct-record">
+                                        <div class="value-display">
+                                            Record Type: {{record.type}}<br>
+                                            Name: {{record.name}}<br>
+                                            Value: {{record.value}}<br>
+                                            TTL: {{record.ttl}}
+                                        </div>
+                                        <div class="value-display">
+                                            Record Type: {{record.newType}}<br>
+                                            Name: {{record.newName}}<br>
+                                            Value: {{record.newValue}}<br>
+                                            TTL: {{record.newTtl}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </data>
                         </div>
-                        <div remove-record style="display: none;">
+                        <div v-if="actions.remove_record">
                             <h2>Records to be Removed</h2>
-                            <data></data>
+                            <data>
+                                <div class="value-display" v-for="record in remove_record">
+                                    Record Type: {{record.type}}<br>
+                                    Name: {{record.name}}<br>
+                                    Value: {{record.value}}<br>
+                                    TTL: {{record.ttl}}
+                                </div>
+                            </data>
                         </div>
                     </div>
                 </div>
@@ -89,7 +124,10 @@
             @previous-step="handlePreviousStep"
             @finish="handleFinish"></flow-ctrl-app>
         </div>
-        <ticket-data-ctrl ref="ticketDataCtrl"></ticket-data-ctrl>
+        <ticket-data-ctrl
+        ref="ticketDataCtrl"
+        :ticket-data="ticketData"
+        ></ticket-data-ctrl>
         <error-ctrl ref="errorCtrl"></error-ctrl>
         <record-editor ref="recordEditor"
         :show="showRecordEditor"

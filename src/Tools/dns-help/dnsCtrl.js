@@ -26,6 +26,7 @@ const dnsHelp = createApp({
     data() {
         return {
             current_step: 1,
+            ticketData: '',
             domain: '',
             add_record: [],
             correct_record: [],
@@ -49,7 +50,8 @@ const dnsHelp = createApp({
             this.current_step = step;
         },
         handleFinish(){
-            console.log('finish');
+            this.compileRecords();
+            this.$refs.ticketDataCtrl.showTicketContainer = true;
         },
         async validateStepData(step, resolve){
             this.$refs.errorCtrl.closeErrorDisplay();
@@ -130,6 +132,61 @@ const dnsHelp = createApp({
         updateRecord(){
             this.callBack(this.currentRecord, this.isCorrection);
             this.closeRecordEditor();
+        },
+        compileRecords(){
+            this.ticketData = `DNS Record Changes
+Domain: ${this.domain}
+
+`;
+            if(this.actions.add_record){
+                this.ticketData += `-----Records to be Added-----
+
+`;
+                for(let record of this.add_record){
+                    this.ticketData += `Record #${record.id}
+Record Type: ${record.type}
+Name: ${record.name}
+Value: ${record.value}
+TTL: ${record.ttl}
+
+`;
+                }
+            }
+            if(this.actions.correct_record){
+                this.ticketData += `-----Records to be Corrected-----
+
+`;
+                for(let record of this.correct_record){
+                    this.ticketData += `Record #${record.id}
+**Original Values**
+Record Type: ${record.type}
+Name: ${record.name}
+Value: ${record.value}
+TTL: ${record.ttl}
+
+**New Values**
+Record Type: ${record.newType}
+Name: ${record.newName}
+Value: ${record.newValue}
+TTL: ${record.newTtl}
+
+`;
+                }
+            }
+            if(this.actions.remove_record){
+                this.ticketData += `-----Records to be Removed-----
+
+`;
+                for(let record of this.remove_record){
+                    this.ticketData += `Record #${record.id}
+Record Type: ${record.type}
+Name: ${record.name}
+Value: ${record.value}
+TTL: ${record.ttl}
+
+`;
+                }
+            }
         }
     }
 });
