@@ -268,13 +268,31 @@ export default {
             if(Object.keys(error_list).length > 0){
                 this.$refs.errorCtrl.updateErrorObject(error_list);
             }else{
-                if(this.record.ttl === ''){
-                    this.record.ttl = 3600;
-                }
-                if(this.record?.newTtl === ''){
-                    this.record.newTtl = 3600;
-                }
+                this.checkTtl();
+                this.checkValue();
                 this.submitRecord();
+            }
+        },
+        checkTtl(){
+            if(this.record.ttl === ''){
+                this.record.ttl = 3600;
+            }
+            if(this.record?.newTtl === ''){
+                this.record.newTtl = 3600;
+            }
+        },
+        checkValue(){
+            if(this.record.type === 'MX' || this.record.type === 'SRV'){
+                this.record.value = this.record.priority + ' ' + this.record.mailHostName;
+            }
+            if(this.record.type === 'SRV'){
+                this.record.value = this.record.weight + ' ' + this.record.port + ' ' + this.record.serverHost;
+            }
+            if(this.record?.newType === 'MX' || this.record?.newType === 'SRV'){
+                this.record.newValue = this.record.newPriority + ' ' + this.record.newMailHostName;
+            }
+            if(this.record?.newType === 'SRV'){
+                this.record.newValue = this.record.newWeight + ' ' + this.record.newPort + ' ' + this.record.newServerHost;
             }
         }
     }

@@ -62,12 +62,7 @@ const dnsHelp = createApp({
                     }
                     break;
                 case 2:
-                    validation_result = await new Promise(resolve => this.$refs.step2.getData(resolve));
-                    if(validation_result.success){
-                        this.ticket_data.add_record = [...validation_result.data.add_record];
-                        this.ticket_data.correct_record = [...validation_result.data.correct_record];
-                        this.ticket_data.remove_record = [...validation_result.data.remove_record];
-                    }
+                    validation_result = this.checkRecords()
                     break;
                 case 3:
                     validation_result = {success: true}
@@ -79,6 +74,46 @@ const dnsHelp = createApp({
                 this.$refs.errorCtrl.updateErrorObject(validation_result.data);
             }
             resolve(validation_result.success);
+        },
+        checkRecords(){
+            let error_list = {};
+            if(this.actions.add_record){
+                if(this.add_record.length === 0){
+                    error_list['add_record'] = 'Please add at least one record to the add records section.';
+                }
+                for(let record of this.add_record){
+                    if(record.type === ''){
+                        error_list['add_record'] = 'Make sure all records to add are filled out, or remove empty rows.';
+                        break;
+                    }
+                }
+            }
+            if(this.actions.correct_record){
+                if(this.correct_record.length === 0){
+                error_list['correct_record'] = 'Please add at least one record to the correct records section.';
+                }
+                for(let record of this.correct_record){
+                    if(record.type === ''){
+                        error_list['correct_record'] = 'Make sure all records to correct are filled out, or remove empty rows.';
+                        break;
+                    }
+                }
+            }
+            if(this.actions.remove_record){
+                if(this.remove_record.length === 0){
+                    error_list['remove_record'] = 'Please add at least one record to the remove records section.';
+                }
+                for(let record of this.remove_record){
+                    if(record.type === ''){
+                        error_list['remove_record'] = 'Make sure all records to remove are filled out, or remove empty rows.';
+                        break;
+                    }
+                }
+            }
+            if(Object.keys(error_list).length > 0){
+                return {success: false, data: error_list};
+            }
+            return {success: true};
         },
         openRecordEditor(record, isCorrection, callBack){
             this.currentRecord = { ...record };
