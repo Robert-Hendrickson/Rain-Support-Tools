@@ -1,5 +1,9 @@
 @import '/Rain-Support-Tools/src/common/css/default.css';
 @import '/Rain-Support-Tools/src/common/flow-format/flow-format.css';
+.content.container > div.active{
+    max-height: 70vh;
+    overflow-y: scroll;
+}
 
 div[choice-selector] > div{
     width: 33%;
