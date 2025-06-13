@@ -133,6 +133,9 @@ const dnsHelp = createApp({
             this.callBack(this.currentRecord, this.isCorrection);
             this.closeRecordEditor();
         },
+        resetTicket(){
+            location.reload();
+        },
         compileRecords(){
             this.ticketData = `DNS Record Changes
 Domain: ${this.domain}
