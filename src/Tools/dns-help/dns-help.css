@@ -29,7 +29,7 @@ div.data-input{
 div.data-input:hover{
     cursor: pointer;
 }
-div[data="2"] > div > table{
+div > table{
     td:first-child{
         width: 5px;
         span:hover{
@@ -39,6 +39,9 @@ div[data="2"] > div > table{
     td:nth-child(2){
         width: 80px;
     }
+}
+.row-delete{
+    cursor: pointer;
 }
 /*correct-record styles*/
 #correct-record-table > tbody > tr > td{

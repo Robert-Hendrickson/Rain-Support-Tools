@@ -29,24 +29,23 @@
             <div id="info-tabs">
                 <div id="action-tab" step="1" :class="{'active': current_step === 1, 'complete': current_step > 1}">
                     <div class="step-circle">1</div>
-                    Action Type
+                    Record Information
                 </div>
-                <div id="records-tab" step="2" :class="{'active': current_step === 2, 'complete': current_step > 2, 'in-active': current_step < 2}">
-                    <div class="step-circle">2</div>
-                    Record Data
-                </div>
-                <div id="confirmation-tab" step="3" :class="{'active': current_step === 3, 'complete': current_step > 3, 'in-active': current_step < 3}">
+                <div id="confirmation-tab" step="3" :class="{'active': current_step === 2,'in-active': current_step < 2}">
                     <div class="step-circle">3</div>
                     Confirm Information
                 </div>
             </div>
             <div class="container content">
-                <step-1 ref="step1"
-                :step="current_step"
-                :actions="actions"
-                :domain="domain"
-                ></step-1>
-                <div data="2" :class="{'active': current_step === 2, 'in-active': current_step < 2, 'complete': current_step > 2}">
+                <div id="basic-content" data="1"  :class="{'active': current_step === 1, 'complete': current_step > 1}">
+                    <p>Enter Domain being worked on:</p>
+                    <input id="domain" type="text" placeholder="websiteUrl.com" v-model="domain"/>
+                    <p>Select the action that needs to happen with Records:</p>
+                    <div choice-selector>
+                        <div action='add-record' :class="{'selected': actions.add_record}" @click="actions.add_record = !actions.add_record">Add Record(s)</div>
+                        <div action='correct-record' :class="{'selected': actions.correct_record}" @click="actions.correct_record = !actions.correct_record">Correct Existing Record(s)</div>
+                        <div action='remove-record' :class="{'selected': actions.remove_record}" @click="actions.remove_record = !actions.remove_record">Remove Record(s)</div>
+                    </div>
                     <add-records 
                     ref="addRecords" 
                     :actions="actions.add_record"
@@ -63,7 +62,7 @@
                     v-model:remove_record="remove_record"
                     ></remove-records>
                 </div>
-                <div id="confirm" data="3" :class="{'active': current_step === 3, 'in-active': current_step < 3}">
+                <div id="confirm" data="3" :class="{'active': current_step === 2, 'in-active': current_step < 2}">
                     <div compiled-results>
                         <h2>Please Confirm records are correct and none are missing.</h2>
                         <div v-if="actions.add_record">
@@ -118,7 +117,7 @@
             </div>
             <flow-ctrl-app 
             ref="flowCtrlApp"
-            :max-step="3"
+            :max-step="2"
             @step-change-request="validateStepData"
             @step-changed="handleNextStep"
             @previous-step="handlePreviousStep"
@@ -127,6 +126,7 @@
         <ticket-data-ctrl
         ref="ticketDataCtrl"
         :ticket-data="ticketData"
+        @reset-ticket="resetTicket"
         ></ticket-data-ctrl>
         <error-ctrl ref="errorCtrl"></error-ctrl>
         <record-editor ref="recordEditor"

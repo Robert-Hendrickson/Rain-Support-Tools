@@ -6,7 +6,6 @@ import { createApp } from '/Rain-Support-Tools/src/common/vue/vue.esm-browser.pr
 import flowCtrlApp from '../../common/flow-format/flow-ctrl-app.js';
 import errorCtrl from '../../modules/error-popup/errorCtrl.js';
 import ticketDataCtrl from '../../modules/copy-data/ticketDataCtrl.js';
-import step1 from './step-1.js';
 import addRecords from './add-records.js';
 import correctRecords from './correct-records.js';
 import removeRecords from './remove-records.js';
@@ -17,7 +16,6 @@ const dnsHelp = createApp({
         flowCtrlApp,
         errorCtrl,
         ticketDataCtrl,
-        step1,
         addRecords,
         correctRecords,
         removeRecords,
@@ -58,15 +56,24 @@ const dnsHelp = createApp({
             let validation_result;
             switch(step){
                 case 1:
-                    validation_result = await new Promise(resolve => this.$refs.step1.validateData(resolve));
-                    if(validation_result.success){
-                        this.domain = validation_result.data.domain;
+                    let error_list = {};
+                    if(!(/^(?:[\w\-]+\.)?[\w\-]+\.\w{2,}$/).test(this.domain)){
+                        error_list.domain = 'Domain is invalid';
+                    }
+                    
+                    if(this.actions.add_record === false && this.actions.correct_record === false && this.actions.remove_record === false){
+                        error_list.action_type = 'At least one action type is required';
+                    }
+                    let record_errors = this.checkRecords();
+                    error_list = {...error_list, ...record_errors};
+                    if(Object.keys(error_list).length > 0){
+                        validation_result = {success: false, data: error_list};
+                    } else {
+                        validation_result = {success: true};
                     }
                     break;
                 case 2:
                     validation_result = this.checkRecords()
-                    break;
-                case 3:
                     validation_result = {success: true}
                     break;
                 default:
@@ -112,10 +119,7 @@ const dnsHelp = createApp({
                     }
                 }
             }
-            if(Object.keys(error_list).length > 0){
-                return {success: false, data: error_list};
-            }
-            return {success: true};
+            return error_list;
         },
         openRecordEditor(record, isCorrection, callBack){
             this.currentRecord = { ...record };
