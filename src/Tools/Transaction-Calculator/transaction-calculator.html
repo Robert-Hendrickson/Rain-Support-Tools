@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!--common css-->
+    <link rel="stylesheet" href="./transactionCalculator.css" />
+    <!--common js scripts-->
+    <script src="/Rain-Support-Tools/src/common/vue/vue.global.prod.js"></script>
+    <script src="https://kit.fontawesome.com/8e52a98e38.js" crossorigin="anonymous"></script>
+    <script src="./calculatorCtrl.js" type="module"></script>
+    </head>
+    <body id="transaction-calculator">
+        <div class="menu-wrapper">
+            <nav-menu></nav-menu>
+            <script src="/Rain-Support-Tools/src/common/navigation/nav-builder.js" type="module"></script>
+        </div>
+        <div class="transaction-container">
+            <div class="transaction-summary">
+                <h3>Transaction Summary</h3>
+                <div class="summary-totals">
+                    <div class="summary-item">
+                        <label>Subtotal:</label>
+                        <span id="subtotal">$0.00</span>
+                    </div>
+                    <div class="summary-item">
+                        <label>Total Discount:</label>
+                        <span id="total-discount">$0.00</span>
+                    </div>
+                    <div class="summary-item">
+                        <label>Total Tax:</label>
+                        <span id="total-tax">$0.00</span>
+                    </div>
+                    <div class="summary-item">
+                        <label>Shipping:</label>
+                        <span id="shipping">$0.00</span>
+                    </div>
+                    <div class="summary-item total">
+                        <label>Transaction Total:</label>
+                        <span id="transaction-total">$0.00</span>
+                    </div>
+                </div>
+                <div class="tax-jurisdiction">
+                    <div class="tax-jurisdiction-header">
+                        <h3>Tax Jurisdiction Breakdown</h3>
+                        <button id="edit-tax-rates" class="edit-button" @click="this.editTaxes = true">Edit Tax Rates</button>
+                    </div>
+                    <div class="jurisdiction-grid">
+                        <div class="jurisdiction-item">
+                            <label>Material Tax Rate:</label>
+                            <span id="material-tax-rate">{{materialTotal}}</span>
+                        </div>
+                        <div class="jurisdiction-item">
+                            <label>Service Tax Rate:</label>
+                            <span id="service-tax-rate">{{serviceTotal}}</span>
+                        </div>
+                        <div class="jurisdiction-item">
+                            <label>Class Tax Rate:</label>
+                            <span id="class-tax-rate">{{classTotal}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="transaction-line-items">
+                <h3>Transaction Line Items</h3>
+                <div class="transaction-table-container">
+                    <div class="transaction-table-header">
+                        <div>Quantity</div>
+                        <div>Price</div>
+                        <div>Ext</div>
+                        <div>Discount</div>
+                        <div>Tax</div>
+                        <div>Total</div>
+                        <div>Tax Jurisdiction</div>
+                        <div>Percent Discount</div>
+                    </div>
+                    <div class="transaction-table-body">
+                        <div class="transaction-table-row">
+                            <div><input type="number" class="transaction-input" placeholder="Quantity" step="0.01"></div>
+                            <div><input type="number" class="transaction-input" placeholder="Price" step="0.01"></div>
+                            <div><input disabled type="number" class="transaction-input" placeholder="Ext" step="0.01"></div>
+                            <div><input type="number" class="transaction-input" placeholder="Discount" step="0.01"></div>
+                            <div><input disabled type="number" class="transaction-input" placeholder="Tax" step="0.01"></div>
+                            <div><input disabled type="number" class="transaction-input" placeholder="Total" step="0.01"></div>
+                            <div><select class="transaction-input" placeholder="Tax Jurisdiction">
+                                <option value="">None</option>
+                                <option value="material">Material</option>
+                                <option value="service">Service</option>
+                                <option value="class">Class</option>
+                            </select></div>
+                            <div><input type="number" class="transaction-input" placeholder="Percent Discount" step="0.01"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <tax-editor
+        v-model:tax-rates="taxRates"
+        v-model:edit-taxes="editTaxes"></tax-editor>
+        <div id="error_message" class="hide"></div>
+    </body>
+</html>
