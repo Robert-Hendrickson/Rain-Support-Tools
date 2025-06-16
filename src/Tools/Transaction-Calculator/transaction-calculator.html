@@ -31,7 +31,9 @@
                     </div>
                     <div class="summary-item">
                         <label>Shipping:</label>
-                        <span id="shipping">$0.00</span>
+                        <div class="summary-item-input">
+                            $<input type="number" class="transaction-input" placeholder="Shipping" step="0.01" v-model="shipping">
+                        </div>
                     </div>
                     <div class="summary-item total">
                         <label>Transaction Total:</label>
@@ -60,7 +62,10 @@
                 </div>
             </div>
             <div class="transaction-line-items">
-                <h3>Transaction Line Items</h3>
+                <div class="transaction-line-items-header">
+                    <h3>Transaction Line Items</h3>
+                    <button id="add-line-item" class="btn primary" @click="addLineItem">Add Line Item</button>
+                </div>
                 <div class="transaction-table-container">
                     <div class="transaction-table-header">
                         <div>Quantity</div>

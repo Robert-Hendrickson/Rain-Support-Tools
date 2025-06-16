@@ -49,7 +49,16 @@ const transactionCalculator = createApp({
             return line.ext;
         },
         calcTax(line) {
-            line.tax = this.round((line.ext - line.discount) * 0.1)
+            if(line.taxJurisdiction === '') {
+                line.tax = 0;
+                return line.tax;
+            }
+            let taxRates = this.taxRates[line.taxJurisdiction];
+            let tax = 0;
+            for(let i = 0; i < taxRates.length; i++) {
+                tax += this.round((line.ext - line.discount) * taxRates[i].rate / 100)
+            }
+            line.tax = tax;
             return line.tax;
         },
         calcTotal(line) {
@@ -93,10 +102,10 @@ const transactionCalculator = createApp({
             return this.line_entries.reduce((total, line) => total + line.discount, 0)
         },
         taxTotal() {
-            return this.line_entries.reduce((total, line) => total + line.tax, 0)
+            return this.round(this.line_entries.reduce((total, line) => total + line.tax, 0))
         },
         total() {
-            return this.subTotal - this.discountTotal + this.taxTotal
+            return this.round(this.subTotal - this.discountTotal + this.taxTotal + this.shipping)
         }
     },
     mounted() {
