@@ -30,6 +30,20 @@
                         <span id="total-tax">${{taxTotal}}</span>
                     </div>
                     <div class="summary-item">
+                        <div class="tax-breakdown-item">
+                            <label>Material:</label>
+                            <span id="tax-breakdown-item">${{totalMaterialTax}}</span>
+                        </div>
+                        <div class="tax-breakdown-item">
+                            <label>Service:</label>
+                            <span id="tax-breakdown-item">${{totalServiceTax}}</span>
+                        </div>
+                        <div class="tax-breakdown-item">
+                            <label>Class:</label>
+                            <span id="tax-breakdown-item">${{totalClassTax}}</span>
+                        </div>
+                    </div>
+                    <div class="summary-item">
                         <label>Shipping:</label>
                         <div class="summary-item-input">
                             $<input type="number" class="transaction-input" placeholder="Shipping" step="0.01" v-model="shipping">

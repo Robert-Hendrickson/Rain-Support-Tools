@@ -95,6 +95,15 @@ const transactionCalculator = createApp({
         classTotal() {
             return this.$data.taxRates.class.reduce((total, rate) => total + rate.rate, 0).toFixed(3) + '%';
         },
+        totalMaterialTax() {
+            return this.line_entries.reduce((total, line) => line.taxJurisdiction === 'material' ? total + line.tax : total, 0)
+        },
+        totalServiceTax() {
+            return this.line_entries.reduce((total, line) => line.taxJurisdiction === 'service' ? total + line.tax : total, 0)
+        },
+        totalClassTax() {
+            return this.line_entries.reduce((total, line) => line.taxJurisdiction === 'class' ? total + line.tax : total, 0)
+        },
         subTotal() {
             return this.line_entries.reduce((total, line) => total + line.ext, 0)
         },
