@@ -19,15 +19,15 @@
                 <div class="summary-totals">
                     <div class="summary-item">
                         <label>Subtotal:</label>
-                        <span id="subtotal">$0.00</span>
+                        <span id="subtotal">${{subTotal}}</span>
                     </div>
                     <div class="summary-item">
                         <label>Total Discount:</label>
-                        <span id="total-discount">$0.00</span>
+                        <span id="total-discount">${{discountTotal}}</span>
                     </div>
                     <div class="summary-item">
                         <label>Total Tax:</label>
-                        <span id="total-tax">$0.00</span>
+                        <span id="total-tax">${{taxTotal}}</span>
                     </div>
                     <div class="summary-item">
                         <label>Shipping:</label>
@@ -35,7 +35,7 @@
                     </div>
                     <div class="summary-item total">
                         <label>Transaction Total:</label>
-                        <span id="transaction-total">$0.00</span>
+                        <span id="transaction-total">${{total}}</span>
                     </div>
                 </div>
                 <div class="tax-jurisdiction">
@@ -73,20 +73,36 @@
                         <div>Percent Discount</div>
                     </div>
                     <div class="transaction-table-body">
-                        <div class="transaction-table-row">
-                            <div><input type="number" class="transaction-input" placeholder="Quantity" step="0.01"></div>
-                            <div><input type="number" class="transaction-input" placeholder="Price" step="0.01"></div>
-                            <div><input disabled type="number" class="transaction-input" placeholder="Ext" step="0.01"></div>
-                            <div><input type="number" class="transaction-input" placeholder="Discount" step="0.01"></div>
-                            <div><input disabled type="number" class="transaction-input" placeholder="Tax" step="0.01"></div>
-                            <div><input disabled type="number" class="transaction-input" placeholder="Total" step="0.01"></div>
-                            <div><select class="transaction-input" placeholder="Tax Jurisdiction">
-                                <option value="">None</option>
-                                <option value="material">Material</option>
-                                <option value="service">Service</option>
-                                <option value="class">Class</option>
-                            </select></div>
-                            <div><input type="number" class="transaction-input" placeholder="Percent Discount" step="0.01"></div>
+                        <div class="transaction-table-row" v-for="line in line_entries" :key="line.id">
+                            <div>
+                                <input type="number" class="transaction-input" placeholder="Quantity" step="0.01" v-model="line.quantity">
+                            </div>
+                            <div>
+                                <input type="number" class="transaction-input" placeholder="Price" step="0.01" v-model="line.price">
+                            </div>
+                            <div>
+                                <input disabled type="number" class="transaction-input" placeholder="Ext" step="0.01" :value="calcExt(line)">
+                            </div>
+                            <div>
+                                <input type="number" class="transaction-input" placeholder="Discount" step="0.01" v-model="line.discount">
+                            </div>
+                            <div>
+                                <input disabled type="number" class="transaction-input" placeholder="Tax" step="0.01" :value="calcTax(line)">
+                            </div>
+                            <div>
+                                <input disabled type="number" class="transaction-input" placeholder="Total" step="0.01" :value="calcTotal(line)">
+                            </div>
+                            <div>
+                                <select class="transaction-input" placeholder="Tax Jurisdiction" v-model="line.taxJurisdiction">
+                                    <option value="">None</option>
+                                    <option value="material">Material</option>
+                                    <option value="service">Service</option>
+                                    <option value="class">Class</option>
+                                </select>
+                            </div>
+                            <div>
+                                <input type="number" class="transaction-input" placeholder="Percent Discount" step="0.01" v-model="line.percentDiscount">
+                            </div>
                         </div>
                     </div>
                 </div>

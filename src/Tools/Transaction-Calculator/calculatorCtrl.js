@@ -20,7 +20,7 @@ const transactionCalculator = createApp({
     },
     data(){
         return {
-            line_entries: {},
+            line_entries: [],
             shipping: 0,
             taxRates: {
                 material: [{
@@ -41,20 +41,66 @@ const transactionCalculator = createApp({
         }
     },
     methods: {
+        round(value) {
+            return Math.round(value * 100) / 100;
+        },
+        calcExt(line) {
+            line.ext = this.round(line.quantity * line.price)
+            return line.ext;
+        },
+        calcTax(line) {
+            line.tax = this.round((line.ext - line.discount) * 0.1)
+            return line.tax;
+        },
+        calcTotal(line) {
+            line.total = this.round(line.ext - line.discount + line.tax)
+            return line.total;
+        },
         closeEditTaxes() {
             this.editTaxes = false;
+        },
+        addLineItem() {
+            this.line_entries.push({
+                id: this.generateUniqueId(),
+                quantity: 0,
+                price: 0,
+                discount: 0,
+                ext: 0,
+                tax: 0,
+                total: 0,
+                taxJurisdiction: '',
+                percentDiscount: 0
+            });
+        },
+        removeLineItem(id) {
+            this.line_entries = this.line_entries.filter(item => item.id !== id);
         }
     },
     computed: {
         materialTotal() {
-            return this.$data.taxRates.material.reduce((total, rate) => total + rate.rate, 0).toFixed(2) + '%';
+            return this.$data.taxRates.material.reduce((total, rate) => total + rate.rate, 0).toFixed(3) + '%';
         },
         serviceTotal() {
-            return this.$data.taxRates.service.reduce((total, rate) => total + rate.rate, 0).toFixed(2) + '%';
+            return this.$data.taxRates.service.reduce((total, rate) => total + rate.rate, 0).toFixed(3) + '%';
         },
         classTotal() {
-            return this.$data.taxRates.class.reduce((total, rate) => total + rate.rate, 0).toFixed(2) + '%';
+            return this.$data.taxRates.class.reduce((total, rate) => total + rate.rate, 0).toFixed(3) + '%';
+        },
+        subTotal() {
+            return this.line_entries.reduce((total, line) => total + line.ext, 0)
+        },
+        discountTotal() {
+            return this.line_entries.reduce((total, line) => total + line.discount, 0)
+        },
+        taxTotal() {
+            return this.line_entries.reduce((total, line) => total + line.tax, 0)
+        },
+        total() {
+            return this.subTotal - this.discountTotal + this.taxTotal
         }
+    },
+    mounted() {
+        this.addLineItem();
     }
 });
 
