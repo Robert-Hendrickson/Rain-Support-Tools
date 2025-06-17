@@ -11,6 +11,11 @@
     max-width: 1800px;
     margin: 0 auto;
 }
+@media (max-width: 1450px) {
+    .transaction-container {
+        flex-direction: column;
+    }
+}
 
 .transaction-data {
     width: 45%;
@@ -72,6 +77,9 @@
 .transaction-table-body {
     width: 100%;
     background-color: #fff;
+    max-height: 415px;
+    overflow-y: auto;
+    scrollbar-width: thin;
 }
 
 .transaction-table-row:last-child {
@@ -270,6 +278,13 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 20px;
+}
+
+.tax-editor-shipping{
+    display: flex;
+    align-items: center;
+    justify-content: center;
     margin-bottom: 20px;
 }
 

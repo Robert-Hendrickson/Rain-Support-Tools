@@ -8,6 +8,10 @@ export default {
         editTaxes: {
             type: Boolean,
             required: true
+        },
+        taxShipping: {
+            type: Boolean,
+            required: true
         }
     },
     data() {
@@ -34,6 +38,10 @@ export default {
             <div class="tax-editor-header">
                 <h3>Tax Jurisdiction Editor</h3>
                 <button id="close-tax-editor" class="close-button" @click="closeEditTaxes">&times;</button>
+            </div>
+            <div class="tax-editor-shipping">
+                <h4>Shipping Tax</h4>
+                <input type="checkbox" @click="toggleTaxShipping">
             </div>
             <div class="tax-jurisdiction-columns">
                 <div class="jurisdiction-column">
@@ -77,6 +85,9 @@ export default {
         closeEditTaxes() {
             this.$emit('update:editTaxes', false);
         },
+        toggleTaxShipping() {
+            this.$emit('update:taxShipping', !this.taxShipping);
+        },
         addTaxRate(jurisdiction) {
             this.idCounter++;
             this.localTaxRates[jurisdiction].push({id: this.idCounter, rate: 0});
@@ -86,7 +97,6 @@ export default {
         },
         updateTaxRate(jurisdiction, id, rate) {
             this.localTaxRates[jurisdiction] = this.localTaxRates[jurisdiction].map(rate => rate.id === id ? {...rate, rate} : rate);
-            console.log('updateTaxRate', jurisdiction, id, rate);
         },
         saveTaxRates() {
             this.$emit('update:taxRates', {...this.localTaxRates});

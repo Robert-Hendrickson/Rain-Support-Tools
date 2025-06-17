@@ -111,10 +111,17 @@ const transactionCalculator = createApp({
             return this.line_entries.reduce((total, line) => total + line.discount, 0)
         },
         taxTotal() {
-            return this.round(this.line_entries.reduce((total, line) => total + line.tax, 0))
+            return this.round(this.line_entries.reduce((total, line) => total + line.tax, 0) + this.shippingTax)
         },
         total() {
             return this.round(this.subTotal - this.discountTotal + this.taxTotal + this.shipping)
+        },
+        shippingTax() {
+            let tax = 0;
+            for(let i = 0; i < this.taxRates.material.length; i++) {
+                tax += this.shipping * (this.taxRates.material[i].rate / 100)
+            }
+            return this.taxShipping ? this.round(tax) : 0;
         }
     },
     mounted() {

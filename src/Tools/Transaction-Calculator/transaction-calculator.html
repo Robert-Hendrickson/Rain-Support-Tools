@@ -42,6 +42,10 @@
                             <label>Class:</label>
                             <span id="tax-breakdown-item">${{totalClassTax}}</span>
                         </div>
+                        <div class="tax-breakdown-item" v-if="taxShipping">
+                            <label>Shipping:</label>
+                            <span id="tax-breakdown-item">${{shippingTax}}</span>
+                        </div>
                     </div>
                     <div class="summary-item">
                         <label>Shipping:</label>
@@ -129,7 +133,8 @@
         </div>
         <tax-editor
         v-model:tax-rates="taxRates"
-        v-model:edit-taxes="editTaxes"></tax-editor>
+        v-model:edit-taxes="editTaxes"
+        v-model:tax-shipping="taxShipping"></tax-editor>
         <div id="error_message" class="hide"></div>
     </body>
 </html>
