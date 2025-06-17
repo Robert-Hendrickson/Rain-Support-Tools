@@ -93,7 +93,6 @@
                         <div>Tax</div>
                         <div>Total</div>
                         <div>Tax Jurisdiction</div>
-                        <div>Percent Discount</div>
                     </div>
                     <div class="transaction-table-body">
                         <div class="transaction-table-row" v-for="line in line_entries" :key="line.id">
@@ -124,7 +123,7 @@
                                 </select>
                             </div>
                             <div>
-                                <input type="number" class="transaction-input" placeholder="Percent Discount" step="0.01" v-model="line.percentDiscount">
+                                <button class="btn tertiary" @click="removeLineItem(line.id)">Remove</button>
                             </div>
                         </div>
                     </div>
