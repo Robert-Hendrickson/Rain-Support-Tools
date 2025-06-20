@@ -2,14 +2,14 @@
 <html>
     <head>
         <!--common css-->
-    <link rel="stylesheet" href="/Rain-Support-Tools/src/Tools/rto-payments/rto-payments.css" />
-    <!--common js scripts-->
-    <script src="/Rain-Support-Tools/src/common/vue/vue.global.prod.js"></script>
-    <script src="/Rain-Support-Tools/src/common/testing/test_data.js"></script>
-    <script src="https://kit.fontawesome.com/8e52a98e38.js" crossorigin="anonymous"></script>
-    <script src="./rto-payments.js"></script>
+        <link rel="stylesheet" href="/Rain-Support-Tools/src/Tools/rto-payments/rto-payments.css" />
+        <!--common js scripts-->
+        <script src="/Rain-Support-Tools/src/common/vue/vue.global.prod.js"></script>
+        <script src="/Rain-Support-Tools/src/common/testing/test_data.js"></script>
+        <script src="https://kit.fontawesome.com/8e52a98e38.js" crossorigin="anonymous"></script>
+        <script src="./rtoPaymentCtrl.js" type="module"></script>
     </head>
-    <body>
+    <body id="rto-payments">
         <div class="menu-wrapper">
             <nav-menu></nav-menu>
             <script src="/Rain-Support-Tools/src/common/navigation/nav-builder.js" type="module"></script>
@@ -21,47 +21,83 @@
             <div class="rto-inputs">
                 <div class="rto-input">
                     <label for="rto-amount">RTO Amount</label>
-                    <input type="number" id="rto-amount" tabindex="1" />
+                    <input type="number" id="rto-amount" tabindex="1" v-model="rtoAmountInput" />
                 </div>
                 <div class="rto-input">
                     <label for="number-of-payments">Number of Payments</label>
-                    <input type="number" id="number-of-payments" tabindex="1" />
+                    <input type="number" id="number-of-payments" tabindex="1" v-model="rtoNumberOfPaymentsInput" />
                 </div>
                 <div class="rto-input">
                     <label for="tax-rate">Tax Rate</label>
-                    <input type="number" id="tax-rate" tabindex="1" />
+                    <input type="number" id="tax-rate" tabindex="1" v-model="rtoTaxRateInput" />
                 </div>
                 <div class="rto-input">
                     <label for="maintenance">Maintenance Fee</label>
                     <div>
                         <label for="maintenance-tax">Taxable?</label>
-                        <input type="checkbox" id="maintenance-tax" />
+                        <input type="checkbox" id="maintenance-tax" v-model="rto_maintenance_tax" />
                     </div>
-                    <input type="number" id="maintenance" tabindex="1" />
+                    <input type="number" id="maintenance" tabindex="1" v-model="rtoMaintenanceInput" />
                 </div>
                 <div class="rto-input">
                     <label for="protection">Protection Fee</label>
                     <div>
                         <label for="protection-tax">Taxable?</label>
-                        <input type="checkbox" id="protection-tax" />
+                        <input type="checkbox" id="protection-tax" v-model="rto_protection_tax" />
                     </div>
-                    <input type="number" id="protection" tabindex="1" />
+                    <input type="number" id="protection" tabindex="1" v-model="rtoProtectionInput" />
                 </div>
                 <div class="rto-input">
                     <label for="interest">Interest Rate</label>
-                    <input type="number" id="interest" tabindex="1" />
+                    <input type="number" id="interest" tabindex="1" v-model="rtoInterestInput" />
                 </div>
                 <div class="rto-input">
                     <label for="rental-credit">Rental Credit</label>
-                    <input type="number" id="rental-credit" tabindex="1" />
+                    <input type="number" id="rental-credit" tabindex="1" v-model="rtoRentalCreditInput" />
                 </div>
                 <div class="rto-input">
                     <label for="down-payment">Down Payment</label>
-                    <input type="number" id="down-payment" tabindex="1" />
+                    <input type="number" id="down-payment" tabindex="1" v-model="rtoDownPaymentInput" />
                 </div>
             </div>
-            <button class="btn primary" id="rto-calculate">Calculate Payments</button>
-            <button style="float:right;" id="rto-clear" class="btn tertiary">Clear</button>
+            <button class="btn primary" id="rto-calculate" @click="calculateRtoPayments">Calculate Payments</button>
+            <button style="float:right;" id="rto-clear" class="btn tertiary" @click="clearRtoPayments">Clear</button>
+        </div>
+        <div class="rto-header">
+            <h1>Summary</h1>
+        </div>
+        <div class="rto-data">
+            <div class="rto-results">
+                <table class="rto-table">
+                    <thead>
+                        <tr>
+                            <th>Total Payments</th>
+                            <th>Total Principal</th>
+                            <th>Total Interest</th>
+                            <th>Total Maintenance</th>
+                            <th>Total Protection</th>
+                            <th>Total Tax</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody id="rto-summary" v-if="rto_payments.length">
+                        <tr>
+                            <td>{{ rto_payments.length+1 }}</td>
+                            <td>${{ round(rto_payments.reduce((acc, payment) => acc + payment.principal, 0)) }}</td>
+                            <td>${{ round(rto_payments.reduce((acc, payment) => acc + payment.interest, 0)) }}</td>
+                            <td>${{ round(rto_payments.reduce((acc, payment) => acc + payment.maintenance, 0)) }}</td>
+                            <td>${{ round(rto_payments.reduce((acc, payment) => acc + payment.protection, 0)) }}</td>
+                            <td>${{ round(rto_payments.reduce((acc, payment) => acc + payment.tax, 0)) }}</td>
+                            <td>${{ round(rto_payments.reduce((acc, payment) => acc + payment.total, 0)) }}</td>
+                        </tr>
+                    </tbody>
+                    <tbody v-else>
+                        <tr>
+                            <td colspan="7">No payments calculated</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
         <div class="rto-header">
             <h1>Scheduled Payments</h1>
@@ -80,10 +116,25 @@
                             <th>Payment Amount</th>
                         </tr>
                     </thead>
-                    <tbody id="rto-payments"></tbody>
+                    <tbody id="rto-payments" v-if="rto_payments.length">
+                        <tr v-for="(payment, index) in rto_payments" :key="index" :id="`payment-${payment.payment_number}`">
+                            <td>{{ payment.payment_number }}</td>
+                            <td>${{ payment.principal }}</td>
+                            <td>${{ payment.interest }}</td>
+                            <td>${{ payment.maintenance }}</td>
+                            <td>${{ payment.protection }}</td>
+                            <td>${{ payment.tax }}</td>
+                            <td>${{ payment.total }}</td>
+                        </tr>
+                    </tbody>
+                    <tbody v-else>
+                        <tr>
+                            <td colspan="7">No payments calculated</td>
+                        </tr>
+                    </tbody>
                 </table>
             </div>
         </div>
-        <div id="error_message" class="hide"></div>
+        <error-ctrl ref="errorCtrl"></error-ctrl>
     </body>
 </html>
