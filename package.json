@@ -1,7 +1,7 @@
 {
   "name": "rain-support-tools",
   "version": "1.0.0",
-  "description": "A set of tools that I built to help our support team in being able to consolidate information for consistency and use for testing purposes Riley page was pulled from this link: https://codepen.io/trajektorijus/pen/mdeBYrX",
+  "description": "A set of tools that I built to help our support team in being able to consolidate information for consistency and use for testing purposes ",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
