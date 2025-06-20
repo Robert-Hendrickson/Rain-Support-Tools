@@ -24,6 +24,73 @@ const rtoPaymentCtrl = createApp({
             rto_payments: []
         }
     },
+    computed: {
+        // Computed properties with getters/setters for form inputs
+        rtoAmountInput: {
+            get() {
+                return this.rto_amount || 0;
+            },
+            set(value) {
+                this.rto_amount = value || 0;
+            }
+        },
+        rtoNumberOfPaymentsInput: {
+            get() {
+                return this.rto_number_of_payments || 0;
+            },
+            set(value) {
+                this.rto_number_of_payments = value || 0;
+            }
+        },
+        rtoTaxRateInput: {
+            get() {
+                return this.rto_tax_rate || 0;
+            },
+            set(value) {
+                this.rto_tax_rate = value || 0;
+            }
+        },
+        rtoMaintenanceInput: {
+            get() {
+                return this.rto_maintenance || 0;
+            },
+            set(value) {
+                this.rto_maintenance = value || 0;
+            }
+        },
+        rtoProtectionInput: {
+            get() {
+                return this.rto_protection || 0;
+            },
+            set(value) {
+                this.rto_protection = value || 0;
+            }
+        },
+        rtoInterestInput: {
+            get() {
+                return this.rto_interest || 0;
+            },
+            set(value) {
+                this.rto_interest = value || 0;
+            }
+        },
+        rtoRentalCreditInput: {
+            get() {
+                return this.rto_rental_credit || 0;
+            },
+            set(value) {
+                this.rto_rental_credit = value || 0;
+            }
+        },
+        rtoDownPaymentInput: {
+            get() {
+                return this.rto_down_payment || 0;
+            },
+            set(value) {
+                this.rto_down_payment = value || 0;
+            }
+        }
+    },
     methods: {
         calculateRtoPayments() {
             /*
@@ -88,7 +155,7 @@ const rtoPaymentCtrl = createApp({
                 temp_payment['protection'] = protection;
                 //set total amount
                 temp_payment['total'] = temp_payment['principal'] + temp_payment['tax'] + temp_payment['maintenance'] + temp_payment['protection'] + temp_payment['interest'];
-                temp_payment['total'] = Math.round(temp_payment['total'] * 100) / 10
+                temp_payment['total'] = Math.round(temp_payment['total'] * 100) / 100;
                 //update remaining balance
                 remaining_balance = Math.round((remaining_balance - temp_payment['principal']) * 100) / 100;
                 //increment payment number
@@ -109,7 +176,7 @@ const rtoPaymentCtrl = createApp({
             this.rto_interest = 0;
             this.rto_rental_credit = 0;
             this.rto_down_payment = 0;
-            this.rto_payments = {};
+            this.rto_payments = [];
         },
         round(value) {
             return Math.round(value * 100) / 100;

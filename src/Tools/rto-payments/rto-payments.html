@@ -21,15 +21,15 @@
             <div class="rto-inputs">
                 <div class="rto-input">
                     <label for="rto-amount">RTO Amount</label>
-                    <input type="number" id="rto-amount" tabindex="1" v-model="rto_amount" />
+                    <input type="number" id="rto-amount" tabindex="1" v-model="rtoAmountInput" />
                 </div>
                 <div class="rto-input">
                     <label for="number-of-payments">Number of Payments</label>
-                    <input type="number" id="number-of-payments" tabindex="1" v-model="rto_number_of_payments" />
+                    <input type="number" id="number-of-payments" tabindex="1" v-model="rtoNumberOfPaymentsInput" />
                 </div>
                 <div class="rto-input">
                     <label for="tax-rate">Tax Rate</label>
-                    <input type="number" id="tax-rate" tabindex="1" v-model="rto_tax_rate" />
+                    <input type="number" id="tax-rate" tabindex="1" v-model="rtoTaxRateInput" />
                 </div>
                 <div class="rto-input">
                     <label for="maintenance">Maintenance Fee</label>
@@ -37,7 +37,7 @@
                         <label for="maintenance-tax">Taxable?</label>
                         <input type="checkbox" id="maintenance-tax" v-model="rto_maintenance_tax" />
                     </div>
-                    <input type="number" id="maintenance" tabindex="1" v-model="rto_maintenance" />
+                    <input type="number" id="maintenance" tabindex="1" v-model="rtoMaintenanceInput" />
                 </div>
                 <div class="rto-input">
                     <label for="protection">Protection Fee</label>
@@ -45,22 +45,22 @@
                         <label for="protection-tax">Taxable?</label>
                         <input type="checkbox" id="protection-tax" v-model="rto_protection_tax" />
                     </div>
-                    <input type="number" id="protection" tabindex="1" v-model="rto_protection" />
+                    <input type="number" id="protection" tabindex="1" v-model="rtoProtectionInput" />
                 </div>
                 <div class="rto-input">
                     <label for="interest">Interest Rate</label>
-                    <input type="number" id="interest" tabindex="1" v-model="rto_interest" />
+                    <input type="number" id="interest" tabindex="1" v-model="rtoInterestInput" />
                 </div>
                 <div class="rto-input">
                     <label for="rental-credit">Rental Credit</label>
-                    <input type="number" id="rental-credit" tabindex="1" v-model="rto_rental_credit" />
+                    <input type="number" id="rental-credit" tabindex="1" v-model="rtoRentalCreditInput" />
                 </div>
                 <div class="rto-input">
                     <label for="down-payment">Down Payment</label>
-                    <input type="number" id="down-payment" tabindex="1" v-model="rto_down_payment" />
+                    <input type="number" id="down-payment" tabindex="1" v-model="rtoDownPaymentInput" />
                 </div>
             </div>
-            <button class="btn primary" id="rto-calculate" @click="calculateRtoPayments">Calculate</button>
+            <button class="btn primary" id="rto-calculate" @click="calculateRtoPayments">Calculate Payments</button>
             <button style="float:right;" id="rto-clear" class="btn tertiary" @click="clearRtoPayments">Clear</button>
         </div>
         <div class="rto-header">
