@@ -9,18 +9,16 @@ Riley page was pulled from this link: https://codepen.io/trajektorijus/pen/mdeBY
     <script src="/Rain-Support-Tools/src/common/vue/vue.global.prod.js"></script>
     <script src="/Rain-Support-Tools/src/common/testing/test_data.js"></script>
     <script src="https://kit.fontawesome.com/8e52a98e38.js" crossorigin="anonymous"></script>
-    <script src="/Rain-Support-Tools/src/common/flow-format/flow-ctrl.js"></script>
 
 ## cookie control functions
-    <script src="\Rain-Support-Tools\src\common\ctrl\cookie_ctrl.js"></script>
-
-    included functions
+    import cookieCtrl from '/Rain-Support-Tools/src/common/ctrl/cookie_ctrl.js';
+    import sets an object with below methods included functions
     setCookie(cookie_name,cookie_value,cookie_life_length = 7)
     //cookie_name = string for name of cookie
     //cookie_value = any value to be saved with the cookie
     //cookie_life_length = number for the length of time in days the cookie should exist, defaults to 7 days
-    getCookie(cookie_name)
-    deleteCookie(cookie_name)
+    getCookie(cookie_name) //returns data for the named cookie
+    deleteCookie(cookie_name) //deletes the cookie with the specific name
 
 ## custom dialog modal script import
     <link rel="stylesheet" href="/Rain-Support-Tools/src/modules/custom-dialogue/dialog-ctrl.css" />
@@ -104,52 +102,27 @@ regexController.addPattern({{string-title}}, {{regexPattern}});
     </div>
 
 ## flow controls
-    <div flow-controls>
-        <button prev class="btn secondary hide" style="font-size: 12px;">Previous</button>
-        <button class="btn primary hide" finish style="float: right;">Finish</button>
-        <button class="btn primary" next style="float: right;">Next</button>
-    </div>
-# the buttons have an onclick event that calls a function set in /src/common/flow-format/flow-ctrl.js file
-# next and finish buttons call function validateData()
-# previous button calls function previousStep()
+    <flow-ctrl-app 
+    ref="flowCtrlApp" 
+    :max-step="5"
+    @step-change-request="{{checkfunction}}"
+    @step-changed="handleNextStep"
+    @previous-step="handlePreviousStep"
+    @finish="handleFinish">
+    </flow-ctrl-app>
+# the buttons have an onclick event that calls a function set in /src/common/flow-format/flow-ctrl-app.js file
+# {{checkfunction}} will have a promise passed as a parameter that will need to be resolved so the steps can move forward (returns an object {Success: boolean})
 
 ## error container and ticket container
-### ticket container
-    <div id="ticket-container" class="hide">
-        <div>
-            <textarea></textarea>
-            <div ticket-buttons>
-                <button style="float: left;" class="btn tertiary">New Case</button>
-                <button class="btn secondary">Close</button>
-                <button class="btn primary copy-btn">Copy</button>
-            </div>
-        </div>
-    </div>
-# copy button has an onclick event that calls a function set in /src/common/copy-data/copy-data.js file
-# New case button calls function start_new_ticket() defined in the tools js file
-# Close button calls function document.getElementById('#ticket-container').classList.add('hide') defined in the tools js file
-
-### add this into tool js file to import copy function
-    document.querySelector('.copy-btn').addEventListener('click', async () =>{
-        const copyText =  await import('/Rain-Support-Tools/src/modules/copy-data/copy-data.js');
-        copyText.default(document.querySelector({{target element to copy from}}));
-    });
+### ticket container /ticketDataCtrl.js
+    <ticket-data-ctrl ref="ticketDataCtrl"
+    :ticket-data="ticketData"
+    @reset-ticket="handleResetTicket"></ticket-data-ctrl>
+# ticketData is a passed in Prop. type string, this opens and displays the ticket modal with the functionality built in
 ### error container
-    /src/modules/error-popup/popup.js
-    make sure function to display the error message has async and then use these in the beginning for setup.
-    //will clear any previous error message
-    if(document.getElementById('error_message')) {
-        document.getElementById('error_message').remove();
-    }
-    //will import the error popup module
-    let error_popup = await import('../../modules/error-popup/popup.js');
-    
-    //prep an object for any potential errors
-    let bad_object = {
-        type: 'generate',
-        list: {}
-    };
-    //list can be hold as many errors as needed
-    bad_object.list['unique title'] = 'Make sure to select at least one place where replication happened.';
-    //then call the function to display the error message
-    error_popup.default(bad_object);
+    /src/modules/error-popup/errorCtrl.js
+    used as a component, can access component to use methods and data points to display error info
+    data: error_object: {},
+    Methods:
+        updateErrorObject(error_list),
+        closeErrorDisplay()
