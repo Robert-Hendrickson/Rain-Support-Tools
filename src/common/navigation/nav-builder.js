@@ -14,14 +14,8 @@ Editing links in the object here updates the navigation across the entire websit
 const app = createApp({
     template: html,
     data() {
-        return {nav_list : {
-                home: {
-                    title: 'General',
-                    link_data: [
-                        {name: 'Home', url: '/Rain-Support-Tools/', icon: 'fa-solid fa-house'},
-                        {name: 'System Updates', url: 'https://github.com/Robert-Hendrickson/Rain-Support-Tools/pulls?q=is%3Amerged', target:'blank', icon: 'fa-solid fa-wrench'}
-                    ]
-                },
+        return {
+            nav_list : {
                 ticket: {
                     title: 'Ticket Tools',
                     link_data: [
@@ -56,12 +50,11 @@ const app = createApp({
                         {name:'CSS Sandbox', url: '/Rain-Support-Tools/src/Tools/css-tester/css-tester.html', icon: 'fa-solid fa-wand-magic-sparkles'}
                     ]
                 }
-            }};
+            },
+            showNav: false
+        }
     },
     methods: {
-        toggleNav(eventTarget){
-            document.querySelector('.secondary_menu_links').classList.toggle('active')
-        },
         updateNavButtons(eventTarget){
             //change the active selection for list type
             document.querySelector('div#menu_tabs > div.active')?.classList.remove('active');
@@ -86,11 +79,5 @@ if((/Rain-Support-Tools\/.+/).test(location.pathname)){
         if(new RegExp(current_page).test(element.href)){
             element.classList.add('current-page');
         }
-    });
-}
-//remove Home from nav list
-if(/Rain-Support-Tools\/$/.test(location.pathname)){
-    document.querySelectorAll('div#General').forEach(div => {
-        div.remove();
     });
 }
