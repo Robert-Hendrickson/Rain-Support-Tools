@@ -73,7 +73,7 @@ const app = createApp({
     }
 });
 //now that app is built, accessing it and apply it to the html element on the page <nav-menu></nav-menu>
-app.mount('nav-menu');
+window.app = app.mount('nav-menu');
 //this finds the link in the navigation for the page the user is currently looking at and highlights it to indicate current location
 if((/Rain-Support-Tools\/.+/).test(location.pathname)){
     //find current page and apply current-page class to nav

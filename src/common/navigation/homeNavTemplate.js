@@ -1,4 +1,4 @@
-export const homeNavTemplate = `<div v-if="is404" style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+export const homeNavTemplate = `<div v-if="is404()" style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
     <h2>404 Page not found</h2>
     <p>The page you are looking for does not exist. Please check the URL and try again.</p>
 </div>
