@@ -66,6 +66,9 @@ const app = createApp({
                 div.classList.remove('active');
             });
             document.querySelector(`div.toolButtonsList > #${title.replace(' ', '-')}`)?.classList.add('active');
+        },
+        is404() {
+            return location.search === '?404';
         }
     }
 });
