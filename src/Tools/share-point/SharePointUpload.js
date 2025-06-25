@@ -105,11 +105,19 @@ const SharePointUpload = {
                     console.log('Auth complete');
                     authTab.close();
                     this.checkAuth();
+                    this.uploadStatus = {
+                        type: 'success',
+                        message: 'Authentication process complete. Please upload your files.'
+                    };
                 }
-                this.uploadStatus = {
-                    type: 'success',
-                    message: 'Authentication complete. Please upload your files.'
-                };
+                if (event.data === 'auth-error') {
+                    console.log('Auth error');
+                    authTab.close();
+                    this.uploadStatus = {
+                        type: 'error',
+                        message: 'Authentication process failed. Please try again.'
+                    };
+                }
             }, { once: true });
         },
         triggerFileInput() {
@@ -177,7 +185,9 @@ const SharePointUpload = {
             try {
                 // Get a valid token (will refresh if needed)
                 const token = await getValidToken();
-
+                if (token.error) {
+                    throw new Error(token.error);
+                }
                 // Upload all files
                 for (const file of this.selectedFiles) {
                     // First upload the file
@@ -234,19 +244,25 @@ const SharePointUpload = {
                 } else {
                     errorMessage += `: ${error.message}`;
                 }
-
-                this.uploadStatus = {
-                    type: 'error',
-                    message: errorMessage
-                };
-                this.uploadStatus = {
-                    type: 'error',
-                    message: 'Your session has expired. Please authenticate again.',
-                    action: {
-                        text: 'Re-authenticate',
-                        handler: () => this.goToAuth()
-                    }
-                };
+                if (error.message === 'No refresh token available') {
+                    this.uploadStatus = {
+                        type: 'error',
+                        message: 'Your session has expired. Please authenticate again.',
+                        action: {
+                            text: 'Re-authenticate',
+                            handler: () => this.goToAuth()
+                        }
+                    };
+                } else {
+                    this.uploadStatus = {
+                        type: 'error',
+                        message: errorMessage,
+                        action: {
+                            text: 'Re-authenticate',
+                            handler: () => this.goToAuth()
+                        }
+                    };
+                }
             } finally {
                 this.uploading = false;
             }
