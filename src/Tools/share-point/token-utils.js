@@ -6,7 +6,7 @@ export async function getValidToken() {
     // If we don't have a token or it's expired (with 5 minute buffer)
     if (!accessToken || !tokenExpiresAt || Date.now() >= (tokenExpiresAt - 300000)) {
         if (!refreshToken) {
-            throw new Error('No refresh token available');
+            return {token: null, error: 'No refresh token available'};
         }
 
         try {
@@ -35,7 +35,7 @@ export async function getValidToken() {
                 window.location.href = './auth.html';
                 return;
             }*/
-            throw error;
+            return {token: null, error: error.response?.data?.error};
         }
     }
 
