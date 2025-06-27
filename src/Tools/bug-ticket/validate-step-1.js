@@ -111,7 +111,7 @@ export default {
                     (
                     !RegExp(/^https?:\/\//).test(value) 
                     || 
-                    !RegExp(/\/retailer\/dash\/$/).test(value)
+                    !(RegExp(/\/retailer\/dash\/$/).test(value) || RegExp(/\/site-admin\/login\/$/).test(value))
                     )
                 ){
                     return {error: 'Please enter a valid Dashboard URL. Example: https://etailpet.com/retailer/dash/'};
