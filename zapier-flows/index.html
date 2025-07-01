@@ -193,42 +193,28 @@
         </div>
 
         <div class="flow-section">
-            <!-- Step Indicator -->
-            <div class="step-indicator">
-                <div class="step active">1</div>
-                <div class="step-line active"></div>
-                <div class="step">2</div>
-                <div class="step-line"></div>
-                <div class="step">3</div>
-                <div class="step-line"></div>
-                <div class="step">4</div>
-            </div>
-
             <!-- Main Flow Diagram -->
             <div class="flow-container">
                 <div class="flow-title">Current Process Flow</div>
                 <div class="mermaid">
                     graph TD
-                        A[Start Process] --> B{Initial Assessment}
-                        B -->|Condition Met| C[Process Step 1]
-                        B -->|Condition Not Met| D[Alternative Path]
-                        C --> E[Process Step 2]
-                        D --> F[Error Handling]
-                        E --> G{Decision Point}
-                        G -->|Success| H[Complete Process]
-                        G -->|Needs Review| I[Review Step]
-                        F --> J[Log Error]
-                        I --> K[Re-evaluate]
-                        K --> G
-                        J --> L[End Process]
-                        H --> M[Success Output]
+                        A[Bug Reported] --> B[Support Rep Creates Ticket]
+                        B --> C{Ticket Submitted for Review}
+                        C -->|L3 Approves Ticket| D[L3 Submits Ticket]
+                        C -->|L3 Rejects Ticket| E[Ticket is sent back to support rep]
+                        E --> F[Support Rep Updates Ticket]
+                        F --> C
+                        D --> G[Ticket is submitted to Dev/Prod]
+                        G --> H{Ticket is Reviewed}
+                        H -->|Ticket is approved| I[Ticket is sent to Dev/Prod]
+                        H -->|Ticket is rejected| J[Ticket is sent back to support with explanation]
+                        I -->|Dev works on issue| K[Ticket is closed]
                         
                         style A fill:#e1f5fe
-                        style H fill:#c8e6c9
-                        style M fill:#c8e6c9
-                        style F fill:#ffcdd2
-                        style J fill:#ffcdd2
-                        style L fill:#ffcdd2
+                        style E fill:#ffcdd2
+                        style G fill:#c8e6c9
+                        style J fill:#e1f5fe
+                        style K fill:#e1f5fe
                 </div>
             </div>
 
@@ -314,41 +300,6 @@
                 }, 150);
             });
         });
-
-        // Simulate step progression (for demo purposes)
-        let currentStep = 1;
-        const steps = document.querySelectorAll('.step');
-        const stepLines = document.querySelectorAll('.step-line');
-
-        function updateSteps() {
-            steps.forEach((step, index) => {
-                if (index + 1 < currentStep) {
-                    step.classList.remove('active');
-                    step.classList.add('completed');
-                } else if (index + 1 === currentStep) {
-                    step.classList.add('active');
-                    step.classList.remove('completed');
-                } else {
-                    step.classList.remove('active', 'completed');
-                }
-            });
-
-            stepLines.forEach((line, index) => {
-                if (index + 1 < currentStep) {
-                    line.classList.add('active');
-                } else {
-                    line.classList.remove('active');
-                }
-            });
-        }
-
-        // Auto-progress steps every 3 seconds (for demo)
-        setInterval(() => {
-            if (currentStep < 4) {
-                currentStep++;
-                updateSteps();
-            }
-        }, 3000);
     </script>
 </body>
 </html>
