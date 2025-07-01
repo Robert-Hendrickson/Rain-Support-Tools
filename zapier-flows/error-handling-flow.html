@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error Handling Flow - Zapier Process</title>
+    <script src="mermaid.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .back-button:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateX(-5px);
+        }
+
+        .flow-section {
+            padding: 40px;
+        }
+
+        .flow-container {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 2px solid #e9ecef;
+        }
+
+        .flow-title {
+            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .mermaid {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .error-details {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .error-details h3 {
+            color: #856404;
+            margin-bottom: 15px;
+        }
+
+        .error-details ul {
+            color: #856404;
+            padding-left: 20px;
+        }
+
+        .error-details li {
+            margin-bottom: 8px;
+        }
+
+        .resolution-steps {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .resolution-steps h3 {
+            color: #155724;
+            margin-bottom: 15px;
+        }
+
+        .resolution-steps ol {
+            color: #155724;
+            padding-left: 20px;
+        }
+
+        .resolution-steps li {
+            margin-bottom: 10px;
+        }
+
+        .next-options {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 30px;
+            margin-top: 30px;
+        }
+
+        .next-options h3 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .option-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .option-btn {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .option-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .option-btn.secondary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .flow-section {
+                padding: 20px;
+            }
+            
+            .option-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <button class="back-button" onclick="window.history.back()">← Back</button>
+            <h1>Error Handling Flow</h1>
+            <p>Comprehensive error management and resolution procedures</p>
+        </div>
+
+        <div class="flow-section">
+            <!-- Error Handling Flow Diagram -->
+            <div class="flow-container">
+                <div class="flow-title">Error Handling Process Flow</div>
+                <div class="mermaid">
+                    graph TD
+                        A[Error Detected] --> B{Error Type}
+                        B -->|API Error| C[API Error Handler]
+                        B -->|Data Error| D[Data Validation Error]
+                        B -->|System Error| E[System Error Handler]
+                        B -->|Network Error| F[Network Error Handler]
+                        
+                        C --> G[Retry Logic]
+                        D --> H[Data Correction]
+                        E --> I[System Recovery]
+                        F --> J[Connection Retry]
+                        
+                        G --> K{Retry Success?}
+                        K -->|Yes| L[Continue Process]
+                        K -->|No| M[Escalate Error]
+                        
+                        H --> N{Data Valid?}
+                        N -->|Yes| L
+                        N -->|No| O[Manual Review]
+                        
+                        I --> P{System Recovered?}
+                        P -->|Yes| L
+                        P -->|No| Q[System Maintenance]
+                        
+                        J --> R{Connection Restored?}
+                        R -->|Yes| L
+                        R -->|No| S[Use Fallback]
+                        
+                        M --> T[Error Logging]
+                        O --> U[Data Correction Tools]
+                        Q --> V[System Diagnostics]
+                        S --> W[Alternative Endpoint]
+                        
+                        T --> X[Error Report]
+                        U --> Y[Data Validation]
+                        V --> Z[System Health Check]
+                        W --> AA[Load Balancing]
+                        
+                        style A fill:#ffcdd2
+                        style M fill:#ffcdd2
+                        style T fill:#ffcdd2
+                        style X fill:#ffcdd2
+                        style L fill:#c8e6c9
+                        style Y fill:#c8e6c9
+                        style Z fill:#c8e6c9
+                        style AA fill:#c8e6c9
+                </div>
+            </div>
+
+            <!-- Error Details Section -->
+            <div class="error-details">
+                <h3>Common Error Types & Triggers</h3>
+                <ul>
+                    <li><strong>API Errors:</strong> Rate limiting, authentication failures, invalid responses</li>
+                    <li><strong>Data Errors:</strong> Missing required fields, invalid formats, constraint violations</li>
+                    <li><strong>System Errors:</strong> Memory issues, timeout errors, resource exhaustion</li>
+                    <li><strong>Network Errors:</strong> Connection timeouts, DNS failures, SSL certificate issues</li>
+                </ul>
+            </div>
+
+            <!-- Resolution Steps -->
+            <div class="resolution-steps">
+                <h3>Error Resolution Steps</h3>
+                <ol>
+                    <li><strong>Error Detection:</strong> Automatic monitoring and alerting systems</li>
+                    <li><strong>Error Classification:</strong> Categorize error type and severity level</li>
+                    <li><strong>Automatic Recovery:</strong> Attempt self-healing mechanisms</li>
+                    <li><strong>Manual Intervention:</strong> Escalate to human operators if needed</li>
+                    <li><strong>Resolution Verification:</strong> Confirm error is resolved and system is stable</li>
+                    <li><strong>Documentation:</strong> Log error details and resolution steps</li>
+                </ol>
+            </div>
+
+            <!-- Next Options -->
+            <div class="next-options">
+                <h3>Next Steps</h3>
+                <div class="option-buttons">
+                    <button class="option-btn" onclick="openFlow('success-path')">Continue to Success Path</button>
+                    <button class="option-btn secondary" onclick="openFlow('monitoring-flow')">View Monitoring Dashboard</button>
+                    <button class="option-btn secondary" onclick="window.open('index.html', '_blank')">Return to Main Flow</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Mermaid
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'default',
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true,
+                curve: 'basis'
+            }
+        });
+
+        // Function to open flow in new tab
+        function openFlow(flowType) {
+            const flowUrls = {
+                'success-path': 'success-path-flow.html',
+                'monitoring-flow': 'monitoring-flow.html'
+            };
+            
+            const url = flowUrls[flowType];
+            if (url) {
+                window.open(url, '_blank');
+            }
+        }
+    </script>
+</body>
+</html> 

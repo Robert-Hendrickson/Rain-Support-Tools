@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zapier Process Flow</title>
+    <script src="mermaid.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .flow-section {
+            padding: 40px;
+        }
+
+        .flow-container {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 2px solid #e9ecef;
+        }
+
+        .flow-title {
+            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .mermaid {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .options-section {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 30px;
+            margin-top: 30px;
+        }
+
+        .options-title {
+            font-size: 1.3rem;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .option-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .option-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            border-color: #4facfe;
+        }
+
+        .option-card h3 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .option-card p {
+            color: #666;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .option-card .icon {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            color: #4facfe;
+        }
+
+        .step-indicator {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .step {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #e9ecef;
+            color: #666;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin: 0 10px;
+            transition: all 0.3s ease;
+        }
+
+        .step.active {
+            background: #4facfe;
+            color: white;
+        }
+
+        .step.completed {
+            background: #28a745;
+            color: white;
+        }
+
+        .step-line {
+            width: 50px;
+            height: 2px;
+            background: #e9ecef;
+            margin: 0 5px;
+        }
+
+        .step-line.active {
+            background: #4facfe;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .flow-section {
+                padding: 20px;
+            }
+            
+            .options-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Zapier Process Flow</h1>
+            <p>Interactive workflow visualization with progression options</p>
+        </div>
+
+        <div class="flow-section">
+            <!-- Step Indicator -->
+            <div class="step-indicator">
+                <div class="step active">1</div>
+                <div class="step-line active"></div>
+                <div class="step">2</div>
+                <div class="step-line"></div>
+                <div class="step">3</div>
+                <div class="step-line"></div>
+                <div class="step">4</div>
+            </div>
+
+            <!-- Main Flow Diagram -->
+            <div class="flow-container">
+                <div class="flow-title">Current Process Flow</div>
+                <div class="mermaid">
+                    graph TD
+                        A[Start Process] --> B{Initial Assessment}
+                        B -->|Condition Met| C[Process Step 1]
+                        B -->|Condition Not Met| D[Alternative Path]
+                        C --> E[Process Step 2]
+                        D --> F[Error Handling]
+                        E --> G{Decision Point}
+                        G -->|Success| H[Complete Process]
+                        G -->|Needs Review| I[Review Step]
+                        F --> J[Log Error]
+                        I --> K[Re-evaluate]
+                        K --> G
+                        J --> L[End Process]
+                        H --> M[Success Output]
+                        
+                        style A fill:#e1f5fe
+                        style H fill:#c8e6c9
+                        style M fill:#c8e6c9
+                        style F fill:#ffcdd2
+                        style J fill:#ffcdd2
+                        style L fill:#ffcdd2
+                </div>
+            </div>
+
+            <!-- Options Section -->
+            <div class="options-section">
+                <div class="options-title">Next Steps & Progression Options</div>
+                <div class="options-grid">
+                    <div class="option-card" onclick="openFlow('error-handling')">
+                        <div class="icon">⚠️</div>
+                        <h3>Error Handling Flow</h3>
+                        <p>Detailed process for handling errors and exceptions in the workflow</p>
+                    </div>
+                    
+                    <div class="option-card" onclick="openFlow('success-path')">
+                        <div class="icon">✅</div>
+                        <h3>Success Path Flow</h3>
+                        <p>Optimized workflow for successful process completion</p>
+                    </div>
+                    
+                    <div class="option-card" onclick="openFlow('review-process')">
+                        <div class="icon">🔍</div>
+                        <h3>Review Process Flow</h3>
+                        <p>Comprehensive review and validation procedures</p>
+                    </div>
+                    
+                    <div class="option-card" onclick="openFlow('alternative-path')">
+                        <div class="icon">🔄</div>
+                        <h3>Alternative Path Flow</h3>
+                        <p>Alternative processing routes and fallback procedures</p>
+                    </div>
+                    
+                    <div class="option-card" onclick="openFlow('integration-flow')">
+                        <div class="icon">🔗</div>
+                        <h3>Integration Flow</h3>
+                        <p>Third-party integrations and API connections</p>
+                    </div>
+                    
+                    <div class="option-card" onclick="openFlow('monitoring-flow')">
+                        <div class="icon">📊</div>
+                        <h3>Monitoring & Analytics</h3>
+                        <p>Real-time monitoring and performance analytics</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Mermaid
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'default',
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true,
+                curve: 'basis'
+            }
+        });
+
+        // Function to open flow in new tab
+        function openFlow(flowType) {
+            const flowUrls = {
+                'error-handling': 'error-handling-flow.html',
+                'success-path': 'success-path-flow.html',
+                'review-process': 'review-process-flow.html',
+                'alternative-path': 'alternative-path-flow.html',
+                'integration-flow': 'integration-flow.html',
+                'monitoring-flow': 'monitoring-flow.html'
+            };
+            
+            const url = flowUrls[flowType];
+            if (url) {
+                window.open(url, '_blank');
+            }
+        }
+
+        // Add click animation to option cards
+        document.querySelectorAll('.option-card').forEach(card => {
+            card.addEventListener('click', function() {
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = 'translateY(-5px)';
+                }, 150);
+            });
+        });
+
+        // Simulate step progression (for demo purposes)
+        let currentStep = 1;
+        const steps = document.querySelectorAll('.step');
+        const stepLines = document.querySelectorAll('.step-line');
+
+        function updateSteps() {
+            steps.forEach((step, index) => {
+                if (index + 1 < currentStep) {
+                    step.classList.remove('active');
+                    step.classList.add('completed');
+                } else if (index + 1 === currentStep) {
+                    step.classList.add('active');
+                    step.classList.remove('completed');
+                } else {
+                    step.classList.remove('active', 'completed');
+                }
+            });
+
+            stepLines.forEach((line, index) => {
+                if (index + 1 < currentStep) {
+                    line.classList.add('active');
+                } else {
+                    line.classList.remove('active');
+                }
+            });
+        }
+
+        // Auto-progress steps every 3 seconds (for demo)
+        setInterval(() => {
+            if (currentStep < 4) {
+                currentStep++;
+                updateSteps();
+            }
+        }, 3000);
+    </script>
+</body>
+</html>
