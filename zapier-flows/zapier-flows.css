@@ -58,6 +58,13 @@ body {
     font-weight: 600;
 }
 
+.flow-empty-message {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #666;
+    margin-top: 20px;
+}
+
 .mermaid {
     text-align: center;
     margin: 20px 0;
