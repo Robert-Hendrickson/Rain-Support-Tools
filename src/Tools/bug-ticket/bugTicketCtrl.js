@@ -15,6 +15,7 @@ import validateStep5 from './validate-step-5.js';
 import errorCtrl from '/Rain-Support-Tools/src/modules/error-popup/errorCtrl.js';
 import ticketDataCtrl from '/Rain-Support-Tools/src/modules/copy-data/ticketDataCtrl.js';
 import bugQuestionTips from './bug-question-tips.js';
+import feedBack from '/Rain-Support-Tools/src/modules/feedback/feedback.js';
 const BugTicketV2 = createApp({
     components: {
         //'nav-menu': () => import('/Rain-Support-Tools/src/common/navigation/nav-menu.js'),
@@ -28,7 +29,8 @@ const BugTicketV2 = createApp({
         validateStep5,
         errorCtrl,
         ticketDataCtrl,
-        bugQuestionTips
+        bugQuestionTips,
+        feedBack
     },
     data() {
         return {
