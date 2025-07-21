@@ -1,127 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zapier Process Flow</title>
-    <script src="mermaid.min.js"></script>
-    <link rel="stylesheet" href="./zapier-flows.css">
-</head>
-<body>
-    <div class="container">
-        <div class="header">
-            <h1>Zapier Process Flow</h1>
-            <p>Interactive workflow visualization with progression options</p>
-        </div>
-
-        <div class="flow-section">
-            <!-- Main Flow Diagram -->
-            <div class="flow-container">
-                <div class="flow-title">Current Process Flow</div>
-                <div class="mermaid">
-                    graph TD
-                        A[Bug Reported] --> B[Support Rep Creates Ticket]
-                        B --> C{Ticket Submitted for Review}
-                        C -->|L3 Approves Ticket| D[L3 Submits Ticket]
-                        C -->|L3 Rejects Ticket| E[Ticket is sent back to support rep]
-                        E --> F[Support Rep Updates Ticket]
-                        F --> C
-                        D --> G[Ticket is submitted to Dev/Prod]
-                        G --> H{Ticket is Reviewed}
-                        H -->|Ticket is approved| I[Ticket is sent to Dev/Prod]
-                        H -->|Ticket is rejected| J[Ticket is sent back to support with explanation]
-                        I -->|Dev works on issue| K[Ticket is closed]
-                        
-                        style A fill:#e1f5fe
-                        style E fill:#ffcdd2
-                        style G fill:#c8e6c9
-                        style J fill:#e1f5fe
-                        style K fill:#e1f5fe
-                </div>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Zapier Process Flow</title>
+        <script src="https://kit.fontawesome.com/8e52a98e38.js" crossorigin="anonymous"></script>
+        <script src="mermaid.min.js"></script>
+        <script src="flow-controller.js" type="module"></script>
+        <link rel="stylesheet" href="./zapier-flows.css">
+    </head>
+    <body>
+        <div class="container">
+            <div class="header">
+                <h1>Zapier Process Flow</h1>
+                <p>Interactive workflow visualization with progression options</p>
             </div>
 
-            <!-- Options Section -->
-            <div class="options-section">
-                <div class="options-title">Next Steps & Progression Options</div>
-                <div class="options-grid">
-                    <div class="option-card" onclick="openFlow('error-handling')">
-                        <div class="icon">⚠️</div>
-                        <h3>Error Handling Flow</h3>
-                        <p>Detailed process for handling errors and exceptions in the workflow</p>
-                    </div>
-                    
-                    <div class="option-card" onclick="openFlow('success-path')">
-                        <div class="icon">✅</div>
-                        <h3>Success Path Flow</h3>
-                        <p>Optimized workflow for successful process completion</p>
-                    </div>
-                    
-                    <div class="option-card" onclick="openFlow('review-process')">
-                        <div class="icon">🔍</div>
-                        <h3>Review Process Flow</h3>
-                        <p>Comprehensive review and validation procedures</p>
-                    </div>
-                    
-                    <div class="option-card" onclick="openFlow('alternative-path')">
-                        <div class="icon">🔄</div>
-                        <h3>Alternative Path Flow</h3>
-                        <p>Alternative processing routes and fallback procedures</p>
-                    </div>
-                    
-                    <div class="option-card" onclick="openFlow('integration-flow')">
-                        <div class="icon">🔗</div>
-                        <h3>Integration Flow</h3>
-                        <p>Third-party integrations and API connections</p>
-                    </div>
-                    
-                    <div class="option-card" onclick="openFlow('monitoring-flow')">
-                        <div class="icon">📊</div>
-                        <h3>Monitoring & Analytics</h3>
-                        <p>Real-time monitoring and performance analytics</p>
+            <div class="flow-section">
+                <!-- Main Flow Diagram -->
+                <div class="flow-container">
+                    <div class="flow-title">Current Process Flow</div>
+                    <div v-if="mermaidFlow" class="mermaid-container" v-html="mermaidFlow"></div>
+                    <div v-else class="flow-empty-message">Select a flow to view.</div>
+                </div>
+
+                <!-- Options Section -->
+                <div class="options-section">
+                    <div class="options-title">Next Steps & Progression Options</div>
+                    <div class="options-grid">
+                        <div v-for="flow in flows" :key="flow.id" class="option-card" @click="switchFlow(flow.id)">
+                            <div class="icon" :class="flow.icon"></div>
+                            <h3>{{ flow.name }}</h3>
+                            <p>{{ flow.description }}</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-
-    <script>
-        // Initialize Mermaid
-        mermaid.initialize({
-            startOnLoad: true,
-            theme: 'default',
-            flowchart: {
-                useMaxWidth: true,
-                htmlLabels: true,
-                curve: 'basis'
-            }
-        });
-
-        // Function to open flow in new tab
-        function openFlow(flowType) {
-            const flowUrls = {
-                'error-handling': 'error-handling-flow.html',
-                'success-path': 'success-path-flow.html',
-                'review-process': 'review-process-flow.html',
-                'alternative-path': 'alternative-path-flow.html',
-                'integration-flow': 'integration-flow.html',
-                'monitoring-flow': 'monitoring-flow.html'
-            };
-            
-            const url = flowUrls[flowType];
-            if (url) {
-                window.open(url, '_blank');
-            }
-        }
-
-        // Add click animation to option cards
-        document.querySelectorAll('.option-card').forEach(card => {
-            card.addEventListener('click', function() {
-                this.style.transform = 'scale(0.95)';
-                setTimeout(() => {
-                    this.style.transform = 'translateY(-5px)';
-                }, 150);
-            });
-        });
-    </script>
-</body>
+    </body>
 </html>
