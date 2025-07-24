@@ -39,7 +39,7 @@ mermaid.initialize({
         curve: 'basis'
     }
 });
-*/
+
 // Function to open flow in new tab
 function openFlow(flowType) {
     const flowUrls = {
@@ -65,4 +65,4 @@ document.querySelectorAll('.option-card').forEach(card => {
             this.style.transform = 'translateY(-5px)';
         }, 150);
     });
-});
+});*/
