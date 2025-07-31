@@ -4,6 +4,13 @@ import { createApp } from '/Rain-Support-Tools/src/common/vue/vue.esm-browser.pr
 const SharePointUpload = {
     name: 'SharePointUpload',
     template: `
+        <div class="sharepoint-copy-status">
+            <div class="sharepoint-copy-status-content">
+                <div class="sharepoint-copy-status-content-header">
+                    <h2>SharePoint Copy Status</h2>
+                </div>
+            </div>
+        </div>
         <div class="sharepoint-content-container">
             <h2 @click="toggleContainer" class="toggle-header" style="cursor: pointer; display: flex; justify-content: space-between; align-items: center;">
                 Upload to Quilt SharePoint

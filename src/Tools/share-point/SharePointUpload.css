@@ -173,3 +173,21 @@
     font-size: 30px;
     cursor: pointer;
 }
+/* SharePoint Copy Status */
+.sharepoint-copy-status {
+    width: fit-content;
+    border: 1px solid black;
+    border-radius: 8px;
+    background-color: #dedede;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 10px;
+}
+.sharepoint-copy-status-content {
+    padding: 16px;
+    min-width: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
