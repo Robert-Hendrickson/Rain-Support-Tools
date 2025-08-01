@@ -1,9 +1,14 @@
 import { getValidToken } from './token-utils.js';
 import { createApp } from '/Rain-Support-Tools/src/common/vue/vue.esm-browser.prod.js';
+import { GrowlCtrl } from '/Rain-Support-Tools/src/modules/growl-ctrl/growl-ctrl.js';
 
 const SharePointUpload = {
     name: 'SharePointUpload',
+    components: {
+        GrowlCtrl
+    },
     template: `
+        <growl-ctrl ref="growlCtrl"></growl-ctrl>
         <div class="sharepoint-content-container">
             <h2 @click="toggleContainer" class="toggle-header" style="cursor: pointer; display: flex; justify-content: space-between; align-items: center;">
                 Upload to Quilt SharePoint
@@ -152,9 +157,10 @@ const SharePointUpload = {
         },
         copyLink(link) {
             navigator.clipboard.writeText(link).then(() => {
-                alert('Link copied to clipboard!');
+                this.growl('Link copied to clipboard!', 'success');
             }).catch(err => {
                 console.error('Failed to copy link:', err);
+                this.growl('Failed to copy link to clipboard!', 'error');
             });
         },
         openVideoModal(index) {
@@ -266,6 +272,9 @@ const SharePointUpload = {
             } finally {
                 this.uploading = false;
             }
+        },
+        growl(growlMessage, growlType) {
+            this.$refs.growlCtrl.updateGrowl({message: growlMessage, type: growlType});
         }
     },
     mounted() {
@@ -273,4 +282,4 @@ const SharePointUpload = {
     }
 };
 
-createApp(SharePointUpload).mount('#sharepoint-app');
+window.apptest = createApp(SharePointUpload).mount('#sharepoint-app');

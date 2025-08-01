@@ -1,0 +1,34 @@
+.growl-container {
+    width: fit-content;
+    border: 1px solid black;
+    border-radius: 8px;
+    background-color: #dedede;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 10px;
+}
+.growl-content {
+    padding: 16px;
+    min-width: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.growl-container.success {
+    background-color: #82e782;
+}
+.growl-container.error {
+    background-color: #ff3b3b;
+}
+.fade-out {
+    animation: fadeOut 1.5s ease-out forwards;
+}
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
