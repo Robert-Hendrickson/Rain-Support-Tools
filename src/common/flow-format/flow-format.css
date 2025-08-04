@@ -182,7 +182,7 @@ div#ticket-container{
     height: 99%;
 }
 
-#ticket-container > div{
+#ticket-data-container{
     width: 620px;
     margin: 60px auto;
     background-color: #ffffff;
@@ -191,7 +191,7 @@ div#ticket-container{
     border: #DDDDDD solid 1px;
 }
 
-#ticket-container > div textarea{
+#ticket-data-container textarea{
     width: 615px;
     height: 600px;
 }
