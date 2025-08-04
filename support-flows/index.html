@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Support Process Flow</title>
+        <script src="https://kit.fontawesome.com/8e52a98e38.js" crossorigin="anonymous"></script>
+        <script src="mermaid.min.js"></script>
+        <script src="flow-controller.js" type="module"></script>
+        <link rel="stylesheet" href="./flows.css">
+    </head>
+    <body>
+        <div class="container">
+            <div class="header">
+                <h1>Support Process Flow</h1>
+                <p>This isn't completed yet, but it's a work in progress.</p>
+            </div>
+
+            <div class="flow-section">
+                <!-- Main Flow Diagram -->
+                <div class="flow-container">
+                    <div class="flow-title">Current Process Flow</div>
+                    <div v-if="mermaidFlow" class="mermaid-container" v-html="mermaidFlow"></div>
+                    <div v-else class="flow-empty-message">Select a flow to view.</div>
+                </div>
+
+                <!-- Options Section -->
+                <div class="options-section">
+                    <div class="options-title">Next Steps & Progression Options</div>
+                    <div class="options-grid">
+                        <div v-for="flow in flows" :key="flow.id" class="option-card" @click="switchFlow(flow.id)">
+                            <div class="icon" :class="flow.icon"></div>
+                            <h3>{{ flow.name }}</h3>
+                            <p>{{ flow.description }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
