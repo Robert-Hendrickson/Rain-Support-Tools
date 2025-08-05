@@ -1,4 +1,9 @@
-export default `
+export default { 
+    id: 'bugReportFlow',
+    name: 'Bug Report Flow',
+    description: 'Detailed process for handling errors and exceptions in the workflow',
+    icon: 'fa-solid fa-bug',
+    flow: `
         <div class="mermaid">
             graph TD
                 A[Bug Reported] --> B[Support Rep Creates Ticket]
@@ -19,4 +24,5 @@ export default `
                 style J fill:#e1f5fe
                 style K fill:#e1f5fe
         </div>
-    `;
+    `
+}

@@ -19,19 +19,22 @@
             <div class="flow-section">
                 <!-- Main Flow Diagram -->
                 <div class="flow-container">
+                    <select id="flow-select" v-model="selectedFlow" @change="switchFlow(selectedFlow)">
+                        <option value="">Select a flow</option>
+                        <option v-for="flow in flows" :key="flow.id" :value="flow.id">{{ flow.name }}</option>
+                    </select>
                     <div class="flow-title">Current Process Flow</div>
                     <div v-if="mermaidFlow" class="mermaid-container" v-html="mermaidFlow"></div>
                     <div v-else class="flow-empty-message">Select a flow to view.</div>
                 </div>
 
                 <!-- Options Section -->
-                <div class="options-section">
-                    <div class="options-title">Next Steps & Progression Options</div>
-                    <div class="options-grid">
-                        <div v-for="flow in flows" :key="flow.id" class="option-card" @click="switchFlow(flow.id)">
-                            <div class="icon" :class="flow.icon"></div>
-                            <h3>{{ flow.name }}</h3>
-                            <p>{{ flow.description }}</p>
+                <div class="notes-section">
+                    <div class="notes-title">Notes</div>
+                    <div class="notes-grid">
+                        <div class="note-card">
+                            <h3>Note 1</h3>
+                            <p>This is a note</p>
                         </div>
                     </div>
                 </div>
