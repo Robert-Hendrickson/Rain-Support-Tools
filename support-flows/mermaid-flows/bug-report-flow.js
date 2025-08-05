@@ -2,6 +2,26 @@ export default {
     id: 'bugReportFlow',
     name: 'Bug Report Flow',
     description: 'Detailed process for handling errors and exceptions in the workflow',
+    notes: [
+        {
+            title: 'Note 1',
+            type: 'warn',
+            list: [
+                'This is a note 1',
+                'This is a note 2',
+                'This is a note 3',
+            ]
+        },
+        {
+            title: 'Note 1',
+            type: 'solve',
+            list: [
+                'This is a note 1',
+                'This is a note 2',
+                'This is a note 3',
+            ]
+        }
+    ],
     icon: 'fa-solid fa-bug',
     flow: `
         <div class="mermaid">

@@ -23,18 +23,19 @@
                         <option value="">Select a flow</option>
                         <option v-for="flow in flows" :key="flow.id" :value="flow.id">{{ flow.name }}</option>
                     </select>
-                    <div class="flow-title">Current Process Flow</div>
-                    <div v-if="mermaidFlow" class="mermaid-container" v-html="mermaidFlow"></div>
+                    <div v-if="mermaidFlow" class="flow-title">{{ mermaidFlow.name }}</div>
+                    <div v-if="mermaidFlow" class="mermaid-container" v-html="mermaidFlow.flow"></div>
                     <div v-else class="flow-empty-message">Select a flow to view.</div>
                 </div>
 
                 <!-- Options Section -->
-                <div class="notes-section">
-                    <div class="notes-title">Notes</div>
-                    <div class="notes-grid">
+                <div v-if="mermaidFlow" v-for="note in mermaidFlow.notes" :key="note.id" class="notes-section" :class="note.type">
+                    <div class="notes-container">
+                        <h3 class="notes-title">{{ note.title }}</h3>
                         <div class="note-card">
-                            <h3>Note 1</h3>
-                            <p>This is a note</p>
+                            <ul class="notes-list">
+                                <li v-for="item in note.list" :key="item">{{ item }}</li>
+                            </ul>    
                         </div>
                     </div>
                 </div>

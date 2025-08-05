@@ -25,7 +25,7 @@ const flowApp = createApp({
                 return;
             }
             try {
-                this.mermaidFlow = this.flows.find(flow => flow.id === flowType).flow;
+                this.mermaidFlow = this.flows.find(flow => flow.id === flowType);
                 await this.$nextTick();
                 mermaid.init();
             } catch (error) {
