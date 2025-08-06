@@ -19,11 +19,12 @@
             <div class="flow-section">
                 <!-- Main Flow Diagram -->
                 <div class="flow-container">
+                    <label for="flow-select">Select a flow</label>
                     <select id="flow-select" v-model="selectedFlow" @change="switchFlow(selectedFlow)">
                         <option value="">Select a flow</option>
                         <option v-for="flow in flows" :key="flow.id" :value="flow.id">{{ flow.name }}</option>
                     </select>
-                    <div v-if="mermaidFlow" class="flow-title">{{ mermaidFlow.name }}</div>
+                    <div v-if="mermaidFlow" class="flow-title"><span :class="mermaidFlow.icon"></span> {{ mermaidFlow.name }}</div>
                     <div v-if="mermaidFlow" class="mermaid-container" v-html="mermaidFlow.flow"></div>
                     <div v-else class="flow-empty-message">Select a flow to view.</div>
                 </div>

@@ -10,11 +10,6 @@ const flowApp = createApp({
             flows: [
                 bugReportFlow,
                 qbTroubleShoot,
-                { id: 'successPathFlow', name: 'Success Path Flow', description: 'Optimized workflow for successful process completion', icon: 'fa-solid fa-check', flow: 'successPathFlow' },
-                { id: 'reviewProcessFlow', name: 'Review Process Flow', description: 'Comprehensive review and validation procedures', icon: 'fa-solid fa-check', flow: 'reviewProcessFlow' },
-                { id: 'alternativePathFlow', name: 'Alternative Path Flow', description: 'Alternative path for handling errors and exceptions in the workflow', icon: 'fa-solid fa-code-branch', flow: 'alternativePathFlow' },
-                { id: 'integrationFlow', name: 'Integration Flow', description: 'Integration with other systems', icon: 'fa-solid fa-code-branch', flow: 'integrationFlow' },
-                { id: 'monitoringFlow', name: 'Monitoring Flow', description: 'Monitoring the workflow', icon: 'fa-solid fa-code-branch', flow: 'monitoringFlow' }
             ]
         }
     },
