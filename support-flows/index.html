@@ -19,19 +19,24 @@
             <div class="flow-section">
                 <!-- Main Flow Diagram -->
                 <div class="flow-container">
-                    <div class="flow-title">Current Process Flow</div>
-                    <div v-if="mermaidFlow" class="mermaid-container" v-html="mermaidFlow"></div>
+                    <label for="flow-select">Select a flow</label>
+                    <select id="flow-select" v-model="selectedFlow" @change="switchFlow(selectedFlow)">
+                        <option value="">Select a flow</option>
+                        <option v-for="flow in flows" :key="flow.id" :value="flow.id">{{ flow.name }}</option>
+                    </select>
+                    <div v-if="mermaidFlow" class="flow-title"><span :class="mermaidFlow.icon"></span> {{ mermaidFlow.name }}</div>
+                    <div v-if="mermaidFlow" class="mermaid-container" v-html="mermaidFlow.flow"></div>
                     <div v-else class="flow-empty-message">Select a flow to view.</div>
                 </div>
 
                 <!-- Options Section -->
-                <div class="options-section">
-                    <div class="options-title">Next Steps & Progression Options</div>
-                    <div class="options-grid">
-                        <div v-for="flow in flows" :key="flow.id" class="option-card" @click="switchFlow(flow.id)">
-                            <div class="icon" :class="flow.icon"></div>
-                            <h3>{{ flow.name }}</h3>
-                            <p>{{ flow.description }}</p>
+                <div v-if="mermaidFlow" v-for="note in mermaidFlow.notes" :key="note.id" class="notes-section" :class="note.type">
+                    <div class="notes-container">
+                        <h3 class="notes-title">{{ note.title }}</h3>
+                        <div class="note-card">
+                            <ul class="notes-list">
+                                <li v-for="item in note.list" :key="item">{{ item }}</li>
+                            </ul>    
                         </div>
                     </div>
                 </div>

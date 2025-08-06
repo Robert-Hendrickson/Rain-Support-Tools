@@ -6,21 +6,21 @@ const flowApp = createApp({
     data() {
         return {
             mermaidFlow: '',
+            selectedFlow: '',
             flows: [
-                { id: 'bugReportFlow', name: 'Bug Report Flow', description: 'Detailed process for handling errors and exceptions in the workflow', icon: 'fa-solid fa-bug', flow: bugReportFlow },
-                { id: 'qbTroubleShoot', name: 'QB Trouble Shoot', description: 'Trouble shoot issues with Quickbooks', icon: 'fa-solid fa-bug', flow: qbTroubleShoot },
-                { id: 'successPathFlow', name: 'Success Path Flow', description: 'Optimized workflow for successful process completion', icon: 'fa-solid fa-check', flow: 'successPathFlow' },
-                { id: 'reviewProcessFlow', name: 'Review Process Flow', description: 'Comprehensive review and validation procedures', icon: 'fa-solid fa-check', flow: 'reviewProcessFlow' },
-                { id: 'alternativePathFlow', name: 'Alternative Path Flow', description: 'Alternative path for handling errors and exceptions in the workflow', icon: 'fa-solid fa-code-branch', flow: 'alternativePathFlow' },
-                { id: 'integrationFlow', name: 'Integration Flow', description: 'Integration with other systems', icon: 'fa-solid fa-code-branch', flow: 'integrationFlow' },
-                { id: 'monitoringFlow', name: 'Monitoring Flow', description: 'Monitoring the workflow', icon: 'fa-solid fa-code-branch', flow: 'monitoringFlow' }
+                bugReportFlow,
+                qbTroubleShoot,
             ]
         }
     },
     methods: {
         async switchFlow(flowType) {
+            if (!flowType) {
+                this.mermaidFlow = '';
+                return;
+            }
             try {
-                this.mermaidFlow = this.flows.find(flow => flow.id === flowType).flow;
+                this.mermaidFlow = this.flows.find(flow => flow.id === flowType);
                 await this.$nextTick();
                 mermaid.init();
             } catch (error) {

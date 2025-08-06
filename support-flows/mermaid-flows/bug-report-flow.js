@@ -1,4 +1,21 @@
-export default `
+import mermaidColors from './mermaid-colors.js';
+export default { 
+    id: 'bugReportFlow',
+    name: 'Bug Report Flow',
+    description: 'Detailed process for handling errors and exceptions in the workflow',
+    icon: 'fa-solid fa-bug',
+    notes: [
+        {
+            title: 'Things to keep in mind',
+            type: 'warn',
+            list: [
+                'Screenshots should pinpoint the exact location of the issue (don\'t screenshot the entire walkthrough)',
+                'Videos should include the entire walkthrough where possible',
+                'Always try to reproduce the issue on a test site first'
+            ]
+        }
+    ],
+    flow: `
         <div class="mermaid">
             graph TD
                 A[Bug Reported] --> B[Support Rep Creates Ticket]
@@ -13,10 +30,11 @@ export default `
                 H -->|Ticket is rejected| J[Ticket is sent back to support with explanation]
                 I -->|Dev works on issue| K[Ticket is closed]
                 
-                style A fill:#e1f5fe
-                style E fill:#ffcdd2
-                style G fill:#c8e6c9
-                style J fill:#e1f5fe
-                style K fill:#e1f5fe
+                style A fill:${mermaidColors.lightBlue}
+                style E fill:${mermaidColors.lightRed}
+                style G fill:${mermaidColors.lightGreen}
+                style J fill:${mermaidColors.lightBlue}
+                style K fill:${mermaidColors.lightBlue}
         </div>
-    `;
+    `
+}
