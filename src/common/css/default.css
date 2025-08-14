@@ -3,10 +3,36 @@ body{
     background-image: linear-gradient(135deg, #337AB7, #17234B);
     min-height: 96vh;
 }
+/*header styles*/
+h1,h2,h3,h4,h5,h6{
+    text-align: center;
+    margin: 8px 0;
+}
+h1{
+    font-size: 54px;
+}
+h2{
+    font-size: 50px;
+}
+h3{
+    font-size: 46px;
+}
+h4{
+    font-size: 42px;
+}
+
+h5{
+    font-size: 38px;
+}
+h6{
+    font-size: 34px;
+}
+/*table styles*/
 table {
     background: #fff;
     margin: 10px;
 }
+/*button styles*/
 .btn{
     border: unset;
     border-radius: 4px;
