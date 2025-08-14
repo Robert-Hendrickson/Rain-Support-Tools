@@ -79,3 +79,21 @@ span.close:hover{
     color: red;
     font-size: 12px;
 }
+/*scrollbar styles*/
+*::-webkit-scrollbar {
+    width: 8px;
+    border-radius: 4px;
+    margin: 4px;
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 4px;
+    margin: 4px;
+}
+
+*::-webkit-scrollbar-track {
+    background-color: #f1f1f1;
+    border-radius: 4px;
+    margin: 4px;
+}

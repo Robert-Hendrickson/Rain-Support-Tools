@@ -97,7 +97,7 @@ const PercentageFixerApp = createApp({
             this.processOutputValues();
         },
         copyOutputValues() {
-            navigator.clipboard.writeText(document.getElementById('output-values').value);
+            navigator.clipboard.writeText(this.outputValues);
             this.$refs.growlCtrl.updateGrowl({
                 message: 'Output values copied to clipboard',
                 type: 'success'
@@ -105,6 +105,15 @@ const PercentageFixerApp = createApp({
         },
         removeAction(index) {
             this.actions.splice(index, 1);
+        },
+        clearData() {
+            this.actions = [];
+            this.inputValues = '';
+            this.outputValues = '';
+            this.$refs.growlCtrl.updateGrowl({
+                message: 'Data cleared',
+                type: 'success'
+            });
         }
     }
 })

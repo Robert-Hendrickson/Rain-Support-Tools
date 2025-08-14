@@ -17,13 +17,24 @@
                 <h1>Percentage Fixer</h1>
             </div>
             <div class="content-wrapper">
-                <div id="input-wrapper">
-                    <textarea v-model="inputValues" id="input-values" placeholder="Enter values here"></textarea>
-                    <textarea v-model="outputValues" disabled id="output-values" placeholder="Output values will appear here" @click="copyOutputValues"></textarea>
+                <div id="text-wrapper">
+                    <div class="text-wrapper-item">
+                        <h6>Current Values</h6>
+                        <textarea v-model="inputValues" id="input-values" placeholder="Enter values here"></textarea>
+                    </div>
+                    <div class="text-wrapper-item">
+                        <h6>Values Before Changes</h6>
+                        <textarea v-model="outputValues" disabled id="output-values" placeholder="Output values will appear here" @click="copyOutputValues"></textarea>
+                    </div>
                 </div>
                 <div id="action-wrapper">
-                    <button @click="confirmActions" class="btn primary">Process Changes</button>
+                    <div id="action-buttons-wrapper">
+                        <button @click="confirmActions" class="btn primary">Process Changes</button>
+                        <button @click="clearData" class="btn secondary">Clear Data</button>
+                        <button @click="copyOutputValues" class="btn primary">Copy New Values</button>
+                    </div>
                     <div id="action-header">
+                        <div class="action-header-spacer"></div>
                         <div class="action-header-item">Action</div>
                         <div class="action-header-item">Value</div>
                         <div class="action-header-item">Type</div>
@@ -31,6 +42,7 @@
                     </div>
                     <div id="action-list">
                         <div v-for="(action, index) in actions" :key="index" class="action-item">
+                            <span class="action-item-index">{{ index + 1 }}</span>
                             <div class="toggle-wrapper">
                                 <div class="toggle-wrapper-item">
                                     <label>Increase</label>
