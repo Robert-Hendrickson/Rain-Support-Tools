@@ -8,7 +8,7 @@
                 const redirects = {
                     'bandwidth-errors.html' : '/Rain-Support-Tools/src/Tools/bandwidth-errors/bandwidth-errors.html',
                     'bug-flow-check.html' : '/Rain-Support-Tools/src/Tools/bug-flow-check/bug-flow-check.html',
-                    'bug-ticket-v2.html' : '/Rain-Support-Tools/src/Tools/bug-ticket-v2/bug-ticket-v2.html',
+                    'bug-ticket-v2.html' : '/Rain-Support-Tools/src/Tools/bug-ticket/bug-ticket-v2.html',
                     'css-tester.html' : '/Rain-Support-Tools/src/Tools/css-tester/css-tester.html',
                     'database-ticket.html' : '/Rain-Support-Tools/src/Tools/database-ticket/database-ticket.html',
                     'dns-help.html' : '/Rain-Support-Tools/src/Tools/dns-help/dns-help.html',
@@ -22,10 +22,13 @@
                     'transaction-calculator.html' : '/Rain-Support-Tools/src/Tools/Transaction-Calculator/transaction-calculator.html',
                     'wa-tax-rates.html' : '/Rain-Support-Tools/src/Tools/wa_tax_rates/wa-tax-rates.html'
                 };
+                if (window.location.search === '?404') {
+                    window.location.replace('/Rain-Support-Tools/?404');
+                }
                 let file = window.location.pathname.split('/').pop();
                 if (redirects[file]) {
                     // Ensure the redirect URL is within the same domain
-                    window.location.replace(`${redirects[file]}`);
+                    window.location.replace(`${redirects[file]}?404`);
                 } else {
                     window.location.replace('/Rain-Support-Tools/?404');
                 }
