@@ -37,7 +37,8 @@ const app = createApp({
                         {name:'RTO Payments Calculator', url: '/Rain-Support-Tools/src/Tools/rto-payments/rto-payments.html', icon: 'fa-solid fa-truck-moving'},
                         {name:'Fee Difference Calculator', url: '/Rain-Support-Tools/src/Tools/fee-difference-calculator/fee-difference-calculator.html', icon: 'fa-solid fa-money-bill'},
                         {name:'QB Payment Split', url: '/Rain-Support-Tools/src/Tools/QB-Mixed-Split/QB_Mixed_Split.html', icon: 'fa-solid fa-dollar-sign'},
-                        {name:'Inventory Check', url: '/Rain-Support-Tools/src/Tools/Inventory-check/Inventory-check.html', icon: 'fa-solid fa-box'}
+                        {name:'Inventory Check', url: '/Rain-Support-Tools/src/Tools/Inventory-check/Inventory-check.html', icon: 'fa-solid fa-box'},
+                        {name:'Percentage Fixer', url: '/Rain-Support-Tools/src/Tools/percentage-fixer/percentage-fixer.html', icon: 'fa-solid fa-percent'}
                     ]
                 },
                 misc: {

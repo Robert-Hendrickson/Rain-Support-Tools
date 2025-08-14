@@ -118,4 +118,4 @@ const PercentageFixerApp = createApp({
         }
     }
 })
-window.PercentageFixerApp = PercentageFixerApp.mount('#percentage-fixer');
+PercentageFixerApp.mount('#percentage-fixer');
