@@ -5,7 +5,8 @@ const PercentageFixerApp = createApp({
         return {
             inputValues: '',
             outputValues: '',
-            actions: []
+            actions: [],
+            showHelp: false
         }
     },
     components: {
