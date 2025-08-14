@@ -17,13 +17,26 @@
                 <h1>Percentage Fixer</h1>
             </div>
             <div class="content-wrapper">
-                <div id="input-wrapper">
-                    <textarea v-model="inputValues" id="input-values" placeholder="Enter values here"></textarea>
-                    <textarea v-model="outputValues" disabled id="output-values" placeholder="Output values will appear here" @click="copyOutputValues"></textarea>
+                <div id="text-wrapper">
+                    <div class="text-wrapper-item">
+                        <h6>Current Values</h6>
+                        <textarea v-model="inputValues" id="input-values" placeholder="Enter values here"></textarea>
+                    </div>
+                    <div class="text-wrapper-item">
+                        <h6>Values Before Changes</h6>
+                        <textarea v-model="outputValues" disabled id="output-values" placeholder="Output values will appear here" @click="copyOutputValues"></textarea>
+                    </div>
                 </div>
                 <div id="action-wrapper">
-                    <button @click="confirmActions" class="btn primary">Process Changes</button>
+                    <div id="action-buttons-wrapper">
+                        <button @click="confirmActions" class="btn primary">Process Changes</button>
+                        <button @click="clearData" class="btn secondary">Clear Data</button>
+                        <button @click="copyOutputValues" class="btn primary">Copy New Values</button>
+                    </div>
                     <div id="action-header">
+                        <div class="action-header-spacer">
+                            <span class="fa-solid fa-question-circle" @click="showHelp = true"></span>
+                        </div>
                         <div class="action-header-item">Action</div>
                         <div class="action-header-item">Value</div>
                         <div class="action-header-item">Type</div>
@@ -31,6 +44,7 @@
                     </div>
                     <div id="action-list">
                         <div v-for="(action, index) in actions" :key="index" class="action-item">
+                            <span class="action-item-index">{{ index + 1 }}</span>
                             <div class="toggle-wrapper">
                                 <div class="toggle-wrapper-item">
                                     <label>Increase</label>
@@ -57,6 +71,25 @@
                         <div class="add-action-wrapper">
                             <button @click="addAction" class="btn secondary add-action-button">+ Add Action</button>
                         </div>
+                    </div>
+                </div>
+            </div>
+            <div id="help-wrapper" v-if="showHelp">
+                <span class="fa-solid fa-xmark" @click="showHelp = false"></span>
+                <div id="help-header">
+                    <h1>Help</h1>
+                </div>
+                <div id="help-content">
+                    <div id="help-content-item">
+                        <h2>What is this tool?</h2>
+                        <p>This tool is designed to help fix bulk changes to a list of values. It will take the current values and use the changes from the right column to reverse determine what the value was before the changes happened.</p>
+                        <h2>How to use</h2>
+                        <p>1. Enter the current values in the "Current Values" textarea.</p>
+                        <p>2. Add actions to the list to the right. These will be used to reverse the actions that happened, so it is important to add the actions in the order they happened. <br>(Example: If the value was increased by 10%, then decreased by 5%, then increased by 20%, then the actions should be added in the order of increase, decrease, increase)</p>
+                        <p>3. Click the "Process Changes" button to apply the changes to the current values.</p>
+                        <p>4. The new values will be displayed in the "Values Before Changes" textarea.<br>(Note: any none number values will be left as is, this will allow you to copy full columns from excel and not worry about issues of column header names.)</p>
+                        <p>5. Click the "Copy New Values" button to copy the new values to the clipboard.</p>
+                        <p>6. Click the "Clear Data" button to clear the data and start over.</p>
                     </div>
                 </div>
             </div>

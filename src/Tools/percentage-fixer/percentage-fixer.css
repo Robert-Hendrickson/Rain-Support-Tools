@@ -10,7 +10,7 @@
     flex-direction: row;
     justify-content: space-evenly;
 }
-#input-wrapper, #action-wrapper{
+#text-wrapper, #action-wrapper{
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -20,7 +20,7 @@
     border-radius: 10px;
     background-color: #fff;
 }
-#input-wrapper{
+#text-wrapper{
     width: 70%;
     flex-direction: row;
     justify-content: space-evenly;
@@ -30,19 +30,31 @@
     flex-direction: column;
     align-items: center;
 }
-#input-wrapper textarea{
+#text-wrapper .text-wrapper-item{
     width: 50%;
     height: 98%;
     margin: 10px;
     padding: 8px;
+}
+#text-wrapper .text-wrapper-item textarea{
+    width: 100%;
+    height: 90%;
+    padding: 8px;
     border: 1px solid #000;
     border-radius: 10px;
     background-color: #fff;
+    resize: none;
 }
 textarea[disabled]{
     background-color: #ddd !important;
 }
 /*action-List styles*/
+#action-buttons-wrapper{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
 #action-header{
     width: 100%;
     display: flex;
@@ -51,7 +63,7 @@ textarea[disabled]{
     margin: 4px 0; 
 }
 #action-header .action-header-item{
-    width: 30%;
+    width: 26.66%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -59,6 +71,9 @@ textarea[disabled]{
 }
 #action-header .action-header-spacer{
     width: 10%;
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
 }
 #action-list{
     width: 100%;
@@ -73,10 +88,19 @@ textarea[disabled]{
     justify-content: space-evenly;
     margin: 4px 0;
 }
+.action-item .action-item-index{
+    width: 10%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 .action-item .action-item-remove{
     width: 10%;
     display: flex;
     cursor: pointer;
+}
+.action-item-remove:hover{
+    color: red;
 }
 .action-item > *{
     width: 30%;
@@ -104,4 +128,40 @@ textarea[disabled]{
 }
 .add-action-wrapper button{
     width: 100%;
+}
+/*help-wrapper styles*/
+#help-wrapper{
+    position: absolute;
+    top: 5%;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    width: 900px;
+    height: 600px;
+    background-color: #eee;
+    border-radius: 10px;
+    border: 1px solid #000;
+    padding: 10px;
+    z-index: 100;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
+}
+#help-wrapper .fa-xmark{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+}
+#help-header{
+    width: 100%;
+    height: 10%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#help-content{
+    width: 100%;
+    height: 90%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
