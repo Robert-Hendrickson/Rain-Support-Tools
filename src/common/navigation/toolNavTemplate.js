@@ -4,7 +4,7 @@ export const toolNavTemplate = `<div id="nav-toggle" @click="this.showNav = !thi
 <div class="secondary_menu_links" :class="this.showNav ? 'active' : ''">
     <div class="toolButtonsList">
         <div>
-            <div class="nav-header">General</div>
+            <div class="nav-header nav-general">General</div>
             <ul>
                 <li class="toolButton">
                     <a href="/Rain-Support-Tools/">
@@ -23,8 +23,8 @@ export const toolNavTemplate = `<div id="nav-toggle" @click="this.showNav = !thi
             </ul>
         </div>
         <div v-for="nav_item in nav_list">
-            <div class="nav-header">{{nav_item.title}}</div>
-            <ul>
+            <div class="nav-header" @click="toggleNav(nav_item)">{{nav_item.title}} <span class="fa-solid" :class="nav_item.show ? 'fa-chevron-down' : 'fa-chevron-right'"></span></div>
+            <ul :class="nav_item.show ? 'open' : ''">
                 <li v-for="nav_link_item in nav_item.link_data" class="toolButton">
                     <a v-bind:href="nav_link_item.url" v-bind:target="nav_link_item.target">
                         <div>

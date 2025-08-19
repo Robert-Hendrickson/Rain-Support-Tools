@@ -99,5 +99,20 @@
 .nav-header{
     font-size: 16px;
     color: #7B7B7B;
+    cursor: pointer;
+    padding: 8px 0;
+    transition: color 0.3s ease;
+}
+.nav-header:hover{
+    color: #337AB7;
 }
 /*end nav styling*/
+.nav-header:not(.nav-general) + ul{
+    transition: max-height 0.4s ease-out;
+    max-height: 0;
+    overflow: hidden;
+}
+.nav-header:not(.nav-general) + ul.open{
+    transition: max-height 0.4s ease-in;
+    max-height: 500px;
+}
