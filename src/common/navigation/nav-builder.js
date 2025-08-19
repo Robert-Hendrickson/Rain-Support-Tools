@@ -18,6 +18,7 @@ const app = createApp({
             nav_list : {
                 ticket: {
                     title: 'Ticket Tools',
+                    show: false,
                     link_data: [
                         {name: 'Bug Ticket v2', url: '/Rain-Support-Tools/src/Tools/bug-ticket/bug-ticket-v2.html', icon: 'fa-solid fa-bug'},
                         {name:'Database', url: '/Rain-Support-Tools/src/Tools/database-ticket/database-ticket.html', icon: 'fa-solid fa-database'},
@@ -28,6 +29,7 @@ const app = createApp({
                 },
                 system: {
                     title: 'System Tools',
+                    show: false,
                     link_data: [
                         {name:'Email List Checker', url: '/Rain-Support-Tools/src/Tools/email-list-checker/email-list-checker.html', icon: 'fa-solid fa-envelope'},
                         {name:'Transaction Calculator', url: '/Rain-Support-Tools/src/Tools/Transaction-Calculator/Javascript_calculator.html', icon: 'fa-solid fa-calculator'},
@@ -43,6 +45,7 @@ const app = createApp({
                 },
                 misc: {
                     title: 'Misc Tools',
+                    show: false,
                     link_data: [
                         {name:'SF GTG Check', url: '/Rain-Support-Tools/src/Tools/bug-flow-check/bug-flow-check.html', icon: 'fa-solid fa-thumbs-up'},
                         {name:'SF Errors', url: '/Rain-Support-Tools/src/Tools/sf-errors/sf-errors.html', icon: 'fa-solid fa-list'},
@@ -56,6 +59,9 @@ const app = createApp({
         }
     },
     methods: {
+        toggleNav(nav_item){
+            nav_item.show = !nav_item.show;
+        },
         updateNavButtons(eventTarget){
             //change the active selection for list type
             document.querySelector('div#menu_tabs > div.active')?.classList.remove('active');
@@ -71,17 +77,20 @@ const app = createApp({
         is404() {
             return location.search === '?404';
         }
+    },
+    mounted() {
+        //this finds the link in the navigation for the page the user is currently looking at and highlights it to indicate current location
+        if((/Rain-Support-Tools\/.+/).test(location.pathname)){
+            //find current page and apply current-page class to nav
+            let current_page = location.pathname.substring(20);
+            document.querySelectorAll('.toolButton > a').forEach(function(element){
+                if(new RegExp(current_page).test(element.href)){
+                    element.classList.add('current-page');
+                    element.parentElement.parentElement.parentElement.querySelector('.nav-header').click();
+                }
+            });
+        }
     }
 });
 //now that app is built, accessing it and apply it to the html element on the page <nav-menu></nav-menu>
 window.app = app.mount('nav-menu');
-//this finds the link in the navigation for the page the user is currently looking at and highlights it to indicate current location
-if((/Rain-Support-Tools\/.+/).test(location.pathname)){
-    //find current page and apply current-page class to nav
-    let current_page = location.pathname.substring(20);
-    document.querySelectorAll('.toolButton > a').forEach(function(element){
-        if(new RegExp(current_page).test(element.href)){
-            element.classList.add('current-page');
-        }
-    });
-}
