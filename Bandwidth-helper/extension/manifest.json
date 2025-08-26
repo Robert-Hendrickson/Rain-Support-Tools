@@ -1,0 +1,41 @@
+{
+  "manifest_version": 3,
+  "name": "Bandwidth Helper",
+  "version": "1.0.0",
+  "description": "A Chrome extension to help fill out Bandwidth forms quickly and efficiently",
+  "permissions": [
+    "activeTab",
+    "clipboardWrite",
+    "tabs",
+    "storage"
+  ],
+  "host_permissions": [
+    "*://*/*"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Bandwidth Helper",
+    "default_icon": {
+      "16": "icons/icon16.svg",
+      "48": "icons/icon48.svg",
+      "128": "icons/icon128.svg"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.bandwidth.com/toll-free-campaign-brief/"
+      ],
+      "js": ["content.js"],
+      "run_at": "document_end"
+    }
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "icons": {
+    "16": "icons/icon16.svg",
+    "48": "icons/icon48.svg",
+    "128": "icons/icon128.svg"
+  }
+}
