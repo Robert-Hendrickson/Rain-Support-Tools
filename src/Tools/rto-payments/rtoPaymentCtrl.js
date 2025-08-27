@@ -96,7 +96,7 @@ const rtoPaymentCtrl = createApp({
             /*
                 number_of_payments = n
 
-                ineterest_rate = r
+                interest_rate = r
 
                 interest rate per payment = R = r/n
 
@@ -106,11 +106,11 @@ const rtoPaymentCtrl = createApp({
 
                 Monthly payment total pre-tax =  M = P * ((r*(1+r)^n)/((1+r)^n -1))
 
-                Monthyly Tax amount = T = M * t
+                Monthly Tax amount = T = M * t
 
                 Monthly interest amount = I = current_owed_balance * r
 
-                monthly principle amount p =  M - I
+                Monthly principle amount p =  M - I
             */
             //set object to hold data for each payment and other reused variables
             let rto_payments = [];
