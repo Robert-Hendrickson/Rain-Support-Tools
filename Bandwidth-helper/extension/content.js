@@ -52,7 +52,7 @@ function autoFillForms() {
         mapping.selectors.forEach(selector => {
             const elements = document.querySelectorAll(selector);
             elements.forEach(element => {
-                if (element.offsetParent !== null && !element.value) { // Check if visible and empty
+                if (element.offsetParent !== null) { // Check if visible
                     element.focus();
                     element.value = mapping.value;
                     element.dispatchEvent(new Event('input', { bubbles: true }));

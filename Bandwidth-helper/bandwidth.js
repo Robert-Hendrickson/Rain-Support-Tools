@@ -29,9 +29,10 @@ async function downloadChromeExtension() {
             'extension/popup.css',
             'extension/content.js',
             'extension/background.js',
-            'extension/icons/icon16.svg',
-            'extension/icons/icon48.svg',
-            'extension/icons/icon128.svg',
+            'extension/icons/icon16.png',
+            'extension/icons/icon32.png',
+            'extension/icons/icon48.png',
+            'extension/icons/icon128.png',
             'extension/README.md'
         ];
         
