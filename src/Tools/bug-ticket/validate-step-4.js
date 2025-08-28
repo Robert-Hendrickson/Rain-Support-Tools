@@ -122,6 +122,10 @@ export default {
                             //otherwise set return value as true for a potentially issue
                             error_array.push(`${list_type} ${index + 1} has more than one link.`);
                         }
+                        //check if the link has bad characters in it
+                        if (element.value.includes('(') || element.value.includes(')')) {
+                            error_array.push(`${list_type} ${index + 1}: please remove any parenthesis from the link.`);
+                        }
                     }
                 }
             });
