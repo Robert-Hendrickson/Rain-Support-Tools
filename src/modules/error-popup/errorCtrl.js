@@ -28,9 +28,9 @@ export default {
         style.textContent = `
             #error_message {
                 word-wrap: break-word;
-                position: absolute;
+                position: fixed;
                 top: 10%;
-                left: 40%;
+                left: calc(50% - 200px);
                 z-index: 1000;
                 width: 400px;
                 box-shadow: 2px 2px #F2DEDE;
