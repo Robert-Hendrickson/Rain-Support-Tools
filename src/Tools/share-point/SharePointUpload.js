@@ -246,7 +246,8 @@ const SharePointUpload = {
                 if (error.response) {
                     errorMessage += `: ${error.response.status} - ${error.response.data?.error?.message || 'Unknown error'}`;
                 } else if (error.request) {
-                    errorMessage += ': No response from server';
+                    errorMessage += ': No response from server. See console for more details.';
+                    console.error('No response from server:', error.request);
                 } else {
                     errorMessage += `: ${error.message}`;
                 }
