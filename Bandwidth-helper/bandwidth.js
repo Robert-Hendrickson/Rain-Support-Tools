@@ -1,3 +1,13 @@
+import { createApp } from '/Rain-Support-Tools/src/common/vue/vue.esm-browser.prod.js';
+const app = createApp({
+    data() {
+        return {
+            version: '1.0.1',
+            releaseDate: '2025-09-02'
+        }
+    }
+});
+app.mount('#version-info');
 // Download functionality
 document.addEventListener('DOMContentLoaded', function() {
     const downloadBtn = document.getElementById('downloadBtn');
@@ -41,7 +51,18 @@ async function downloadChromeExtension() {
             try {
                 const response = await fetch(filePath);
                 if (response.ok) {
-                    const content = await response.text();
+                    // Check if file is binary (image) or text
+                    const isImage = filePath.match(/\.(png|jpg|jpeg|gif|ico)$/i);
+                    let content;
+                    
+                    if (isImage) {
+                        // Use blob for binary files
+                        content = await response.blob();
+                    } else {
+                        // Use text for text files
+                        content = await response.text();
+                    }
+                    
                     // Remove 'extension/' prefix for the ZIP structure
                     const zipPath = filePath.replace('extension/', '');
                     zip.file(zipPath, content);
@@ -95,3 +116,4 @@ function showMessage(message, type) {
         document.body.removeChild(messageDiv);
     }, 3000);
 }
+
