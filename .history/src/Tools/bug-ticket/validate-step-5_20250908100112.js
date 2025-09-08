@@ -13,8 +13,6 @@ export default {
                 <span class="fa-solid fa-question"></span>
             </div><br>
             <span class="sub-text">Enter example data. This can be links to web pages where things are wrong or id's of products, RTO's, etc.</span>
-            <br>
-            <span v-if="brand === 'rain'" class="sub-text" style="color: red;">If you have an example from their website, please provide a link to the live page!</span>
             <textarea tabindex="-1" placeholder="Enter example data. This can be links to web pages where things are wrong or id's of products, RTO's, etc." id="examples"></textarea>
             <br>
             <div title="Errors found in the browser console when the bug happened." class="note-wrapper">
