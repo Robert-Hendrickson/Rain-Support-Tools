@@ -1,3 +1,4 @@
 # Testing files that don't need published #
 ###########################################
 testing/*
+.history/*
