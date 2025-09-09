@@ -130,6 +130,13 @@ export default {
     </div>
     `,
     data() {
+        return {
+            regex: {
+                ipv4: /^(?:\d{1,3}\.){3}\d{1,3}$/,
+                ipv6: /^(?:[a-zA-z0-9]{4}\:){7}[a-zA-z0-9]{4}$/,
+                domain: /^((?:[\w\-]+\.)+)?[\w\-]+\.\w{2,}\.?$/,
+            }
+        }
     },
     methods: {
         closeEditor() {
@@ -154,17 +161,17 @@ export default {
             }
             //check value data based on type
             if(this.record.type === 'A'){
-                if(!(/^(?:\d{1,3}\.){3}\d{1,3}$/).test(this.record.value)){
+                if(!(this.regex.ipv4).test(this.record.value)){
                     error_list['value'] = 'A record value needs to be an ipv4 address. (1.1.1.1)';
                 }
             }
             if(this.record.type === 'AAAA'){
-                if(!(/^(?:[a-zA-z0-9]{4}\:){7}[a-zA-z0-9]{4}$/).test(this.record.value)){
+                if(!(this.regex.ipv6).test(this.record.value)){
                     error_list['value'] = 'AAAA record value needs to be an ipv6 address. (2001:0000:130F:0000:0000:09C0:876A:130B)';
                 }
             }
             if(this.record.type === 'CNAME'){
-                if(!(/^(?:[\w\-]+\.)+[\w\-]+\.\w{2,}\.?$/).test(this.record.value)){
+                if(!(this.regex.domain).test(this.record.value)){
                     error_list['value'] = 'CNAME record value needs to be a domain. (www.domain.com)';
                 }
             }
@@ -174,10 +181,10 @@ export default {
                 }
             }
             if(this.record.type === 'PTR'){
-                if(this.record.name === '' || !(/(?:\d{1,3}\.){3}\d{1,3}$/).test(this.record.name)){
+                if(this.record.name === '' || !(this.regex.ipv4).test(this.record.name)){
                     error_list['name'] = 'PTR Name value needs to be an ipv4 address. (1.0.0.1)';
                 }
-                if(!(/^(?:[\w\-]+\.)+[\w\-]+\.\w{2,}\.?$/).test(this.record.value)){
+                if(!(this.regex.domain).test(this.record.value)){
                     error_list['value'] = 'PTR needs to be a domain (www.domain.com)';
                 }
             }
@@ -199,7 +206,7 @@ export default {
                 if(!(/^\d+$/).test(this.record.port)){
                     error_list['port'] = 'SRV record port needs to be a number. (10)';
                 }
-                if(!(/^(?:[\w\-]+\.)+[\w\-]+\.\w{2,}\.?$/).test(this.record.serverHost)){
+                if(!(this.regex.domain).test(this.record.serverHost)){
                     error_list['serverHost'] = 'SRV record Server Host needs to be a domain. (www.domain.com)';
                 }
             }
