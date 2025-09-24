@@ -17,12 +17,16 @@ export default {
                 </div>
             </h2>
             <div table-controls>
-                <button tabindex="-1" class="btn secondary" @click="addTableRow('screenshot-table')">Add Row</button>
-                <button tabindex="-1" class="btn secondary" @click="removeTableRow('screenshot-table')">Remove Row</button>
+                <button :tabIndex="this.$props.step === 4 ? '0' : '-1'" class="btn secondary" @click="addScreenshotTableRow('')">Add Row</button>
+                <button :tabIndex="this.$props.step === 4 ? '0' : '-1'" class="btn secondary" @click="removeScreenshotTableRow">Remove Row</button>
             </div>
             <table id="screenshot-table">
                 <tbody>
-                    
+                    <tr v-for="(screenshot, index) in screenshots" :key="index">
+                        <td>
+                            Screenshot {{ index + 1 }}<input :tabIndex="this.$props.step === 4 ? '0' : '-1'" :placeholder="'Enter Screenshot ' + (index + 1)" type="text" v-model="screenshots[index]" />
+                        </td>
+                    </tr>
                 </tbody>
             </table>
             <h2 class="header-center">
@@ -32,18 +36,34 @@ export default {
                 </div>
             </h2>
             <div table-controls>
-                <button tabindex="-1" class="btn secondary" @click="addTableRow('video-table')">Add Row</button>
-                <button tabindex="-1" class="btn secondary" @click="removeTableRow('video-table')">Remove Row</button>
+                <button :tabIndex="this.$props.step === 4 ? '0' : '-1'" class="btn secondary" @click="addVideoTableRow('')">Add Row</button>
+                <button :tabIndex="this.$props.step === 4 ? '0' : '-1'" class="btn secondary" @click="removeVideoTableRow">Remove Row</button>
             </div>
             <table id="video-table">
                 <tbody>
-                    
+                    <tr v-for="(video, index) in videos" :key="index">
+                        <td>
+                            Video {{ index + 1 }}<input :tabIndex="this.$props.step === 4 ? '0' : '-1'" :placeholder="'Enter Video ' + (index + 1)" type="text" v-model="videos[index]" />
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         </div>`,
     props: {
         brand: String,
         step: Number
+    },
+    data(){
+        return {
+            screenshots: ['','',''],
+            videos: ['']
+        }
+    },
+    mounted(){
+        if(location.search === '?test'){
+            this.screenshots = ['https://drive.google.com/file/d/test/view?1', 'https://drive.google.com/file/d/test/view?2', 'https://drive.google.com/file/d/test/view?3'];
+            this.videos = ['https://drive.google.com/file/d/test/view?4'];
+        }
     },
     methods: {
         async validate(returnData){
@@ -188,32 +208,32 @@ export default {
             //return the new regex expression to be used with a global search attached
             return new RegExp(url_string, 'g');
         },
-        addTableRow(table){
-            let row_label;//switch statement finds the correct row label
-            switch(table) {
-                case 'screenshot-table':
-                    row_label = 'Image';
-                    break;
-                case 'video-table':
-                    row_label = 'Video';
-                    break;
-                default:
-                    console.error('Something went wrong. Passed table type was not of an expected value: ' + table);
-            }
-            //finds what row is being added by how many already exist
-            let new_row_number = document.querySelectorAll(`#${table} tbody tr`).length + 1;
-            //create a new table row and append it to the table
-            try{
-                document.querySelector(`#${table} tbody`).insertAdjacentHTML('beforeend', `<tr><td>${row_label} ${new_row_number}<input placeholder="Enter ${row_label} ${new_row_number}" type="text" /></td></tr>`);
-            }catch(error){
-                console.error(`Error adding table row: ${table}`, error);
+        addVideoTableRow(url = ''){
+            try {
+                this.videos.push(url);
+            } catch(error) {
+                console.error(`Error adding video table row`, error);
             }
         },
-        removeTableRow(table){
-            try{
-                document.querySelector(`#${table} tbody tr:last-child`).remove();
-            }catch(error){
-                console.error(`Error removing table row: ${table}`, error);
+        removeVideoTableRow(){
+            try {
+                this.videos.pop();
+            } catch(error) {
+                console.error(`Error removing video table row`, error);
+            }
+        },
+        addScreenshotTableRow(url = ''){
+            try {
+                this.screenshots.push(url);
+            } catch(error) {
+                console.error(`Error adding screenshot table row`, error);
+            }
+        },
+        removeScreenshotTableRow(){
+            try {
+                this.screenshots.pop();
+            } catch(error) {
+                console.error(`Error removing screenshot table row`, error);
             }
         }
     }

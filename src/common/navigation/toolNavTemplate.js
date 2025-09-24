@@ -7,14 +7,14 @@ export const toolNavTemplate = `<div id="nav-toggle" @click="this.showNav = !thi
             <div class="nav-header nav-general">General</div>
             <ul>
                 <li class="toolButton">
-                    <a href="/Rain-Support-Tools/">
+                    <a tabIndex="-1" href="/Rain-Support-Tools/">
                         <div>
                             <span class="fa-solid fa-house"></span>Home
                         </div>
                     </a>
                 </li>
                 <li class="toolButton">
-                    <a href="https://github.com/Robert-Hendrickson/Rain-Support-Tools/pulls?q=is%3Amerged" target="blank">
+                    <a tabIndex="-1" href="https://github.com/Robert-Hendrickson/Rain-Support-Tools/pulls?q=is%3Amerged" target="blank">
                         <div>
                             <span class="fa-solid fa-wrench"></span>System Updates
                         </div>
@@ -26,7 +26,7 @@ export const toolNavTemplate = `<div id="nav-toggle" @click="this.showNav = !thi
             <div class="nav-header" @click="toggleNav(nav_item)">{{nav_item.title}} <span class="fa-solid" :class="nav_item.show ? 'fa-chevron-down' : 'fa-chevron-right'"></span></div>
             <ul :class="nav_item.show ? 'open' : ''">
                 <li v-for="nav_link_item in nav_item.link_data" class="toolButton">
-                    <a v-bind:href="nav_link_item.url" v-bind:target="nav_link_item.target">
+                    <a tabIndex="-1" v-bind:href="nav_link_item.url" v-bind:target="nav_link_item.target">
                         <div>
                             <span v-bind:class="nav_link_item.icon"></span>{{nav_link_item.name}}<span class="sub-title">{{nav_link_item.subTitle}}</span>
                         </div>
