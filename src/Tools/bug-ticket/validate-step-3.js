@@ -11,7 +11,7 @@ export default {
                 <h2>Description</h2>
                 <span class="fa-solid fa-question"></span>
             </div>
-            <textarea tabindex="-1" placeholder="Enter a Description" id="description"></textarea>
+            <textarea :tabIndex="this.$props.step === 3 ? '0' : '-1'" placeholder="Enter a Description" id="description"></textarea>
         </div>`,
     props: {
         brand: String,

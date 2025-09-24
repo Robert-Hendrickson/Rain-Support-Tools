@@ -1,4 +1,4 @@
-import cookieCtrl from '/Rain-Support-Tools/src/common/ctrl/cookie_ctrl.js';
+    import cookieCtrl from '/Rain-Support-Tools/src/common/ctrl/cookie_ctrl.js';
 import customDialogue from '/Rain-Support-Tools/src/modules/custom-dialogue/dialog-ctrl.js';
 export default {
     name: 'past-tickets-ctrl',
@@ -21,7 +21,7 @@ export default {
                     </div>
                 </div>
                  <div class="past-ticket-delete">
-                    <button class="btn tertiary fa fa-trash" @click="deletePastTicket(date)"></button>
+                    <button tabIndex="-1" class="btn tertiary fa fa-trash" @click="deletePastTicket(date)"></button>
                  </div>
             </div>
         </div>

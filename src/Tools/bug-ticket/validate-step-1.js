@@ -10,25 +10,25 @@ export default {
             Support Tech Name
             <span class="fa-solid fa-question"></span>
         </div>
-        <input id="Support-Rep" type="text" placeholder="Enter Support Rep" />
+        <input id="Support-Rep" type="text" placeholder="Enter Support Rep" :tabindex="this.$props.step === 1 ? '0' : '-1'" />
         <br>
         <div title="The name of the store you are submitting the ticket for." class="note-wrapper">
             Store Name
             <span class="fa-solid fa-question"></span>
         </div>
-        <input id="Store-Name" type="text" placeholder="Enter Store Name" />
+        <input id="Store-Name" type="text" placeholder="Enter Store Name" :tabindex="this.$props.step === 1 ? '0' : '-1'" />
         <br>
         <div :title="this.$props.brand === 'etailpet' ? 'The Dashboard URL of the client you are submitting the ticket for.' : 'The CRM ID of the client you are submitting the ticket for.'" class="note-wrapper">
             {{ this.$props.brand === 'etailpet' ? 'Dashboard URL' : 'CRM' }}
             <span class="fa-solid fa-question"></span>
         </div>
-        <input id="crm" type="text" :placeholder="this.$props.brand === 'etailpet' ? 'Enter a Dashboard URL' : 'Enter a CRM'" />
+        <input id="crm" type="text" :placeholder="this.$props.brand === 'etailpet' ? 'Enter a Dashboard URL' : 'Enter a CRM'" :tabindex="this.$props.step === 1 ? '0' : '-1'" />
         <br>
         <div title="The part of the system affected by the bug." class="note-wrapper">
             System Area Affected
             <span class="fa-solid fa-question"></span>
         </div>
-        <input id="systemArea" type="text" placeholder="Enter Part of the System Affected" />
+        <input id="systemArea" type="text" placeholder="Enter Part of the System Affected" :tabindex="this.$props.step === 1 ? '0' : '-1'" />
         <br>
         <div title="Are you able to follow a set of steps to reproduce the bug consistently?" class="note-wrapper">
             Can you replicate this on a Test Site or Customers Site?
