@@ -64,6 +64,27 @@ export default {
             this.screenshots = ['https://drive.google.com/file/d/test/view?1', 'https://drive.google.com/file/d/test/view?2', 'https://drive.google.com/file/d/test/view?3'];
             this.videos = ['https://drive.google.com/file/d/test/view?4'];
         }
+        // Listen for SharePoint upload completion
+        document.addEventListener('sharepoint-upload-complete', (e) => {
+            for (let i = 0; i < e.detail.links.length; i++) {
+                if (e.detail.links[i].includes(":i:")) {
+                    let index = this.screenshots.findIndex(screenshot => screenshot === '');
+                    if (index !== -1) {
+                        this.screenshots[index] = e.detail.links[i];
+                    } else {
+                        this.addScreenshotTableRow(e.detail.links[i]);
+                    }
+                }
+                if (e.detail.links[i].includes(":v:")) {
+                    let index = this.videos.findIndex(video => video === '');
+                    if (index !== -1) {
+                        this.videos[index] = e.detail.links[i];
+                    } else {
+                        this.addVideoTableRow(e.detail.links[i]);
+                    }
+                }
+            }
+        });
     },
     methods: {
         async validate(returnData){

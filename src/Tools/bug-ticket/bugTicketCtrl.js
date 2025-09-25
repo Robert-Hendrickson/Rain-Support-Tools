@@ -174,20 +174,5 @@ ${data.step5.errors}
             window.location.reload();
         }
     },
-    mounted() {
-        // Listen for SharePoint upload completion
-        document.addEventListener('sharepoint-upload-complete', (e) => {
-            for (let i = 0; i < e.detail.links.length; i++) {
-                if (e.detail.links[i].includes(":i:")) {
-                    this.$refs.validateStep4.addScreenshotTableRow(e.detail.links[i]);
-                    document.querySelector('#screenshot-table tbody tr:last-child td:last-child input').value = e.detail.links[i];
-                }
-                if (e.detail.links[i].includes(":v:")) {
-                    this.$refs.validateStep4.addVideoTableRow(e.detail.links[i]);
-                    document.querySelector('#video-table tbody tr:last-child td:last-child input').value = e.detail.links[i];
-                }
-            }
-        });
-    }
 });
 window.BugTicketV2 = BugTicketV2.mount('#bug-ticket-v2');
