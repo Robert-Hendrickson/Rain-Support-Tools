@@ -76,7 +76,7 @@ export default {
                 //if there are no errors, return the steps
                 let steps = '';
                 this.steps.forEach((element,index) => {
-                    steps += `${index + 1}. ${element.value}\n`;
+                    steps += `${index + 1}. ${element}\n`;
                 });
                 returnData({success: true, data: steps});
             };
