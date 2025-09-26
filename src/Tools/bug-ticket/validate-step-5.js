@@ -96,7 +96,7 @@ export default {
             if (bad_error_array.length) {
                 let errors_string = () => {
                     let html = `<div class="dialog-error-list">
-                    <div class="dialog-error-header"><strong>Error : Usual Reason</strong></div><br />
+                    <div class="dialog-error-header"><strong>Message : Usual Reason</strong></div><br />
                     `;
                     for (let i=0;i<bad_error_array.length;i++){
                         html += `<div class="dialog-error-item">${bad_error_array[i]}</div>`;
