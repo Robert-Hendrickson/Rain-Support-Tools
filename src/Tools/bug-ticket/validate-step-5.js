@@ -90,9 +90,16 @@ export default {
             if ((/\[DOM\] Found \d{1,} elements? with non-unique id/i).test(errors)) {
                 bad_error_array.push(`non-unique id : There are multiple elements with the same id`);
             }
-            if((/POST http:\/\/127.0.0.1:8090\/api\/status net::ERR_CONNECTION_REFUSED/).test(errors)) {
+            if ((/POST http:\/\/127.0.0.1:8090\/api\/status net::ERR_CONNECTION_REFUSED/).test(errors)) {
                 bad_error_array.push(`127.0.0.1 : This refers to the system connecting to the print Proxy.`);
             }
+            if ((/\$position is now deprecated/i).test(errors)) {
+                bad_error_array.push(`$position is now deprecated : This refers to the use of a function that needs updated but isn't causing an issue.`);
+            }
+            if ((/Initializing Beamer\./i).test(errors)) {
+                bad_error_array.push(`Initializing Beamer : This states that beamer is being initialized. This is used to display system notifications to users.`);
+            }
+            if ((/Connecting to Elasticsearch/i).test(errors)) {
             if (bad_error_array.length) {
                 let errors_string = () => {
                     let html = `<div class="dialog-error-list">
