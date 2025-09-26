@@ -99,7 +99,6 @@ export default {
             if ((/Initializing Beamer\./i).test(errors)) {
                 bad_error_array.push(`Initializing Beamer : This states that beamer is being initialized. This is used to display system notifications to users.`);
             }
-            if ((/Connecting to Elasticsearch/i).test(errors)) {
             if (bad_error_array.length) {
                 let errors_string = () => {
                     let html = `<div class="dialog-error-list">
