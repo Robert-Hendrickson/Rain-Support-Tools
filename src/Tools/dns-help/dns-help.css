@@ -107,6 +107,8 @@ div.value-header div{
     border-radius: 8px;
     background-color: #ffffff;
     margin: 0px auto;
-    top: 15%;
+    top: 10%;
     position: relative;
+    max-height: 700px;
+    overflow-y: auto;
 }

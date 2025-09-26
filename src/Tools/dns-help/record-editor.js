@@ -267,7 +267,7 @@ export default {
                     if(!(/^\d+$/).test(this.record.newPort)){
                         error_list['port'] = 'SRV record port needs to be a number. (10)';
                     }
-                    if(!(/^(?:[\w\-]+\.)+[\w\-]+\.\w{2,}\.?$/).test(this.record.newServerHost)){
+                    if(!(this.regex.domain).test(this.record.newServerHost)){
                         error_list['serverHost'] = 'SRV record Server Host needs to be a domain. (www.domain.com)';
                     }
                 }
@@ -293,13 +293,13 @@ export default {
                 this.record.value = this.record.priority + ' ' + this.record.mailHostName;
             }
             if(this.record.type === 'SRV'){
-                this.record.value = this.record.weight + ' ' + this.record.port + ' ' + this.record.serverHost;
+                this.record.value = this.record.priority + ' ' +this.record.weight + ' ' + this.record.port + ' ' + this.record.serverHost;
             }
             if(this.record?.newType === 'MX' || this.record?.newType === 'SRV'){
                 this.record.newValue = this.record.newPriority + ' ' + this.record.newMailHostName;
             }
             if(this.record?.newType === 'SRV'){
-                this.record.newValue = this.record.newWeight + ' ' + this.record.newPort + ' ' + this.record.newServerHost;
+                this.record.newValue = this.record.newPriority + ' ' + this.record.newWeight + ' ' + this.record.newPort + ' ' + this.record.newServerHost;
             }
         }
     }
