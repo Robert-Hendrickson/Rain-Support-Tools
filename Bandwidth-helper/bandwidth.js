@@ -1,9 +1,24 @@
 import { createApp } from '/Rain-Support-Tools/src/common/vue/vue.esm-browser.prod.js';
+const versionData = await fetch('./version/version.json', {
+    method: 'GET',
+    headers: {
+        'Cache-Control': 'no-cache'
+    }
+}).then(response => response.json())
+  .catch(error => {
+    console.error('Failed to load version data:', error);
+    return { version: 'Unknown', releaseDate: 'Unknown' };
+  });
+
 const app = createApp({
-    data() {
-        return {
-            version: '1.0.1',
-            releaseDate: '2025-09-02'
+    computed: {
+        version() {
+            console.log(versionData.version);
+            return versionData.version;
+        },
+        releaseDate() {
+            console.log(versionData.releaseDate);
+            return versionData.releaseDate;
         }
     }
 });

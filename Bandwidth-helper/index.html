@@ -14,8 +14,8 @@
         <div class="container">
             <h4>Download Chrome Extension</h4>
             <div id="version-info">
-                <p>Current Version: {{ this.version }}</p>
-                <p>Release Date: {{ this.releaseDate }}</p>
+                <p>Current Version: {{ version }}</p>
+                <p>Release Date: {{ releaseDate }}</p>
             </div>
             <button id="downloadBtn" class="btn secondary">Download Extension</button>
         </div>
@@ -35,6 +35,9 @@
                         <li>The extension will appear in your browser toolbar</li>
                     </ol>
                     <h3>Update Steps:</h3>
+                    <div>
+                        New Version Indicator: <img src="./images/update.png" alt="Update Steps">
+                    </div>
                     <ol>
                         <li>Follow the first three steps of the installation steps</li>
                         <li>Click the refresh <span class="fa-solid fa-rotate-right"></span> icon on the Bandwidth Helper extension</li>
