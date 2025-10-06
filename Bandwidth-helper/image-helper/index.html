@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="image-helper.css">
+    </head>
+    <body>
+        <div id="app" class="page-container">
+            <div class="signup-ui">
+                <div class="signup-ui-container">
+                    <label for="name-input"> Company Name </label>
+                    <input ref="name-input" id="name-input" style="width: 350px;" type="text">
+                    <button @click="this.updateName" class="signup-button"> Update Name </button>
+                </div>
+                <div class="signup-ui-container">
+                    <label for="required-text"> Make Required </label>
+                    <input @change="this.updateRequiredText" id="required-text" checked="checked" type="checkbox">
+                </div>
+                <div class="signup-ui-container">
+                    <button @click="this.marketing_signup = true">Marketing</button>
+                    <button @click="this.marketing_signup = false">Notification</button>
+                </div>
+            </div>
+            <div class="bandwidth-wrapper">
+                <div class="bandwidth-container">
+                    <h1>SIGN UP FOR TEXT {{marketing_signup ? marketing_title_text : notification_title_text}} WITH {{ company_name.toUpperCase() }}</h1>
+                    <div class="signup-notice">
+                        Consent is not required to purchase goods or services. Text STOP to opt out at any time.
+                    </div>
+                    <form class="form-horizontal">
+                        <div class="col-xs-12">
+                            <div class="form-group">
+                                <div class="form-group-label">
+                                    <label for="name" class="col-sm-4 control-label"> Name </label>
+                                </div>
+                                <div class="form-group-input">
+                                    <input class="form-control" type="text" id="name">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="form-group-label">
+                                    <label for="email" class="col-sm-4 control-label"> Email </label>
+                                </div>
+                                <div class="form-group-input">
+                                    <input class="form-control" type="email" id="email">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="form-group-label">
+                                    <label for="phone" class="col-sm-4 control-label"> Phone Number </label>
+                                </div>
+                                <div class="form-group-input">
+                                    <input class="form-control" type="text" id="phone">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="form-group-label"></div>
+                                <div class="form-group-checkbox">
+                                    <input type="checkbox"> 
+                                    <div class="checkbox-label">
+                                        I consent to receiving {{marketing_signup ? marketing_consent_text : notification_consent_text}} text messages from {{ company_name }}. Message frequency may vary and standard data rates may apply.{{ this.required_text ? '*' : '' }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-group-label"></div>
+                            <div class="form-group-submit">
+                                <input class="btn btn-md btn-default btn-form" type="submit" value="Submit">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <script src="image-helper.js" type="module"></script>
+    </body>
+</html>
