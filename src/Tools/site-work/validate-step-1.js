@@ -37,7 +37,7 @@ export default {
     methods: {
         validateStep1(resolve){
             let error_list = {};
-            if(this.storeID === '' || !(/^(?:[Cc][Rr][Mm])?\d{3,}$/).test(this.storeID)){
+            if(this.storeID === '' || !(/^(?:[Cc][Rr][Mm])?\d{2,}$/).test(this.storeID)){
                 error_list['storeID'] = 'Please enter a valid CRM {(crm)12381}';
             }
             if (this.workType === ''){
