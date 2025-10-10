@@ -9,14 +9,12 @@ import { createApp } from '/Rain-Support-Tools/src/common/vue/vue.esm-browser.pr
  */
 import idGenerator from '/Rain-Support-Tools/src/modules/random-id-generator/idGenerator.js';
 import TaxEditor from './components/TaxEditor.js';
-//import TransactionLineItem from './components/TransactionLineItem.js';
-//import TransactionSummary from './components/TransactionSummary.js';
+import ImportTransaction from './components/importTransaction.js';
 const transactionCalculator = createApp({
     mixins: [idGenerator],
     components: {
         TaxEditor,
-        //TransactionLineItem,
-        //TransactionSummary
+        ImportTransaction,
     },
     data(){
         return {
@@ -38,6 +36,7 @@ const transactionCalculator = createApp({
             },
             taxShipping: false,
             editTaxes: false,
+            showImport: false,
         }
     },
     methods: {
@@ -77,12 +76,18 @@ const transactionCalculator = createApp({
                 ext: 0,
                 tax: 0,
                 total: 0,
-                taxJurisdiction: '',
+                taxJurisdiction: 'material',
                 percentDiscount: 0
             });
         },
         removeLineItem(id) {
             this.line_entries = this.line_entries.filter(item => item.id !== id);
+        },
+        importTransactionData(data) {
+            console.log(data);
+        },
+        toggleImportDialog() {
+            this.showImport = !this.showImport;
         }
     },
     computed: {
@@ -105,7 +110,7 @@ const transactionCalculator = createApp({
             return this.line_entries.reduce((total, line) => line.taxJurisdiction === 'class' ? total + line.tax : total, 0)
         },
         subTotal() {
-            return this.line_entries.reduce((total, line) => total + line.ext, 0)
+            return this.round(this.line_entries.reduce((total, line) => total + line.ext, 0))
         },
         discountTotal() {
             return this.line_entries.reduce((total, line) => total + line.discount, 0)
@@ -126,6 +131,15 @@ const transactionCalculator = createApp({
     },
     mounted() {
         this.addLineItem();
+        
+        // Setup keyboard shortcuts
+        document.addEventListener('keydown', (event) => {
+            // Check for CTRL + I
+            if (event.ctrlKey && event.key === 'i') {
+                event.preventDefault(); // Prevent browser's default behavior
+                this.toggleImportDialog();
+            }
+        });
     }
 });
 
