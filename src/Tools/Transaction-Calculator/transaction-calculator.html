@@ -83,10 +83,10 @@
                 <div class="transaction-line-items-header">
                     <h3>Transaction Line Items</h3>
                     <div class="header-buttons">
-                        <button id="import-transaction" class="btn secondary" @click="toggleImportDialog" title="Import transaction data (Ctrl+I)">
+                        <button v-if="false" id="import-transaction" class="btn secondary" @click="toggleImportDialog" title="Import transaction data (Ctrl+I)">
                             <i class="fas fa-upload"></i> Import <span class="keyboard-shortcut">Ctrl+I</span>
                         </button>
-                        <button id="add-line-item" class="btn primary" @click="addLineItem">Add Line Item</button>
+                        <button id="add-line-item" class="btn primary" @click="addLineItem()">Add Line Item</button>
                     </div>
                 </div>
                 <div class="transaction-table-container">
