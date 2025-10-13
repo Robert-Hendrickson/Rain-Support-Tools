@@ -141,7 +141,9 @@
         v-model:tax-shipping="taxShipping"></tax-editor>
         <import-transaction
         v-if="showImport"
-        @import-transaction-data="importTransactionData"></import-transaction>
-        <div id="error_message" class="hide"></div>
+        @import-transaction-data="importTransactionData"
+        @close-import-transaction="toggleImportDialog"
+        @display-error-message="displayErrorMessage"></import-transaction>
+        <error-ctrl ref="errorCtrl"></error-ctrl>
     </body>
 </html>
