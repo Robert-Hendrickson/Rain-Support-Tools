@@ -9,14 +9,14 @@ import { createApp } from '/Rain-Support-Tools/src/common/vue/vue.esm-browser.pr
  */
 import idGenerator from '/Rain-Support-Tools/src/modules/random-id-generator/idGenerator.js';
 import TaxEditor from './components/TaxEditor.js';
-//import TransactionLineItem from './components/TransactionLineItem.js';
-//import TransactionSummary from './components/TransactionSummary.js';
+import ImportTransaction from './components/importTransaction.js';
+import errorCtrl from '/Rain-Support-Tools/src/modules/error-popup/errorCtrl.js';
 const transactionCalculator = createApp({
     mixins: [idGenerator],
     components: {
         TaxEditor,
-        //TransactionLineItem,
-        //TransactionSummary
+        ImportTransaction,
+        errorCtrl,
     },
     data(){
         return {
@@ -38,6 +38,7 @@ const transactionCalculator = createApp({
             },
             taxShipping: false,
             editTaxes: false,
+            showImport: false,
         }
     },
     methods: {
@@ -68,21 +69,38 @@ const transactionCalculator = createApp({
         closeEditTaxes() {
             this.editTaxes = false;
         },
-        addLineItem() {
+        addLineItem(line_data = {}) {
             this.line_entries.push({
                 id: this.generateUniqueId(),
-                quantity: 0,
-                price: 0,
-                discount: 0,
+                quantity: line_data.quantity || 0,
+                price: line_data.price || 0,
+                discount: line_data.discount || 0,
                 ext: 0,
                 tax: 0,
                 total: 0,
-                taxJurisdiction: '',
+                taxJurisdiction: line_data.type || 'material',
                 percentDiscount: 0
             });
         },
         removeLineItem(id) {
             this.line_entries = this.line_entries.filter(item => item.id !== id);
+        },
+        importTransactionData(data) {
+            this.line_entries = [];
+            this.shipping = 0;
+            for(let i = 0; i < data.length; i++) {
+                if (data[i].type === 'shipping') {
+                    this.shipping = data[i].price;
+                } else {
+                    this.addLineItem(data[i]);
+                }
+            }
+        },
+        toggleImportDialog() {
+            this.showImport = !this.showImport;
+        },
+        displayErrorMessage(message) {
+            this.$refs.errorCtrl.updateErrorObject(message);
         }
     },
     computed: {
@@ -105,7 +123,7 @@ const transactionCalculator = createApp({
             return this.line_entries.reduce((total, line) => line.taxJurisdiction === 'class' ? total + line.tax : total, 0)
         },
         subTotal() {
-            return this.line_entries.reduce((total, line) => total + line.ext, 0)
+            return this.round(this.line_entries.reduce((total, line) => total + line.ext, 0))
         },
         discountTotal() {
             return this.line_entries.reduce((total, line) => total + line.discount, 0)
@@ -126,6 +144,15 @@ const transactionCalculator = createApp({
     },
     mounted() {
         this.addLineItem();
+        
+        // Setup keyboard shortcuts
+        document.addEventListener('keydown', (event) => {
+            // Check for CTRL + I
+            if (event.ctrlKey && event.key === 'i') {
+                event.preventDefault(); // Prevent browser's default behavior
+                this.toggleImportDialog();
+            }
+        });
     }
 });
 

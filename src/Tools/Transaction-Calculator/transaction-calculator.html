@@ -82,7 +82,12 @@
             <div class="transaction-line-items">
                 <div class="transaction-line-items-header">
                     <h3>Transaction Line Items</h3>
-                    <button id="add-line-item" class="btn primary" @click="addLineItem">Add Line Item</button>
+                    <div class="header-buttons">
+                        <button v-if="false" id="import-transaction" class="btn secondary" @click="toggleImportDialog" title="Import transaction data (Ctrl+I)">
+                            <i class="fas fa-upload"></i> Import <span class="keyboard-shortcut">Ctrl+I</span>
+                        </button>
+                        <button id="add-line-item" class="btn primary" @click="addLineItem()">Add Line Item</button>
+                    </div>
                 </div>
                 <div class="transaction-table-container">
                     <div class="transaction-table-header">
@@ -134,6 +139,11 @@
         v-model:tax-rates="taxRates"
         v-model:edit-taxes="editTaxes"
         v-model:tax-shipping="taxShipping"></tax-editor>
-        <div id="error_message" class="hide"></div>
+        <import-transaction
+        v-if="showImport"
+        @import-transaction-data="importTransactionData"
+        @close-import-transaction="toggleImportDialog"
+        @display-error-message="displayErrorMessage"></import-transaction>
+        <error-ctrl ref="errorCtrl"></error-ctrl>
     </body>
 </html>
