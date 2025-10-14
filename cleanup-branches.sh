@@ -41,17 +41,17 @@ echo "Current branch: $current_branch"
 echo "----------------------------------------"
 
 branch_count=0
-
-git branch --format='%(refname:short)' --merged | while read -r branch; do
+branches=$(git branch --format='%(refname:short)' --merged)
+while read -r branch; do
     if [[ "$branch" != "main" && "$branch" != "$current_branch" ]]; then
         if [[ "$dryrun" == true ]]; then
             echo "Would delete branch: $branch"
         else
             git branch -d "$branch"
         fi
-        ((branch_count++))
+        ((++branch_count))
     fi
-done
+done <<< "$branches"
 
 echo "----------------------------------------"
 word="branch"
