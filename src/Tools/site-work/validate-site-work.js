@@ -96,10 +96,10 @@ export default {
                     row_error_list['url'] = 'Use domains from the customers site. Do not use admin domains. (i.e. rainadmin, jewel360, musicshop360)';
                 }
                 if(row.screenshot === '' || (!regexController.regexPatterns.googleDrive.test(row.screenshot) && !regexController.regexPatterns.oneDrive.test(row.screenshot))){
-                    row_error_list['screenshot'] = 'Please enter a google drive or onedrive screenshot link for each row.';
+                    row_error_list['screenshot'] = 'Please enter a Google Drive or OneDrive screenshot link for each row.';
                 }
                 if(row.video != '' && (!regexController.regexPatterns.googleDrive.test(row.video) && !regexController.regexPatterns.oneDrive.test(row.video))){
-                    row_error_list['video'] = 'Make sure any videos given are a google drive or onedrive video link.';
+                    row_error_list['video'] = 'Make sure any videos given are a Google Drive or OneDrive video link.';
                 }
                 if(row.details === ''){
                     row_error_list['details'] = 'Make sure all rows have a details entered for work needing to be done.';

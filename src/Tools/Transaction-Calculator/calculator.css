@@ -90,7 +90,7 @@ div.breakdown-hide.active{
 tr.subrow{
     translate: 10px;
 }
-/*taxe editor*/
+/*tax editor*/
 #taxes-container{
     .tax-rate-container{
         width: 100%;

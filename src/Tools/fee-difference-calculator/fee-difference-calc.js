@@ -53,7 +53,7 @@ const feeDifferenceCalculator = createApp({
             this.showWait = false;
             this.errorMessage = '';
         },
-        precentToDecimal(value){
+        percentToDecimal(value){
             value = '0.0' + value.replace('.','');
             value = parseFloat(value);
             return value;
@@ -61,10 +61,10 @@ const feeDifferenceCalculator = createApp({
         calculateDifference(){
             let rates = {};
             //collect and store card rates and fees
-            rates['amexp'] = [this.precentToDecimal(document.querySelector('#amexcardPresentRate').value),parseFloat(document.querySelector('#amexcardPresentAmount').value)];
-            rates['amexnp'] = [this.precentToDecimal(document.querySelector('#amexcardNotPresentRate').value),parseFloat(document.querySelector('#amexcardNotPresentAmount').value)];
-            rates['cardp'] = [this.precentToDecimal(document.querySelector('#cardPresentRate').value),parseFloat(document.querySelector('#cardPresentAmount').value)];
-            rates['cardnp'] = [this.precentToDecimal(document.querySelector('#cardNotPresentRate').value),parseFloat(document.querySelector('#cardNotPresentAmount').value)];
+            rates['amexp'] = [this.percentToDecimal(document.querySelector('#amexcardPresentRate').value),parseFloat(document.querySelector('#amexcardPresentAmount').value)];
+            rates['amexnp'] = [this.percentToDecimal(document.querySelector('#amexcardNotPresentRate').value),parseFloat(document.querySelector('#amexcardNotPresentAmount').value)];
+            rates['cardp'] = [this.percentToDecimal(document.querySelector('#cardPresentRate').value),parseFloat(document.querySelector('#cardPresentAmount').value)];
+            rates['cardnp'] = [this.percentToDecimal(document.querySelector('#cardNotPresentRate').value),parseFloat(document.querySelector('#cardNotPresentAmount').value)];
             let table_data = document.querySelectorAll('#transactions tbody tr');
             for(let i=0;i<table_data.length;i++){
                 let temp_row = table_data[i];

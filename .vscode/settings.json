@@ -11,6 +11,12 @@
         "rainadmin",
         "raindev",
         "rainpos",
+        "rainretail",
         "tritech"
-    ]
+    ],
+    "search.exclude": {
+        ".history/": true,
+        ".vscode/": true,
+        ".git/": true,
+    }
 }
