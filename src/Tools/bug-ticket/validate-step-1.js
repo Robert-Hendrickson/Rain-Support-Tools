@@ -107,14 +107,10 @@ export default {
             //confirm the url contains the correct components
             if (this.$props.brand === 'etailpet' ){
                 //check for value
-                if (value === '' ||
-                    (
-                    !RegExp(/^https?:\/\//).test(value) 
-                    || 
-                    !(RegExp(/\/retailer\/dash\/$/).test(value) || RegExp(/\/site-admin\/login\/$/).test(value))
-                    )
+                if (
+                    value === '' || !(RegExp(/\/retailer\/dash\/$/).test(value) || RegExp(/\/site-admin\/login\/$/).test(value))
                 ){
-                    return {error: 'Please enter a valid Dashboard URL. Example: https://etailpet.com/retailer/dash/'};
+                    return {error: 'Please enter a valid Dashboard URL. Example: (https://)etailpet.com/retailer/dash/'};
                 }
                 return {success: true};
             }
