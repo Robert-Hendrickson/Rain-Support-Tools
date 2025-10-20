@@ -1,15 +1,17 @@
 .growl-container {
+    display: flex;
     width: fit-content;
     border: 1px solid black;
     border-radius: 8px;
     background-color: #dedede;
     position: absolute;
+    padding: 16px;
     left: 50%;
     transform: translateX(-50%);
     top: 10px;
+    z-index: 1000;
 }
 .growl-content {
-    padding: 16px;
     min-width: 400px;
     display: flex;
     flex-direction: column;
@@ -21,8 +23,14 @@
 .growl-container.error {
     background-color: #ff3b3b;
 }
+.growl-container.info {
+    background-color: #f9ca7a94;
+}
 .fade-out {
     animation: fadeOut 1.5s ease-out forwards;
+}
+.close-growl {
+    cursor: pointer;
 }
 @keyframes fadeOut {
     from {
