@@ -2,8 +2,6 @@
  * @module validate-step-2
  * @description This module is used to validate the data entered on step 2 of the bug ticket form.
  */
-import { nextTick } from '/Rain-Support-Tools/src/common/vue/vue.esm-browser.prod.js';
-
 export default {
     name: 'validate-step-2',
     template: `

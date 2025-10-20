@@ -1,4 +1,4 @@
-    import cookieCtrl from '/Rain-Support-Tools/src/common/ctrl/cookie_ctrl.js';
+import cookieCtrl from '/Rain-Support-Tools/src/common/ctrl/cookie_ctrl.js';
 import customDialogue from '/Rain-Support-Tools/src/modules/custom-dialogue/dialog-ctrl.js';
 export default {
     name: 'past-tickets-ctrl',
