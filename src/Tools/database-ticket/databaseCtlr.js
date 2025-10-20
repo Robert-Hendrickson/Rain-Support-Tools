@@ -17,7 +17,6 @@ import validateStep3 from './validate-step-3.js';
 let database_ticket = createApp({
     name: 'database-ticket',
     components: {
-        //'nav-menu': '/Rain-Support-Tools/src/common/navigation/nav-menu.js',
         flowCtrlApp,
         errorCtrl,
         ticketDataCtrl,

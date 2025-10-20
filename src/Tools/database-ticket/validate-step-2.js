@@ -1,4 +1,3 @@
-import custom_dialogue from '/Rain-Support-Tools/src/modules/custom-dialogue/dialog-ctrl.js';
 export default {
     name: 'validate-step-2',
     template: `
