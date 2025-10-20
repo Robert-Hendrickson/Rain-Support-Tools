@@ -18,7 +18,6 @@ import bugQuestionTips from './bug-question-tips.js';
 import feedBack from '/Rain-Support-Tools/src/modules/feedback/feedback.js';
 const BugTicketV2 = createApp({
     components: {
-        //'nav-menu': () => import('/Rain-Support-Tools/src/common/navigation/nav-menu.js'),
         pastTicketsCtrl,
         brandSelector,
         flowCtrlApp,
