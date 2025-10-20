@@ -6,6 +6,7 @@ export const GrowlCtrl = {
                 <div v-if="this.growl.message" class="growl-content-message">{{this.growl.message}}</div>
                 <div v-else class="growl-content-message">Something didn't work</div>
             </div>
+            <span class="fa-solid fa-x close-growl" @click="clearGrowl"></span>
         </div>`,
     data() {
         return {
@@ -18,9 +19,20 @@ export const GrowlCtrl = {
         }
     },
     methods: {
-        updateGrowl(growl) {
+        updateGrowl(growl, holdGrowl = false) {
             this.growl = growl;
             this.showGrowl = true;
+            if (!holdGrowl) {
+                this.setGrowlTimeout();
+            } else {
+                this.showGrowl = true;
+            }
+        },
+        clearGrowl() {
+            clearTimeout(this.growlTimeout);
+            this.showGrowl = false;
+        },
+        setGrowlTimeout(){
             this.growlTimeout = setTimeout(() => {
                 this.growlFadeOut = true;
                 setTimeout(() => {
@@ -28,10 +40,6 @@ export const GrowlCtrl = {
                     this.growlFadeOut = false;
                 }, 1500);
             }, 2000);
-        },
-        clearGrowl() {
-            clearTimeout(this.growlTimeout);
-            this.showGrowl = false;
         }
     },
     mounted() {
