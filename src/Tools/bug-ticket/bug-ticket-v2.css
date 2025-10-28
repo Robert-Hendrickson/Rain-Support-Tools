@@ -178,3 +178,30 @@ h2.header-center{
     align-items: center;
     gap: 10px;
 }
+/*Dialogue Error List Styles*/
+.dialog-error-list-wrapper {
+    display: flex;
+    padding: 4px 0;
+    flex-direction: column;
+    gap: 4px;
+}
+.dialog-error-header {
+    font-weight: bold;
+    text-align: center;
+}
+.dialog-error-list {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+.dialog-error-item {
+    padding: 4px;
+    background-color: #f9ca7a;
+    border-radius: 4px;
+}
+.dialog-error-item-name {
+    font-weight: bold;
+}
+.dialog-error-divider {
+    border-top: 1px solid #000;
+}
