@@ -88,31 +88,33 @@ export default {
                 //Usually caused by us loading or building an element that has the attribute aria-hidden. This is supposed to hide it from screen readers. Browsers sometimes stop this hiding as either the element is seen by the browser as necessary for something or it has a child element that isn't hidden.
             }
             if ((/\[DOM\] Found \d{1,} elements? with non-unique id/i).test(errors)) {
-                bad_error_array.push(`non-unique id : There are multiple elements with the same id`);
+                bad_error_array.push({'name': 'non-unique id', 'description': 'There are multiple elements with the same id'});
             }
             if ((/127.0.0.1:\d{1,}\/api\/status/).test(errors)) {
-                bad_error_array.push(`127.0.0.1 : This refers to the system connecting to the print Proxy.`);
+                bad_error_array.push({'name': '127.0.0.1', 'description': 'This refers to the system connecting to the print Proxy.'});
             }
             if ((/\$position is now deprecated/i).test(errors)) {
-                bad_error_array.push(`$position is now deprecated : This refers to the use of a function that needs updated but isn't causing an issue.`);
+                bad_error_array.push({'name': '$position is now deprecated', 'description': 'This refers to the use of a function that needs updated but isn\'t causing an issue.'});
             }
             if ((/Initializing Beamer\./i).test(errors)) {
-                bad_error_array.push(`Initializing Beamer : This states that beamer is being initialized. This is used to display system notifications to users.`);
+                bad_error_array.push({'name': 'Initializing Beamer', 'description': 'This states that beamer is being initialized. This is used to display system notifications to users.'});
             }
             if (bad_error_array.length) {
                 let errors_string = () => {
-                    let html = `<div class="dialog-error-list">
-                    <div class="dialog-error-header"><strong>Message : Usual Reason</strong></div><br />
+                    let html = `<div class="dialog-error-list-wrapper">
+                    <div class="dialog-error-header"><strong>Message : Usual Reason</strong></div>
+                    <div class="dialog-error-list">
+                    <div class="dialog-error-divider"></div>
                     `;
                     for (let i=0;i<bad_error_array.length;i++){
-                        html += `<div class="dialog-error-item">${bad_error_array[i]}</div>`;
+                        html += `<div class="dialog-error-item"><div class="dialog-error-item-name">${bad_error_array[i].name} : </div><div class="dialog-error-item-description">${bad_error_array[i].description}</div></div>
+                        <div class="dialog-error-divider"></div>`;
                     }
-                    html += '</div>'
+                    html += '</div></div>'
                     return html;
                 }
                 check = await customDialogue(
-                    `There were some errors found that might not be system problems. Please remember that during testing:<ul><li>You should have the console open and only include errors that appear at the time of the bad behavior you are noticing</li><li>Console logs that are yellow usually do not indicate a problem</li></ul> If any of the below errors did not happen at the time of bad behavior remove them from the list of errors before continuing.<br>
-                    <br>
+                    `There were some errors found that might not be system problems. Please remember that during testing:<ul><li>You should have the console open and only include errors that appear at the time of the bad behavior you are noticing</li><li>Console logs that are yellow usually do not indicate a problem</li></ul> If any of the below errors did not happen at the time of bad behavior remove them from the list of errors before continuing.
                     ${errors_string()}`,
                     'Continue',
                     'Cancel'
