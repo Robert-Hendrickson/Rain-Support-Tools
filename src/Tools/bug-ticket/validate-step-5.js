@@ -114,7 +114,7 @@ export default {
                     return html;
                 }
                 check = await customDialogue(
-                    `There were some errors found that might not be system problems. Please remember that during testing:<ul><li>You should have the console open and only include errors that appear at the time of the bad behavior you are noticing</li><li>Console logs that are yellow usually do not indicate a problem</li></ul> If any of the below errors did not happen at the time of bad behavior remove them from the list of errors before continuing.
+                    `There were some errors found that might not be system problems. Please remember that during testing:<ul><li>You should have the console open and only include errors that appear at the time of the bad behavior you are noticing</li><li>Console logs that are yellow usually do not indicate a problem</li></ul> <strong>If any of the below errors did not happen at the time of bad behavior remove them from the list of errors before continuing.</strong>
                     ${errors_string()}`,
                     'Continue',
                     'Cancel'
