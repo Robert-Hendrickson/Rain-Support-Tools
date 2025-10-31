@@ -27,7 +27,7 @@ export default {
                     line_items.push({
                         quantity: transaction_data[i].quantity,
                         price: transaction_data[i].price,
-                        discount: parseFloat(transaction_data[i].discount),
+                        discount: parseFloat(transaction_data[i].total_discount_amount),
                         type: type,
                     });
                 }
