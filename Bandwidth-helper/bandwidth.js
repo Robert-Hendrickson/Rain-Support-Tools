@@ -8,45 +8,24 @@ const versionData = await fetch('./version/version.json', {
   .catch(error => {
     console.error('Failed to load version data:', error);
     return { version: 'Unknown', releaseDate: 'Unknown' };
-  });
+});
 
 const app = createApp({
     computed: {
         version() {
-            console.log(versionData.version);
             return versionData.version;
         },
         releaseDate() {
-            console.log(versionData.releaseDate);
             return versionData.releaseDate;
         }
     }
 });
 app.mount('#version-info');
-// Download functionality
-document.addEventListener('DOMContentLoaded', function() {
-    const downloadBtn = document.getElementById('downloadBtn');
-    if (downloadBtn) {
-        downloadBtn.addEventListener('click', downloadChromeExtension);
-    }
-});
 
 async function downloadChromeExtension() {
-    try { // Load JSZip from CDN
-        const script = document.createElement('script');
-        script.src = 'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js';
-        document.head.appendChild(script);
-        
-        // Wait for JSZip to load
-        await new Promise((resolve, reject) => {
-            script.onload = resolve;
-            script.onerror = reject;
-        });
-        
-        // Create a ZIP file using JSZip library
+    console.log('Downloading Chrome extension...');
+    try {
         const zip = new JSZip();
-        
-        // Load all files from the local extension folder
         const files = [
             'extension/manifest.json',
             'extension/popup.html',
@@ -131,4 +110,11 @@ function showMessage(message, type) {
         document.body.removeChild(messageDiv);
     }, 3000);
 }
-
+// Download functionality
+// ES modules run after DOM is loaded, so we can attach listeners directly
+const downloadBtn = document.getElementById('downloadBtn');
+if (downloadBtn) {
+    downloadBtn.addEventListener('click', downloadChromeExtension);
+} else {
+    console.error('Download button not found');
+}
