@@ -34,7 +34,7 @@ export default {
     data() {
         return {
             showBrandSelector: false,
-            brandList: ['Rain', 'FrameReady', 'Tri-Tech', 'Dive360', 'Etailpet'],
+            brandList: ['Rain', 'FrameReady', 'Tri-Tech', 'Dive360', 'Etailpet', 'Rezo'],
             selectedBrand: null
         }
     },
@@ -49,7 +49,7 @@ export default {
             this.$emit('brand-selected', brand);
             cookieCtrl.setCookie('brand', brand, 7);
             this.showBrandSelector = false;
-            console.log('brand: ', brand);
+            console.log('brand updated to: ', brand);
         },
         handleBrandSelection(brand){
             this.selectedBrand = brand.toLowerCase();
