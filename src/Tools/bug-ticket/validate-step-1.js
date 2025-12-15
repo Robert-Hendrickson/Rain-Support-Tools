@@ -18,11 +18,19 @@ export default {
         </div>
         <input id="Store-Name" type="text" placeholder="Enter Store Name" :tabindex="this.$props.step === 1 ? '0' : '-1'" />
         <br>
-        <div :title="this.$props.brand === 'etailpet' ? 'The Dashboard URL of the client you are submitting the ticket for.' : 'The CRM ID of the client you are submitting the ticket for.'" class="note-wrapper">
+        <div v-if="this.$props.brand !== 'rezo'" :title="this.$props.brand === 'etailpet' ? 'The Dashboard URL of the client you are submitting the ticket for.' : 'The CRM ID of the client you are submitting the ticket for.'" class="note-wrapper">
             {{ this.$props.brand === 'etailpet' ? 'Dashboard URL' : 'CRM' }}
             <span class="fa-solid fa-question"></span>
         </div>
-        <input id="crm" type="text" :placeholder="this.$props.brand === 'etailpet' ? 'Enter a Dashboard URL' : 'Enter a CRM'" :tabindex="this.$props.step === 1 ? '0' : '-1'" />
+        <input v-if="this.$props.brand !== 'rezo'" id="crm" type="text" :placeholder="this.$props.brand === 'etailpet' ? 'Enter a Dashboard URL' : 'Enter a CRM'" :tabindex="this.$props.step === 1 ? '0' : '-1'" />
+        <div v-if="this.$props.brand === 'rezo'" title="The brand of the Rezo store you are submitting the ticket for." class="note-wrapper">
+            Rezo Brand
+            <span class="fa-solid fa-question"></span>
+        </div>
+        <select v-if="this.$props.brand === 'rezo'" id="rezo-brand" :tabindex="this.$props.step === 1 ? '0' : '-1'">
+            <option value="">Select a Brand</option>
+            <option v-for="brand in rezoBrandList" :value="brand">{{ brand }}</option>
+        </select>
         <br>
         <div title="The part of the system affected by the bug." class="note-wrapper">
             System Area Affected
@@ -51,6 +59,11 @@ export default {
         brand: String,
         step: Number
     },
+    data() {
+        return {
+            rezoBrandList: ['Bike Rental', 'GMS (fishing)', 'Ski Rental', 'Raft', 'Ski Tune', 'Other'],
+        }
+    },
     methods: {
         async validate(returnData){
             //create object to store any errors found in the form
@@ -66,7 +79,7 @@ export default {
             //check the CRM field for errors
             let crm_valid;
             try {
-                crm_valid = this.checkCRM(document.getElementById('crm').value);
+                crm_valid = this.checkCRM(document.getElementById('crm')?.value || '');
             } finally {
                 if(crm_valid.error){
                     bad_data_list['crm'] = crm_valid.error;
@@ -85,15 +98,20 @@ export default {
                 bad_data_list['where'] = 'Make sure to select at least one place where replication happened.';
             }
 
+            if (this.$props.brand === 'rezo' && document.getElementById('rezo-brand').value === '') {
+                bad_data_list['rezo-brand'] = 'Please select a Rezo brand.';
+            }
+
             if (Object.entries(bad_data_list).length) {
                 returnData({success: false, data: bad_data_list});
             } else {
                 let step1_data = {
-                    tech: document.getElementById('Support-Rep').value,
-                    store: document.getElementById('Store-Name').value,
-                    store_id: document.getElementById('crm').value,
-                    area: document.getElementById('systemArea').value,
-                    replicable: document.querySelector('[replicable].selected').textContent,
+                    tech: document.getElementById('Support-Rep').value || '',
+                    store: document.getElementById('Store-Name').value || '',
+                    store_id: document.getElementById('crm')?.value || '',
+                    rezo_brand: document.getElementById('rezo-brand')?.value || '',
+                    area: document.getElementById('systemArea').value || '',
+                    replicable: document.querySelector('[replicable].selected').textContent ,
                     where: Array.from(document.querySelectorAll('[where].selected')).map(el => el.textContent)
                 }
                 returnData({success: true, data: step1_data});
@@ -116,6 +134,11 @@ export default {
             }
             /*End Etailpet CRM Check behaviors*/
 
+            /*Rezo CRM Check behaviors*/
+            //rezo doesn't use this field
+            if (this.$props.brand === 'rezo') {
+                return {success: 'rezo_valid'};
+            }
 
             /*Default CRM Check behaviors*/
             //check the value of the crm field meets the requirements for the brand

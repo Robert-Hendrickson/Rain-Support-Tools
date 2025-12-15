@@ -128,16 +128,16 @@ ${data.step1.tech}
 
 Store:
 ${data.step1.store}
-
-${this.brand === 'etailpet' ? 'Dashboard URL:' : 'Store ID:'}
-${data.step1.store_id}
-
+` + 
+this.getCRMField(data.step1.store_id)
++
+this.getRezoBrandField(data.step1.rezo_brand)
++ `
 System Area:
 ${data.step1.area}
 
 Can you recreate the problem on your demo site or Customers Site?
 ${data.step1.replicable}
-
 ` +
 
 (data.step1.where ? data.step1.where.toString() : ``)
@@ -172,7 +172,25 @@ ${data.step5.errors}
         },
         handleReset(){
             window.location.reload();
-        }
+        },
+        getCRMField(store_id){
+            if (this.brand === 'rezo') {
+                return '';
+            }
+            return `
+${this.brand === 'etailpet' ? 'Dashboard URL:' : 'Store ID:'}
+${store_id}
+`;
+        },
+        getRezoBrandField(rezo_brand){
+            if (this.brand !== 'rezo') {
+                return '';
+            }
+            return `
+Rezo Brand:
+${rezo_brand}
+`;
+        },
     },
 });
 window.BugTicketV2 = BugTicketV2.mount('#bug-ticket-v2');

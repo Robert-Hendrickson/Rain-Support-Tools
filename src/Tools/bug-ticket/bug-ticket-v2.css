@@ -160,12 +160,14 @@ h2.header-center{
     align-items: center;
     justify-content: space-around;
     padding: 16px;
+    flex-wrap: wrap;
 }
 .brand-selector-item{
     border: #000 solid 1px;
     border-radius: 10px;
     padding: 16px;
     cursor: pointer;
+    margin: 4px 0;
 }
 .brand-selector-item.selected{
     background-color: #D8EDF7;
