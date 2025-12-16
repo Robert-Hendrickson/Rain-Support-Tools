@@ -44,9 +44,6 @@ export const dropdownSelectComponent = {
             default: false,
         },
     },
-    mounted() {
-        console.log(this.values,typeof this.values);
-    },
     methods: {
         handleInput(event) {
             this.$emit('updateValue', event.target.value);
