@@ -12,6 +12,7 @@ export const textInputComponent = {
             :id="id"
             :placeholder="placeholder"
             :disabled="disabled"
+            :value="value"
             @change="handleInput"
             type="text"
         />
@@ -21,6 +22,11 @@ export const textInputComponent = {
         placeholder: {
             type: String,
             required: false,
+        },
+        value: {
+            type: String,
+            required: false,
+            default: '',
         },
         id: {
             type: String,

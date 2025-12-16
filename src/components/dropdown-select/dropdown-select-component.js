@@ -13,19 +13,25 @@ export const dropdownSelectComponent = {
             :disabled="disabled"
             @change="handleInput"
         >
-            <option v-if="startOption" :value="">{{ startOption }}</option>
-            <option v-for="value in values" :key="value" :value="value">{{ value }}</option>
+            <option v-if="emptyOption" value="" disabled :selected="passedValueIsUsable">{{ emptyOption }}</option>
+            <option v-for="option in options" :key="option" :value="option" :selected="value === option">{{ option }}</option>
         </select>
     </div>
     `,
     props: {
-        values: {
+        options: {
             type: Array,
             required: true,
         },
-        startOption: {
+        value: {
             type: String,
             required: false,
+            default: '',
+        },
+        emptyOption: {
+            type: String,
+            required: false,
+            default: '',
         },
         id: {
             type: String,
@@ -42,6 +48,11 @@ export const dropdownSelectComponent = {
             type: Boolean,
             required: false,
             default: false,
+        },
+    },
+    computed: {
+        passedValueIsUsable() {
+            return !this.options.includes(this.value) || this.value === '';
         },
     },
     methods: {

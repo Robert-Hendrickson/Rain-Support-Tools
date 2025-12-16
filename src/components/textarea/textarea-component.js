@@ -16,7 +16,7 @@ export const textareaComponent = {
             :maxlength="maxLength"
             :spellcheck="spellcheck"
             :value="value"
-            @input="handleInput"
+            @change="handleInput"
         ></textarea>
     </div>
     `,

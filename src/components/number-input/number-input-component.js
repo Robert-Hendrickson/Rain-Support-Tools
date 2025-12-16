@@ -15,7 +15,7 @@ export const numberInputComponent = {
         :max="max"
         :step="step"
         :disabled="disabled"
-        :startValue="startValue"
+        :value="value"
         @change="handleInput"
         type="number" />
     </div>
@@ -24,6 +24,11 @@ export const numberInputComponent = {
         placeholder: {
             type: String,
             required: false,
+        },
+        value: {
+            type: Number,
+            required: false,
+            default: '',
         },
         id: {
             type: String,
