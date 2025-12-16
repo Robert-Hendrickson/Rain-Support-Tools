@@ -13,10 +13,11 @@ export const textareaComponent = {
             :placeholder="placeholder"
             :disabled="disabled"
             :style="textareaStyles"
+            :maxlength="maxLength"
             :spellcheck="spellcheck"
             :value="value"
             @input="handleInput"
-        >{{ value }}</textarea>
+        ></textarea>
     </div>
     `,
     props: {
@@ -74,9 +75,6 @@ export const textareaComponent = {
             let styles = '';
             if (this.resize) {
                 styles += `resize: ${this.resize};`;
-            }
-            if (this.maxLength) {
-                styles += `max-length: ${this.maxLength};`;
             }
             if (this.height) {
                 styles += `height: ${this.height};`;
