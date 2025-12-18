@@ -26,7 +26,7 @@ export const optionPickerComponent = {
         multiSelect: {
             type: Boolean,
             required: false,
-            default: true,
+            default: false,
         },
         id: {
             type: String,
@@ -50,7 +50,7 @@ export const optionPickerComponent = {
             if (this.multiSelect) {
                 this.multiSelectHandler(option);
             } else {
-                
+
                 this.selectedOptions = [option];
                 this.updateSelectedValues();
             }

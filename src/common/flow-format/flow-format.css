@@ -94,20 +94,7 @@ div#info-tabs div.complete{
 #description textarea,#examples textarea,#errors textarea{
     margin: 0px auto;
 }
-/*data content styling*/
-select{
-    margin: 16px 0;
-    height: 25px;
-    border-radius: 8px;
-}
-
-input{
-    width: 98%;
-    height: 25px;
-    margin-bottom: 16px;
-    border: #DDDDDD solid 1px;
-    border-radius: 4px;
-}
+/*data content styling can be deleted*/
 textarea{
     resize: none;
     width: 99%;

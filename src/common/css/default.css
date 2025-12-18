@@ -122,20 +122,20 @@ span.close:hover{
         font-size: 14px;
         font-weight: 600;
         margin-bottom: 4px;
-    }
-    & > input {
-        padding: 8px;
-        border-radius: 4px;
-        border: 1px solid #ddd;
-    }
-    & > input:focus {
-        outline: none;
-        border-color: #337AB7;
-    }
+    } 
 }
 /*data content styling*/
-select{
-    margin: 16px 0;
+input {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+}
+input:focus {
+    outline: none;
+    border-color: #337AB7;
+}
+
+select {
     height: 25px;
     border-radius: 8px;
     border: #DDDDDD solid 1px;
@@ -145,7 +145,7 @@ select:focus {
     border-color: #337AB7;
 }
 
-textarea{
+textarea {
     width: 99%;
     height: 100px;
     border-color:#DDDDDD;
