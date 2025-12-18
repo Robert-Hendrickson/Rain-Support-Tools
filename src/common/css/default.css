@@ -152,3 +152,34 @@ textarea{
     border-radius: 4px;
     padding: 4px;
 }
+
+/*selectable options*/
+.choice-selector {
+    height: 40px;
+    margin: 5px 0;
+    display: flex;
+    flex-direction: row;
+    & > div {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 30px;
+        border: #DDDDDD solid 1px;
+        cursor: pointer;
+        flex: 1;
+    }
+}
+
+.choice-selector > div:first-child {
+    border-radius: 4px 0 0 4px;
+}
+
+.choice-selector > div:last-child {
+    border-radius: 0 4px 4px 0;
+}
+
+.choice-selector .selected {
+    color: #337ab7;
+    border-color: #337AB7;
+    background-color: #D8EDF7;
+}
