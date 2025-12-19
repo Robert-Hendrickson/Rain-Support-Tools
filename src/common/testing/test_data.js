@@ -8,7 +8,7 @@ async function setTestData() {
         let testModule;
         
         if(path.match(/bug-ticket-v2/)) {
-            testModule = await import('./pageData/bugTicketData.js');
+            //testModule = await import('./pageData/bugTicketData.js');
         } else if(RegExp(/dns\-help/).test(path)) {
             testModule = await import('./pageData/dnsHelpData.js');
         } else if((/site-work/).test(path)) {

@@ -129,9 +129,11 @@ ${data.step1.tech}
 Store:
 ${data.step1.store}
 ` + 
-this.getCRMField(data.step1.store_id)
+this.getCRMField()
 +
-this.getRezoBrandField(data.step1.rezo_brand)
+this.getDashboardURLField()
++
+this.getRezoBrandField()
 + `
 System Area:
 ${data.step1.area}
@@ -173,22 +175,31 @@ ${data.step5.errors}
         handleReset(){
             window.location.reload();
         },
-        getCRMField(store_id){
-            if (this.brand === 'rezo') {
+        getCRMField(){
+            if (!this.formData.step1.store_id || this.formData.step1.store_id === '' || this.brand === 'etailpet') {
                 return '';
             }
             return `
-${this.brand === 'etailpet' ? 'Dashboard URL:' : 'Store ID:'}
-${store_id}
+Store ID:
+${this.formData.step1.store_id}
 `;
         },
-        getRezoBrandField(rezo_brand){
-            if (this.brand !== 'rezo') {
+        getDashboardURLField(){
+            if (!this.formData.step1.dashboard_url || this.formData.step1.dashboard_url === '' || this.brand !== 'etailpet') {
+                return '';
+            }
+            return `
+Dashboard URL:
+${this.formData.step1.dashboard_url}
+`;
+        },
+        getRezoBrandField(){
+            if (this.brand !== 'rezo' || !this.formData.step1.rezo_brand || this.formData.step1.rezo_brand === '') {
                 return '';
             }
             return `
 Rezo Brand:
-${rezo_brand}
+${this.formData.step1.rezo_brand}
 `;
         },
     },
