@@ -61,6 +61,9 @@ export default {
                 this.pastTicketsLength = Object.keys(this.pastTickets).length;
                 cookieCtrl.deleteCookie(`bug_${date}`);
             }
+            if (this.pastTicketsLength === 0) {
+                this.showPastTickets = false;
+            }
         },
         saveTicket(data){
             let now = Date.now();
