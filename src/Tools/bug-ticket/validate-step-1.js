@@ -114,15 +114,31 @@ export default {
         }
     },
     computed: {
-        showCRMField(){
+        showCRMField() {
             return this.$props.brand !== 'rezo' && this.$props.brand !== 'etailpet';
         },
-        showDashboardURLField(){
+        showDashboardURLField() {
             return this.$props.brand === 'etailpet';
         },
     },
+    mounted() {
+        try {
+            if (location.search === '?test' || location.hostname === 'localhost') {
+                this.supportRep = 'Test Support Rep';
+                this.storeName = 'Test Store Name';
+                this.crm = '123456';
+                this.dashboardURL = 'https://test.com';
+                this.rezoBrand = 'Bike Rental';
+                this.systemArea = 'Test System Area';
+                this.replicable = ['Yes'];
+                this.where = ['Test Site'];
+            }
+        } catch(error) {
+            console.error(`Error setting test data`, error);
+        }
+    },
     methods: {
-        async validate(returnData){
+        async validate(returnData) {
             //create object to store any errors found in the form
             let bad_data_list = {};
             //check the Support Rep field for errors
@@ -188,28 +204,28 @@ export default {
                 returnData({success: true, data: step1_data});
             };
         },
-        handleSupportRepUpdate(value){
+        handleSupportRepUpdate(value) {
             this.supportRep = value;
         },
-        handleStoreNameUpdate(value){
+        handleStoreNameUpdate(value) {
             this.storeName = value;
         },
-        handleCRMUpdate(value){
+        handleCRMUpdate(value) {
             this.crm = value;
         },
-        handleDashboardURLUpdate(value){
+        handleDashboardURLUpdate(value) {
             this.dashboardURL = value;
         },
-        handleRezoBrandUpdate(value){
+        handleRezoBrandUpdate(value) {
             this.rezoBrand = value;
         },
-        handleSystemAreaUpdate(value){
+        handleSystemAreaUpdate(value) {
             this.systemArea = value;
         },
-        handleReplicableUpdate(value){
+        handleReplicableUpdate(value) {
             this.replicable = value;
         },
-        handleWhereUpdate(value){
+        handleWhereUpdate(value) {
             this.where = value;
         },
     }
