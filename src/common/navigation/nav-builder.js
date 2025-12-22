@@ -51,7 +51,8 @@ const app = createApp({
                         {name:'SF Errors', url: '/Rain-Support-Tools/src/Tools/sf-errors/sf-errors.html', icon: 'fa-solid fa-list'},
                         {name:'Bandwidth Error List', url: '/Rain-Support-Tools/src/Tools/bandwidth-errors/bandwidth-errors.html', icon: 'fa-solid fa-list'},
                         {name:'Scanner Tracker', url: '/Rain-Support-Tools/src/Tools/scanner-tracker/scanner-tracker.html', icon: 'fa-solid fa-barcode', target:'blank'},
-                        {name:'CSS Sandbox', url: '/Rain-Support-Tools/src/Tools/css-tester/css-tester.html', icon: 'fa-solid fa-wand-magic-sparkles'}
+                        {name:'CSS Sandbox', url: '/Rain-Support-Tools/src/Tools/css-tester/css-tester.html', icon: 'fa-solid fa-wand-magic-sparkles'},
+                        {name:'Window Screen Checker', url: '/Rain-Support-Tools/src/Tools/window-screen-checker/window-screen-checker.html', icon: 'fa-solid fa-window-maximize'},
                     ]
                 }
             },
