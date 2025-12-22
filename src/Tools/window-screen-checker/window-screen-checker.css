@@ -1,0 +1,46 @@
+@import '/Rain-Support-Tools/src/common/css/default.css';
+
+.explanation-container {
+    width: 50%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.explanation-message {
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+}
+.comparison-container {
+    width: 50%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.comparison-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #000;
+}
+.comparison-table th, .comparison-table td {
+    border: 1px solid #000;
+    padding: 8px;
+}
+.comparison-table th {
+    background-color: #f0f0f0;
+}
+/*error styling*/
+.error {
+    color: red;
+}
+.error-container {
+    background-color: #f2dede;
+    border: 1px solid #ebccd1;
+    color: #a94442;
+    padding: 15px;
+    border-radius: 4px;
+    width: 50%;
+    margin: 0 auto;
+}
