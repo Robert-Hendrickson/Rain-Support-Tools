@@ -9,7 +9,7 @@ export const optionPickerComponent = {
             :class="{'note-wrapper': title}"
         >{{ label }}<span v-if="title" class="fa-solid fa-question" /></label>
         <div class="choice-selector">
-            <div v-for="option in options" :key="option" :class="{'selected': selectedOptions.includes(option)}" @click="handleOptionClick(option)">{{ option }}</div>
+            <div v-for="option in options" :key="option" :class="{'selected': value.includes(option)}" @click="handleOptionClick(option)">{{ option }}</div>
         </div>
     </div>
     `,
@@ -19,9 +19,9 @@ export const optionPickerComponent = {
             required: true,
         },
         value: {
-            type: String,
+            type: Array,
             required: false,
-            default: '',
+            default: [],
         },
         multiSelect: {
             type: Boolean,
@@ -40,31 +40,25 @@ export const optionPickerComponent = {
             type: String,
         },
     },
-    data() {
-        return {
-            selectedOptions: [],
-        }
-    },
     methods: {
         handleOptionClick(option) {
             if (this.multiSelect) {
                 this.multiSelectHandler(option);
             } else {
-
-                this.selectedOptions = [option];
-                this.updateSelectedValues();
+                this.updateSelectedValues([option]);
             }
         },
         multiSelectHandler(option) {
-            if (this.selectedOptions.includes(option)) {
-                this.selectedOptions = this.selectedOptions.filter(item => item !== option);
+            let newValue;
+            if (this.value.includes(option)) {
+                newValue = this.value.filter(item => item !== option);
             } else {
-                this.selectedOptions.push(option);
+                newValue = [...this.value, option];
             }
-            this.updateSelectedValues();
+            this.updateSelectedValues(newValue);
         },
-        updateSelectedValues() {
-            this.$emit('updateValue', this.selectedOptions);
+        updateSelectedValues(newValue) {
+            this.$emit('updateValue', newValue);
         }
     }
 }
