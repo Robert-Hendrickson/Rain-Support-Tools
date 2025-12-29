@@ -13,6 +13,7 @@ export const textInputComponent = {
             :placeholder="placeholder"
             :disabled="disabled"
             :value="value"
+            :tabindex="tabindex"
             @change="handleInput"
             type="text"
         />
@@ -44,6 +45,10 @@ export const textInputComponent = {
             required: false,
             default: false,
         },
+        tabindex: {
+            type: String,
+            required: false,
+        }
     },
     methods: {
         handleInput(event) {

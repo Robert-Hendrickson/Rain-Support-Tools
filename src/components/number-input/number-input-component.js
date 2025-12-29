@@ -16,6 +16,7 @@ export const numberInputComponent = {
         :step="step"
         :disabled="disabled"
         :value="value"
+        :tabindex="tabindex"
         @change="handleInput"
         type="number" />
     </div>
@@ -52,6 +53,10 @@ export const numberInputComponent = {
         },
         max: {
             type: Number,
+            required: false,
+        },
+        tabindex: {
+            type: String,
             required: false,
         },
         step: {
