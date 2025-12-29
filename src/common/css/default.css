@@ -3,6 +3,14 @@ body{
     background-image: linear-gradient(135deg, #337AB7, #17234B);
     min-height: 96vh;
 }
+.error {
+    background-color: #a94442;
+    color: #FFFFFF;
+}
+.warn {
+    background-color: #f9ca7a;
+    color: #000000;
+}
 /*header styles*/
 h1,h2,h3,h4,h5,h6{
     text-align: center;
