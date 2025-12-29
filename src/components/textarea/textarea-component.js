@@ -16,6 +16,7 @@ export const textareaComponent = {
             :maxlength="maxLength"
             :spellcheck="spellcheck"
             :value="value"
+            :tabindex="tabindex"
             @change="handleInput"
         ></textarea>
     </div>
@@ -68,6 +69,10 @@ export const textareaComponent = {
             type: Boolean,
             required: false,
             default: true,
+        },
+        tabindex: {
+            type: String,
+            required: false,
         },
     },
     computed: {

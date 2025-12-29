@@ -11,6 +11,7 @@ export const dropdownSelectComponent = {
         <select
             :id="id"
             :disabled="disabled"
+            :tabindex="tabindex"
             @change="handleInput"
         >
             <option v-if="emptyOption" value="" disabled :selected="passedValueIsUsable">{{ emptyOption }}</option>
@@ -49,6 +50,10 @@ export const dropdownSelectComponent = {
             required: false,
             default: false,
         },
+        tabindex: {
+            type: String,
+            required: false,
+        }
     },
     computed: {
         passedValueIsUsable() {

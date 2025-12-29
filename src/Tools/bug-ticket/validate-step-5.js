@@ -23,6 +23,7 @@ export default {
                 placeholder="Enter example data. This can be links to web pages where things are wrong or id's of products, RTO's, etc."
                 :value="examplesValue"
                 resize="vertical"
+                :tabindex="tabIndexEnabled"
                 @update-value="updateExamplesValue"
             />
             <div title="Errors found in the browser console when the bug happened." class="note-wrapper">
@@ -34,6 +35,7 @@ export default {
                 placeholder="Enter any console errors that appear during the issue"
                 :value="errorsValue"
                 resize="vertical"
+                :tabindex="tabIndexEnabled"
                 @update-value="updateErrorsValue"
             />
         </div>`,
@@ -50,6 +52,11 @@ export default {
             examplesValue: '',
             errorsValue: '',
         }
+    },
+    computed: {
+        tabIndexEnabled () {
+            return this.$props.step === 5 ? 0 : -1;
+        },
     },
     mounted() {
         try {
