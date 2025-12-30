@@ -12,6 +12,7 @@ export default {
             label="Store ID"
             id="crm"
             placeholder="Enter a CRM"
+            :tabindex="tabIndex"
             :value="this.storeID"
             @updateValue="updateStoreID"
         />
@@ -35,6 +36,11 @@ export default {
             workType: [],
             workOptions: ['Site Work' , 'Template Work']
         }
+    },
+    computed: {
+        tabIndex() {
+            return this.$props.step === 1 ? 0 : -1;
+        },
     },
     mounted (){
         if (location.host == 'localhost' || location.search == '?test') {
