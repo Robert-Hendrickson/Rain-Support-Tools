@@ -1,5 +1,9 @@
+import { textareaComponent } from "../../components/textarea/textarea-component.js";
 export default {
     name: 'validate-step-3',
+    components: {
+        textareaComponent,
+    },
     props: {
         step: {
             type: Number,
@@ -13,11 +17,29 @@ export default {
             What specific changes are needed? We need dates, transaction ids, every piece of data that needs to be changed. Also, if we're working with transactions, does inventory need to be updated with the development changes?<br><br>
             If there is not enough information for us to know what needs done without needing to ask you further questions your ticket will be rejected!
         </p>
-        <textarea v-model="details" tabindex="-1" id="details" placeholder="Details for Dev"></textarea>
+        <textarea-component
+            placeholder="Details for Dev"
+            :value="this.details"
+            :tabindex="tabIndexEnabled"
+            @updateValue="handleDetailsUpdate"
+        />
     </div>`,
     data() {
         return {
             details: ''
+        }
+    },
+    computed: {
+        testData () {
+            return location.host === 'localhost' || location.search === '?test'
+        },
+        tabIndexEnabled () {
+            return this.$props.step === 3 ? 0 : -1;
+        },
+    },
+    mounted() {
+        if (this.testData) {
+            this.details = 'Consignment ID 12345678 needs to be updated so that it has a correct status.';
         }
     },
     methods: {
@@ -27,6 +49,9 @@ export default {
             } else {
                 resolve({success: true, data: {details: this.details}});
             }
-        }
+        },
+        handleDetailsUpdate(value) {
+            this.details = value;
+        },
     }
 }
