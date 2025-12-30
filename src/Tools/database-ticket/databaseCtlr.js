@@ -114,7 +114,6 @@ ${this.ticket_data.approval_reason}
 Details:
 ${this.ticket_data.details}
 `;
-            console.log(this.ticket_data_string);
             this.$refs.ticketDataCtrl.showTicketContainer = true;
         },
         handleResetTicket(){

@@ -16,7 +16,7 @@ export default {
             label="Business Name:"
             id="businessName"
             :value="this.businessName"
-            tabindex="this.$props.step === 1 ? '0' : '-1'"
+            :tabindex="tabIndexEnabled"
             @updateValue="handleBusinessUpdate"
         />
         <text-input-component
@@ -24,7 +24,7 @@ export default {
             label="CRM:"
             id="storeID"
             :value="this.storeID"
-            tabindex="this.$props.step === 1 ? '0' : '-1'"
+            :tabindex="tabIndexEnabled"
             @updateValue="handleStoreIDUpdate"
         />
         <dropdown-select-component
@@ -33,7 +33,7 @@ export default {
             :options="vertical_list"
             emptyOption="Select a Option"
             :value="this.vertical"
-            tabindex="this.$props.step === 1 ? '0' : '-1'"
+            :tabindex="tabIndexEnabled"
             @updateValue="handleVerticalUpdate"
         />
     </div>`,
@@ -54,7 +54,10 @@ export default {
     computed: {
         testData () {
             return location.host === 'localhost' || location.search === '?test'
-        }
+        },
+        tabIndexEnabled () {
+            return this.$props.step === 1 ? 0 : -1;
+        },
     },
     mounted() {
         if (this.testData) {

@@ -1,5 +1,11 @@
+import { textInputComponent } from "../../components/text-input/text-input-component.js";
+import { textareaComponent } from "../../components/textarea/textarea-component.js";
 export default {
     name: 'validate-step-2',
+    components: {
+        textInputComponent,
+        textareaComponent,
+    },
     template: `
     <div id="associated-info-content" data="2" :class="{active: step === 2, complete: step > 2, 'in-active': step < 2}">
         <div id="associated-ticket">
@@ -7,20 +13,43 @@ export default {
             <p class="warning-text">
                 This data should only be filled out if there is a bug ticket. Please don't put id's or links for the database ticket.
             </p>
-            Salesforce Ticket ID:
-            <input v-model="salesforce_ticket_id" tabindex="-1" id="ticketID" type="text" placeholder="Ticket Number"/>
-            Shortcut Story Link:
-            <input v-model="shortcut_story_link" tabindex="-1" id="storyLink" type="text" placeholder="URL"/>
+            <text-input-component
+                placeholder="Ticket Number"
+                label="Salesforce Ticket ID:"
+                id="SFID"
+                :value="this.salesforce_ticket_id"
+                :tabindex="tabIndexEnabled"
+                @updateValue="handleSFIDUpdate"
+            />
+            <text-input-component
+                placeholder="URL"
+                label="Shortcut Story Link:"
+                id="shortcutLink"
+                :value="this.shortcut_story_link"
+                :tabindex="tabIndexEnabled"
+                @updateValue="handleShortcutUpdate"
+            />
         </div>
         <div id="ticket-reason">
             <h2>Other Info</h2>
-            Name of Team Lead who approved:
-            <input v-model="approving_agent_name" tabindex="-1" id="agentName" type="text" placeholder="Team Lead Name" />
+            <text-input-component
+                placeholder="Team Lead Name"
+                label="Name of Team Lead who approved:"
+                id="approver"
+                :value="this.approving_agent_name"
+                :tabindex="tabIndexEnabled"
+                @updateValue="handleApproverUpdate"
+            />
             Reason for Approval:
             <p class="warning-text">
                 This field should ONLY list the reason for the ticket being approved by a team lead.
             </p>
-            <textarea v-model="approval_reason" tabindex="-1" id="ticketReason" placeholder="Reason for Data Fix"></textarea>
+            <textarea-component
+                placeholder="Reason for Data Fix"
+                :value="this.approval_reason"
+                :tabindex="tabIndexEnabled"
+                @updateValue="handleReasonUpdate"
+            />
         </div>
     </div>`,
     props: {
@@ -35,6 +64,22 @@ export default {
             shortcut_story_link: '',
             approving_agent_name: '',
             approval_reason: '',
+        }
+    },
+    computed: {
+        testData () {
+            return location.host === 'localhost' || location.search === '?test'
+        },
+        tabIndexEnabled () {
+            return this.$props.step === 2 ? 0 : -1;
+        },
+    },
+    mounted() {
+        if (this.testData) {
+            this.salesforce_ticket_id = '123456789';
+            this.shortcut_story_link = 'https://app.shortcut.com/rainretail/story/310515';
+            this.approving_agent_name = 'Robert Hendrickson';
+            this.approval_reason = 'The customer is escalated over the issue.';
         }
     },
     methods: {
@@ -61,6 +106,18 @@ export default {
             } else {
                 resolve({success: true, data: {salesforce_ticket_id: this.salesforce_ticket_id, shortcut_story_link: this.shortcut_story_link, approving_agent_name: this.approving_agent_name, approval_reason: this.approval_reason}});
             }
-        }
+        },
+        handleSFIDUpdate(value) {
+            this.salesforce_ticket_id = value;
+        },
+        handleShortcutUpdate(value) {
+            this.short_story_link = value;
+        },
+        handleApproverUpdate(value) {
+            this.approving_agent_name = value;
+        },
+        handleReasonUpdate(value) {
+            this.approval_reason = value;
+        },
     }
 }
