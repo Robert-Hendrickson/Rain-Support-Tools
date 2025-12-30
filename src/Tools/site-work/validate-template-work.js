@@ -1,23 +1,53 @@
+import { dropdownSelectComponent } from '../../components/dropdown-select/dropdown-select-component.js'
+import { textInputComponent } from '../../components/text-input/text-input-component.js'
+import { textareaComponent } from '../../components/textarea/textarea-component.js'
 export default {
     name: 'validate-template-work',
+    components: {
+        dropdownSelectComponent,
+        textInputComponent,
+        textareaComponent,
+    },
     template: `
     <div id="template" :class="{
-        active: step === 2 && workType === 'template',
-        complete: step > 2 && workType === 'template',
-        'in-active': step < 2 || workType !== 'template'
+        active: step === 2 && workType === 'Template Work',
+        complete: step > 2 && workType === 'Template Work',
+        'in-active': step < 2 || workType !== 'Template Work'
     }">
         <h2>Template Update/Responsive Upgrade:</h2>
         <div>
-            Update Type: <select tabindex="-1" v-model="type">
-                <option disabled value="">Select an Option</option>
-                <option value="Template Change">Template Change</option>
-                <option value="Responsive Upgrade">Responsive Upgrade</option>
-            </select><br>
-            Template Number: <input tabindex="-1" id="number" placeholder="Template Number or Name" v-model="number"><br>
-            Template CRM: <input tabindex="-1" placeholder="Template CRM ID" v-model="crm">
+            <dropdown-select-component
+                label="Update Type:"
+                id="templateWorkType"
+                :options="templateTypeOptions"
+                :value="this.type"
+                emptyOption="Select an Option"
+                @updateValue="updateTemplateWorkType"
+            />
+            <text-input-component
+                placeholder="Template Number or Name"
+                id="number"
+                label="Template Number:"
+                :value="this.number"
+                @updateValue="updateTemplateNumber"
+            />
+            <text-input-component
+                placeholder="Template CRM ID"
+                id="templateCRM"
+                label="Template CRM:"
+                :value="this.crm"
+                @updateValue="updateTemplateCRM"
+            />
         </div>
         <div>
-            Customer Request Notes:<textarea tabindex="-1" placeholder="Any notes about changes being made. Colors they want, fonts, etc." v-model="notes"></textarea>
+            <textarea-component
+                label="Customer Request Notes:"
+                id="templateNotes"
+                placeholder="Any notes about changes being made. Colors they want, fonts, etc."
+                resize="none"
+                :value="this.notes"
+                @updateValue="updateTemplateNotes"
+            />
         </div>
     </div>`,
     props: {
@@ -32,10 +62,19 @@ export default {
     },
     data() {
         return {
+            templateTypeOptions: ['Template Change', 'Responsive Upgrade'],
             type: '',
             number: '',
             crm: '',
             notes: ''
+        }
+    },
+    mounted() {
+        if (location.host == 'localhost' || location.search == '?test') {
+            this.type = "Template Change";
+            this.number = "110067";
+            this.crm = "11607";
+            this.notes = "Test notes";
         }
     },
     methods: {
@@ -58,6 +97,34 @@ export default {
             } else {
                 resolve({success: true, data: {type: this.type, number: this.number, crm: this.crm, notes: this.notes}});
             }
-        }
+        },
+        updateTemplateWorkType(value) {
+            try {
+                this.type = value;
+            } catch (error) {
+                console.error('Failed to update Work Type');
+            }
+        },
+        updateTemplateNumber(value) {
+            try {
+                this.number = value;
+            } catch (error) {
+                console.error('Failed to update Template Number');
+            }
+        },
+        updateTemplateCRM(value) {
+            try {
+                this.crm = value;
+            } catch (error) {
+                console.error('Failed to update Template CRM');
+            }
+        },
+        updateTemplateNotes(value) {
+            try {
+                this.notes = value;
+            } catch (error) {
+                console.error('Failed to update Work Notes');
+            }
+        },
     }
 }

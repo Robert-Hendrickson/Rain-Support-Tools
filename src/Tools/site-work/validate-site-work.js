@@ -1,11 +1,19 @@
-import {regexController} from '../../modules/regex-patterns/patterns.js';
+import { regexController } from '../../modules/regex-patterns/patterns.js';
+import { dropdownSelectComponent } from '../../components/dropdown-select/dropdown-select-component.js'
+import { textInputComponent } from '../../components/text-input/text-input-component.js';
+import { textareaComponent } from '../../components/textarea/textarea-component.js'
 export default {
     name: 'validate-site-work',
+    components: {
+        dropdownSelectComponent,
+        textInputComponent,
+        textareaComponent,
+    },
     template: `
     <div id="site" :class="{
-        active: step === 2 && workType === 'site',
-        complete: step > 2 && workType === 'site',
-        'in-active': step < 2 || workType !== 'site'
+        active: step === 2 && workType === 'Site Work',
+        complete: step > 2 && workType === 'Site Work',
+        'in-active': step < 2 || workType !== 'Site Work'
     }">
         <h2>Site Work Content:</h2>
         <div table-controls>
@@ -23,18 +31,36 @@ export default {
                     </td>
                     <td :class="{'errorBorder': row.issue}">
                         <div>
-                            <select tabindex="-1" v-model="row.type">
-                                <option disabled value="">Select an Option</option>
-                                <option value="fix">Site Fix</option>
-                                <option value="custom">Custom Work</option>
-                            </select>
-                            <div><input tabindex="-1" id="url" type="text" placeholder="Page URL" v-model="row.url" /></div>
+                            <dropdown-select-component
+                                :options="siteWorkOptions"
+                                :value="row.type"
+                                emptyOption="Select an Option"
+                                @updateValue="updateSiteWorkOption($event, row.id)"
+                            />
+                            <text-input-component
+                                placeholder="Page URL"
+                                :value="row.url"
+                                @updateValue="updateSiteWorkUrl($event, row.id)"
+                            />
                         </div>
                         <div>
-                            <div><input tabindex="-1" id="screenshot" type="text" placeholder="screenshot" v-model="row.screenshot" /></div>
-                            <div><input tabindex="-1" id="video" type="text" placeholder="video(optional)" v-model="row.video" /></div>
+                            <text-input-component
+                                placeholder="screenshot"
+                                :value="row.screenshot"
+                                @updateValue="updateSiteWorkScreenshot($event, row.id)"
+                            />
+                            <text-input-component
+                                placeholder="Video(optional)"
+                                :value="row.video"
+                                @updateValue="updateSiteWorkVideo($event, row.id)"
+                            />
                         </div>
-                        <textarea tabindex="-1" placeholder="details" v-model="row.details"></textarea>
+                        <textarea-component
+                            placeholder="Details"
+                            :value="row.details"
+                            resize="none"
+                            @updateValue="updateSiteWorkDetails($event, row.id)"
+                        />
                     </td>
                 </tr>
             </tbody>
@@ -58,7 +84,17 @@ export default {
     data() {
         return {
             workTable: [],
-            idCounter: 0
+            idCounter: 0,
+            siteWorkOptions: ['Site Fix' , 'Custom Work'],
+        }
+    },
+    mounted(){
+        this.addRow();
+        if (location.host == 'localhost' || location.search == '?test') {
+            this.workTable[0].screenshot = 'https://quiltsoftware-my.sharepoint.com/:i:/p/user/hash'
+            this.workTable[0].type = "Site Fix";
+            this.workTable[0].url = "test.com";
+            this.workTable[0].details = "Test Details";
         }
     },
     methods: {
@@ -118,9 +154,51 @@ export default {
             } else {
                 resolve({success: true, data: this.workTable});
             }
-        }
+        },
+        handleUpdateError(error) {
+            console.error('Failed to update row')
+            console.error(error);
+        },
+        updateSiteWorkOption(value, id) {
+            try {
+                let rowData = this.workTable.filter( row => row.id === id);
+                rowData[0].type = value;
+            } catch (error) {
+                this.handleUpdateError(error);
+            }
+        },
+        updateSiteWorkUrl(value, id) {
+            try {
+                let rowData = this.workTable.filter( row => row.id === id);
+                rowData[0].url = value;
+            } catch (error) {
+                this.handleUpdateError(error);
+            }
+        },
+        updateSiteWorkScreenshot(value, id) {
+            try {
+                let rowData = this.workTable.filter( row => row.id === id);
+                rowData[0].screenshot = value;
+            } catch (error) {
+                this.handleUpdateError(error);
+            }
+        },
+        updateSiteWorkVideo(value, id) {
+            try {
+                let rowData = this.workTable.filter( row => row.id === id);
+                rowData[0].video = value;
+            } catch (error) {
+                this.handleUpdateError(error);
+            }
+        },
+        
+        updateSiteWorkDetails(value, id) {
+            try {
+                let rowData = this.workTable.filter( row => row.id === id);
+                rowData[0].details = value;
+            } catch (error) {
+                this.handleUpdateError(error);
+            }
+        },
     },
-    mounted(){
-        this.addRow();
-    }
 }
