@@ -33,15 +33,15 @@
         </h1>
         <div class="body-container">
             <div id="info-tabs">
-                <div id="work-tab" step="1" class="active">
+                <div id="work-tab" step="1" :class="{active: currentStep === 1, complete: currentStep > 1}">
                     <div class="step-circle">1</div>
                     Work Type
                 </div>
-                <div id="info-tab" step="2">
+                <div id="info-tab" step="2" :class="{active: currentStep === 2, complete: currentStep > 2}">
                     <div class="step-circle">2</div>
                     Work Info
                 </div>
-                <div id="confirm-tab" step="3">
+                <div id="confirm-tab" step="3" :class="{active: currentStep === 3}">
                     <div class="step-circle">3</div>
                     Confirm
                 </div>

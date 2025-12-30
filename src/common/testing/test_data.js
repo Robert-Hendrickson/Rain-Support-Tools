@@ -12,7 +12,7 @@ async function setTestData() {
         } else if(RegExp(/dns\-help/).test(path)) {
             testModule = await import('./pageData/dnsHelpData.js');
         } else if((/site-work/).test(path)) {
-            testModule = await import('./pageData/siteWorkData.js');
+            //testModule = await import('./pageData/siteWorkData.js');
         } else if((/database-ticket/).test(path)) {
             //testModule = await import('./pageData/dataBaseData.js');
         } else if((/fee-difference-calculator/).test(path)) {

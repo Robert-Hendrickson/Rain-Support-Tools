@@ -42,7 +42,7 @@ const siteWorkCtrl = createApp({
 Store ID: ${this.storeID}
 Work Type: ${this.workType}
 `;
-            if(this.workType === 'site'){
+            if(this.workType === 'Site Work'){
                 this.ticketData += `**Site Work Details**
 ${this.siteWorkInfo.map(row => `**Page ${row.page}**
 Type: 
@@ -60,7 +60,7 @@ ${row.video}
 Details: 
 ${row.details}`).join('\n\n')}`;
             }
-            if(this.workType === 'template'){
+            if(this.workType === 'Template Work'){
                 this.ticketData += `**Template Work Details**
 Update Type: 
 ${this.templateWorkInfo.type}
@@ -84,17 +84,17 @@ ${this.templateWorkInfo.notes}`;
                     validation_result = await new Promise((result) => this.$refs.validateStep1.validateStep1(result));
                     if (validation_result.success){
                         this.storeID = validation_result.data.storeID;
-                        this.workType = validation_result.data.workType;
+                        this.workType = validation_result.data.workType[0];
                     }
                     break;
                 case 2:
-                    if(this.workType === 'site'){
+                    if(this.workType === 'Site Work'){
                         validation_result = await new Promise((result) => this.$refs.validateSiteWork.validateData(result));
                         if (validation_result.success){
                             this.siteWorkInfo = [...validation_result.data];
                         }
                     }
-                    if(this.workType === 'template'){
+                    if(this.workType === 'Template Work'){
                         validation_result = await new Promise((result) => this.$refs.validateTemplateWork.validateData(result));
                         if (validation_result.success){
                             this.templateWorkInfo = {...validation_result.data};
@@ -126,7 +126,7 @@ ${this.templateWorkInfo.notes}`;
             </div>`;
 
             // Step 2 Data based on work type
-            if (this.workType === 'site') {
+            if (this.workType === 'Site Work') {
                 html += `<div class="ticket-section">
                     <h3>Site Work Details</h3>`;
                 this.siteWorkInfo.forEach((row, index) => {
@@ -140,7 +140,7 @@ ${this.templateWorkInfo.notes}`;
                     </div>`;
                 });
                 html += '</div>';
-            } else if (this.workType === 'template') {
+            } else if (this.workType === 'Template Work') {
                 html += `<div class="ticket-section">
                     <h3>Template Work Details</h3>
                     <p><strong>Update Type:</strong> ${this.templateWorkInfo.type || 'Not selected'}</p>
