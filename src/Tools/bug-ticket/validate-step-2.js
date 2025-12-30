@@ -17,8 +17,8 @@ export default {
             </div>
         </h2>
         <div table-controls>
-            <button :tabIndex="this.$props.step === 2 ? '0' : '-1'" class="btn secondary" @click="addTableRow">Add Row</button>
-            <button :tabIndex="this.$props.step === 2 ? '0' : '-1'" class="btn secondary" @click="removeTableRow">Remove Row</button>
+            <button :tabindex="tabIndexEnabled" class="btn secondary" @click="addTableRow">Add Row</button>
+            <button :tabindex="tabIndexEnabled" class="btn secondary" @click="removeTableRow">Remove Row</button>
         </div>
         <table id="steps-table">
             <tbody>
@@ -26,7 +26,7 @@ export default {
                     <td>
                         <text-input-component
                             :ref="'step-' + (index + 1)"
-                            :tabIndex="this.$props.step === 2 ? '0' : '-1'"
+                            :tabindex="tabIndexEnabled"
                             :label="'Step ' + (index + 1)"
                             :id="'step-' + (index + 1)"
                             :placeholder="'Enter Step ' + (index + 1)"
@@ -52,6 +52,11 @@ export default {
         return {
             steps: ['','','']
         }
+    },
+    computed: {
+        tabIndexEnabled () {
+            return this.$props.step === 2 ? 0 : -1;
+        },
     },
     mounted() {
         try {

@@ -19,7 +19,7 @@ export default {
                 placeholder="Enter a Description"
                 title="Please provide a detailed description of the bug behavior and what issue it is causing."
                 :value="this.description"
-                :tabIndex="this.$props.step === 3 ? '0' : '-1'"
+                :tabindex="tabIndexEnabled"
                 @update-value="updateDescription"
             />
         </div>`,
@@ -31,6 +31,11 @@ export default {
         return {
             description: ''
         }
+    },
+    computed: {
+        tabIndexEnabled () {
+            return this.$props.step === 3 ? 0 : -1;
+        },
     },
     mounted() {
         try {

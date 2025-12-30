@@ -23,7 +23,7 @@ export default {
             label="Support Tech Name"
             id="Support-Rep"
             title="The Support Rep submitting the ticket."
-            tabindex="this.$props.step === 1 ? '0' : '-1'"
+            :tabindex="tabIndexEnabled"
             :value="this.supportRep"
             @updateValue="handleSupportRepUpdate"
         />
@@ -32,7 +32,7 @@ export default {
             label="Store Name"
             id="Store-Name"
             title="The name of the store you are submitting the ticket for."
-            tabindex="this.$props.step === 1 ? '0' : '-1'"
+            :tabindex="tabIndexEnabled"
             :value="this.storeName"
             @updateValue="handleStoreNameUpdate"
         />
@@ -42,7 +42,7 @@ export default {
             label="CRM"
             id="crm"
             title="The CRM ID of the client you are submitting the ticket for."
-            tabindex="this.$props.step === 1 ? '0' : '-1'"
+            :tabindex="tabIndexEnabled"
             :value="this.crm"
             @updateValue="handleCRMUpdate"
         />
@@ -52,7 +52,7 @@ export default {
             label="Dashboard URL"
             id="Dashboard-URL"
             title="The Dashboard URL of the client you are submitting the ticket for."
-            tabindex="this.$props.step === 1 ? '0' : '-1'"
+            :tabindex="tabIndexEnabled"
             :value="this.dashboardURL"
             @updateValue="handleDashboardURLUpdate"
         />
@@ -61,7 +61,7 @@ export default {
             label="Rezo Brand"
             id="rezo-brand"
             title="The brand of the Rezo store you are submitting the ticket for."
-            tabindex="this.$props.step === 1 ? '0' : '-1'"
+            :tabindex="tabIndexEnabled"
             :options="rezoBrandList"
             emptyOption="Select a Brand"
             :value="this.rezoBrand"
@@ -72,7 +72,7 @@ export default {
             label="System Area Affected"
             id="systemArea"
             title="The part of the system affected by the bug."
-            tabindex="this.$props.step === 1 ? '0' : '-1'"
+            :tabindex="tabIndexEnabled"
             :value="this.systemArea"
             @updateValue="handleSystemAreaUpdate"
         />
@@ -81,7 +81,6 @@ export default {
             id="replicable"
             title="Are you able to follow a set of steps to reproduce the bug consistently?"
             :options="['Yes', 'No']"
-            tabindex="this.$props.step === 1 ? '0' : '-1'"
             :value="this.replicable"
             @updateValue="handleReplicableUpdate"
         />
@@ -90,7 +89,6 @@ export default {
             id="where"
             title="If 'yes' to above select any below that apply."
             :options="['Test Site', 'Customer Site']"
-            tabindex="this.$props.step === 1 ? '0' : '-1'"
             :value="this.where"
             multiSelect
             @updateValue="handleWhereUpdate"
@@ -119,6 +117,9 @@ export default {
         },
         showDashboardURLField() {
             return this.$props.brand === 'etailpet';
+        },
+        tabIndexEnabled () {
+            return this.$props.step === 1 ? 0 : -1;
         },
     },
     mounted() {

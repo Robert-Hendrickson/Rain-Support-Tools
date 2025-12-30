@@ -21,8 +21,8 @@ export default {
                 </div>
             </h2>
             <div table-controls>
-                <button :tabIndex="this.$props.step === 4 ? '0' : '-1'" class="btn secondary" @click="addScreenshotTableRow('')">Add Row</button>
-                <button :tabIndex="this.$props.step === 4 ? '0' : '-1'" class="btn secondary" @click="removeScreenshotTableRow">Remove Row</button>
+                <button :tabindex="tabIndexEnabled" class="btn secondary" @click="addScreenshotTableRow('')">Add Row</button>
+                <button :tabindex="tabIndexEnabled" class="btn secondary" @click="removeScreenshotTableRow">Remove Row</button>
             </div>
             <table id="screenshot-table">
                 <tbody>
@@ -31,7 +31,7 @@ export default {
                             <text-input-component
                                 :label="'Screenshot ' + (index + 1)"
                                 :id="'screenshot-' + (index + 1)"
-                                :tabIndex="this.$props.step === 4 ? '0' : '-1'"
+                                :tabindex="tabIndexEnabled"
                                 :placeholder="'Enter Screenshot ' + (index + 1)"
                                 :value="screenshots[index]"
                                 @update-value="updateScreenshotValue(index, $event)"
@@ -47,8 +47,8 @@ export default {
                 </div>
             </h2>
             <div table-controls>
-                <button :tabIndex="this.$props.step === 4 ? '0' : '-1'" class="btn secondary" @click="addVideoTableRow('')">Add Row</button>
-                <button :tabIndex="this.$props.step === 4 ? '0' : '-1'" class="btn secondary" @click="removeVideoTableRow">Remove Row</button>
+                <button :tabindex="tabIndexEnabled" class="btn secondary" @click="addVideoTableRow('')">Add Row</button>
+                <button :tabindex="tabIndexEnabled" class="btn secondary" @click="removeVideoTableRow">Remove Row</button>
             </div>
             <table id="video-table">
                 <tbody>
@@ -57,7 +57,7 @@ export default {
                             <text-input-component
                                 :label="'Video ' + (index + 1)"
                                 :id="'video-' + (index + 1)"
-                                :tabIndex="this.$props.step === 4 ? '0' : '-1'"
+                                :tabindex="tabIndexEnabled"
                                 :placeholder="'Enter Video ' + (index + 1)"
                                 :value="videos[index]"
                                 @update-value="updateVideoValue(index, $event)"
@@ -76,6 +76,11 @@ export default {
             screenshots: ['','',''],
             videos: ['']
         }
+    },
+    computed: {
+        tabIndexEnabled () {
+            return this.$props.step === 4 ? 0 : -1;
+        },
     },
     mounted() {
         try {
