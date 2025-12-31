@@ -1,8 +1,13 @@
 import errorCtrl from '../../modules/error-popup/errorCtrl.js';
+import { textInputComponent } from '../../components/text-input/text-input-component.js';
+import { dropdownSelectComponent } from '../../components/dropdown-select/dropdown-select-component.js';
+
 export default {
     name: 'record-editor',
     components: {
-        errorCtrl
+        errorCtrl,
+        textInputComponent,
+        dropdownSelectComponent,
     },
     props: {
         show: {
@@ -20,7 +25,15 @@ export default {
         domain: {
             type: String,
             required: true
-        }
+        },
+    },
+    watch: {
+        record: {
+            immediate: true,
+            handler(newVal) {
+                this.recordCopy = { ...newVal };
+            },
+        },
     },
     template: `
     <div v-if="show" id="record-entry-container">
@@ -29,99 +42,133 @@ export default {
             <h3>Record Information</h3>
             <div>
                 <h4 v-if="isCorrection">Original Values</h4>
-                <div>
-                    Type:<br>
-                    <select class="dns-selector" v-model="record.type">
-                        <option value="">Select Type</option>
-                        <option value="A">A</option>
-                        <option value="AAAA">AAAA</option>
-                        <option value="CNAME">CNAME</option>
-                        <option value="MX">MX</option>
-                        <option value="TXT">TXT</option>
-                        <option value="PTR">PTR</option>
-                        <option value="SRV">SRV</option>
-                    </select>
-                </div>
-                <div>
-                    Name:<br>
-                    <input type="text" v-model="record.name" />
-                </div>
-                <div v-if="record.type !== 'MX' && record.type !== 'SRV'">
-                    Value:<br>
-                    <input type="text" v-model="record.value" />
-                </div>
-                <div v-if="record.type === 'MX' || record.type === 'SRV'" mx srv priority>
-                    Priority:<br>
-                    <input type="text" v-model="record.priority" />
-                </div>
-                <div v-if="record.type === 'MX'" mx mail-host-name>
-                    Mail Host Name:<br>
-                    <input type="text" v-model="record.mailHostName" />
-                </div>
-                <div v-if="record.type === 'SRV'" srv weight>
-                    Weight:<br>
-                    <input type="text" v-model="record.weight" />
-                </div>
-                <div v-if="record.type === 'SRV'" srv port>
-                    Port:<br>
-                    <input type="text" v-model="record.port" />
-                </div>
-                <div v-if="record.type === 'SRV'" srv server-host>
-                    Server Host Name:<br>
-                    <input type="text" v-model="record.serverHost" />
-                </div>
-                <div>
-                    Requested TTL (Optional):<br>
-                    <input type="text" maxlength="5" v-model="record.ttl" />
-                </div>
+                <dropdown-select-component
+                    label="Type:"
+                    id="type"
+                    emptyOption="Select Type"
+                    :options="typeOptions"
+                    :value="recordCopy.type"
+                    @updateValue="updateType"
+                />
+                <text-input-component
+                    label="Name:"
+                    id="name"
+                    :value="recordCopy.name"
+                    @updateValue="updateName"
+                />
+                <text-input-component
+                    v-if="!isMXRecord && !isSRVRecord"
+                    label="Value:"
+                    id="value"
+                    :value="recordCopy.value"
+                    @updateValue="updateRecordCopyValue"
+                />
+                <text-input-component
+                    v-if="isMXRecord || isSRVRecord"
+                    label="Priority:"
+                    id="priority"
+                    :value="recordCopy.priority"
+                    @updateValue="updatePriority"
+                />
+                <text-input-component
+                    v-if="isMXRecord"
+                    label="Mail Host Name:"
+                    id="mailHostName"
+                    :value="recordCopy.mailHostName"
+                    @updateValue="updateMailHostName"
+                />
+                <text-input-component
+                    v-if="isSRVRecord"
+                    label="Weight:"
+                    id="weight"
+                    :value="recordCopy.weight"
+                    @updateValue="updateWeight"
+                />
+                <text-input-component
+                    v-if="isSRVRecord"
+                    label="Port:"
+                    id="port"
+                    :value="recordCopy.port"
+                    @updateValue="updatePort"
+                />
+                <text-input-component
+                    v-if="isSRVRecord"
+                    label="Server Host Name:"
+                    id="serverHost"
+                    :value="recordCopy.serverHost"
+                    @updateValue="updateServerHost"
+                />
+                <text-input-component
+                    label="Requested TTL (Optional):"
+                    id="ttl"
+                    :value="recordCopy.ttl"
+                    @updateValue="updateTtl"
+                />
             </div>
             <div v-if="isCorrection">
                 <h4>New Values</h4>
-                <div>
-                    Type:<br>
-                    <select class="dns-selector" v-model="record.newType">
-                        <option value="">Select Type</option>
-                        <option value="A">A</option>
-                        <option value="AAAA">AAAA</option>
-                        <option value="CNAME">CNAME</option>
-                        <option value="MX">MX</option>
-                        <option value="TXT">TXT</option>
-                        <option value="PTR">PTR</option>
-                        <option value="SRV">SRV</option>
-                    </select>
-                </div>
-                <div>
-                    Name:<br>
-                    <input type="text" v-model="record.newName" />
-                </div>
-                <div v-if="record.newType !== 'MX' && record.newType !== 'SRV'">
-                    Value:<br>
-                    <input type="text" v-model="record.newValue" />
-                </div>
-                <div v-if="record.newType === 'MX' || record.newType === 'SRV'" mx srv priority>
-                    Priority:<br>
-                    <input type="text" v-model="record.newPriority" />
-                </div>
-                <div v-if="record.newType === 'MX'" mx mail-host-name>
-                    Mail Host Name:<br>
-                    <input type="text" v-model="record.newMailHostName" />
-                </div>
-                <div v-if="record.newType === 'SRV'" srv weight>
-                    Weight:<br>
-                    <input type="text" v-model="record.newWeight" />
-                </div>
-                <div v-if="record.newType === 'SRV'" srv port>
-                    Port:<br>
-                    <input type="text" v-model="record.newPort" />
-                </div>
-                <div v-if="record.newType === 'SRV'" srv server-host>
-                    Server Host Name:<br>
-                    <input type="text" v-model="record.newServerHost" />
-                </div>
-                <div>
-                    Requested TTL (Optional):<br>
-                    <input type="text" maxlength="5" v-model="record.newTtl" />
-                </div>
+                <dropdown-select-component
+                    label="Type:"
+                    id="newType"
+                    emptyOption="Select Type"
+                    :options="typeOptions"
+                    :value="recordCopy.newType"
+                    @updateValue="updateNewType"
+                />
+                <text-input-component
+                    label="Name:"
+                    id="newName"
+                    :value="recordCopy.newName"
+                    @updateValue="updateNewName"
+                />
+                <text-input-component
+                    v-if="!isNewMXRecord && !isNewSRVRecord"
+                    label="Value:"
+                    id="newValue"
+                    :value="recordCopy.newValue"
+                    @updateValue="updateNewRecordCopyValue"
+                />
+                <text-input-component
+                    v-if="isMXRecord || isSRVRecord"
+                    label="Priority:"
+                    id="priority"
+                    :value="recordCopy.priority"
+                    @updateValue="updatePriority"
+                />
+                <text-input-component
+                    v-if="isNewMXRecord"
+                    label="Mail Host Name:"
+                    id="newMailHostName"
+                    :value="recordCopy.newMailHostName"
+                    @updateValue="updateNewMailHostName"
+                />
+                <text-input-component
+                    v-if="isNewSRVRecord"
+                    label="Weight:"
+                    id="newWeight"
+                    :value="recordCopy.newWeight"
+                    @updateValue="updateNewWeight"
+                />
+                <text-input-component
+                    v-if="isNewSRVRecord"
+                    label="Port:"
+                    id="newPort"
+                    :value="recordCopy.newPort"
+                    @updateValue="updateNewPort"
+                />
+                <text-input-component
+                    v-if="isNewSRVRecord"
+                    label="Server Host Name:"
+                    id="newServerHost"
+                    :value="recordCopy.newServerHost"
+                    @updateValue="updateNewServerHost"
+                />
+                <text-input-component
+                    label="Requested TTL (Optional):"
+                    id="newTtl"
+                    :value="recordCopy.newTtl"
+                    @updateValue="updateNewTtl"
+                />
             </div>
             <button class="btn secondary" @click="closeEditor">Cancel</button>
             <button style="float: right;" class="btn primary" @click="validateRecord">Submit</button>
@@ -135,172 +182,314 @@ export default {
                 ipv4: /^(?:\d{1,3}\.){3}\d{1,3}$/,
                 ipv6: /^(?:[a-zA-z0-9]{4}\:){7}[a-zA-z0-9]{4}$/,
                 domain: /^((?:[\w\-]+\.)+)?[\w\-]+\.\w{2,}\.?$/,
-            }
+            },
+            typeOptions: ['A', 'AAAA', 'CNAME', 'MX', 'TXT', 'PTR', 'SRV'],
+            recordCopy: {},
+        }
+    },
+    computed: {
+        isMXRecord() {
+            return this.recordCopy.type === 'MX';
+        },
+        isSRVRecord() {
+            return this.recordCopy.type === 'SRV';
+        },
+        isNewMXRecord() {
+            return this.recordCopy.newType === 'MX';
+        },
+        isNewSRVRecord() {
+            return this.recordCopy.newType === 'SRV';
         }
     },
     methods: {
-        closeEditor() {
-            this.$emit('close-editor');
-        },
-        submitRecord() {
-            this.$emit('save', { ...this.record });
-        },
-        isSubDomain(){
+        isSubDomain() {
             return [(/^[\w\-]+\.[\w\-]+\.\w{2,}$/).test(this.domain),this.domain.match(/^[\w-]+/g)[0]];
+        },
+        updateType(value) {
+            try {
+                this.recordCopy.type = value;
+            } catch (error) {
+                console.error('Failed to update Type', error);
+            }
+        },
+        updateNewType(value) {
+            try {
+                this.recordCopy.newType = value;
+            } catch (error) {
+                console.error('Failed to update New Type', error);
+            }
+        },
+        updateName(value) {
+            try {
+                this.recordCopy.name = value;
+            } catch (error) {
+                console.error('Failed to update Name', error);
+            }
+        },
+        updateNewName(value) {
+            try {
+                this.recordCopy.newName = value;
+            } catch (error) {
+                console.error('Failed to update New Value', error);
+            }
+        },
+        updateRecordCopyValue(value) {
+            try {
+                this.recordCopy.value = value;
+            } catch (error) {
+                console.error('Failed to update Record Copy Value', error);
+            }
+        },
+        updateNewRecordCopyValue(value) {
+            try {
+                this.recordCopy.newValue = value;
+            } catch (error) {
+                console.error('Failed to update New Record Copy Value', error);
+            }
+        },
+        updatePriority(value) {
+            try {
+                this.recordCopy.priority = value;
+            } catch (error) {
+                console.error('Failed to update Priority', error);
+            }
+        },
+        updateNewPriority(value) {
+            try {
+                this.recordCopy.newPriority = value;
+            } catch (error) {
+                console.error('Failed to update New Priority', error);
+            }
+        },
+        updateMailHostName(value) {
+            try {
+                this.recordCopy.mailHostName = value;
+            } catch (error) {
+                console.error('Failed to update Mail Host Name', error);
+            }
+        },
+        updateNewMailHostName(value) {
+            try {
+                this.recordCopy.newMailHostName = value;
+            } catch (error) {
+                console.error('Failed to update New Mail Host Name', error);
+            }
+        },
+        updateWeight(value) {
+            try {
+                this.recordCopy.weight = value;
+            } catch (error) {
+                console.error('Failed to update Weight', error);
+            }
+        },
+        updateNewWeight(value) {
+            try {
+                this.recordCopy.newWeight = value;
+            } catch (error) {
+                console.error('Failed to update New Weight', error);
+            }
+        },
+        updatePort(value) {
+            try {
+                this.recordCopy.port = value;
+            } catch (error) {
+                console.error('Failed to update Port', error);
+            }
+        },
+        updateNewPort(value) {
+            try {
+                this.recordCopy.newPort = value;
+            } catch (error) {
+                console.error('Failed to update New Port', error);
+            }
+        },
+        updateServerHost(value) {
+            try {
+                this.recordCopy.serverHost = value;
+            } catch (error) {
+                console.error('Failed to update Server Host', error);
+            }
+        },
+        updateNewServerHost(value) {
+            try {
+                this.recordCopy.newServerHost = value;
+            } catch (error) {
+                console.error('Failed to update New Server Host', error);
+            }
+        },
+        updateTtl(value) {
+            try {
+                this.recordCopy.ttl = value;
+            } catch (error) {
+                console.error('Failed to update TTL', error);
+            }
+        },
+        updateNewTtl(value) {
+            try {
+                this.recordCopy.newTtl = value;
+            } catch (error) {
+                console.error('Failed to update New TTL', error);
+            }
         },
         validateRecord() {
             this.$refs.errorCtrl.closeErrorDisplay();
             let error_list = {};
             //check type is selected
-            if(this.record.type === ''){
+            if (!this.recordCopy.type) {
                 error_list['type'] = 'Type is required';
             }
             //check name is entered
-            if(this.record.name === ''){
+            if (!this.recordCopy.name) {
                 error_list['name'] = 'Name is required. If the data given to you by a customer has no value for the Name, please confirm with the customer that this is intentional. If confirmed please enter "@" as the value.';
             }
             //check value data based on type
-            if(this.record.type === 'A'){
-                if(!(this.regex.ipv4).test(this.record.value)){
+            if (this.recordCopy.type === 'A') {
+                if (!(this.regex.ipv4).test(this.recordCopy.value)) {
                     error_list['value'] = 'A record value needs to be an ipv4 address. (1.1.1.1)';
                 }
             }
-            if(this.record.type === 'AAAA'){
-                if(!(this.regex.ipv6).test(this.record.value)){
+            if (this.recordCopy.type === 'AAAA') {
+                if (!(this.regex.ipv6).test(this.recordCopy.value)) {
                     error_list['value'] = 'AAAA record value needs to be an ipv6 address. (2001:0000:130F:0000:0000:09C0:876A:130B)';
                 }
             }
-            if(this.record.type === 'CNAME'){
-                if(!(this.regex.domain).test(this.record.value)){
+            if (this.recordCopy.type === 'CNAME') {
+                if (!(this.regex.domain).test(this.recordCopy.value)) {
                     error_list['value'] = 'CNAME record value needs to be a domain. (www.domain.com)';
                 }
             }
-            if(this.record.type === 'TXT'){
-                if(this.record.value === ''){
+            if (this.recordCopy.type === 'TXT') {
+                if (!this.recordCopy.value) {
                     error_list['value'] = 'TXT record value is required';
                 }
             }
-            if(this.record.type === 'PTR'){
-                if(this.record.name === '' || !(this.regex.ipv4).test(this.record.name)){
+            if (this.recordCopy.type === 'PTR') {
+                if (!this.recordCopy.name || !(this.regex.ipv4).test(this.recordCopy.name)) {
                     error_list['name'] = 'PTR Name value needs to be an ipv4 address. (1.0.0.1)';
                 }
-                if(!(this.regex.domain).test(this.record.value)){
+                if (!(this.regex.domain).test(this.recordCopy.value)) {
                     error_list['value'] = 'PTR needs to be a domain (www.domain.com)';
                 }
             }
-            if(this.record.type === 'MX'){
-                if(!(/^\d+$/).test(this.record.priority)){
+            if (this.recordCopy.type === 'MX') {
+                if (!(/^\d+$/).test(this.recordCopy.priority)) {
                     error_list['priority'] = 'MX record priority needs to be a number. (10)';
                 }
-                if(!(/^(?:[\w\-]+\.)+[\w\-]+\.\w{2,}\.?$/).test(this.record.mailHostName)){
+                if (!(/^(?:[\w\-]+\.)+[\w\-]+\.\w{2,}\.?$/).test(this.recordCopy.mailHostName)) {
                     error_list['mailHostName'] = 'MX record Mail Host needs to be a domain. (mail.domain.com)';
                 }
             }
-            if(this.record.type === 'SRV'){
-                if(!(/^\d+$/).test(this.record.priority)){
+            if (this.recordCopy.type === 'SRV') {
+                if (!(/^\d+$/).test(this.recordCopy.priority)) {
                     error_list['priority'] = 'SRV record priority needs to be a number. (10)';
                 }
-                if(!(/^\d+$/).test(this.record.weight)){
+                if (!(/^\d+$/).test(this.recordCopy.weight)) {
                     error_list['weight'] = 'SRV record weight needs to be a number. (10)';
                 }
-                if(!(/^\d+$/).test(this.record.port)){
+                if (!(/^\d+$/).test(this.recordCopy.port)) {
                     error_list['port'] = 'SRV record port needs to be a number. (10)';
                 }
-                if(!(this.regex.domain).test(this.record.serverHost)){
+                if (!(this.regex.domain).test(this.recordCopy.serverHost)) {
                     error_list['serverHost'] = 'SRV record Server Host needs to be a domain. (www.domain.com)';
                 }
             }
-            if(this.isCorrection){
+            if (this.isCorrection) {
                 //check new values are valid
                 //check type is selected
-                if(this.record.newType === ''){
+                if (!this.recordCopy.newType) {
                     error_list['type'] = 'Type is required';
                 }
                 //check name is entered
-                if(this.record.newName === ''){
+                if (!this.recordCopy.newName) {
                     error_list['name'] = 'Name is required. If the data given to you by a customer has no value for the Name, please confirm with the customer that this is intentional. If confirmed please enter "@" as the value.';
                 }
                 //check value data based on type
-                if(this.record.newType === 'A'){
-                    if(!(/^(?:\d{1,3}\.){3}\d{1,3}$/).test(this.record.newValue)){
+                if (this.recordCopy.newType === 'A') {
+                    if (!(this.regex.ipv4).test(this.recordCopy.newValue)) {
                         error_list['value'] = 'A record value needs to be an ipv4 address. (1.1.1.1)';
                     }
                 }
-                if(this.record.newType === 'AAAA'){
-                    if(!(/^(?:[a-zA-z0-9]{4}\:){7}[a-zA-z0-9]{4}$/).test(this.record.newValue)){
+                if (this.recordCopy.newType === 'AAAA') {
+                    if (!(this.regex.ipv6).test(this.recordCopy.newValue)) {
                         error_list['value'] = 'AAAA record value needs to be an ipv6 address. (2001:0000:130F:0000:0000:09C0:876A:130B)';
                     }
                 }
-                if(this.record.newType === 'CNAME'){
-                    if(!(/^(?:[\w\-]+\.)+[\w\-]+\.\w{2,}\.?$/).test(this.record.newValue)){
+                if (this.recordCopy.newType === 'CNAME') {
+                    if (!(this.regex.domain).test(this.recordCopy.newValue)) {
                         error_list['value'] = 'CNAME record value needs to be a domain. (www.domain.com)';
                     }
                 }
-                if(this.record.newType === 'TXT'){
-                    if(this.record.newValue === ''){
+                if (this.recordCopy.newType === 'TXT') {
+                    if (!this.recordCopy.newValue) {
                         error_list['value'] = 'TXT record value is required';
                     }
                 }
-                if(this.record.newType === 'PTR'){
-                    if(this.record.newName === '' || !(/(?:\d{1,3}\.){3}\d{1,3}$/).test(this.record.newName)){
+                if (this.recordCopy.newType === 'PTR') {
+                    if (!this.recordCopy.newName || !(this.regex.ipv4).test(this.recordCopy.newName)) {
                         error_list['name'] = 'PTR Name value needs to be an ipv4 address. (1.0.0.1)';
                     }
-                    if(!(/^(?:[\w\-]+\.)+[\w\-]+\.\w{2,}\.?$/).test(this.record.newValue)){
+                    if (!(this.regex.domain).test(this.recordCopy.newValue)) {
                         error_list['value'] = 'PTR needs to be a domain (www.domain.com)';
                     }
                 }
-                if(this.record.newType === 'MX'){
-                    if(!(/^\d+$/).test(this.record.newPriority)){
+                if (this.recordCopy.newType === 'MX') {
+                    if (!(/^\d+$/).test(this.recordCopy.newPriority)) {
                         error_list['priority'] = 'MX record priority needs to be a number. (10)';
                     }
-                    if(!(/^(?:[\w\-]+\.)+[\w\-]+\.\w{2,}\.?$/).test(this.record.newMailHostName)){
+                    if (!(this.regex.domain).test(this.recordCopy.newMailHostName)) {
                         error_list['mailHostName'] = 'MX record Mail Host needs to be a domain. (mail.domain.com)';
                     }
                 }
-                if(this.record.newType === 'SRV'){
-                    if(!(/^\d+$/).test(this.record.newPriority)){
+                if (this.recordCopy.newType === 'SRV') {
+                    if (!(/^\d+$/).test(this.recordCopy.newPriority)) {
                         error_list['priority'] = 'SRV record priority needs to be a number. (10)';
                     }
-                    if(!(/^\d+$/).test(this.record.newWeight)){
+                    if (!(/^\d+$/).test(this.recordCopy.newWeight)) {
                         error_list['weight'] = 'SRV record weight needs to be a number. (10)';
                     }
-                    if(!(/^\d+$/).test(this.record.newPort)){
+                    if (!(/^\d+$/).test(this.recordCopy.newPort)) {
                         error_list['port'] = 'SRV record port needs to be a number. (10)';
                     }
-                    if(!(this.regex.domain).test(this.record.newServerHost)){
+                    if (!(this.regex.domain).test(this.recordCopy.newServerHost)) {
                         error_list['serverHost'] = 'SRV record Server Host needs to be a domain. (www.domain.com)';
                     }
                 }
             }
-            if(Object.keys(error_list).length > 0){
+            if (Object.keys(error_list).length > 0) {
                 this.$refs.errorCtrl.updateErrorObject(error_list);
-            }else{
+            } else {
                 this.checkTtl();
                 this.checkValue();
                 this.submitRecord();
             }
         },
-        checkTtl(){
-            if(this.record.ttl === ''){
-                this.record.ttl = 3600;
+        checkTtl() {
+            if (!this.recordCopy.ttl) {
+                this.recordCopy.ttl = 3600;
             }
-            if(this.record?.newTtl === ''){
-                this.record.newTtl = 3600;
+            if (this.isCorrection && !this.recordCopy.newTtl) {
+                this.recordCopy.newTtl = 3600;
             }
         },
-        checkValue(){
-            if(this.record.type === 'MX' || this.record.type === 'SRV'){
-                this.record.value = this.record.priority + ' ' + this.record.mailHostName;
+        checkValue() {
+            if (this.isMXRecord) {
+                this.recordCopy.value = this.recordCopy.priority + ' ' + this.recordCopy.mailHostName;
             }
-            if(this.record.type === 'SRV'){
-                this.record.value = this.record.priority + ' ' +this.record.weight + ' ' + this.record.port + ' ' + this.record.serverHost;
+            if (this.isSRVRecord) {
+                this.recordCopy.value = this.recordCopy.priority + ' ' + this.recordCopy.weight + ' ' + this.recordCopy.port + ' ' + this.recordCopy.serverHost;
             }
-            if(this.record?.newType === 'MX' || this.record?.newType === 'SRV'){
-                this.record.newValue = this.record.newPriority + ' ' + this.record.newMailHostName;
+            if (this.isCorrection && this.isNewMXRecord) {
+                this.recordCopy.newValue = this.recordCopy.newPriority + ' ' + this.recordCopy.newMailHostName;
             }
-            if(this.record?.newType === 'SRV'){
-                this.record.newValue = this.record.newPriority + ' ' + this.record.newWeight + ' ' + this.record.newPort + ' ' + this.record.newServerHost;
+            if (this.isCorrection && this.isNewSRVRecord) {
+                this.recordCopy.newValue = this.recordCopy.newPriority + ' ' + this.recordCopy.newWeight + ' ' + this.recordCopy.newPort + ' ' + this.recordCopy.newServerHost;
             }
-        }
-    }
+        },
+        closeEditor() {
+            this.$emit('close-editor');
+        },
+        submitRecord() {
+            this.$emit('save', { ...this.recordCopy });
+        },
+    },
 }
