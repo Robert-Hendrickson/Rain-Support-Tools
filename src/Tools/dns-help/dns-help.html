@@ -4,7 +4,6 @@
         <title>DNS-Tool</title>
         <link rel="stylesheet" href="./dns-help.css" />
         <script src="https://kit.fontawesome.com/8e52a98e38.js" crossorigin="anonymous"></script>
-        <script src="/Rain-Support-Tools/src/common/vue/vue.global.prod.js"></script>
         <script src="./dnsCtrl.js" type="module"></script>
         <script src="/Rain-Support-Tools/src/common/testing/test_data.js" type="module"></script>
         <meta title="DNS-Tool" />
@@ -39,37 +38,53 @@
             </div>
             <div class="container content">
                 <div id="basic-content" data="1"  :class="{'active': current_step === 1, 'complete': current_step > 1}">
-                    <p>Enter Domain being worked on:</p>
-                    <input id="domain" type="text" placeholder="websiteUrl.com" v-model="domain"/>
-                    <p>Select the action that needs to happen with Records:</p>
-                    <div choice-selector>
-                        <div action='add-record' :class="{'selected': actions.add_record}" @click="actions.add_record = !actions.add_record">Add Record(s)</div>
-                        <div action='correct-record' :class="{'selected': actions.correct_record}" @click="actions.correct_record = !actions.correct_record">Correct Existing Record(s)</div>
-                        <div action='remove-record' :class="{'selected': actions.remove_record}" @click="actions.remove_record = !actions.remove_record">Remove Record(s)</div>
-                    </div>
-                    <add-records 
-                    ref="addRecords" 
-                    :actions="actions.add_record"
-                    v-model:add_record="add_record"
+                    <text-input-component
+                        label="Enter Domain being worked on:"
+                        id="domain"
+                        placeholder="websiteUrl.com"
+                        :value="domain"
+                        @update-value="updateDomainValue"
+                    ></text-input-component>
+                    <option-picker-component
+                        label="Select the action that needs to happen with Records:"
+                        id="actions"
+                        :options="actionOptions"
+                        :value="actionsList"
+                        multi-select
+                        @update-value="updateSelectedActions"
+                    ></option-picker-component>
+                    <add-records
+                        :actions="actionsList"
+                        :records="addRecordList"
+                        @add-new-record="addNewAddRecord"
+                        @delete-record="deleteAddRecord"
+                        @remove-row="removeAddRow"
+                        @edit-record="openAddRecordEditor"
                     ></add-records>
-                    <correct-records 
-                    ref="correctRecords" 
-                    :actions="actions.correct_record"
-                    v-model:correct_record="correct_record"
+                    <correct-records
+                        :actions="actionsList"
+                        :records="correctRecordList"
+                        @add-new-record="addNewCorrectRecord"
+                        @delete-record="deleteCorrectRecord"
+                        @remove-row="removeCorrectRow"
+                        @edit-record="openCorrectRecordEditor"
                     ></correct-records>
-                    <remove-records 
-                    ref="removeRecords" 
-                    :actions="actions.remove_record"
-                    v-model:remove_record="remove_record"
+                    <remove-records
+                        :actions="actionsList"
+                        :records="removeRecordList"
+                        @add-new-record="addNewRemoveRecord"
+                        @delete-record="deleteRemoveRecord"
+                        @remove-row="removeRemoveRow"
+                        @edit-record="openRemoveRecordEditor"
                     ></remove-records>
                 </div>
                 <div id="confirm" data="3" :class="{'active': current_step === 2, 'in-active': current_step < 2}">
                     <div compiled-results>
                         <h2>Please Confirm records are correct and none are missing.</h2>
-                        <div v-if="actions.add_record">
+                        <div v-if="actionsList.includes('Add Record(s)')">
                             <h2>Records to be Added</h2>
                             <data>
-                                <div class="value-display" v-for="record in add_record">
+                                <div class="value-display" v-for="record in addRecordList">
                                     Record Type: {{record.type}}<br>
                                     Name: {{record.name}}<br>
                                     Value: {{record.value}}<br>
@@ -77,10 +92,10 @@
                                 </div>
                             </data>
                         </div>
-                        <div v-if="actions.correct_record">
+                        <div v-if="actionsList.includes('Correct Existing Record(s)')">
                             <h2>Records to be Corrected</h2>
                             <data>
-                                <div class="value-display" v-for="record in correct_record">
+                                <div class="value-display" v-for="record in correctRecordList">
                                     <div class="value-header">
                                         <div>Original Values</div>
                                         <div>New Values</div>
@@ -102,10 +117,10 @@
                                 </div>
                             </data>
                         </div>
-                        <div v-if="actions.remove_record">
+                        <div v-if="actionsList.includes('Remove Record(s)')">
                             <h2>Records to be Removed</h2>
                             <data>
-                                <div class="value-display" v-for="record in remove_record">
+                                <div class="value-display" v-for="record in removeRecordList">
                                     Record Type: {{record.type}}<br>
                                     Name: {{record.name}}<br>
                                     Value: {{record.value}}<br>
@@ -116,27 +131,30 @@
                     </div>
                 </div>
             </div>
-            <flow-ctrl-app 
-            ref="flowCtrlApp"
-            :max-step="2"
-            @step-change-request="validateStepData"
-            @step-changed="handleNextStep"
-            @previous-step="handlePreviousStep"
-            @finish="handleFinish"></flow-ctrl-app>
+            <flow-ctrl-app
+                ref="flowCtrlApp"
+                :max-step="2"
+                @step-change-request="validateStepData"
+                @step-changed="handleNextStep"
+                @previous-step="handlePreviousStep"
+                @finish="handleFinish"
+            ></flow-ctrl-app>
         </div>
         <ticket-data-ctrl
-        ref="ticketDataCtrl"
-        :ticket-data="ticketData"
-        @reset-ticket="resetTicket"
+            ref="ticketDataCtrl"
+            :ticket-data="ticketData"
+            @reset-ticket="resetTicket"
         ></ticket-data-ctrl>
-        <error-ctrl ref="errorCtrl"></error-ctrl>
+        <error-ctrl
+            ref="errorCtrl"
+        ></error-ctrl>
         <record-editor ref="recordEditor"
-        :show="showRecordEditor"
-        :record="currentRecord"
-        :is-correction="isCorrection"
-        :domain="domain"
-        @save="updateRecord"
-        @close-editor="closeRecordEditor"
+            :show="showRecordEditor"
+            :record="currentRecord"
+            :is-correction="isCorrection"
+            :domain="domain"
+            @save="updateRecord"
+            @close-editor="closeRecordEditor"
         ></record-editor>
     </body>
 </html>
