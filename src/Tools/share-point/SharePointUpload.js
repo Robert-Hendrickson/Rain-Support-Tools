@@ -43,7 +43,7 @@ const SharePointUpload = {
                                 <button @click="removeFile(index)" class="copy-button">Remove</button>
                             </div>
                         </div>
-                        <button @click="uploadFiles" :disabled="uploading">
+                        <button @click="attemptFileUpload" :disabled="uploading">
                             {{ uploading ? 'Uploading...' : 'Upload All' }}
                         </button>
                     </div>
@@ -89,7 +89,8 @@ const SharePointUpload = {
             showPreviewModal: false,
             currentPreviewUrl: null,
             showImagePreview: false,
-            isContainerVisible: true
+            isContainerVisible: true,
+            attemptUploadCount: 0,
         }
     },
     methods: {
@@ -114,14 +115,20 @@ const SharePointUpload = {
                         type: 'success',
                         message: 'Authentication process complete. Please upload your files.'
                     };
+                    this.attemptFileUpload();
                 }
                 if (event.data === 'auth-error') {
                     console.log('Auth error');
                     authTab.close();
                     this.uploadStatus = {
                         type: 'error',
-                        message: 'Authentication process failed. Please try again.'
+                        message: 'Authentication process failed. Please try again.',
+                        action: {
+                            text: 'Try Again',
+                            handler: () => this.goToAuth()
+                        }
                     };
+                    this.attemptUploadCount = 0;
                 }
             }, { once: true });
         },
@@ -182,7 +189,7 @@ const SharePointUpload = {
             this.showImagePreview = false;
         },
         async uploadFiles() {
-            if (this.selectedFiles.length === 0) return;
+            if (this.selectedFiles.length === 0) return 'no upload';
 
             this.uploading = true;
             this.uploadStatus = null;
@@ -252,23 +259,15 @@ const SharePointUpload = {
                     errorMessage += `: ${error.message}`;
                 }
                 if (error.message === 'No refresh token available') {
-                    this.uploadStatus = {
+                    return {success: false, error: {
                         type: 'error',
                         message: 'Your session has expired. Please authenticate again.',
-                        action: {
-                            text: 'Re-authenticate',
-                            handler: () => this.goToAuth()
-                        }
-                    };
+                    }};
                 } else {
-                    this.uploadStatus = {
+                    return {success: false, error: {
                         type: 'error',
                         message: errorMessage,
-                        action: {
-                            text: 'Re-authenticate',
-                            handler: () => this.goToAuth()
-                        }
-                    };
+                    }};
                 }
             } finally {
                 this.uploading = false;
@@ -276,7 +275,36 @@ const SharePointUpload = {
         },
         growl(growlMessage, growlType) {
             this.$refs.growlCtrl.updateGrowl({message: growlMessage, type: growlType});
-        }
+        },
+        async attemptFileUpload() {
+            if (this.attemptUploadCount < 2) {
+                let attempted = await this.uploadFiles();
+                if (attempted === 'no upload') {
+                    // end if no files to upload, reset attempt count
+                    this.attemptUploadCount = 0;
+                    return;
+                }
+                if (!attempted.success) {
+                    this.attemptUploadCount++;
+                    this.growl('Error authenticating. Getting new Token...');
+                    this.uploadStatus = attempted.error;
+                    this.goToAuth();
+                } else {
+                    this.attemptUploadCount = 0;
+                }
+            } else {
+                this.growl('Failed to upload files. Please try again.');
+                this.attemptUploadCount = 0;
+                return {success: false, error: {
+                    type: 'error',
+                    message: 'Failed to upload files. Please try again.',
+                    action: {
+                        text: 'Try Again',
+                        handler: () => this.attemptFileUpload()
+                    }
+                }};
+            }
+        },
     },
     mounted() {
         this.checkAuth();
