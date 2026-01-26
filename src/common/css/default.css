@@ -144,7 +144,7 @@ input:focus {
 }
 
 select {
-    height: 25px;
+    height: 33px;
     border-radius: 8px;
     border: #DDDDDD solid 1px;
 }
