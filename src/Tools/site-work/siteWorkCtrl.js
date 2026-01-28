@@ -44,7 +44,7 @@ Work Type: ${this.workType}
 `;
             if(this.workType === 'Site Work'){
                 this.ticketData += `**Site Work Details**
-${this.siteWorkInfo.map(row => `**Page ${row.page}**
+${this.siteWorkInfo.map((row, index) => `**Page ${index + 1}**
 Type: 
 ${row.type}
 
