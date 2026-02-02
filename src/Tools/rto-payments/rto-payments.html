@@ -82,7 +82,7 @@
                     </thead>
                     <tbody id="rto-summary" v-if="rto_payments.length">
                         <tr>
-                            <td>{{ rto_payments.length+1 }}</td>
+                            <td>{{ rto_payments.length }}</td>
                             <td>${{ round(rto_payments.reduce((acc, payment) => acc + payment.principal, 0)) }}</td>
                             <td>${{ round(rto_payments.reduce((acc, payment) => acc + payment.interest, 0)) }}</td>
                             <td>${{ round(rto_payments.reduce((acc, payment) => acc + payment.maintenance, 0)) }}</td>
