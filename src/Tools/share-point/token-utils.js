@@ -40,4 +40,4 @@ export async function getValidToken() {
     }
 
     return accessToken;
-} 
+}

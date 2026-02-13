@@ -2,7 +2,7 @@ function buildBanner(bannerArray = ['Test Title','Test content','banner-test'],b
     if (banner_dates) {
         let current_date = new Date();
         let start_date = new Date(banner_dates[0]);
-        let end_date = new Date(banner_dates[1]); 
+        let end_date = new Date(banner_dates[1]);
         if ((current_date <= end_date, current_date >= start_date) && !getCookie(bannerArray[2])) {
             let new_div = document.createElement('div');
             new_div.id = bannerArray[2];

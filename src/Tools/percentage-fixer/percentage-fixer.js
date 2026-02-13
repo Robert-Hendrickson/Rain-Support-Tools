@@ -57,7 +57,7 @@ const PercentageFixerApp = createApp({
                     outputString += values[i].trim() + '\n';
                     continue;
                 }
-                let value = parseFloat(values[i].trim()); 
+                let value = parseFloat(values[i].trim());
                 outputString += this.updateValue(value) + '\n';
             }
             this.outputValues = outputString;

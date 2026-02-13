@@ -180,11 +180,11 @@
             .header h1 {
                 font-size: 2rem;
             }
-            
+
             .flow-section {
                 padding: 20px;
             }
-            
+
             .option-buttons {
                 flex-direction: column;
                 align-items: center;
@@ -211,38 +211,38 @@
                         B -->|Data Error| D[Data Validation Error]
                         B -->|System Error| E[System Error Handler]
                         B -->|Network Error| F[Network Error Handler]
-                        
+
                         C --> G[Retry Logic]
                         D --> H[Data Correction]
                         E --> I[System Recovery]
                         F --> J[Connection Retry]
-                        
+
                         G --> K{Retry Success?}
                         K -->|Yes| L[Continue Process]
                         K -->|No| M[Escalate Error]
-                        
+
                         H --> N{Data Valid?}
                         N -->|Yes| L
                         N -->|No| O[Manual Review]
-                        
+
                         I --> P{System Recovered?}
                         P -->|Yes| L
                         P -->|No| Q[System Maintenance]
-                        
+
                         J --> R{Connection Restored?}
                         R -->|Yes| L
                         R -->|No| S[Use Fallback]
-                        
+
                         M --> T[Error Logging]
                         O --> U[Data Correction Tools]
                         Q --> V[System Diagnostics]
                         S --> W[Alternative Endpoint]
-                        
+
                         T --> X[Error Report]
                         U --> Y[Data Validation]
                         V --> Z[System Health Check]
                         W --> AA[Load Balancing]
-                        
+
                         style A fill:#ffcdd2
                         style M fill:#ffcdd2
                         style T fill:#ffcdd2
@@ -308,7 +308,7 @@
                 'success-path': 'success-path-flow.html',
                 'monitoring-flow': 'monitoring-flow.html'
             };
-            
+
             const url = flowUrls[flowType];
             if (url) {
                 window.open(url, '_blank');
@@ -316,4 +316,4 @@
         }
     </script>
 </body>
-</html> 
+</html>

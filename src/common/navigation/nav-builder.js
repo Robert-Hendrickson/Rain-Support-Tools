@@ -67,7 +67,7 @@ const app = createApp({
             //change the active selection for list type
             document.querySelector('div#menu_tabs > div.active')?.classList.remove('active');
             eventTarget.classList.add('active');
-            
+
             //change visible list of links
             const title = eventTarget.textContent.trim();
             document.querySelectorAll('.toolButtonsList > div').forEach(div => {

@@ -53,7 +53,7 @@ export default {
         </div>
     </div>`,
     props: {
-        step: { 
+        step: {
             type: Number,
             required: true
         }

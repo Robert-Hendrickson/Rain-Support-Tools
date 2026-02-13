@@ -18,7 +18,7 @@ export default {
                 const canProceed = await new Promise((resolve) => {
                     this.$emit('step-change-request', this.currentStep, resolve);
                 });
-                
+
                 // Only proceed if parent returned true
                 if (canProceed) {
                     this.currentStep++;

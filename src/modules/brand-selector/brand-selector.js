@@ -15,9 +15,9 @@ export default {
         <div id="brand-selector" v-show="showBrandSelector">
             <h2>Select a Brand</h2>
             <div id="brand-selector-list">
-                <div v-for="brand in brandList" 
-                     :key="brand" 
-                     class="brand-selector-item" 
+                <div v-for="brand in brandList"
+                     :key="brand"
+                     class="brand-selector-item"
                      :class="{ selected: selectedBrand === brand.toLowerCase() }"
                      @click="handleBrandSelection(brand)">
                     {{ brand }}

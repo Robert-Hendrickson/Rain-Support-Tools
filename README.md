@@ -28,8 +28,8 @@ A set of tools that I built to help our support team in being able to consolidat
         if(thing){
             let custom_dialogue = await import('/Rain-Support-Tools/src/modules/custom-dialogue/dialog-ctrl.js');
             if(await custom_dialogue.default(
-                text_string_content, 
-                submit_button = "OK", 
+                text_string_content,
+                submit_button = "OK",
                 close_button = 'Cancel'
                 )
             ){
@@ -53,7 +53,7 @@ A set of tools that I built to help our support team in being able to consolidat
         );
         });
     </script>
-    
+
 ## regex checking module
 ### module has predefined common options, also has a function that can add specific patterns for use
 window.regexController = (await import('/Rain-Support-Tools/src/modules/regex-patterns/patterns.js')).regexController;
@@ -100,8 +100,8 @@ regexController.addPattern({{string-title}}, {{regexPattern}});
     </div>
 
 ## flow controls
-    <flow-ctrl-app 
-    ref="flowCtrlApp" 
+    <flow-ctrl-app
+    ref="flowCtrlApp"
     :max-step="5"
     @step-change-request="{{checkfunction}}"
     @step-changed="handleNextStep"

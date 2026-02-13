@@ -201,7 +201,7 @@ export default {
                 this.handleUpdateError(error);
             }
         },
-        
+
         updateSiteWorkDetails(value, id) {
             try {
                 let rowData = this.workTable.filter( row => row.id === id);

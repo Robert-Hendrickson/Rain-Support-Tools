@@ -163,11 +163,11 @@ select {
     .header h1 {
         font-size: 2rem;
     }
-    
+
     .flow-section {
         padding: 20px;
     }
-    
+
     .notes-grid {
         grid-template-columns: 1fr;
     }

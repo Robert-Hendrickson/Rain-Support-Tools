@@ -2,7 +2,7 @@ async function handleCallback() {
     const urlParams = new URLSearchParams(window.location.search);
     const code = urlParams.get('code');
     const error = urlParams.get('error');
-    
+
     if (error) {
         document.getElementById('status').textContent = `Error: ${error}`;
         return;
@@ -20,7 +20,7 @@ async function handleCallback() {
         const codeVerifier = localStorage.getItem('code_verifier');
         // Get the config
         const { config } = await import('./auth-config.js');
-        
+
         // Exchange the code for tokens
         tokenResponse = await axios.post(`https://login.microsoftonline.com/${config.tenantId}/oauth2/v2.0/token`, {
             client_id: config.clientId,

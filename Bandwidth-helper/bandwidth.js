@@ -39,7 +39,7 @@ async function downloadChromeExtension() {
             'extension/icons/icon128.png',
             'extension/README.md'
         ];
-        
+
         // Load each file and add to ZIP
         for (const filePath of files) {
             try {
@@ -48,7 +48,7 @@ async function downloadChromeExtension() {
                     // Check if file is binary (image) or text
                     const isImage = filePath.match(/\.(png|jpg|jpeg|gif|ico)$/i);
                     let content;
-                    
+
                     if (isImage) {
                         // Use blob for binary files
                         content = await response.blob();
@@ -56,7 +56,7 @@ async function downloadChromeExtension() {
                         // Use text for text files
                         content = await response.text();
                     }
-                    
+
                     // Remove 'extension/' prefix for the ZIP structure
                     const zipPath = filePath.replace('extension/', '');
                     zip.file(zipPath, content);
@@ -67,10 +67,10 @@ async function downloadChromeExtension() {
                 console.warn(`Error loading ${filePath}:`, error);
             }
         }
-        
+
         // Generate the ZIP file
         const content = await zip.generateAsync({type: 'blob'});
-        
+
         // Create download link
         const url = window.URL.createObjectURL(content);
         const a = document.createElement('a');
@@ -80,7 +80,7 @@ async function downloadChromeExtension() {
         a.click();
         document.body.removeChild(a);
         window.URL.revokeObjectURL(url);
-        
+
         // Show success message
         showMessage('Chrome extension downloaded! Check your downloads folder.', 'success');
     } catch (error) {
@@ -92,7 +92,7 @@ async function downloadChromeExtension() {
 function showMessage(message, type) {
     // Create a simple message display
     const messageDiv = document.createElement('div');
-    messageDiv.style.cssText = 
+    messageDiv.style.cssText =
         'position: fixed;' +
         'top: 20px;' +
         'right: 20px;' +
@@ -105,7 +105,7 @@ function showMessage(message, type) {
         'animation: slideIn 0.3s ease;';
     messageDiv.textContent = message;
     document.body.appendChild(messageDiv);
-    
+
     setTimeout(() => {
         document.body.removeChild(messageDiv);
     }, 3000);

@@ -3,10 +3,10 @@
 async function setTestData() {
     //get page name from url pathname
     let path = location.pathname;
-    
+
     try {
         let testModule;
-        
+
         if(path.match(/bug-ticket-v2/)) {
             //testModule = await import('./pageData/bugTicketData.js');
         } else if(RegExp(/dns\-help/).test(path)) {
@@ -20,7 +20,7 @@ async function setTestData() {
         } else if((/wa-tax-rates/).test(path)) {
             testModule = await import('./pageData/waTaxRatesData.js');
         }
-        
+
         if (testModule && testModule.default) {
             await testModule.default();
         }
