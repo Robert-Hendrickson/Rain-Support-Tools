@@ -45,33 +45,33 @@ Work Type: ${this.workType}
             if(this.workType === 'Site Work'){
                 this.ticketData += `**Site Work Details**
 ${this.siteWorkInfo.map((row, index) => `**Page ${index + 1}**
-Type: 
+Type:
 ${row.type}
 
-URL: 
+URL:
 ${row.url}
 
-Screenshot: 
+Screenshot:
 ${row.screenshot}
 
-Video: 
+Video:
 ${row.video}
 
-Details: 
+Details:
 ${row.details}`).join('\n\n')}`;
             }
             if(this.workType === 'Template Work'){
                 this.ticketData += `**Template Work Details**
-Update Type: 
+Update Type:
 ${this.templateWorkInfo.type}
 
-Template Number: 
+Template Number:
 ${this.templateWorkInfo.number}
 
-Template CRM: 
+Template CRM:
 ${this.templateWorkInfo.crm}
 
-Customer Notes: 
+Customer Notes:
 ${this.templateWorkInfo.notes}`;
             }
             this.$refs.ticketDataCtrl.showTicketContainer = true;
@@ -117,7 +117,7 @@ ${this.templateWorkInfo.notes}`;
         },
         ticketPreview(){
             let html = '<div class="ticket-preview">';
-            
+
             // Step 1 Data
             html += `<div class="ticket-section">
                 <h3>Store Information</h3>

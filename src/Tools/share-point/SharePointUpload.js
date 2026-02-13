@@ -19,13 +19,13 @@ const SharePointUpload = {
                     <p>You need to authenticate first.</p>
                     <button @click="goToAuth">Authenticate</button>
                 </div>
-                
+
                 <div v-else>
                     <div class="upload-area" @click="triggerFileInput" @dragover.prevent @drop.prevent="handleDrop">
                         <input type="file" ref="fileInput" @change="handleFileSelect" accept="image/*,video/*" multiple style="display: none" />
                         <p>Click or drag and drop images or videos here</p>
                     </div>
-                    
+
                     <div v-if="selectedFiles.length > 0">
                         <div class="file-list">
                             <div v-for="(file, index) in selectedFiles" :key="index" class="file-item">
@@ -47,7 +47,7 @@ const SharePointUpload = {
                             {{ uploading ? 'Uploading...' : 'Upload All' }}
                         </button>
                     </div>
-                    
+
                     <div v-if="uploadStatus" :class="['status', uploadStatus.type]">
                         {{ uploadStatus.message }}
                         <div v-if="uploadStatus.action" class="action-container">
@@ -144,15 +144,15 @@ const SharePointUpload = {
             this.handleFiles(files);
         },
         handleFiles(files) {
-            const validFiles = files.filter(file => 
+            const validFiles = files.filter(file =>
                 file.type.startsWith('image/') || file.type.startsWith('video/')
             );
-            
+
             if (validFiles.length === 0) {
                 alert('Please select image or video files');
                 return;
             }
-            
+
             this.selectedFiles = [...this.selectedFiles, ...validFiles];
             this.previewUrls = this.selectedFiles.map(file => URL.createObjectURL(file));
             this.isImages = this.selectedFiles.map(file => file.type.startsWith('image/'));
@@ -249,7 +249,7 @@ const SharePointUpload = {
             } catch (error) {
                 console.error('Upload error:', error);
                 let errorMessage = 'Error uploading files';
-                
+
                 if (error.response) {
                     errorMessage += `: ${error.response.status} - ${error.response.data?.error?.message || 'Unknown error'}`;
                 } else if (error.request) {

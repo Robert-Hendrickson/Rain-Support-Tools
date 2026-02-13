@@ -1,5 +1,5 @@
 import mermaidColors from './mermaid-colors.js';
-export default { 
+export default {
     id: 'bugReportFlow',
     name: 'Bug Report Flow',
     description: 'Detailed process for handling errors and exceptions in the workflow',
@@ -29,7 +29,7 @@ export default {
                 H -->|Ticket is approved| I[Ticket is sent to Dev/Prod]
                 H -->|Ticket is rejected| J[Ticket is sent back to support with explanation]
                 I -->|Dev works on issue| K[Ticket is closed]
-                
+
                 style A fill:${mermaidColors.lightBlue}
                 style E fill:${mermaidColors.lightRed}
                 style G fill:${mermaidColors.lightGreen}

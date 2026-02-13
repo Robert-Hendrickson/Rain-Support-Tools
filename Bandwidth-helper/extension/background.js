@@ -15,11 +15,11 @@ async function fetchRemoteVersion() {
                 'Cache-Control': 'no-cache'
             }
         });
-        
+
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
-        
+
         const versionData = await response.json();
         return versionData;
     } catch (error) {
@@ -35,38 +35,38 @@ async function checkForVersionUpdate() {
         const result = await chrome.storage.local.get(['storedVersion', 'lastVersionCheck', 'lastVersionData']);
         const storedVersion = result.storedVersion;
         const lastCheck = result.lastVersionCheck;
-        
+
         // Check if it's time for a version check (every 24 hours)
         const now = Date.now();
         if (lastCheck && (now - lastCheck) < VERSION_CHECK_INTERVAL) {
             return; // Too soon for another check
         }
-        
+
         // Fetch latest version from remote server
         const remoteVersionData = await fetchRemoteVersion();
-        
+
         if (!remoteVersionData) {
             console.log('Could not fetch remote version data');
             return;
         }
-        
+
         const latestVersion = remoteVersionData.version;
-        
+
         if (storedVersion !== latestVersion) {
             console.log(`Version update detected: ${storedVersion} -> ${latestVersion}`);
             console.log('Changelog:', remoteVersionData.changelog);
             console.log('Release Date:', remoteVersionData.releaseDate);
-            
+
             // Store the new version and version data
             await chrome.storage.local.set({
                 storedVersion: latestVersion,
                 lastVersionCheck: now,
                 lastVersionData: remoteVersionData
             });
-            
+
             // Notify user of update
             console.log('Extension update available:', latestVersion);
-            
+
             // You could show a notification here
             chrome.notifications.create({
                 type: 'basic',
@@ -74,18 +74,18 @@ async function checkForVersionUpdate() {
                 title: 'Bandwidth Helper Update Available',
                 message: `Version ${latestVersion} is now available!`
             });
-            
+
             // Update badge to show update available
             chrome.action.setBadgeText({text: '!'});
             chrome.action.setBadgeBackgroundColor({color: '#ff4444'});
-            
+
         } else {
             // Update last check time even if no version change
             await chrome.storage.local.set({
                 lastVersionCheck: now,
                 lastVersionData: remoteVersionData
             });
-            
+
             // Clear badge if no update needed
             chrome.action.setBadgeText({text: ''});
         }
@@ -125,13 +125,13 @@ chrome.alarms.onAlarm.addListener(function(alarm) {
 // Handle messages from content script or popup
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     console.log('Background script received message:', request);
-    
+
     if (request.action === 'checkVersion') {
         checkForVersionUpdate().then(() => {
             sendResponse({status: 'version check completed'});
         });
         return true; // Keep message channel open for async response
     }
-    
+
     sendResponse({status: 'received'});
 });

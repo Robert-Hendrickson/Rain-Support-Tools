@@ -77,7 +77,7 @@ const css_tester_app = createApp({
                 // Step 3: Handle <script> separately
                 [...temp.querySelectorAll('script')].forEach(script => {
                 const newScript = document.createElement('script');
-                
+
                 // Inline script
                 if (script.textContent) {
                     newScript.textContent = script.textContent;
@@ -90,7 +90,7 @@ const css_tester_app = createApp({
 
                 container.appendChild(newScript);
             });
-            
+
             }
         },
         handleCancel(){

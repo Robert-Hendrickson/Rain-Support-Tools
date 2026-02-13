@@ -48,9 +48,9 @@ const app = createApp({
         },
         filteredErrors(errors) {
             if (!this.searchValue) return errors;
-            
+
             const regex = new RegExp(this.searchValue.replaceAll(' ','|'), 'i');
-            return errors.filter(error => 
+            return errors.filter(error =>
                 regex.test(error.code) ||
                 regex.test(error.description) ||
                 regex.test(error.friendlyDescription) ||

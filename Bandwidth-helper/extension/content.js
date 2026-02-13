@@ -34,7 +34,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 // Auto-fill forms function
 function autoFillForms() {
     console.log('Auto-filling forms with config:', config);
-    
+
     // Field mappings for Bandwidth forms
     const fieldMappings = [
         // Customer information
@@ -45,9 +45,9 @@ function autoFillForms() {
         { selectors: ['[label*="How many numbers are you attempting to verify on this request?"]', '[name*="how_many_numbers_are_you_attempting_to_verify_on_this_request"]', '[id*="how_many_numbers_are_you_attempting_to_verify_on_this_request"]'], value: '1' },
         { selectors: ['[label*="How is opt-in collected?"]', '[name*="how_is_opt_in_collected"]', '[id*="how_is_opt_in_collected"]'], value: 'Online' },
     ];
-    
+
     let filledCount = 0;
-    
+
     fieldMappings.forEach(mapping => {
         mapping.selectors.forEach(selector => {
             const elements = document.querySelectorAll(selector);
@@ -63,7 +63,7 @@ function autoFillForms() {
             });
         });
     });
-    
+
     if (filledCount > 0) {
         showNotification(`Auto-filled ${filledCount} fields!`);
     }
@@ -131,11 +131,11 @@ const observer = new MutationObserver(function(mutations) {
             // Check if new form elements were added
             const hasNewForms = Array.from(mutation.addedNodes).some(node => {
                 return node.nodeType === 1 && (
-                    node.tagName === 'FORM' || 
+                    node.tagName === 'FORM' ||
                     node.querySelector && node.querySelector('input, textarea, select')
                 );
             });
-            
+
             if (hasNewForms) {
                 setTimeout(autoFillForms, 500);
             }
@@ -152,7 +152,7 @@ observer.observe(document.body, {
 function showNotification(message) {
     // Create notification element
     const notification = document.createElement('div');
-    notification.style.cssText = 
+    notification.style.cssText =
         'position: fixed;' +
         'top: 20px;' +
         'right: 20px;' +
@@ -167,18 +167,18 @@ function showNotification(message) {
         'box-shadow: 0 4px 12px rgba(0,0,0,0.15);' +
         'animation: slideIn 0.3s ease;';
     notification.textContent = message;
-    
+
     // Add animation styles
     const style = document.createElement('style');
-    style.textContent = 
+    style.textContent =
         '@keyframes slideIn {' +
         'from { transform: translateX(100%); opacity: 0; }' +
         'to { transform: translateX(0); opacity: 1; }' +
         '}';
     document.head.appendChild(style);
-    
+
     document.body.appendChild(notification);
-    
+
     // Remove after 3 seconds
     setTimeout(() => {
         if (document.body.contains(notification)) {

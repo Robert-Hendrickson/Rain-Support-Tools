@@ -144,7 +144,7 @@ const transactionCalculator = createApp({
     },
     mounted() {
         this.addLineItem();
-        
+
         // Setup keyboard shortcuts
         document.addEventListener('keydown', (event) => {
             // Check for CTRL + I

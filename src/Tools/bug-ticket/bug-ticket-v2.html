@@ -70,8 +70,8 @@
                 <validate-step-4 ref="validateStep4" :brand="brand" :step="currentStep"></validate-step-4>
                 <validate-step-5 ref="validateStep5" :brand="brand" :step="currentStep" :description="formData.step3"></validate-step-5>
             </div>
-            <flow-ctrl-app 
-            ref="flowCtrlApp" 
+            <flow-ctrl-app
+            ref="flowCtrlApp"
             :max-step="5"
             @step-change-request="validateStepData"
             @step-changed="handleNextStep"

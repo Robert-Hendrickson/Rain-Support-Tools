@@ -45,7 +45,7 @@ let waTaxRates = createApp({
     data(){
         return {
             appMessage: null
-        }   
+        }
     },
     methods: {
         getAddress(){

@@ -128,7 +128,7 @@ ${data.step1.tech}
 
 Store:
 ${data.step1.store}
-` + 
+` +
 this.getCRMField()
 +
 this.getDashboardURLField()

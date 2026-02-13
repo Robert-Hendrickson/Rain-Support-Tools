@@ -208,14 +208,14 @@ export const errorList = {
                 "explanationOfError": "Carrier rejected message for invalid service type. This usually means messaging (SMS or MMS) is not supported by the carrier or handset."
             },
             {
-                "code": "4701", 
+                "code": "4701",
                 "description": "destination-service-unavailable",
                 "friendlyDescription": "Destination is not reachable and SMS service is not available.",
                 "explanationOfError": "Carrier service is reporting the destination is not reachable or the SMS service is not available."
             },
             {
                 "code": "4702",
-                "description": "destination-subscriber-unavailable", 
+                "description": "destination-subscriber-unavailable",
                 "friendlyDescription": "Destination subscriber is unavailable.",
                 "explanationOfError": "This error indicates the subscriber is unavailable. There are several reasons for this; the subscriber has turned off handset, the destination is unreachable or barred, the GSM subscriber is busy for outbound SMS, SIM card is full, voicemail is full, or cannot reach the destination handset and has stored the message for retry in its « Store & Forward » function."
             },

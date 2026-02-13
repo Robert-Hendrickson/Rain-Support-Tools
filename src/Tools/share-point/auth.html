@@ -48,10 +48,10 @@
                 // Generate PKCE code verifier and challenge
                 const codeVerifier = generateCodeVerifier();
                 const codeChallenge = await generateCodeChallenge(codeVerifier);
-                
+
                 // Store code verifier for later use
                 localStorage.setItem('code_verifier', codeVerifier);
-                
+
                 // Redirect to Microsoft login
                 window.location.href = `https://login.microsoftonline.com/${config.tenantId}/oauth2/v2.0/authorize?client_id=${config.clientId}&response_type=code&redirect_uri=${/localhost/.test(window.location.hostname) ? config.testRedirectUri : config.redirectUri}&state=12345&scope=${config.scopes}&code_challenge=${codeChallenge}&code_challenge_method=S256`;
             }
@@ -82,4 +82,4 @@
             window.onload = startAuth;
         </script>
     </body>
-</html> 
+</html>

@@ -60,7 +60,7 @@ textarea[disabled]{
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
-    margin: 4px 0; 
+    margin: 4px 0;
 }
 #action-header .action-header-item{
     width: 26.66%;

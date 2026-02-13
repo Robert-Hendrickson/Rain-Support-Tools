@@ -4,13 +4,13 @@ document.addEventListener('DOMContentLoaded', function() {
     const resetBtn = document.getElementById('resetBtn');
     const markBtn = document.getElementById('mark-btn');
     const notifBtn = document.getElementById('notif-btn');
-    
+
     // Load saved configuration
     loadConfiguration();
-    
+
     // Save button event listener
     saveBtn.addEventListener('click', saveConfiguration);
-    
+
     // Reset button event listener
     resetBtn.addEventListener('click', resetToDefaults);
 
@@ -44,10 +44,10 @@ function saveConfiguration() {
         accountId: document.getElementById('accountId').value,
         email: document.getElementById('email').value,
     };
-    
+
     chrome.storage.sync.set(config, function() {
         showStatus('Configuration saved!', 'success');
-        
+
         // Notify content scripts about the update
         chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
             if (tabs && tabs[0] && tabs[0].id) {
@@ -67,7 +67,7 @@ function resetToDefaults() {
     chrome.storage.sync.set(defaultConfig, function() {
         loadConfiguration();
         showStatus('Reset to defaults!', 'success');
-        
+
         // Notify content scripts about the update
         chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
             if (tabs && tabs[0] && tabs[0].id) {
@@ -99,7 +99,7 @@ function showStatus(message, type) {
     const statusDiv = document.getElementById('status');
     statusDiv.textContent = message;
     statusDiv.className = 'status-message ' + type;
-    
+
     setTimeout(() => {
         statusDiv.textContent = '';
         statusDiv.className = 'status-message';

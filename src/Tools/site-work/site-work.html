@@ -51,10 +51,10 @@
                 <validate-site-work ref="validateSiteWork" :step="currentStep" :work-type="workType"></validate-site-work>
                 <validate-template-work ref="validateTemplateWork" :step="currentStep" :work-type="workType"></validate-template-work>
                 <div id="confirm-content" data="3" :class="{'in-active': currentStep !== 3, 'active': currentStep === 3}">
-                    
+
                 </div>
             </div>
-            <flow-ctrl-app 
+            <flow-ctrl-app
             ref="flowCtrlApp"
             :max-step="3"
             :current-step="currentStep"
