@@ -158,6 +158,8 @@ const SharePointUpload = {
                     this.selectedFiles.push(file);
                     this.previewUrls.push(URL.createObjectURL(file));
                     this.isImages.push(file.type.startsWith('image/'));
+                } else {
+                    this.growl('File ' + file.name + ' is not a valid image or video file. Please select a valid file.');
                 }
             }
         },
