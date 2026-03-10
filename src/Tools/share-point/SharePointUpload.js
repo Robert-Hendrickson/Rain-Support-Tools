@@ -144,18 +144,24 @@ const SharePointUpload = {
             this.handleFiles(files);
         },
         handleFiles(files) {
-            const validFiles = files.filter(file =>
-                file.type.startsWith('image/') || file.type.startsWith('video/')
-            );
-
-            if (validFiles.length === 0) {
+            if (files.length === 0) {
                 alert('Please select image or video files');
                 return;
             }
-
-            this.selectedFiles = [...this.selectedFiles, ...validFiles];
-            this.previewUrls = this.selectedFiles.map(file => URL.createObjectURL(file));
-            this.isImages = this.selectedFiles.map(file => file.type.startsWith('image/'));
+            for (const file of files) {
+                if (file.size > 150 * 1024 * 1024) {
+                    // TODO: look into allowing larger files by chunking
+                    this.growl('File ' + file.name + ' is too large. Please select a file smaller than 150MB');
+                    continue;
+                }
+                if (file.type.startsWith('image/') || file.type.startsWith('video/')) {
+                    this.selectedFiles.push(file);
+                    this.previewUrls.push(URL.createObjectURL(file));
+                    this.isImages.push(file.type.startsWith('image/'));
+                } else {
+                    this.growl('File ' + file.name + ' is not a valid image or video file. Please select a valid file.');
+                }
+            }
         },
         removeFile(index) {
             this.selectedFiles.splice(index, 1);

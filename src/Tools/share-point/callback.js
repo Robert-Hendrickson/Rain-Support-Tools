@@ -20,13 +20,13 @@ async function handleCallback() {
         const codeVerifier = localStorage.getItem('code_verifier');
         // Get the config
         const { config } = await import('./auth-config.js');
-
+        let redirectUri = config.getRedirectUri();
         // Exchange the code for tokens
         tokenResponse = await axios.post(`https://login.microsoftonline.com/${config.tenantId}/oauth2/v2.0/token`, {
             client_id: config.clientId,
             scope: config.scopes,
             code: code,
-            redirect_uri: /localhost/.test(window.location.hostname) ? config.testRedirectUri : config.redirectUri,
+            redirect_uri: redirectUri,
             grant_type: 'authorization_code',
             code_verifier: codeVerifier
         }, {
