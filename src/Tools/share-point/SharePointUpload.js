@@ -194,22 +194,8 @@ const SharePointUpload = {
             this.currentPreviewUrl = null;
             this.showImagePreview = false;
         },
-        async uploadFiles() {
-            if (this.selectedFiles.length === 0) return 'no upload';
-
-            this.uploading = true;
-            this.uploadStatus = null;
-            const uploadedLinks = [];
-
+        async smallFileUpload(file, token) {
             try {
-                // Get a valid token (will refresh if needed)
-                const token = await getValidToken();
-                if (token.error) {
-                    throw new Error(token.error);
-                }
-                // Upload all files
-                for (const file of this.selectedFiles) {
-                    // First upload the file
                     const uploadResponse = await axios.put(
                         `https://graph.microsoft.com/v1.0/me/drive/root:/Bug Data/${encodeURIComponent(file.name)}:/content`,
                         file,
@@ -220,22 +206,66 @@ const SharePointUpload = {
                             }
                         }
                     );
-
-                    // Then create a permanent sharing link
-                    const shareResponse = await axios.post(
-                        `https://graph.microsoft.com/v1.0/me/drive/items/${uploadResponse.data.id}/createLink`,
-                        {
-                            type: "view",
-                            scope: "organization"
-                        },
-                        {
-                            headers: {
-                                'Authorization': `Bearer ${token}`
-                            }
+                    const sharedLink = await this.getSharedLink(uploadResponse, token);
+                    return sharedLink;
+                } catch (error) {
+                    throw new Error(error.message);
+                }
+        },
+        async getSharedLink(uploadResponse, token) {
+            try {
+                const shareResponse = await axios.post(
+                    `https://graph.microsoft.com/v1.0/me/drive/items/${uploadResponse.data.id}/createLink`,
+                    {
+                        type: "view",
+                        scope: "organization"
+                    },
+                    {
+                        headers: {
+                            'Authorization': `Bearer ${token}`
                         }
-                    );
+                    }
+                );
+                return shareResponse.data.link.webUrl;
+            } catch (error) {
+                throw new Error('Failed to get shared link: ' + error.message);
+            }
+        },
+        async uploadFiles() {
+            if (this.selectedFiles.length === 0) return 'no upload';
 
-                    uploadedLinks.push(shareResponse.data.link.webUrl);
+            this.uploading = true;
+            this.uploadStatus = null;
+            const uploadedLinks = [];
+            let token = null;
+
+            try {
+                // Get a valid token (will refresh if needed)
+                token = await getValidToken();
+                if (token.error) {
+                    throw new Error(token.error);
+                }
+            } catch (error) {
+                if (error.message === 'No refresh token available') {
+                    return {success: false, error: {
+                        type: 'error',
+                        message: 'Your session has expired. Please authenticate again.',
+                    }};
+                } else {
+                    return {success: false, error: {
+                        type: 'error',
+                        message: error.message,
+                    }};
+                }
+            }
+
+            try {
+                // Upload all files
+                for (const file of this.selectedFiles) {
+                    // First upload the file
+                    const sharedLink = await this.smallFileUpload(file, token);
+
+                    uploadedLinks.push(sharedLink);
                 }
 
                 this.uploadStatus = {
@@ -264,17 +294,10 @@ const SharePointUpload = {
                 } else {
                     errorMessage += `: ${error.message}`;
                 }
-                if (error.message === 'No refresh token available') {
-                    return {success: false, error: {
-                        type: 'error',
-                        message: 'Your session has expired. Please authenticate again.',
-                    }};
-                } else {
-                    return {success: false, error: {
-                        type: 'error',
-                        message: errorMessage,
-                    }};
-                }
+                return {success: false, error: {
+                    type: 'error',
+                    message: errorMessage,
+                }};
             } finally {
                 this.uploading = false;
             }
