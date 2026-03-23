@@ -26,7 +26,7 @@ const SharePointUpload = {
                         <p>Click or drag and drop images or videos here</p>
                     </div>
 
-                    <div v-if="selectedFiles.length > 0">
+                    <div v-if="displaySelectedFiles">
                         <div class="file-list">
                             <div v-for="(file, index) in selectedFiles" :key="index" class="file-item">
                                 <div class="file-preview">
@@ -46,6 +46,9 @@ const SharePointUpload = {
                         <button @click="attemptFileUpload" :disabled="uploading">
                             {{ uploading ? 'Uploading...' : 'Upload All' }}
                         </button>
+                    </div>
+                    <div v-if="uploading">
+                        <p>Uploading file {{ fileNumber }} of {{ selectedFiles.length }} ({{ Math.round(((fileNumber - 1) / selectedFiles.length) * 100) }}%)</p>
                     </div>
 
                     <div v-if="uploadStatus" :class="['status', uploadStatus.type]">
@@ -82,6 +85,7 @@ const SharePointUpload = {
             selectedFiles: [],
             previewUrls: [],
             uploading: false,
+            fileNumber: 1,
             uploadStatus: null,
             isImages: [],
             showVideoModal: false,
@@ -149,11 +153,13 @@ const SharePointUpload = {
                 return;
             }
             for (const file of files) {
+                /*
                 if (file.size > 150 * 1024 * 1024) {
                     // TODO: look into allowing larger files by chunking
                     this.growl('File ' + file.name + ' is too large. Please select a file smaller than 150MB');
                     continue;
                 }
+                */
                 if (file.type.startsWith('image/') || file.type.startsWith('video/')) {
                     this.selectedFiles.push(file);
                     this.previewUrls.push(URL.createObjectURL(file));
@@ -212,6 +218,68 @@ const SharePointUpload = {
                     throw new Error(error.message);
                 }
         },
+        async largeFileUpload(file, token) {
+            this.growl('Uploading large file. This may take a while...');
+            try {
+                const graphEndpoint = "https://graph.microsoft.com/v1.0";
+                const uploadPath = `Bug Data/${encodeURIComponent(file.name)}`;
+
+                // Step 1: Create an upload session
+                const sessionResponse = await axios.post(
+                    `${graphEndpoint}/me/drive/root:/${uploadPath}:/createUploadSession`,
+                    {
+                        item: {
+                            "@microsoft.graph.conflictBehavior": "rename",
+                            "name": file.name
+                        }
+                    },
+                    {
+                        headers: {
+                            'Authorization': `Bearer ${token}`,
+                            'Content-Type': 'application/json'
+                        }
+                    }
+                );
+
+                const uploadUrl = sessionResponse.data.uploadUrl;
+                const fileSize = file.size;
+                // Chunk size must be a multiple of 320 KiB per Microsoft's requirements
+                const chunkSize = 320 * 1024 * 16; // ~5 MiB per chunk
+                let uploadResponse = null;
+
+                // Step 2: Upload the file in sequential byte-range chunks
+                for (let start = 0; start < fileSize; start += chunkSize) {
+                    const end = Math.min(start + chunkSize - 1, fileSize - 1);
+                    const chunk = file.slice(start, end + 1);
+
+                    // Upload session URLs are pre-authenticated; no Authorization header needed
+                    const response = await axios.put(uploadUrl, chunk, {
+                        headers: {
+                            'Content-Range': `bytes ${start}-${end}/${fileSize}`,
+                            //'Content-Length': chunk.size
+                        }
+                    });
+
+                    // 200/201 on the final chunk means the DriveItem was created
+                    if (response.status === 200 || response.status === 201) {
+                        uploadResponse = response;
+                    }
+                }
+
+                const sharedLink = await this.getSharedLink(uploadResponse, token);
+                return sharedLink;
+            } catch (error) {
+                console.error('Large file upload error:', error);
+                this.growl('Error uploading file: ' + error.message, 'error');
+                try{
+                    await axios.delete(uploadUrl);
+                } catch (error) {
+                    console.error('Failed to delete upload session:', error);
+                    console.log('Upload URL:', uploadUrl);
+                }
+                return '';
+            }
+        },
         async getSharedLink(uploadResponse, token) {
             try {
                 const shareResponse = await axios.post(
@@ -232,6 +300,9 @@ const SharePointUpload = {
             }
         },
         async uploadFiles() {
+            this.fileNumber = 1;
+            let returnValue = {};
+            //update file number as we upload each file
             if (this.selectedFiles.length === 0) return 'no upload';
 
             this.uploading = true;
@@ -263,9 +334,15 @@ const SharePointUpload = {
                 // Upload all files
                 for (const file of this.selectedFiles) {
                     // First upload the file
-                    const sharedLink = await this.smallFileUpload(file, token);
-
-                    uploadedLinks.push(sharedLink);
+                    if (file.size > 150 * 1024 * 1024) {
+                        console.log('Uploading large file:', file.name);
+                        const sharedLink = await this.largeFileUpload(file, token);
+                        sharedLink ? uploadedLinks.push(sharedLink): null;
+                    } else {
+                        const sharedLink = await this.smallFileUpload(file, token);
+                        sharedLink ? uploadedLinks.push(sharedLink): null;
+                    }
+                    this.fileNumber++;
                 }
 
                 this.uploadStatus = {
@@ -282,6 +359,7 @@ const SharePointUpload = {
                 this.selectedFiles = [];
                 this.previewUrls = [];
                 this.isImages = [];
+                returnValue = {success: true};
             } catch (error) {
                 console.error('Upload error:', error);
                 let errorMessage = 'Error uploading files';
@@ -300,6 +378,7 @@ const SharePointUpload = {
                 }};
             } finally {
                 this.uploading = false;
+                return returnValue;
             }
         },
         growl(growlMessage, growlType) {
@@ -334,6 +413,11 @@ const SharePointUpload = {
                 }};
             }
         },
+    },
+    computed: {
+        displaySelectedFiles() {
+            return this.selectedFiles.length > 0 && !this.uploading
+        }
     },
     mounted() {
         this.checkAuth();
