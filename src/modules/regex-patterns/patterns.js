@@ -13,9 +13,10 @@ export const regexController = {
         url: /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([\/\w .-]*)*\/?/,
         googleDrive: /^(?:https?:\/\/)drive\.google\.com\/file\/d\/.*\/view(?:\?.+)?$/,
         oneDrive: /^(?:https?:\/\/)?quiltsoftware-my\.sharepoint\.com\/:(i|v)\:\/p\//,
+        screenpresso: /^https:\/\/www\.screenpresso\.com\/.+$/,
         slack: /(?:https?:\/\/)?raindev\.slack\.com\/archives\//,
         salesforce: /(?:https?:\/\/)?rainpos\.lightning\.force\.com\/lightning\/r\//,
-        admin_domains: /rainadmin|quiltstorewebsites|jewel360|musicshop360/
+        admin_domains: /rainadmin|quiltstorewebsites|jewel360|musicshop360/,
     },
     /**
      * @param {string} name
