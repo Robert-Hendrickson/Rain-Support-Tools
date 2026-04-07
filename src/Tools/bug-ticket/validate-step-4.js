@@ -296,6 +296,8 @@ export default {
                         !regexController.regexPatterns.googleDrive.test(url_string)
                         &&
                         !regexController.regexPatterns.oneDrive.test(url_string)
+                        &&
+                        !regexController.regexPatterns.screenpresso.test(url_string)
                     )
                 );
             /*
