@@ -218,16 +218,16 @@ export default {
             this.dashboardURL = value.trim();
         },
         handleRezoBrandUpdate(value) {
-            this.rezoBrand = value.trim();
+            this.rezoBrand = value;
         },
         handleSystemAreaUpdate(value) {
             this.systemArea = value.trim();
         },
         handleReplicableUpdate(value) {
-            this.replicable = value.trim();
+            this.replicable = value;
         },
         handleWhereUpdate(value) {
-            this.where = value.trim();
+            this.where = value;
         },
     }
 }
