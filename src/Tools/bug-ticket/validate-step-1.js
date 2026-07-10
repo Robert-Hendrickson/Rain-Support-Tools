@@ -206,28 +206,28 @@ export default {
             };
         },
         handleSupportRepUpdate(value) {
-            this.supportRep = value;
+            this.supportRep = value.trim();
         },
         handleStoreNameUpdate(value) {
-            this.storeName = value;
+            this.storeName = value.trim();
         },
         handleCRMUpdate(value) {
-            this.crm = value;
+            this.crm = value.trim();
         },
         handleDashboardURLUpdate(value) {
-            this.dashboardURL = value;
+            this.dashboardURL = value.trim();
         },
         handleRezoBrandUpdate(value) {
-            this.rezoBrand = value;
+            this.rezoBrand = value.trim();
         },
         handleSystemAreaUpdate(value) {
-            this.systemArea = value;
+            this.systemArea = value.trim();
         },
         handleReplicableUpdate(value) {
-            this.replicable = value;
+            this.replicable = value.trim();
         },
         handleWhereUpdate(value) {
-            this.where = value;
+            this.where = value.trim();
         },
     }
 }

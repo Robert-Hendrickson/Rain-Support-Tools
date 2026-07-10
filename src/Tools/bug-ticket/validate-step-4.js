@@ -348,10 +348,10 @@ export default {
             }
         },
         updateScreenshotValue(index, value) {
-            this.screenshots[index] = value;
+            this.screenshots[index] = value.trim();
         },
         updateVideoValue(index, value) {
-            this.videos[index] = value;
+            this.videos[index] = value.trim();
         },
     },
 }

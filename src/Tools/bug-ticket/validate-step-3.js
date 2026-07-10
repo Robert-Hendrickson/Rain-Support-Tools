@@ -69,7 +69,7 @@ export default {
             };
         },
         updateDescription(value) {
-            this.description = value;
+            this.description = value.trim();
         },
     }
 }
