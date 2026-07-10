@@ -70,10 +70,10 @@ export default {
     },
     methods: {
         updateExamplesValue(value) {
-            this.examplesValue = value;
+            this.examplesValue = value.trim();
         },
         updateErrorsValue(value) {
-            this.errorsValue = value;
+            this.errorsValue = value.trim();
         },
         async validate(returnData){
             let bad_data_list = {};

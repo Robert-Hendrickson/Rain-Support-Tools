@@ -116,7 +116,7 @@ export default {
         },
         updateStep(index, value) {
             try {
-                this.steps[index] = value;
+                this.steps[index] = value.trim();
             } catch(error) {
                 console.error(`Error updating step`, error);
             }
