@@ -115,6 +115,8 @@ export default {
     },
     methods: {
         async validate(returnData) {
+            this.screenshots = this.screenshots.filter(screenshot => screenshot.trim() !== '');
+            this.videos = this.videos.filter(video => video.trim() !== '');
             //create object to store any errors found in the form
             let bad_data_list = {};
 
