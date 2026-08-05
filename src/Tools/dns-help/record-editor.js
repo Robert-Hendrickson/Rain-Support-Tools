@@ -131,9 +131,9 @@ export default {
                 <text-input-component
                     v-if="isMXRecord || isSRVRecord"
                     label="Priority:"
-                    id="priority"
-                    :value="recordCopy.priority"
-                    @updateValue="updatePriority"
+                    id="newPriority"
+                    :value="recordCopy.newPriority"
+                    @updateValue="updateNewPriority"
                 />
                 <text-input-component
                     v-if="isNewMXRecord"
