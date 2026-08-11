@@ -20,52 +20,74 @@ export default {
                     <span class="fa-solid fa-question"></span>
                 </div>
             </h2>
-            <div table-controls>
-                <button :tabindex="tabIndexEnabled" class="btn secondary" @click="addScreenshotTableRow('')">Add Row</button>
-                <button :tabindex="tabIndexEnabled" class="btn secondary" @click="removeScreenshotTableRow">Remove Row</button>
+            <div class="empty-checkbox-wrapper" v-if="brand === 'rain'">
+                <input type="checkbox" id="empty-screenshots" v-model="empty_screenshots">
+                <label for="empty-screenshots">I cannot obtain screenshots of the bug in action.</label>
             </div>
-            <table id="screenshot-table">
-                <tbody>
-                    <tr v-for="(screenshot, index) in screenshots" :key="index">
-                        <td>
-                            <text-input-component
-                                :label="'Screenshot ' + (index + 1)"
-                                :id="'screenshot-' + (index + 1)"
-                                :tabindex="tabIndexEnabled"
-                                :placeholder="'Enter Screenshot ' + (index + 1)"
-                                :value="screenshots[index]"
-                                @update-value="updateScreenshotValue(index, $event)"
-                            />
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            <div>
+                <div v-if="!empty_screenshots">
+                    <div table-controls>
+                        <button :tabindex="tabIndexEnabled" class="btn secondary" @click="addScreenshotTableRow('')">Add Row</button>
+                        <button :tabindex="tabIndexEnabled" class="btn secondary" @click="removeScreenshotTableRow">Remove Row</button>
+                    </div>
+                    <table id="screenshot-table">
+                        <tbody>
+                            <tr v-for="(screenshot, index) in screenshots" :key="index">
+                                <td>
+                                    <text-input-component
+                                        :label="'Screenshot ' + (index + 1)"
+                                        :id="'screenshot-' + (index + 1)"
+                                        :tabindex="tabIndexEnabled"
+                                        :placeholder="'Enter Screenshot ' + (index + 1)"
+                                        :value="screenshots[index]"
+                                        @update-value="updateScreenshotValue(index, $event)"
+                                    />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="empty-screenshot-wrapper" v-if="brand === 'rain' && empty_screenshots">
+                    <p>Choosing this indicates you are not able to obtain screenshots of the bug in action. If you are able to provide screenshots, please uncheck this box and provide the screenshots.</p>
+                </div>
+            </div>
             <h2 class="header-center">
                 <div title="Please provide links to any videos that show the bug in action." class="note-wrapper">
                     Videos
                     <span class="fa-solid fa-question"></span>
                 </div>
             </h2>
-            <div table-controls>
-                <button :tabindex="tabIndexEnabled" class="btn secondary" @click="addVideoTableRow('')">Add Row</button>
-                <button :tabindex="tabIndexEnabled" class="btn secondary" @click="removeVideoTableRow">Remove Row</button>
+            <div class="empty-checkbox-wrapper" v-if="brand === 'rain'">
+                <input type="checkbox" id="empty-videos" v-model="empty_videos">
+                <label for="empty-videos">I cannot obtain videos of the bug in action.</label>
             </div>
-            <table id="video-table">
-                <tbody>
-                    <tr v-for="(video, index) in videos" :key="index">
-                        <td>
-                            <text-input-component
-                                :label="'Video ' + (index + 1)"
-                                :id="'video-' + (index + 1)"
-                                :tabindex="tabIndexEnabled"
-                                :placeholder="'Enter Video ' + (index + 1)"
-                                :value="videos[index]"
-                                @update-value="updateVideoValue(index, $event)"
-                            />
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            <div>
+                <div v-if="!empty_videos">
+                    <div table-controls>
+                        <button :tabindex="tabIndexEnabled" class="btn secondary" @click="addVideoTableRow('')">Add Row</button>
+                        <button :tabindex="tabIndexEnabled" class="btn secondary" @click="removeVideoTableRow">Remove Row</button>
+                    </div>
+                    <table id="video-table">
+                        <tbody>
+                            <tr v-for="(video, index) in videos" :key="index">
+                                <td>
+                                    <text-input-component
+                                        :label="'Video ' + (index + 1)"
+                                        :id="'video-' + (index + 1)"
+                                        :tabindex="tabIndexEnabled"
+                                        :placeholder="'Enter Video ' + (index + 1)"
+                                        :value="videos[index]"
+                                        @update-value="updateVideoValue(index, $event)"
+                                    />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="empty-video-wrapper" v-if="brand === 'rain' && empty_videos">
+                    <p>Choosing this indicates you are not able to obtain videos of the bug in action. If you are able to provide videos, please uncheck this box and provide the videos.</p>
+                </div>
+            </div>
         </div>`,
     props: {
         brand: String,
@@ -74,7 +96,9 @@ export default {
     data() {
         return {
             screenshots: ['','',''],
-            videos: ['']
+            videos: [''],
+            empty_screenshots: false,
+            empty_videos: false,
         }
     },
     computed: {
@@ -120,13 +144,13 @@ export default {
             //create object to store any errors found in the form
             let bad_data_list = {};
 
-            let image_problems = this.checkScreenshotLinkList();
+            let image_problems = this.empty_screenshots ? [] : this.checkScreenshotLinkList();
             if (image_problems.length) {
                 for (let i=0;i<image_problems.length;i++) {
                     bad_data_list[`image_${i}`] = image_problems[i];
                 }
             };
-            let video_problems = this.checkVideoLinkList();
+            let video_problems = this.empty_videos ? [] :this.checkVideoLinkList();
             if (video_problems.length) {
                 for (let i=0;i<video_problems.length;i++) {
                     bad_data_list[`video_${i}`] = video_problems[i];
@@ -147,12 +171,20 @@ export default {
                     images: '',
                     videos: ''
                 }
-                this.screenshots.forEach((screenshot, index) => {
-                    links.images += `[Screenshot_${index + 1}](${screenshot})\n\n`;
-                });
-                this.videos.forEach((video, index) => {
-                    links.videos += `[Video_${index + 1}](${video})\n\n`;
-                });
+                if (!this.empty_screenshots) {
+                    this.screenshots.forEach((screenshot, index) => {
+                        links.images += `[Screenshot_${index + 1}](${screenshot})\n\n`;
+                    });
+                } else {
+                    links.images = 'Unable to provide screenshots.';
+                }
+                if (!this.empty_videos) {
+                    this.videos.forEach((video, index) => {
+                        links.videos += `[Video_${index + 1}](${video})\n\n`;
+                    });
+                } else {
+                    links.videos = 'Unable to provide video';
+                }
                 returnData({success: true, data: links});
             };
         },
@@ -266,27 +298,35 @@ export default {
             let duplicates = [];
             let link_list = '';
             //build link list by getting each input and making a string comma delimited (link_1,link_2,etc)
-            this.screenshots.forEach((link) => {
-                link_list += link + ',';
-            })
-            this.videos.forEach((link) => {
-                link_list += link + ',';
-            })
+            if (!this.empty_screenshots) {
+                this.screenshots.forEach((link) => {
+                    link_list += link + ',';
+                })
+            }
+            if (!this.empty_videos) {
+                this.videos.forEach((link) => {
+                    link_list += link + ',';
+                })
+            }
             //loop through each input and check it's input as a regex test on the string to make sure it doesn't find more than one instance of a link
-            this.screenshots.forEach((link) => {
-                let temp_regex = this.urlRegExBuilder(link);
-                if (link_list.match(temp_regex).length > 1 && link != '') {
-                    //if test finds more than 1 instance of a link add it to the list to display
-                    duplicates.push(link);
-                }
-            })
-            this.videos.forEach((link) => {
-                let temp_regex = this.urlRegExBuilder(link);
-                if (link_list.match(temp_regex).length > 1 && link != '') {
-                    //if test finds more than 1 instance of a link add it to the list to display
-                    duplicates.push(link);
-                }
-            })
+            if (!this.empty_screenshots) {
+                this.screenshots.forEach((link) => {
+                    let temp_regex = this.urlRegExBuilder(link);
+                    if (link_list.match(temp_regex).length > 1 && link != '') {
+                        //if test finds more than 1 instance of a link add it to the list to display
+                        duplicates.push(link);
+                    }
+                })
+            }
+            if (!this.empty_videos) {
+                this.videos.forEach((link) => {
+                    let temp_regex = this.urlRegExBuilder(link);
+                    if (link_list.match(temp_regex).length > 1 && link != '') {
+                        //if test finds more than 1 instance of a link add it to the list to display
+                        duplicates.push(link);
+                    }
+                })
+            }
             //return true if duplicates found, false if no duplicates found
             return [... new Set(duplicates)];
         },
