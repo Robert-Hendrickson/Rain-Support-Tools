@@ -24,7 +24,7 @@ async function handleCallback() {
         // Exchange the code for tokens
         tokenResponse = await axios.post(`https://login.microsoftonline.com/${config.tenantId}/oauth2/v2.0/token`, {
             client_id: config.clientId,
-            scope: config.scopes,
+            scope: config.getScopes(),
             code: code,
             redirect_uri: redirectUri,
             grant_type: 'authorization_code',
@@ -40,22 +40,30 @@ async function handleCallback() {
     }
 
     // Store both access token and refresh token
-    localStorage.setItem('access_token', tokenResponse.data.access_token);
-    localStorage.setItem('refresh_token', tokenResponse.data.refresh_token);
-    localStorage.setItem('token_expires_at', Date.now() + (tokenResponse.data.expires_in * 1000));
+    const { tokenKey } = await import('./auth-config.js');
+    localStorage.setItem(tokenKey('access_token'), tokenResponse.data.access_token);
+    localStorage.setItem(tokenKey('refresh_token'), tokenResponse.data.refresh_token);
+    localStorage.setItem(tokenKey('token_expires_at'), Date.now() + (tokenResponse.data.expires_in * 1000));
 
-    // Ensure the Bug Data folder exists
+    // Ensure the upload folder exists in whichever drive the flag selects
     try {
-        await axios.put(
-            'https://graph.microsoft.com/v1.0/me/drive/root:/Bug Data:/children',
-            { name: 'Bug Data', folder: {} },
+        const { sharePointConfig } = await import('./auth-config.js');
+        await axios.post(
+            `${sharePointConfig.getDriveUrl()}/root/children`,
+            {
+                name: sharePointConfig.uploadFolder,
+                folder: {},
+                '@microsoft.graph.conflictBehavior': 'fail'
+            },
             {
                 headers: {
-                    'Authorization': `Bearer ${tokenResponse.data.access_token}`
+                    'Authorization': `Bearer ${tokenResponse.data.access_token}`,
+                    'Content-Type': 'application/json'
                 }
             }
         );
     } catch (folderError) {
+        // 409 nameAlreadyExists is the expected result once the folder is there
         console.log('Folder creation skipped:', folderError.message);
     }
 

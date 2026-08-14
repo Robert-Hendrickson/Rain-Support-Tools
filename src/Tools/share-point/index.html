@@ -38,7 +38,9 @@
             </div>
         </div>
 
-        <script>
+        <script type="module">
+            import { tokenKey } from './auth-config.js';
+
             const { createApp } = Vue;
 
             createApp({
@@ -51,7 +53,7 @@
                 methods: {
                     checkAuth() {
                         // Check if we have a token in localStorage
-                        const token = localStorage.getItem('access_token');
+                        const token = localStorage.getItem(tokenKey('access_token'));
                         if (token) {
                             this.isAuthenticated = true;
                             this.accessToken = token;
