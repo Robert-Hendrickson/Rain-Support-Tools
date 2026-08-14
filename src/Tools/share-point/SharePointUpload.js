@@ -1,4 +1,5 @@
 import { getValidToken } from './token-utils.js';
+import { sharePointConfig, tokenKey, isSiteMode } from './auth-config.js';
 import { createApp } from '/Rain-Support-Tools/src/common/vue/vue.esm-browser.prod.js';
 import { GrowlCtrl } from '/Rain-Support-Tools/src/modules/growl-ctrl/growl-ctrl.js';
 
@@ -11,7 +12,10 @@ const SharePointUpload = {
         <growl-ctrl ref="growlCtrl"></growl-ctrl>
         <div class="sharepoint-content-container">
             <h2 @click="toggleContainer" class="toggle-header" style="cursor: pointer; display: flex; justify-content: space-between; align-items: center;">
-                Upload to Quilt SharePoint
+                <span>
+                    Upload to Quilt SharePoint
+                    <span v-if="siteMode" class="site-mode-badge" title="Uploading to the shared SharePoint site">Site</span>
+                </span>
                 <span class="toggle-icon" style="font-size: 0.8em;">{{ isContainerVisible ? '▼' : '▶' }}</span>
             </h2>
             <div class="sharepoint-container" v-show="isContainerVisible">
@@ -95,6 +99,7 @@ const SharePointUpload = {
             showImagePreview: false,
             isContainerVisible: true,
             attemptUploadCount: 0,
+            siteMode: false,
         }
     },
     methods: {
@@ -102,7 +107,7 @@ const SharePointUpload = {
             this.isContainerVisible = !this.isContainerVisible;
         },
         checkAuth() {
-            const token = localStorage.getItem('access_token');
+            const token = localStorage.getItem(tokenKey('access_token'));
             this.isAuthenticated = !!token;
         },
         goToAuth() {
@@ -203,7 +208,7 @@ const SharePointUpload = {
         async smallFileUpload(file, token) {
             try {
                     const uploadResponse = await axios.put(
-                        `https://graph.microsoft.com/v1.0/me/drive/root:/Bug Data/${encodeURIComponent(file.name)}:/content`,
+                        `${sharePointConfig.getDriveUrl()}/root:/${sharePointConfig.uploadFolder}/${encodeURIComponent(file.name)}:/content`,
                         file,
                         {
                             headers: {
@@ -220,13 +225,14 @@ const SharePointUpload = {
         },
         async largeFileUpload(file, token) {
             this.growl('Uploading large file. This may take a while...');
+            // Declared out here so the catch block can cancel the session
+            let uploadUrl = null;
             try {
-                const graphEndpoint = "https://graph.microsoft.com/v1.0";
-                const uploadPath = `Bug Data/${encodeURIComponent(file.name)}`;
+                const uploadPath = `${sharePointConfig.uploadFolder}/${encodeURIComponent(file.name)}`;
 
                 // Step 1: Create an upload session
                 const sessionResponse = await axios.post(
-                    `${graphEndpoint}/me/drive/root:/${uploadPath}:/createUploadSession`,
+                    `${sharePointConfig.getDriveUrl()}/root:/${uploadPath}:/createUploadSession`,
                     {
                         item: {
                             "@microsoft.graph.conflictBehavior": "rename",
@@ -241,7 +247,7 @@ const SharePointUpload = {
                     }
                 );
 
-                const uploadUrl = sessionResponse.data.uploadUrl;
+                uploadUrl = sessionResponse.data.uploadUrl;
                 const fileSize = file.size;
                 // Chunk size must be a multiple of 320 KiB per Microsoft's requirements
                 const chunkSize = 320 * 1024 * 16; // ~5 MiB per chunk
@@ -271,11 +277,14 @@ const SharePointUpload = {
             } catch (error) {
                 console.error('Large file upload error:', error);
                 this.growl('Error uploading file: ' + error.message, 'error');
-                try{
-                    await axios.delete(uploadUrl);
-                } catch (error) {
-                    console.error('Failed to delete upload session:', error);
-                    console.log('Upload URL:', uploadUrl);
+                // Only cancel if the session was actually created
+                if (uploadUrl) {
+                    try {
+                        await axios.delete(uploadUrl);
+                    } catch (cancelError) {
+                        console.error('Failed to delete upload session:', cancelError);
+                        console.log('Upload URL:', uploadUrl);
+                    }
                 }
                 return '';
             }
@@ -283,7 +292,7 @@ const SharePointUpload = {
         async getSharedLink(uploadResponse, token) {
             try {
                 const shareResponse = await axios.post(
-                    `https://graph.microsoft.com/v1.0/me/drive/items/${uploadResponse.data.id}/createLink`,
+                    `${sharePointConfig.getDriveUrl()}/items/${uploadResponse.data.id}/createLink`,
                     {
                         type: "view",
                         scope: "organization"
@@ -420,6 +429,9 @@ const SharePointUpload = {
         }
     },
     mounted() {
+        // Resolve the flag first: reading it persists the choice so auth.html
+        // and callback.html, which never see the query string, agree on the mode.
+        this.siteMode = isSiteMode();
         this.checkAuth();
     }
 };
