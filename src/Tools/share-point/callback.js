@@ -1,7 +1,18 @@
+// callback.html is its own entry point (Microsoft redirects straight to it), so it
+// stamps its own version rather than inheriting one from sp-loader.js. Computed
+// once at load so every import below resolves to the same module instance.
+const V = `?v=${Date.now()}`;
+
 async function handleCallback() {
     const urlParams = new URLSearchParams(window.location.search);
     const code = urlParams.get('code');
     const error = urlParams.get('error');
+    const state = urlParams.get('state');
+
+    if (state !== sessionStorage.getItem('sp_auth_state')) {
+        document.getElementById('status').textContent = 'Invalid state';
+        return;
+    }
 
     if (error) {
         document.getElementById('status').textContent = `Error: ${error}`;
@@ -19,7 +30,7 @@ async function handleCallback() {
         // Get the code verifier we stored earlier
         const codeVerifier = localStorage.getItem('code_verifier');
         // Get the config
-        const { config } = await import('./auth-config.js');
+        const { config } = await import(`./auth-config.js${V}`);
         let redirectUri = config.getRedirectUri();
         // Exchange the code for tokens
         tokenResponse = await axios.post(`https://login.microsoftonline.com/${config.tenantId}/oauth2/v2.0/token`, {
@@ -40,14 +51,14 @@ async function handleCallback() {
     }
 
     // Store both access token and refresh token
-    const { tokenKey } = await import('./auth-config.js');
+    const { tokenKey } = await import(`./auth-config.js${V}`);
     localStorage.setItem(tokenKey('access_token'), tokenResponse.data.access_token);
     localStorage.setItem(tokenKey('refresh_token'), tokenResponse.data.refresh_token);
     localStorage.setItem(tokenKey('token_expires_at'), Date.now() + (tokenResponse.data.expires_in * 1000));
 
     // Ensure the upload folder exists in whichever drive the flag selects
     try {
-        const { sharePointConfig } = await import('./auth-config.js');
+        const { sharePointConfig } = await import(`./auth-config.js${V}`);
         await axios.post(
             `${sharePointConfig.getDriveUrl()}/root/children`,
             {
