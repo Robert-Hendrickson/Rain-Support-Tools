@@ -1,7 +1,12 @@
-import { getValidToken } from './token-utils.js';
-import { sharePointConfig, tokenKey, isSiteMode } from './auth-config.js';
 import { createApp } from '/Rain-Support-Tools/src/common/vue/vue.esm-browser.prod.js';
 import { GrowlCtrl } from '/Rain-Support-Tools/src/modules/growl-ctrl/growl-ctrl.js';
+
+// Version stamp applied by sp-loader.js. Forwarded to every share-point module so
+// the whole graph is fetched fresh, not just this file. Empty when loaded directly
+// (e.g. without the loader), which simply falls back to normal caching.
+const V = new URL(import.meta.url).search;
+const { getValidToken } = await import(`./token-utils.js${V}`);
+const { sharePointConfig, tokenKey, isSiteMode } = await import(`./auth-config.js${V}`);
 
 const SharePointUpload = {
     name: 'SharePointUpload',

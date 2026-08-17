@@ -39,7 +39,8 @@
         </div>
 
         <script type="module">
-            import { tokenKey } from './auth-config.js';
+            // Own entry point, so it stamps its own version (see sp-loader.js)
+            const { tokenKey } = await import(`./auth-config.js?v=${Date.now()}`);
 
             const { createApp } = Vue;
 

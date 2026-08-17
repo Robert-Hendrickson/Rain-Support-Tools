@@ -1,4 +1,7 @@
-import { tokenKey } from './auth-config.js';
+// Forward the loader's version stamp (see sp-loader.js) so this module's own
+// dependency is fetched at the same freshness as everything else.
+const V = new URL(import.meta.url).search;
+const { tokenKey, config } = await import(`./auth-config.js${V}`);
 
 export async function getValidToken() {
     const accessToken = localStorage.getItem(tokenKey('access_token'));
@@ -12,7 +15,6 @@ export async function getValidToken() {
         }
 
         try {
-            const { config } = await import('./auth-config.js');
             const response = await axios.post(`https://login.microsoftonline.com/${config.tenantId}/oauth2/v2.0/token`, {
                 client_id: config.clientId,
                 refresh_token: refreshToken,
