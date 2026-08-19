@@ -235,7 +235,7 @@ export default {
             this.screenshots.forEach((screenshot, index) => {
                 //make sure that each link meets the expected criteria of being a google drive or one drive link
                 if (this.imageVideoLink(screenshot.trim())) {
-                    error_array.push(`Screenshot ${index + 1} isn't a valid google drive or one drive link.`);
+                    error_array.push(`Screenshot ${index + 1} isn't a secure team link.`);
                 }
             });
             //return value of checks. A false return means no issues were found, a true return means we found an issue
@@ -288,7 +288,7 @@ export default {
             this.videos.forEach((video, index) => {
                 //make sure that each link meets the expected criteria of being a google drive or one drive link
                 if (this.imageVideoLink(video.trim())) {
-                    error_array.push(`Video ${index + 1} isn't a valid google drive or one drive link.`);
+                    error_array.push(`Video ${index + 1} isn't a secure team link.`);
                 }
             });
             //return value of checks. A false return means no issues were found, a true return means we found an issue
@@ -340,6 +340,8 @@ export default {
                         !regexController.regexPatterns.oneDrive.test(url_string)
                         &&
                         !regexController.regexPatterns.screenpresso.test(url_string)
+                        &&
+                        !regexController.regexPatterns.sharepointSite.test(url_string)
                     )
                 );
             /*
@@ -352,6 +354,10 @@ export default {
 
             bad link - leads to a folder instead of a file
             https://quiltsoftware-my.sharepoint.com/:f:/p/david_vandersluis/EtJUFCiLE6RMiVD5AlmC8GEBvmlKwzDVIDjQt8EGoV01_A?e=7LKReI
+
+            updated link for sharepoint site upload
+            https://quiltsoftware.sharepoint.com/:i:/s/RainAgentRecordings/IQCfKjZl5OG8T7mWay3DlTeqASY54l1opSp09lxtoJUQ7Ko
+            https://quiltsoftware.sharepoint.com/:v:/s/RainAgentRecordings/IQCfKjZl5OG8T7mWay3DlTeqASY54l1opSp09lxtoJUQ7Ko
 
             */
         },

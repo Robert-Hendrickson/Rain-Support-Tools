@@ -141,11 +141,11 @@ export default {
                 if(row.url != '' && regexController.regexPatterns.admin_domains.test(row.url)){
                     row_error_list['url'] = 'Use domains from the customers site. Do not use admin domains. (i.e. rainadmin, jewel360, musicshop360)';
                 }
-                if(row.screenshot === '' || (!regexController.regexPatterns.googleDrive.test(row.screenshot) && !regexController.regexPatterns.oneDrive.test(row.screenshot))){
-                    row_error_list['screenshot'] = 'Please enter a Google Drive or OneDrive screenshot link for each row.';
+                if(row.screenshot === '' || (!regexController.regexPatterns.googleDrive.test(row.screenshot) && !regexController.regexPatterns.oneDrive.test(row.screenshot) && !regexController.regexPatterns.sharepointSite.test(row.screenshot))){
+                    row_error_list['screenshot'] = 'Please add a secure team link for the screenshot.';
                 }
-                if(row.video != '' && (!regexController.regexPatterns.googleDrive.test(row.video) && !regexController.regexPatterns.oneDrive.test(row.video))){
-                    row_error_list['video'] = 'Make sure any videos given are a Google Drive or OneDrive video link.';
+                if(row.video != '' && (!regexController.regexPatterns.googleDrive.test(row.video) && !regexController.regexPatterns.oneDrive.test(row.video) && !regexController.regexPatterns.sharepointSite.test(row.video))){
+                    row_error_list['video'] = 'Make sure any videos given are secure team links.';
                 }
                 if(row.details === ''){
                     row_error_list['details'] = 'Make sure all rows have a details entered for work needing to be done.';
