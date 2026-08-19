@@ -173,14 +173,3 @@
     font-size: 30px;
     cursor: pointer;
 }
-.site-mode-badge {
-    font-size: 0.55em;
-    vertical-align: middle;
-    margin-left: 8px;
-    padding: 2px 8px;
-    border-radius: 10px;
-    background-color: #0078d4;
-    color: white;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-}

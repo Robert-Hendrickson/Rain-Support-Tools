@@ -35,7 +35,7 @@ async function handleCallback() {
         // Exchange the code for tokens
         tokenResponse = await axios.post(`https://login.microsoftonline.com/${config.tenantId}/oauth2/v2.0/token`, {
             client_id: config.clientId,
-            scope: config.getScopes(),
+            scope: config.scopes,
             code: code,
             redirect_uri: redirectUri,
             grant_type: 'authorization_code',
@@ -51,10 +51,12 @@ async function handleCallback() {
     }
 
     // Store both access token and refresh token
-    const { tokenKey } = await import(`./auth-config.js${V}`);
+    const { tokenKey, clearLegacyStorage } = await import(`./auth-config.js${V}`);
     localStorage.setItem(tokenKey('access_token'), tokenResponse.data.access_token);
     localStorage.setItem(tokenKey('refresh_token'), tokenResponse.data.refresh_token);
     localStorage.setItem(tokenKey('token_expires_at'), Date.now() + (tokenResponse.data.expires_in * 1000));
+    // New tokens are in place, so the pre-cutover entries are safe to drop
+    clearLegacyStorage();
 
     // Ensure the upload folder exists in whichever drive the flag selects
     try {

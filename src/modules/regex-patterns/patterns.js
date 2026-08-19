@@ -13,6 +13,7 @@ export const regexController = {
         url: /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([\/\w .-]*)*\/?/,
         googleDrive: /^(?:https?:\/\/)drive\.google\.com\/file\/d\/.*\/view(?:\?.+)?$/,
         oneDrive: /^(?:https?:\/\/)?quiltsoftware-my\.sharepoint\.com\/:(i|v)\:\/p\//,
+        sharepointSite: /^(?:https?:\/\/)?quiltsoftware\.sharepoint\.com\/:(i|v)\:\/s\/RainAgentRecordings/,
         screenpresso: /^https:\/\/www\.screenpresso\.com\/.+$/,
         slack: /(?:https?:\/\/)?raindev\.slack\.com\/archives\//,
         salesforce: /(?:https?:\/\/)?rainpos\.lightning\.force\.com\/lightning\/r\//,

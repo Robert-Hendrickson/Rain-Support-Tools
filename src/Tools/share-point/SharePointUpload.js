@@ -6,7 +6,7 @@ import { GrowlCtrl } from '/Rain-Support-Tools/src/modules/growl-ctrl/growl-ctrl
 // (e.g. without the loader), which simply falls back to normal caching.
 const V = new URL(import.meta.url).search;
 const { getValidToken } = await import(`./token-utils.js${V}`);
-const { sharePointConfig, tokenKey, isSiteMode } = await import(`./auth-config.js${V}`);
+const { sharePointConfig, tokenKey } = await import(`./auth-config.js${V}`);
 
 const SharePointUpload = {
     name: 'SharePointUpload',
@@ -17,10 +17,7 @@ const SharePointUpload = {
         <growl-ctrl ref="growlCtrl"></growl-ctrl>
         <div class="sharepoint-content-container">
             <h2 @click="toggleContainer" class="toggle-header" style="cursor: pointer; display: flex; justify-content: space-between; align-items: center;">
-                <span>
-                    Upload to Quilt SharePoint
-                    <span v-if="siteMode" class="site-mode-badge" title="Uploading to the shared SharePoint site">Site</span>
-                </span>
+                Upload to Quilt SharePoint
                 <span class="toggle-icon" style="font-size: 0.8em;">{{ isContainerVisible ? '▼' : '▶' }}</span>
             </h2>
             <div class="sharepoint-container" v-show="isContainerVisible">
@@ -104,7 +101,6 @@ const SharePointUpload = {
             showImagePreview: false,
             isContainerVisible: true,
             attemptUploadCount: 0,
-            siteMode: false,
         }
     },
     methods: {
@@ -434,9 +430,6 @@ const SharePointUpload = {
         }
     },
     mounted() {
-        // Resolve the flag first: reading it persists the choice so auth.html
-        // and callback.html, which never see the query string, agree on the mode.
-        this.siteMode = isSiteMode();
         this.checkAuth();
     }
 };

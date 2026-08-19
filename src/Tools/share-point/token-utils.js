@@ -1,7 +1,7 @@
 // Forward the loader's version stamp (see sp-loader.js) so this module's own
 // dependency is fetched at the same freshness as everything else.
 const V = new URL(import.meta.url).search;
-const { tokenKey, config } = await import(`./auth-config.js${V}`);
+const { tokenKey, config, clearLegacyStorage } = await import(`./auth-config.js${V}`);
 
 export async function getValidToken() {
     const accessToken = localStorage.getItem(tokenKey('access_token'));
@@ -19,7 +19,7 @@ export async function getValidToken() {
                 client_id: config.clientId,
                 refresh_token: refreshToken,
                 grant_type: 'refresh_token',
-                scope: config.getScopes()
+                scope: config.scopes
             }, {
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
@@ -30,6 +30,8 @@ export async function getValidToken() {
             localStorage.setItem(tokenKey('access_token'), response.data.access_token);
             localStorage.setItem(tokenKey('refresh_token'), response.data.refresh_token);
             localStorage.setItem(tokenKey('token_expires_at'), Date.now() + (response.data.expires_in * 1000));
+            // New tokens are in place, so the pre-cutover entries are safe to drop
+            clearLegacyStorage();
 
             return response.data.access_token;
         } catch (error) {
