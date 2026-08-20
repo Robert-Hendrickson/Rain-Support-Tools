@@ -185,6 +185,7 @@ export default {
                 } else {
                     links.videos = 'Unable to provide video';
                 }
+                this.saveTempTicketData();
                 returnData({success: true, data: links});
             };
         },
@@ -400,6 +401,22 @@ export default {
         },
         updateVideoValue(index, value) {
             this.videos[index] = value.trim();
+        },
+        saveTempTicketData() {
+            let tempTicketData = JSON.parse(localStorage.getItem('tempTicketData')) || {};
+            tempTicketData.step4 = {
+                screenshots: this.screenshots,
+                videos: this.videos,
+                empty_screenshots: this.empty_screenshots,
+                empty_videos: this.empty_videos,
+            };
+            localStorage.setItem('tempTicketData', JSON.stringify(tempTicketData));
+        },
+        loadTempTicketData(tempTicketData) {
+            this.screenshots = tempTicketData?.screenshots || ['','',''];
+            this.videos = tempTicketData?.videos || [''];
+            this.empty_screenshots = tempTicketData?.empty_screenshots || false;
+            this.empty_videos = tempTicketData?.empty_videos || false;
         },
     },
 }

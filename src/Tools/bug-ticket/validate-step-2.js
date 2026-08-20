@@ -97,6 +97,7 @@ export default {
                 this.steps.forEach((step,index) => {
                     steps += `${index + 1}. ${step}\n`;
                 });
+                this.saveTempTicketData();
                 returnData({success: true, data: steps});
             };
         },
@@ -120,6 +121,16 @@ export default {
             } catch(error) {
                 console.error(`Error updating step`, error);
             }
+        },
+        saveTempTicketData() {
+            let tempTicketData = JSON.parse(localStorage.getItem('tempTicketData')) || {};
+            tempTicketData.step2 = {
+                steps: this.steps,
+            };
+            localStorage.setItem('tempTicketData', JSON.stringify(tempTicketData));
+        },
+        loadTempTicketData(tempTicketData) {
+            this.steps = tempTicketData?.steps || ['','',''];
         },
     }
 }

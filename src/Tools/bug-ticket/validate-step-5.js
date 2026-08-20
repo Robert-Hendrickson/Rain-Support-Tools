@@ -104,6 +104,7 @@ export default {
                     errors: this.errorsValue
                 }
                 if (await this.checkDescriptionNeedsLinkExamples() && await this.checkUnnecessaryErrors()) {
+                    this.saveTempTicketData();
                     returnData({success: true, data: examples_data});
                 } else {
                     returnData({success: false, data: null});
@@ -165,6 +166,16 @@ export default {
                 )
             }
             return check;
-        }
+        },
+        saveTempTicketData() {
+            let tempTicketData = JSON.parse(localStorage.getItem('tempTicketData')) || {};
+            tempTicketData.step5.examples = this.examplesValue;
+            tempTicketData.step5.errors = this.errorsValue;
+            localStorage.setItem('tempTicketData', JSON.stringify(tempTicketData));
+        },
+        loadTempTicketData(tempTicketData) {
+            this.examplesValue = tempTicketData?.examples || '';
+            this.errorsValue = tempTicketData?.errors || '';
+        },
     }
 }
