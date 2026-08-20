@@ -202,6 +202,7 @@ export default {
                     replicable: this.replicable.includes('Yes') ? 'Yes' : 'No',
                     where: this.where || [],
                 }
+                this.saveTempTicketData();
                 returnData({success: true, data: step1_data});
             };
         },
@@ -228,6 +229,30 @@ export default {
         },
         handleWhereUpdate(value) {
             this.where = value;
+        },
+        saveTempTicketData() {
+            let tempTicketData = JSON.parse(localStorage.getItem('tempTicketData')) || {};
+            tempTicketData.step1 = {
+                supportRep: this.supportRep,
+                storeName: this.storeName,
+                crm: this.crm,
+                dashboardURL: this.dashboardURL,
+                rezoBrand: this.rezoBrand,
+                systemArea: this.systemArea,
+                replicable: this.replicable,
+                where: this.where,
+            };
+            localStorage.setItem('tempTicketData', JSON.stringify(tempTicketData));
+        },
+        loadTempTicketData(tempTicketData) {
+            this.supportRep = tempTicketData?.supportRep || '';
+            this.storeName = tempTicketData?.storeName || '';
+            this.crm = tempTicketData?.crm || '';
+            this.dashboardURL = tempTicketData?.dashboardURL || '';
+            this.rezoBrand = tempTicketData?.rezoBrand || '';
+            this.systemArea = tempTicketData?.systemArea || '';
+            this.replicable = tempTicketData?.replicable || [];
+            this.where = tempTicketData?.where || [];
         },
     }
 }

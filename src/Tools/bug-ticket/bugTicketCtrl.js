@@ -16,6 +16,7 @@ import errorCtrl from '/Rain-Support-Tools/src/modules/error-popup/errorCtrl.js'
 import ticketDataCtrl from '/Rain-Support-Tools/src/modules/copy-data/ticketDataCtrl.js';
 import bugQuestionTips from './bug-question-tips.js';
 import feedBack from '/Rain-Support-Tools/src/modules/feedback/feedback.js';
+import customDialogResponse from '/Rain-Support-Tools/src/modules/custom-dialogue/dialog-ctrl.js';
 const BugTicketV2 = createApp({
     components: {
         pastTicketsCtrl,
@@ -111,6 +112,7 @@ const BugTicketV2 = createApp({
             this.showTicketContainer = true;
             this.$refs.pastTicketsCtrl.saveTicket(this.formData);
             this.generateTicket(this.formData);
+            localStorage.removeItem('tempTicketData');
         },
         handleBrandSelector(brand_value){
             this.brand = brand_value;
@@ -202,6 +204,32 @@ Rezo Brand:
 ${this.formData.step1.rezo_brand}
 `;
         },
+        async loadTempTicketData(){
+            if (await customDialogResponse('Found a temporary ticket data file. Would you like to load it?', 'Load', 'Delete and continue')) {
+                try {
+                    let templateData = JSON.parse(localStorage.getItem('tempTicketData'));
+                    this.$refs.validateStep1.loadTempTicketData(templateData.step1 || null);
+                    this.$refs.validateStep2.loadTempTicketData(templateData.step2 || null);
+                    this.$refs.validateStep3.loadTempTicketData(templateData.step3 || null);
+                    this.$refs.validateStep4.loadTempTicketData(templateData.step4 || null);
+                    this.$refs.validateStep5.loadTempTicketData(templateData.step5 || null);
+                } catch(error) {
+                    this.$refs.errorCtrl.updateErrorObject({
+                        title: 'Error loading temp ticket data',
+                        message: error.message,
+                        type: 'error'
+                    });
+                    console.error('Error loading temp ticket data', error);
+                }
+            } else {
+                localStorage.removeItem('tempTicketData');
+            }
+        },
     },
+    mounted(){
+        if (JSON.parse(localStorage.getItem('tempTicketData'))?.step1 ? true : false) {
+            this.loadTempTicketData();
+        }
+    }
 });
 window.BugTicketV2 = BugTicketV2.mount('#bug-ticket-v2');

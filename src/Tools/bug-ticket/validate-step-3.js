@@ -65,11 +65,22 @@ export default {
                 returnData({success: false, data: bad_data_list});
             } else {
                 //if there are no errors, return the steps
+                this.saveTempTicketData();
                 returnData({success: true, data: this.description});
             };
         },
         updateDescription(value) {
             this.description = value.trim();
+        },
+        saveTempTicketData() {
+            let tempTicketData = JSON.parse(localStorage.getItem('tempTicketData')) || {};
+            tempTicketData.step3 = {
+                description: this.description,
+            };
+            localStorage.setItem('tempTicketData', JSON.stringify(tempTicketData));
+        },
+        loadTempTicketData(tempTicketData) {
+            this.description = tempTicketData?.description || '';
         },
     }
 }
