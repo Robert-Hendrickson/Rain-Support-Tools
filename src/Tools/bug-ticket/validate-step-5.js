@@ -169,8 +169,10 @@ export default {
         },
         saveTempTicketData() {
             let tempTicketData = JSON.parse(localStorage.getItem('tempTicketData')) || {};
-            tempTicketData.step5.examples = this.examplesValue;
-            tempTicketData.step5.errors = this.errorsValue;
+            tempTicketData.step5 = {
+                examples : this.examplesValue,
+                errors : this.errorsValue
+            };
             localStorage.setItem('tempTicketData', JSON.stringify(tempTicketData));
         },
         loadTempTicketData(tempTicketData) {
