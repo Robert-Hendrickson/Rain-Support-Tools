@@ -125,6 +125,26 @@
 .video-thumbnail:hover .play-icon, .image-thumbnail:hover .zoom-icon {
     transform: translate(-50%, -50%) scale(1.1);
 }
+.upload-progress > p {
+    margin: 4px 0;
+}
+.upload-timer {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9em;
+    color: #333;
+}
+.upload-timer-file {
+    max-width: 240px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.upload-timer-elapsed {
+    font-variant-numeric: tabular-nums;
+    font-weight: bold;
+}
 .action-container {
     margin-top: 10px;
 }

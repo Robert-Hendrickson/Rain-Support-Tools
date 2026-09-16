@@ -8,6 +8,15 @@ const V = new URL(import.meta.url).search;
 const { getValidToken } = await import(`./token-utils.js${V}`);
 const { sharePointConfig, tokenKey } = await import(`./auth-config.js${V}`);
 
+// Microsoft's guidance is to use a resumable upload session for anything larger
+// than 4 MB. A plain PUT above that is a single long-running request with no
+// progress reporting, which is what made videos look like they had stalled.
+const CHUNKED_UPLOAD_THRESHOLD = 4 * 1024 * 1024;
+// Chunk size must be a multiple of 320 KiB per Microsoft's requirements
+const UPLOAD_CHUNK_SIZE = 320 * 1024 * 16; // ~5 MiB per chunk
+// Only warn about the wait for files big enough to genuinely take a while
+const LARGE_FILE_NOTICE_THRESHOLD = 150 * 1024 * 1024;
+
 const SharePointUpload = {
     name: 'SharePointUpload',
     components: {
@@ -53,8 +62,14 @@ const SharePointUpload = {
                             {{ uploading ? 'Uploading...' : 'Upload All' }}
                         </button>
                     </div>
-                    <div v-if="uploading">
+                    <div v-if="uploading" class="upload-progress">
                         <p>Uploading file {{ fileNumber }} of {{ selectedFiles.length }} ({{ Math.round(((fileNumber - 1) / selectedFiles.length) * 100) }}%)</p>
+                        <p class="upload-timer">
+                            <span class="fa-solid fa-spinner fa-spin"></span>
+                            <span class="upload-timer-file">{{ currentFileName }}</span>
+                            <span class="upload-timer-elapsed">{{ elapsedDisplay }}</span>
+                            <span v-if="fileProgressPercent !== null">({{ fileProgressPercent }}% of this file)</span>
+                        </p>
                     </div>
 
                     <div v-if="uploadStatus" :class="['status', uploadStatus.type]">
@@ -101,9 +116,40 @@ const SharePointUpload = {
             showImagePreview: false,
             isContainerVisible: true,
             attemptUploadCount: 0,
+            currentFileName: '',
+            fileElapsedMs: 0,
+            fileBytesSent: 0,
+            fileTotalBytes: 0,
+            fileTimerId: null,
+            fileStartedAt: 0,
         }
     },
     methods: {
+        // Starts (or restarts) the elapsed-time counter for a single file.
+        startFileTimer(file) {
+            this.stopFileTimer();
+            this.currentFileName = file.name;
+            this.fileTotalBytes = file.size;
+            this.fileBytesSent = 0;
+            this.fileStartedAt = Date.now();
+            this.fileElapsedMs = 0;
+            this.fileTimerId = setInterval(() => {
+                this.fileElapsedMs = Date.now() - this.fileStartedAt;
+            }, 500);
+        },
+        stopFileTimer() {
+            if (this.fileTimerId) {
+                clearInterval(this.fileTimerId);
+                this.fileTimerId = null;
+            }
+        },
+        resetFileProgress() {
+            this.stopFileTimer();
+            this.currentFileName = '';
+            this.fileElapsedMs = 0;
+            this.fileBytesSent = 0;
+            this.fileTotalBytes = 0;
+        },
         toggleContainer() {
             this.isContainerVisible = !this.isContainerVisible;
         },
@@ -159,13 +205,6 @@ const SharePointUpload = {
                 return;
             }
             for (const file of files) {
-                /*
-                if (file.size > 150 * 1024 * 1024) {
-                    // TODO: look into allowing larger files by chunking
-                    this.growl('File ' + file.name + ' is too large. Please select a file smaller than 150MB');
-                    continue;
-                }
-                */
                 if (file.type.startsWith('image/') || file.type.startsWith('video/')) {
                     this.selectedFiles.push(file);
                     this.previewUrls.push(URL.createObjectURL(file));
@@ -215,6 +254,9 @@ const SharePointUpload = {
                             headers: {
                                 'Authorization': `Bearer ${token}`,
                                 'Content-Type': file.type
+                            },
+                            onUploadProgress: (event) => {
+                                this.fileBytesSent = event.loaded;
                             }
                         }
                     );
@@ -225,7 +267,9 @@ const SharePointUpload = {
                 }
         },
         async largeFileUpload(file, token) {
-            this.growl('Uploading large file. This may take a while...');
+            if (file.size > LARGE_FILE_NOTICE_THRESHOLD) {
+                this.growl('Uploading large file. This may take a while...');
+            }
             // Declared out here so the catch block can cancel the session
             let uploadUrl = null;
             try {
@@ -250,8 +294,7 @@ const SharePointUpload = {
 
                 uploadUrl = sessionResponse.data.uploadUrl;
                 const fileSize = file.size;
-                // Chunk size must be a multiple of 320 KiB per Microsoft's requirements
-                const chunkSize = 320 * 1024 * 16; // ~5 MiB per chunk
+                const chunkSize = UPLOAD_CHUNK_SIZE;
                 let uploadResponse = null;
 
                 // Step 2: Upload the file in sequential byte-range chunks
@@ -264,6 +307,9 @@ const SharePointUpload = {
                         headers: {
                             'Content-Range': `bytes ${start}-${end}/${fileSize}`,
                             //'Content-Length': chunk.size
+                        },
+                        onUploadProgress: (event) => {
+                            this.fileBytesSent = start + event.loaded;
                         }
                     });
 
@@ -271,6 +317,11 @@ const SharePointUpload = {
                     if (response.status === 200 || response.status === 201) {
                         uploadResponse = response;
                     }
+                    this.fileBytesSent = end + 1;
+                }
+
+                if (!uploadResponse) {
+                    throw new Error('Upload session finished without returning the created file');
                 }
 
                 const sharedLink = await this.getSharedLink(uploadResponse, token);
@@ -327,6 +378,10 @@ const SharePointUpload = {
                     throw new Error(token.error);
                 }
             } catch (error) {
+                // These returns bypass the finally below, so clear the progress
+                // display here or the spinner keeps running after the failure
+                this.uploading = false;
+                this.resetFileProgress();
                 if (error.message === 'No refresh token available') {
                     return {success: false, error: {
                         type: 'error',
@@ -343,15 +398,18 @@ const SharePointUpload = {
             try {
                 // Upload all files
                 for (const file of this.selectedFiles) {
+                    // Restart the elapsed timer so each file reports its own duration
+                    this.startFileTimer(file);
                     // First upload the file
-                    if (file.size > 150 * 1024 * 1024) {
-                        console.log('Uploading large file:', file.name);
+                    if (file.size > CHUNKED_UPLOAD_THRESHOLD) {
+                        console.log('Uploading file in chunks:', file.name);
                         const sharedLink = await this.largeFileUpload(file, token);
                         sharedLink ? uploadedLinks.push(sharedLink): null;
                     } else {
                         const sharedLink = await this.smallFileUpload(file, token);
                         sharedLink ? uploadedLinks.push(sharedLink): null;
                     }
+                    this.stopFileTimer();
                     this.fileNumber++;
                 }
 
@@ -388,6 +446,7 @@ const SharePointUpload = {
                 }};
             } finally {
                 this.uploading = false;
+                this.resetFileProgress();
                 return returnValue;
             }
         },
@@ -427,10 +486,28 @@ const SharePointUpload = {
     computed: {
         displaySelectedFiles() {
             return this.selectedFiles.length > 0 && !this.uploading
+        },
+        // Elapsed time on the current file as m:ss (or h:mm:ss past an hour)
+        elapsedDisplay() {
+            const totalSeconds = Math.floor(this.fileElapsedMs / 1000);
+            const hours = Math.floor(totalSeconds / 3600);
+            const minutes = Math.floor((totalSeconds % 3600) / 60);
+            const seconds = totalSeconds % 60;
+            const pad = (n) => String(n).padStart(2, '0');
+            return hours > 0
+                ? `${hours}:${pad(minutes)}:${pad(seconds)}`
+                : `${minutes}:${pad(seconds)}`;
+        },
+        fileProgressPercent() {
+            if (!this.fileTotalBytes) return null;
+            return Math.min(100, Math.round((this.fileBytesSent / this.fileTotalBytes) * 100));
         }
     },
     mounted() {
         this.checkAuth();
+    },
+    unmounted() {
+        this.stopFileTimer();
     }
 };
 
