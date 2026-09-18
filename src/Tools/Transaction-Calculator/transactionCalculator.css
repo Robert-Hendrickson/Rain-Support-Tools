@@ -209,7 +209,7 @@
 
 .jurisdiction-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
     gap: 16px;
 }
 
@@ -286,6 +286,57 @@
     align-items: center;
     justify-content: center;
     margin-bottom: 20px;
+}
+
+.surcharge-editor {
+    background-color: #f8f9fa;
+    border-radius: 6px;
+    padding: 16px;
+    margin-bottom: 20px;
+}
+
+.surcharge-editor h4 {
+    margin-bottom: 16px;
+    text-align: center;
+}
+
+.surcharge-options {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px 24px;
+}
+
+@media (max-width: 700px) {
+    .surcharge-options {
+        grid-template-columns: 1fr;
+    }
+}
+
+.surcharge-option {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.surcharge-option label {
+    font-weight: bold;
+}
+
+.surcharge-option input[type="number"] {
+    max-width: 120px;
+}
+
+.surcharge-option input:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.surcharge-hint {
+    display: block;
+    font-weight: normal;
+    font-size: 0.8em;
+    color: #666;
 }
 
 .close-button {

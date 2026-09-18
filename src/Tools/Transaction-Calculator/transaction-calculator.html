@@ -42,6 +42,10 @@
                             <label>Class:</label>
                             <span id="tax-breakdown-item">${{totalClassTax}}</span>
                         </div>
+                        <div class="tax-breakdown-item" v-if="showSurchargeTax">
+                            <label>Surcharge Tax:</label>
+                            <span id="tax-breakdown-item">${{totalSurchargeTax}}</span>
+                        </div>
                         <div class="tax-breakdown-item" v-if="taxShipping">
                             <label>Shipping:</label>
                             <span id="tax-breakdown-item">${{shippingTax}}</span>
@@ -52,6 +56,10 @@
                         <div class="summary-item-input">
                             $<input type="number" class="transaction-input" placeholder="Shipping" step="0.01" v-model="shipping">
                         </div>
+                    </div>
+                    <div class="summary-item" v-if="surcharging">
+                        <label>Surcharge ({{surchargeRateDisplay}}):</label>
+                        <span id="surcharge-total">${{surchargeTotal}}</span>
                     </div>
                     <div class="summary-item total">
                         <label>Transaction Total:</label>
@@ -75,6 +83,10 @@
                         <div class="jurisdiction-item">
                             <label>Class Tax Rate:</label>
                             <span id="class-tax-rate">{{classTotal}}</span>
+                        </div>
+                        <div class="jurisdiction-item" v-if="surcharging">
+                            <label>Surcharge Rate:</label>
+                            <span id="surcharge-rate-display">{{surchargeRateDisplay}}</span>
                         </div>
                     </div>
                 </div>
@@ -136,14 +148,20 @@
             </div>
         </div>
         <tax-editor
-        v-model:tax-rates="taxRates"
-        v-model:edit-taxes="editTaxes"
-        v-model:tax-shipping="taxShipping"></tax-editor>
+            v-model:tax-rates="taxRates"
+            v-model:edit-taxes="editTaxes"
+            v-model:tax-shipping="taxShipping"
+            v-model:surcharging="surcharging"
+            v-model:surcharge-tax="surchargeTax"
+            v-model:tax-surcharge="taxSurcharge"
+            v-model:surcharge-rate="surchargeRate"
+        ></tax-editor>
         <import-transaction
-        v-if="showImport"
-        @import-transaction-data="importTransactionData"
-        @close-import-transaction="toggleImportDialog"
-        @display-error-message="displayErrorMessage"></import-transaction>
+            v-if="showImport"
+            @import-transaction-data="importTransactionData"
+            @close-import-transaction="toggleImportDialog"
+            @display-error-message="displayErrorMessage"
+        ></import-transaction>
         <error-ctrl ref="errorCtrl"></error-ctrl>
     </body>
 </html>
