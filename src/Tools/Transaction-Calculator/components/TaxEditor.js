@@ -12,6 +12,22 @@ export default {
         taxShipping: {
             type: Boolean,
             required: true
+        },
+        surcharging: {
+            type: Boolean,
+            required: true
+        },
+        surchargeTax: {
+            type: Boolean,
+            required: true
+        },
+        taxSurcharge: {
+            type: Boolean,
+            required: true
+        },
+        surchargeRate: {
+            type: Number,
+            required: true
         }
     },
     data() {
@@ -41,7 +57,29 @@ export default {
             </div>
             <div class="tax-editor-shipping">
                 <h4>Shipping Tax</h4>
-                <input type="checkbox" @click="toggleTaxShipping">
+                <input type="checkbox" :checked="taxShipping" @click="toggleTaxShipping">
+            </div>
+            <div class="surcharge-editor">
+                <h4>Surcharge</h4>
+                <div class="surcharge-options">
+                    <div class="surcharge-option">
+                        <label for="surcharging-toggle">Enable Surcharging</label>
+                        <input id="surcharging-toggle" type="checkbox" :checked="surcharging" @click="toggleFlag('surcharging', surcharging)">
+                    </div>
+                    <div class="surcharge-option">
+                        <label for="surcharge-rate">Surcharge Rate %</label>
+                        <input id="surcharge-rate" type="number" class="tax-rate-input" placeholder="Rate %" step="0.01"
+                            :disabled="!surcharging" :value="surchargeRate" @input="updateSurchargeRate($event)">
+                    </div>
+                    <div class="surcharge-option">
+                        <label for="surcharge-tax-toggle">Surcharge Tax <span class="surcharge-hint">(include tax in the surcharge base)</span></label>
+                        <input id="surcharge-tax-toggle" type="checkbox" :disabled="!surcharging" :checked="surchargeTax" @click="toggleFlag('surchargeTax', surchargeTax)">
+                    </div>
+                    <div class="surcharge-option">
+                        <label for="tax-surcharge-toggle">Tax Surcharge <span class="surcharge-hint">(apply material rates to the surcharge)</span></label>
+                        <input id="tax-surcharge-toggle" type="checkbox" :disabled="!surcharging" :checked="taxSurcharge" @click="toggleFlag('taxSurcharge', taxSurcharge)">
+                    </div>
+                </div>
             </div>
             <div class="tax-jurisdiction-columns">
                 <div class="jurisdiction-column">
@@ -87,6 +125,12 @@ export default {
         },
         toggleTaxShipping() {
             this.$emit('update:taxShipping', !this.taxShipping);
+        },
+        toggleFlag(flag, current) {
+            this.$emit(`update:${flag}`, !current);
+        },
+        updateSurchargeRate(event) {
+            this.$emit('update:surchargeRate', Number(event.target.value) || 0);
         },
         addTaxRate(jurisdiction) {
             this.idCounter++;

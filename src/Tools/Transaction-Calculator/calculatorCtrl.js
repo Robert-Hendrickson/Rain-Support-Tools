@@ -37,6 +37,22 @@ const transactionCalculator = createApp({
                 }]
             },
             taxShipping: false,
+            /**
+             * @description Master toggle for the surcharge feature. When off no
+             * surcharge is calculated regardless of the other surcharge flags.
+             */
+            surcharging: false,
+            /**
+             * @description When true the transaction tax is included in the
+             * amount the surcharge is calculated against.
+             */
+            surchargeTax: false,
+            /**
+             * @description When true the surcharge amount is taxed using the
+             * material tax rates and reported as its own tax line.
+             */
+            taxSurcharge: false,
+            surchargeRate: 3,
             editTaxes: false,
             showImport: false,
         }
@@ -128,11 +144,19 @@ const transactionCalculator = createApp({
         discountTotal() {
             return this.line_entries.reduce((total, line) => total + line.discount, 0)
         },
-        taxTotal() {
+        /**
+         * @description Tax on the line items and shipping only. This is the tax
+         * the surcharge can be calculated against, so it deliberately excludes
+         * the tax charged on the surcharge itself.
+         */
+        lineTaxTotal() {
             return this.round(this.line_entries.reduce((total, line) => total + line.tax, 0) + this.shippingTax)
         },
+        taxTotal() {
+            return this.round(this.lineTaxTotal + this.totalSurchargeTax)
+        },
         total() {
-            return this.round(this.subTotal - this.discountTotal + this.taxTotal + this.shipping)
+            return this.round(this.subTotal - this.discountTotal + this.taxTotal + this.shipping + this.surchargeTotal)
         },
         shippingTax() {
             let tax = 0;
@@ -140,6 +164,47 @@ const transactionCalculator = createApp({
                 tax += this.shipping * (this.taxRates.material[i].rate / 100)
             }
             return this.taxShipping ? this.round(tax) : 0;
+        },
+        /**
+         * @description The amount the surcharge rate is applied to. Defaults to
+         * the discounted subtotal and adds the line/shipping tax when the
+         * surchargeTax flag is enabled.
+         */
+        surchargeBase() {
+            if(!this.surcharging) {
+                return 0;
+            }
+            let base = this.subTotal - this.discountTotal;
+            if(this.surchargeTax) {
+                base += this.lineTaxTotal;
+            }
+            return this.round(base);
+        },
+        surchargeTotal() {
+            if(!this.surcharging) {
+                return 0;
+            }
+            return this.round(this.surchargeBase * (this.surchargeRate / 100));
+        },
+        /**
+         * @description Tax charged on the surcharge amount using the material
+         * tax rates. Shown as its own line and rolled into the total tax.
+         */
+        totalSurchargeTax() {
+            if(!this.showSurchargeTax) {
+                return 0;
+            }
+            let tax = 0;
+            for(let i = 0; i < this.taxRates.material.length; i++) {
+                tax += this.surchargeTotal * (this.taxRates.material[i].rate / 100)
+            }
+            return this.round(tax);
+        },
+        showSurchargeTax() {
+            return this.surcharging && this.taxSurcharge;
+        },
+        surchargeRateDisplay() {
+            return Number(this.surchargeRate).toFixed(3) + '%';
         }
     },
     mounted() {
