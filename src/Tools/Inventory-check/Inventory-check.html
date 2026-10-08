@@ -1,9 +1,6 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <!--
-            This will need an area to allow entering changes for inventory and reserved count with a running tally for each change and an overall amount after all changes.
-        -->
         <link href="./inventory_check.css" rel="stylesheet" />
         <script src="./inventory_check.js" type="module"></script>
         <script src="/Rain-Support-Tools/src/common/vue/vue.global.prod.js"></script>
@@ -15,111 +12,133 @@
             <script src="/Rain-Support-Tools/src/common/navigation/nav-builder.js" type="module"></script>
         </div>
         <div id="inventory-check">
-            <div class="history" style="margin-top: 50px;">
-                <h3>History:</h3>
-                <div id="history-table">
-                    <table class="history-changes">
-                        <thead>
-                            <tr>
-                                <th>
-                                    Inventory<br />
-                                    Change
-                                </th>
-                                <th>
-                                    Reserved<br />
-                                    Change
-                                </th>
-                                <th>
-                                    Total Inventory<br />
-                                    After Change
-                                </th>
-                                <th>
-                                    Total Reserved<br />
-                                    After Change
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    </table>
+            <div class="inventory-container">
+                <div class="inventory-panel history-panel">
+                    <h3>History</h3>
+                    <div class="history-scroll">
+                        <table class="history-changes">
+                            <thead>
+                                <tr>
+                                    <th v-if="hasImportedDates">Date</th>
+                                    <th v-if="hasImportedEvents">Event</th>
+                                    <th>Inventory<br />Change</th>
+                                    <th>Reserved<br />Change</th>
+                                    <th>Total Inventory<br />After Change</th>
+                                    <th>Total Reserved<br />After Change</th>
+                                    <th v-if="hasImportedTotals" title="Total Qty from the imported Rain history, compared against Total Inventory After Change">Imported Total<br />Qty</th>
+                                    <th class="actions-column"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="row in historyRows" :key="row.id" :class="{editing: editingId === row.id}" @keyup.escape="cancelEdit">
+                                    <td v-if="hasImportedDates" class="text-cell date-cell">{{ row.date || '--' }}</td>
+                                    <td v-if="hasImportedEvents" class="text-cell">{{ row.event || '--' }}</td>
+                                    <template v-if="editingId === row.id">
+                                        <td>
+                                            <number-input-component
+                                                id="edit-inventory-change"
+                                                :value="editInventory"
+                                                @update-value="editInventory = $event"
+                                                @keyup.enter="saveEdit"
+                                            ></number-input-component>
+                                        </td>
+                                        <td>
+                                            <number-input-component
+                                                id="edit-reserved-change"
+                                                :value="editReserved"
+                                                @update-value="editReserved = $event"
+                                                @keyup.enter="saveEdit"
+                                            ></number-input-component>
+                                        </td>
+                                        <td>{{ row.instockAfter }}</td>
+                                        <td>{{ row.reservedAfter }}</td>
+                                        <td v-if="hasImportedTotals" class="imported-total" :class="importedTotalClass(row)" :title="importedTotalTitle(row)">
+                                            <template v-if="row.totalQty !== null">{{ row.totalQty }} <span :class="row.totalDifference === 0 ? 'fa-solid fa-check' : 'fa-solid fa-xmark'"></span></template>
+                                            <template v-else>--</template>
+                                        </td>
+                                        <td class="row-actions">
+                                            <button class="btn primary" @click="saveEdit">Save</button>
+                                            <button class="btn secondary" @click="cancelEdit">Cancel</button>
+                                        </td>
+                                    </template>
+                                    <template v-else>
+                                        <td :class="row.inventory < 0 ? 'negative' : 'positive'">{{ formatChange(row.inventory) }}</td>
+                                        <td :class="row.reserved < 0 ? 'negative' : 'positive'">{{ formatChange(row.reserved) }}</td>
+                                        <td>{{ row.instockAfter }}</td>
+                                        <td>{{ row.reservedAfter }}</td>
+                                        <td v-if="hasImportedTotals" class="imported-total" :class="importedTotalClass(row)" :title="importedTotalTitle(row)">
+                                            <template v-if="row.totalQty !== null">{{ row.totalQty }} <span :class="row.totalDifference === 0 ? 'fa-solid fa-check' : 'fa-solid fa-xmark'"></span></template>
+                                            <template v-else>--</template>
+                                        </td>
+                                        <td class="row-actions">
+                                            <button class="btn secondary" @click="startEdit(row)">Edit</button>
+                                        </td>
+                                    </template>
+                                </tr>
+                                <tr v-if="!historyRows.length">
+                                    <td class="empty-history" :colspan="historyColumnCount">No changes recorded yet.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="history-footer">Earliest history changes</div>
                 </div>
-                <hr />
-                <div style="text-align: center;">
-                    Earliest History changes
-                </div>
-            </div>
-            <div class="inputs">
-                <h3>Inputs:</h3>
-                <p>
-                    When entering values, please remember that this is designed to mimic the visibility in Rain. New Rows added will be added to the top of the table, meaning the first row created from the buttons will be at the bottom.
-                </p>
-                <div class="input-values">
-                    <table>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    Inventory
-                                </td>
-
-                                <td>
-                                    Reserved
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <input id="inventory-change" />
-                                </td>
-                                <td>
-                                    <input id="reserved-change" />
-                                </td>
-                                <td>
-                                    <input type="button" value="Update" @click="updateTotals"/>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <h3>Totals:</h3>
-                <div>
-                    <table id="totals">
-                        <thead>
-                            <tr>
-                                <th>
-                                    In Stock Qty:
-                                </th>
-                                <th>
-                                    Reserved Qty:
-                                </th>
-                                <th>
-                                    Total Onhand Qty:
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td id="instock">{{ instock }}</td>
-                                <td id="reserved">{{ reserved }}</td>
-                                <td id="onhand">{{ onhand}}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <input type="button" value="reset" @click="reset" />
-                </div>
-                <video
-                    controls
-                    style="width: 900px;"
-                    controlslist="nodownload"
-                >
-                    <source src="\Rain-Support-Tools\src\media\videos\inventorycheckoverview.mp4" type="video/mp4"></source>
-                    <p class="vjs-no-js">
-                        To view this video please enable JavaScript, and consider upgrading to a
-                        web browser that
-                        <a href="https://videojs.com/html5-video-support/" target="_blank">
-                        supports HTML5 video
-                        </a>
+                <div class="inventory-panel input-panel">
+                    <div class="panel-header">
+                        <h3>Inputs</h3>
+                        <button class="btn secondary" @click="toggleImportDialog" title="Import history (Ctrl+I)">
+                            <i class="fas fa-upload"></i> Import <span class="keyboard-shortcut">Ctrl+I</span>
+                        </button>
+                    </div>
+                    <p class="input-hint">
+                        Values are entered to mimic the visibility in Rain. New rows are added to the top of the table, meaning the first row you create ends up at the bottom.
                     </p>
-                </video>
+                    <div class="input-row">
+                        <number-input-component
+                            id="inventory-change"
+                            label="Inventory"
+                            placeholder="0"
+                            :value="inventoryChange"
+                            @update-value="inventoryChange = $event"
+                            @keyup.enter="updateTotals"
+                        ></number-input-component>
+                        <number-input-component
+                            id="reserved-change"
+                            label="Reserved"
+                            placeholder="0"
+                            :value="reservedChange"
+                            @update-value="reservedChange = $event"
+                            @keyup.enter="updateTotals"
+                        ></number-input-component>
+                        <button class="btn primary" @click="updateTotals">Update</button>
+                    </div>
+                    <h3>Totals</h3>
+                    <div class="totals-grid">
+                        <div class="totals-item">
+                            <label>In Stock Qty</label>
+                            <span id="instock">{{ instock }}</span>
+                        </div>
+                        <div class="totals-item">
+                            <label>Reserved Qty</label>
+                            <span id="reserved">{{ reserved }}</span>
+                        </div>
+                        <div class="totals-item">
+                            <label>Total Onhand Qty</label>
+                            <span id="onhand">{{ onhand }}</span>
+                        </div>
+                    </div>
+                    <div class="input-panel-footer">
+                        <button class="btn tertiary" @click="reset">Reset</button>
+                    </div>
+                </div>
             </div>
+            <import-history
+                v-if="showImport"
+                @import-history-data="importHistoryData"
+                @close-import-history="toggleImportDialog"
+                @display-error-message="displayErrorMessage"
+            ></import-history>
+            <error-ctrl ref="errorCtrl"></error-ctrl>
         </div>
     </body>
 </html>
