@@ -10,7 +10,13 @@ export default {
         textareaComponent,
     },
     template: `
-        <div style="z-index: 3;" id="description-content" data="3" :class="{active: this.$props.step === 3, 'in-active': this.$props.step < 3, complete: this.$props.step > 3}">
+        <div
+            style="z-index: 3;"
+            id="description-content"
+            data="3"
+            :class="{active: this.$props.step === 3, 'in-active': this.$props.step < 3, complete: this.$props.step > 3}"
+            :inert="this.$props.step !== 3"
+        >
             <div title="Please provide a detailed description of the bug behavior and what issue it is causing." class="note-wrapper">
                 <h2>Description</h2>
                 <span class="fa-solid fa-question"></span>
@@ -19,7 +25,6 @@ export default {
                 placeholder="Enter a Description"
                 title="Please provide a detailed description of the bug behavior and what issue it is causing."
                 :value="this.description"
-                :tabindex="tabIndexEnabled"
                 @update-value="updateDescription"
             />
         </div>`,
@@ -31,11 +36,6 @@ export default {
         return {
             description: ''
         }
-    },
-    computed: {
-        tabIndexEnabled () {
-            return this.$props.step === 3 ? 0 : -1;
-        },
     },
     mounted() {
         try {

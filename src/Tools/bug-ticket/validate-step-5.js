@@ -11,7 +11,13 @@ export default {
         textareaComponent,
     },
     template: `
-        <div style="z-index: 5;" id="examples-errors-content" data="5" :class="{active: this.$props.step === 5, 'in-active': this.$props.step < 5, complete: this.$props.step > 5}">
+        <div
+            style="z-index: 5;"
+            id="examples-errors-content"
+            data="5"
+            :class="{active: this.$props.step === 5, 'in-active': this.$props.step < 5, complete: this.$props.step > 5}"
+            :inert="this.$props.step !== 5"
+        >
             <div title="Data that is currently showing the issue that can be referenced for investigation." class="note-wrapper">
                 <h2>Examples</h2>
                 <span class="fa-solid fa-question"></span>
@@ -23,7 +29,6 @@ export default {
                 placeholder="Enter example data. This can be links to web pages where things are wrong or id's of products, RTO's, etc."
                 :value="examplesValue"
                 resize="vertical"
-                :tabindex="tabIndexEnabled"
                 @update-value="updateExamplesValue"
             />
             <div title="Errors found in the browser console when the bug happened." class="note-wrapper">
@@ -35,7 +40,6 @@ export default {
                 placeholder="Enter any console errors that appear during the issue"
                 :value="errorsValue"
                 resize="vertical"
-                :tabindex="tabIndexEnabled"
                 @update-value="updateErrorsValue"
             />
         </div>`,
@@ -52,11 +56,6 @@ export default {
             examplesValue: '',
             errorsValue: '',
         }
-    },
-    computed: {
-        tabIndexEnabled () {
-            return this.$props.step === 5 ? 0 : -1;
-        },
     },
     mounted() {
         try {

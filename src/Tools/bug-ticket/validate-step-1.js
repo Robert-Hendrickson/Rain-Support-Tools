@@ -17,13 +17,18 @@ export default {
         optionPickerComponent,
     },
     template: `
-    <div style="z-index: 1;" id="basic-content" data="1" :class="{active: this.$props.step === 1, 'in-active': this.$props.step < 1, complete: this.$props.step > 1}">
+    <div
+        style="z-index: 1;"
+        id="basic-content"
+        data="1"
+        :class="{active: this.$props.step === 1, 'in-active': this.$props.step < 1, complete: this.$props.step > 1}"
+        :inert="this.$props.step !== 1"
+    >
         <text-input-component
             placeholder="Enter Support Rep"
             label="Support Tech Name"
             id="Support-Rep"
             title="The Support Rep submitting the ticket."
-            :tabindex="tabIndexEnabled"
             :value="this.supportRep"
             @updateValue="handleSupportRepUpdate"
         />
@@ -32,7 +37,6 @@ export default {
             label="Store Name"
             id="Store-Name"
             title="The name of the store you are submitting the ticket for."
-            :tabindex="tabIndexEnabled"
             :value="this.storeName"
             @updateValue="handleStoreNameUpdate"
         />
@@ -42,7 +46,6 @@ export default {
             label="CRM"
             id="crm"
             title="The CRM ID of the client you are submitting the ticket for."
-            :tabindex="tabIndexEnabled"
             :value="this.crm"
             @updateValue="handleCRMUpdate"
         />
@@ -52,7 +55,6 @@ export default {
             label="Dashboard URL"
             id="Dashboard-URL"
             title="The Dashboard URL of the client you are submitting the ticket for."
-            :tabindex="tabIndexEnabled"
             :value="this.dashboardURL"
             @updateValue="handleDashboardURLUpdate"
         />
@@ -61,7 +63,6 @@ export default {
             label="Rezo Brand"
             id="rezo-brand"
             title="The brand of the Rezo store you are submitting the ticket for."
-            :tabindex="tabIndexEnabled"
             :options="rezoBrandList"
             emptyOption="Select a Brand"
             :value="this.rezoBrand"
@@ -72,7 +73,6 @@ export default {
             label="System Area Affected"
             id="systemArea"
             title="The part of the system affected by the bug."
-            :tabindex="tabIndexEnabled"
             :value="this.systemArea"
             @updateValue="handleSystemAreaUpdate"
         />
@@ -117,9 +117,6 @@ export default {
         },
         showDashboardURLField() {
             return this.$props.brand === 'etailpet';
-        },
-        tabIndexEnabled () {
-            return this.$props.step === 1 ? 0 : -1;
         },
     },
     mounted() {

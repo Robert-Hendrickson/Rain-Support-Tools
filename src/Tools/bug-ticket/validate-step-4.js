@@ -10,7 +10,13 @@ export default {
         textInputComponent,
     },
     template: `
-        <div style="z-index: 4;" id="links-content" data="4" :class="{active: this.$props.step === 4, 'in-active': this.$props.step < 4, complete: this.$props.step > 4}">
+        <div
+            style="z-index: 4;"
+            id="links-content"
+            data="4"
+            :class="{active: this.$props.step === 4, 'in-active': this.$props.step < 4, complete: this.$props.step > 4}"
+            :inert="this.$props.step !== 4"
+        >
             <div id="sharepoint-app">
                 <share-point-upload></share-point-upload>
             </div>
@@ -27,8 +33,8 @@ export default {
             <div>
                 <div v-if="!empty_screenshots">
                     <div table-controls>
-                        <button :tabindex="tabIndexEnabled" class="btn secondary" @click="addScreenshotTableRow('')">Add Row</button>
-                        <button :tabindex="tabIndexEnabled" class="btn secondary" @click="removeScreenshotTableRow">Remove Row</button>
+                        <button class="btn secondary" @click="addScreenshotTableRow('')">Add Row</button>
+                        <button class="btn secondary" @click="removeScreenshotTableRow">Remove Row</button>
                     </div>
                     <table id="screenshot-table">
                         <tbody>
@@ -64,8 +70,8 @@ export default {
             <div>
                 <div v-if="!empty_videos">
                     <div table-controls>
-                        <button :tabindex="tabIndexEnabled" class="btn secondary" @click="addVideoTableRow('')">Add Row</button>
-                        <button :tabindex="tabIndexEnabled" class="btn secondary" @click="removeVideoTableRow">Remove Row</button>
+                        <button class="btn secondary" @click="addVideoTableRow('')">Add Row</button>
+                        <button class="btn secondary" @click="removeVideoTableRow">Remove Row</button>
                     </div>
                     <table id="video-table">
                         <tbody>
@@ -100,11 +106,6 @@ export default {
             empty_screenshots: false,
             empty_videos: false,
         }
-    },
-    computed: {
-        tabIndexEnabled () {
-            return this.$props.step === 4 ? 0 : -1;
-        },
     },
     mounted() {
         try {
