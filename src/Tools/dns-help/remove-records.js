@@ -19,8 +19,8 @@ export default {
     <div id="remove-record" v-if="showRemoveRecords">
         <h2>Records to Remove:</h2>
         <div table-controls>
-            <button tabindex="-1" class="btn secondary" @click="addRow">Add Row</button>
-            <button tabindex="-1" class="btn secondary" @click="removeRow">Remove Row</button>
+            <button class="btn secondary" @click="addRow">Add Row</button>
+            <button class="btn secondary" @click="removeRow">Remove Row</button>
         </div>
         <table id="remove-record-table">
             <tbody>

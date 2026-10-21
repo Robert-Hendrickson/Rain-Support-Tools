@@ -43,7 +43,6 @@ export default {
                                     <text-input-component
                                         :label="'Screenshot ' + (index + 1)"
                                         :id="'screenshot-' + (index + 1)"
-                                        :tabindex="tabIndexEnabled"
                                         :placeholder="'Enter Screenshot ' + (index + 1)"
                                         :value="screenshots[index]"
                                         @update-value="updateScreenshotValue(index, $event)"
@@ -80,7 +79,6 @@ export default {
                                     <text-input-component
                                         :label="'Video ' + (index + 1)"
                                         :id="'video-' + (index + 1)"
-                                        :tabindex="tabIndexEnabled"
                                         :placeholder="'Enter Video ' + (index + 1)"
                                         :value="videos[index]"
                                         @update-value="updateVideoValue(index, $event)"

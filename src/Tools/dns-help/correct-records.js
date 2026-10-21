@@ -21,8 +21,8 @@ export default {
     <div id="correct-record" v-if="showCorrectRecords">
         <h2>Records to Correct:</h2>
         <div table-controls>
-            <button tabindex="-1" class="btn secondary" @click="addRow">Add Row</button>
-            <button tabindex="-1" class="btn secondary" @click="removeRow">Remove Row</button>
+            <button class="btn secondary" @click="addRow">Add Row</button>
+            <button class="btn secondary" @click="removeRow">Remove Row</button>
         </div>
         <table id="correct-record-table">
             <tbody>

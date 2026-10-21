@@ -11,7 +11,7 @@ export default {
         }
     },
     template: `
-    <div id="details-content" data="3" :class="{active: step === 3, complete: step > 3, 'in-active': step < 3}">
+    <div id="details-content" data="3" :class="{active: step === 3, complete: step > 3, 'in-active': step < 3}" :inert="step !== 3">
         Details:<br>
         <p class="warning-text">
             What specific changes are needed? We need dates, transaction ids, every piece of data that needs to be changed. Also, if we're working with transactions, does inventory need to be updated with the development changes?<br><br>
@@ -20,7 +20,6 @@ export default {
         <textarea-component
             placeholder="Details for Dev"
             :value="this.details"
-            :tabindex="tabIndexEnabled"
             @updateValue="handleDetailsUpdate"
         />
     </div>`,
@@ -32,9 +31,6 @@ export default {
     computed: {
         testData () {
             return location.host === 'localhost' || location.search === '?test'
-        },
-        tabIndexEnabled () {
-            return this.$props.step === 3 ? 0 : -1;
         },
     },
     mounted() {

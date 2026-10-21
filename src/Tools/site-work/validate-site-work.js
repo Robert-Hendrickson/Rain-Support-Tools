@@ -14,11 +14,11 @@ export default {
         active: step === 2 && workType === 'Site Work',
         complete: step > 2 && workType === 'Site Work',
         'in-active': step < 2 || workType !== 'Site Work'
-    }">
+    }" :inert="step !== 2 || workType !== 'Site Work'">
         <h2>Site Work Content:</h2>
         <div table-controls>
-            <button tabindex="-1" class="btn secondary" @click="addRow">Add Row</button>
-            <button tabindex="-1" class="btn secondary" @click="removeRow">Remove Row</button>
+            <button class="btn secondary" @click="addRow">Add Row</button>
+            <button class="btn secondary" @click="removeRow">Remove Row</button>
         </div>
         <div id="sharepoint-app">
             <share-point-upload></share-point-upload>
@@ -34,14 +34,12 @@ export default {
                             <dropdown-select-component
                                 :options="siteWorkOptions"
                                 :value="row.type"
-                                :tabindex="tabIndex"
                                 emptyOption="Select an Option"
                                 @updateValue="updateSiteWorkOption($event, row.id)"
                             />
                             <text-input-component
                                 placeholder="Page URL"
                                 :value="row.url"
-                                :tabindex="tabIndex"
                                 @updateValue="updateSiteWorkUrl($event, row.id)"
                             />
                         </div>
@@ -49,20 +47,17 @@ export default {
                             <text-input-component
                                 placeholder="screenshot"
                                 :value="row.screenshot"
-                                :tabindex="tabIndex"
                                 @updateValue="updateSiteWorkScreenshot($event, row.id)"
                             />
                             <text-input-component
                                 placeholder="Video(optional)"
                                 :value="row.video"
-                                :tabindex="tabIndex"
                                 @updateValue="updateSiteWorkVideo($event, row.id)"
                             />
                         </div>
                         <textarea-component
                             placeholder="Details"
                             :value="row.details"
-                            :tabindex="tabIndex"
                             resize="none"
                             @updateValue="updateSiteWorkDetails($event, row.id)"
                         />
@@ -92,11 +87,6 @@ export default {
             idCounter: 0,
             siteWorkOptions: ['Site Fix' , 'Custom Work'],
         }
-    },
-    computed: {
-        tabIndex() {
-            return (this.$props.step === 2 && this.$props.workType === "Site Work") ? 0 : -1;
-        },
     },
     mounted(){
         this.addRow();

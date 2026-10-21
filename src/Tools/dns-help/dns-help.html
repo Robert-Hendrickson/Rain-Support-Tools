@@ -28,7 +28,7 @@
                 </div>
             </div>
             <div class="container content">
-                <div id="basic-content" data="1"  :class="{'active': current_step === 1, 'complete': current_step > 1}">
+                <div id="basic-content" data="1"  :class="{'active': current_step === 1, 'complete': current_step > 1}" :inert="current_step !== 1">
                     <text-input-component
                         label="Enter Domain being worked on:"
                         id="domain"
@@ -69,7 +69,7 @@
                         @edit-record="openRemoveRecordEditor"
                     ></remove-records>
                 </div>
-                <div id="confirm" data="3" :class="{'active': current_step === 2, 'in-active': current_step < 2}">
+                <div id="confirm" data="3" :class="{'active': current_step === 2, 'in-active': current_step < 2}" :inert="current_step !== 2">
                     <div compiled-results>
                         <h2>Please Confirm records are correct and none are missing.</h2>
                         <div v-if="actionsList.includes('Add Record(s)')">

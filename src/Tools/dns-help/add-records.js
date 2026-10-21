@@ -19,8 +19,8 @@ export default {
     <div id="add-record" v-if="showAddRecords">
         <h2>Records to Add:</h2>
         <div table-controls>
-            <button tabindex="-1" class="btn secondary" @click="addRow">Add Row</button>
-            <button tabindex="-1" class="btn secondary" @click="removeRow">Remove Row</button>
+            <button class="btn secondary" @click="addRow">Add Row</button>
+            <button class="btn secondary" @click="removeRow">Remove Row</button>
         </div>
         <table id="add-record-table">
             <tbody>

@@ -13,7 +13,7 @@ export default {
         active: step === 2 && workType === 'Template Work',
         complete: step > 2 && workType === 'Template Work',
         'in-active': step < 2 || workType !== 'Template Work'
-    }">
+    }" :inert="step !== 2 || workType !== 'Template Work'">
         <h2>Template Update/Responsive Upgrade:</h2>
         <div>
             <dropdown-select-component
@@ -21,7 +21,6 @@ export default {
                 id="templateWorkType"
                 :options="templateTypeOptions"
                 :value="this.type"
-                :tabindex="tabIndex"
                 emptyOption="Select an Option"
                 @updateValue="updateTemplateWorkType"
             />
@@ -30,7 +29,6 @@ export default {
                 id="number"
                 label="Template Number:"
                 :value="this.number"
-                :tabindex="tabIndex"
                 @updateValue="updateTemplateNumber"
             />
             <text-input-component
@@ -38,7 +36,6 @@ export default {
                 id="templateCRM"
                 label="Template CRM:"
                 :value="this.crm"
-                :tabindex="tabIndex"
                 @updateValue="updateTemplateCRM"
             />
         </div>
@@ -49,7 +46,6 @@ export default {
                 placeholder="Any notes about changes being made. Colors they want, fonts, etc."
                 resize="none"
                 :value="this.notes"
-                :tabindex="tabIndex"
                 @updateValue="updateTemplateNotes"
             />
         </div>
@@ -72,11 +68,6 @@ export default {
             crm: '',
             notes: ''
         }
-    },
-    computed: {
-        tabIndex() {
-            return (this.$props.step === 2 && this.$props.workType === "Template Work") ? 0 : -1;
-        },
     },
     mounted() {
         if (location.host == 'localhost' || location.search == '?test') {

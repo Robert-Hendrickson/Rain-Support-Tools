@@ -7,7 +7,7 @@ export default {
         textareaComponent,
     },
     template: `
-    <div id="associated-info-content" data="2" :class="{active: step === 2, complete: step > 2, 'in-active': step < 2}">
+    <div id="associated-info-content" data="2" :class="{active: step === 2, complete: step > 2, 'in-active': step < 2}" :inert="step !== 2">
         <div id="associated-ticket">
             <h2>Associated Bug Ticket (If applicable)</h2>
             <p class="warning-text">
@@ -18,7 +18,6 @@ export default {
                 label="Salesforce Ticket ID:"
                 id="SFID"
                 :value="this.salesforce_ticket_id"
-                :tabindex="tabIndexEnabled"
                 @updateValue="handleSFIDUpdate"
             />
             <text-input-component
@@ -26,7 +25,6 @@ export default {
                 label="Shortcut Story Link:"
                 id="shortcutLink"
                 :value="this.shortcut_story_link"
-                :tabindex="tabIndexEnabled"
                 @updateValue="handleShortcutUpdate"
             />
         </div>
@@ -37,7 +35,6 @@ export default {
                 label="Name of Team Lead who approved:"
                 id="approver"
                 :value="this.approving_agent_name"
-                :tabindex="tabIndexEnabled"
                 @updateValue="handleApproverUpdate"
             />
             Reason for Approval:
@@ -47,7 +44,6 @@ export default {
             <textarea-component
                 placeholder="Reason for Data Fix"
                 :value="this.approval_reason"
-                :tabindex="tabIndexEnabled"
                 @updateValue="handleReasonUpdate"
             />
         </div>
@@ -69,9 +65,6 @@ export default {
     computed: {
         testData () {
             return location.host === 'localhost' || location.search === '?test'
-        },
-        tabIndexEnabled () {
-            return this.$props.step === 2 ? 0 : -1;
         },
     },
     mounted() {

@@ -41,7 +41,7 @@
                 <validate-step-1 ref="validateStep1" :step="currentStep"></validate-step-1>
                 <validate-site-work ref="validateSiteWork" :step="currentStep" :work-type="workType"></validate-site-work>
                 <validate-template-work ref="validateTemplateWork" :step="currentStep" :work-type="workType"></validate-template-work>
-                <div id="confirm-content" data="3" :class="{'in-active': currentStep !== 3, 'active': currentStep === 3}">
+                <div id="confirm-content" data="3" :class="{'in-active': currentStep !== 3, 'active': currentStep === 3}" :inert="currentStep !== 3">
 
                 </div>
             </div>

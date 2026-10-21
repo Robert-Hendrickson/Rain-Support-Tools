@@ -10,13 +10,12 @@ export default {
         dropdownSelectComponent,
     },
     template: `
-    <div id="company-content" data="1" :class="{active: step === 1, complete: step > 1}">
+    <div id="company-content" data="1" :class="{active: step === 1, complete: step > 1}" :inert="step !== 1">
         <text-input-component
             placeholder="Name of Company"
             label="Business Name:"
             id="businessName"
             :value="this.businessName"
-            :tabindex="tabIndexEnabled"
             @updateValue="handleBusinessUpdate"
         />
         <text-input-component
@@ -24,7 +23,6 @@ export default {
             label="CRM:"
             id="storeID"
             :value="this.storeID"
-            :tabindex="tabIndexEnabled"
             @updateValue="handleStoreIDUpdate"
         />
         <dropdown-select-component
@@ -33,7 +31,6 @@ export default {
             :options="vertical_list"
             emptyOption="Select a Option"
             :value="this.vertical"
-            :tabindex="tabIndexEnabled"
             @updateValue="handleVerticalUpdate"
         />
     </div>`,
@@ -54,9 +51,6 @@ export default {
     computed: {
         testData () {
             return location.host === 'localhost' || location.search === '?test'
-        },
-        tabIndexEnabled () {
-            return this.$props.step === 1 ? 0 : -1;
         },
     },
     mounted() {
