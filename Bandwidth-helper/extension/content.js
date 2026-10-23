@@ -5,12 +5,27 @@ console.log('Bandwidth Helper content script loaded');
 let config = {
     customerName: 'Rain Retail Software, LLC',
     accountId: '5007974',
-    email: 'robert.hendrickson@quiltsoftware.com',
+    email: '',
+};
+
+// Stored values for both profiles (Rain uses the original keys)
+const storedDefaults = {
+    profile: 'rain',
+    customerName: config.customerName,
+    accountId: config.accountId,
+    stormCustomerName: 'Rain Retail Software LLC - Storm',
+    stormAccountId: '5010389',
+    email: '', // empty default: storage.get only returns keys listed here
 };
 
 // Load configuration from storage
-chrome.storage.sync.get(config, function(items) {
-    config = items;
+chrome.storage.sync.get(storedDefaults, function(items) {
+    const isStorm = items.profile === 'storm';
+    config = {
+        customerName: isStorm ? items.stormCustomerName : items.customerName,
+        accountId: isStorm ? items.stormAccountId : items.accountId,
+        email: items.email || '',
+    };
     console.log('Configuration loaded:', config);
     // Auto-fill forms after configuration is loaded
     setTimeout(autoFillForms, 1000);
@@ -19,7 +34,7 @@ chrome.storage.sync.get(config, function(items) {
 // Listen for messages from popup
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     if (request.action === 'configUpdated') {
-        config = request.config;
+        config = Object.assign({}, config, request.config);
         console.log('Configuration updated:', config);
         autoFillForms();
     }
@@ -49,6 +64,7 @@ function autoFillForms() {
     let filledCount = 0;
 
     fieldMappings.forEach(mapping => {
+        if (!mapping.value) return; // Don't fill fields that have no saved value (e.g. email)
         mapping.selectors.forEach(selector => {
             const elements = document.querySelectorAll(selector);
             elements.forEach(element => {
