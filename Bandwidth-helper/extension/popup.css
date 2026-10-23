@@ -148,6 +148,27 @@ body {
     transform: translateY(-1px);
 }
 
+.profile-toggle {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.profile-btn {
+    background: rgba(255, 255, 255, 0.15);
+    color: white;
+}
+
+.profile-btn:hover {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+.profile-btn.active {
+    background: rgba(255, 255, 255, 0.9);
+    color: #4b3a8a;
+    font-weight: 600;
+}
+
 .status-section {
     margin-bottom: 15px;
     min-height: 20px;

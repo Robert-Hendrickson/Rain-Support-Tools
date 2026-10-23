@@ -2,9 +2,22 @@
 console.log('Bandwidth Helper background script loaded');
 
 // Version checking functionality
-const CURRENT_VERSION = '1.2'; // This should match your manifest.json version
+const INSTALLED_VERSION = chrome.runtime.getManifest().version; // Single source of truth: manifest.json
 const VERSION_CHECK_INTERVAL = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
-const VERSION_URL = 'https://robert-hendrickson.github.io/Rain-Support-Tools/Bandwidth-helper/version/version.js'; // Replace with your actual server URL
+const VERSION_URL = 'https://robert-hendrickson.github.io/Rain-Support-Tools/Bandwidth-helper/version/version.json';
+
+// Returns true if candidateVersion is newer than baseVersion (e.g. '2.0' > '1.3')
+function isNewerVersion(candidateVersion, baseVersion) {
+    const candidateParts = String(candidateVersion).split('.').map(part => parseInt(part, 10) || 0);
+    const baseParts = String(baseVersion).split('.').map(part => parseInt(part, 10) || 0);
+    const partCount = Math.max(candidateParts.length, baseParts.length);
+
+    for (let index = 0; index < partCount; index++) {
+        const difference = (candidateParts[index] || 0) - (baseParts[index] || 0);
+        if (difference !== 0) return difference > 0;
+    }
+    return false;
+}
 
 // Fetch version information from remote server
 async function fetchRemoteVersion() {
@@ -28,65 +41,52 @@ async function fetchRemoteVersion() {
     }
 }
 
-// Check for version updates
-async function checkForVersionUpdate() {
+// Check for version updates (force skips the 24 hour throttle)
+async function checkForVersionUpdate(force = false) {
     try {
-        // Get stored version from Chrome storage
-        const result = await chrome.storage.local.get(['storedVersion', 'lastVersionCheck', 'lastVersionData']);
-        const storedVersion = result.storedVersion;
-        const lastCheck = result.lastVersionCheck;
+        const result = await chrome.storage.local.get(['lastVersionCheck', 'lastNotifiedVersion']);
+        const now = Date.now();
 
         // Check if it's time for a version check (every 24 hours)
-        const now = Date.now();
-        if (lastCheck && (now - lastCheck) < VERSION_CHECK_INTERVAL) {
+        if (!force && result.lastVersionCheck && (now - result.lastVersionCheck) < VERSION_CHECK_INTERVAL) {
             return; // Too soon for another check
         }
 
         // Fetch latest version from remote server
         const remoteVersionData = await fetchRemoteVersion();
 
-        if (!remoteVersionData) {
+        if (!remoteVersionData || !remoteVersionData.version) {
             console.log('Could not fetch remote version data');
             return;
         }
 
         const latestVersion = remoteVersionData.version;
+        await chrome.storage.local.set({
+            lastVersionCheck: now,
+            lastVersionData: remoteVersionData
+        });
 
-        if (storedVersion !== latestVersion) {
-            console.log(`Version update detected: ${storedVersion} -> ${latestVersion}`);
+        if (isNewerVersion(latestVersion, INSTALLED_VERSION)) {
+            console.log(`Version update detected: ${INSTALLED_VERSION} -> ${latestVersion}`);
             console.log('Changelog:', remoteVersionData.changelog);
             console.log('Release Date:', remoteVersionData.releaseDate);
 
-            // Store the new version and version data
-            await chrome.storage.local.set({
-                storedVersion: latestVersion,
-                lastVersionCheck: now,
-                lastVersionData: remoteVersionData
-            });
-
-            // Notify user of update
-            console.log('Extension update available:', latestVersion);
-
-            // You could show a notification here
-            chrome.notifications.create({
-                type: 'basic',
-                iconUrl: 'icons/icon48.png',
-                title: 'Bandwidth Helper Update Available',
-                message: `Version ${latestVersion} is now available!`
-            });
-
-            // Update badge to show update available
+            // Badge stays until the user installs the new version
             chrome.action.setBadgeText({text: '!'});
             chrome.action.setBadgeBackgroundColor({color: '#ff4444'});
 
+            // Only send the notification once per new version
+            if (result.lastNotifiedVersion !== latestVersion) {
+                chrome.notifications.create({
+                    type: 'basic',
+                    iconUrl: 'icons/icon48.png',
+                    title: 'Bandwidth Helper Update Available',
+                    message: `Version ${latestVersion} is now available!`
+                });
+                await chrome.storage.local.set({lastNotifiedVersion: latestVersion});
+            }
         } else {
-            // Update last check time even if no version change
-            await chrome.storage.local.set({
-                lastVersionCheck: now,
-                lastVersionData: remoteVersionData
-            });
-
-            // Clear badge if no update needed
+            // Up to date: clear badge
             chrome.action.setBadgeText({text: ''});
         }
     } catch (error) {
@@ -98,16 +98,11 @@ async function checkForVersionUpdate() {
 chrome.runtime.onInstalled.addListener(function(details) {
     if (details.reason === 'install') {
         console.log('Bandwidth Helper extension installed');
-        // Initialize version tracking
-        chrome.storage.local.set({
-            storedVersion: CURRENT_VERSION,
-            lastVersionCheck: Date.now()
-        });
     } else if (details.reason === 'update') {
         console.log('Bandwidth Helper extension updated');
-        // Check for version updates on extension update
-        checkForVersionUpdate();
     }
+    // Check right away on install/update
+    checkForVersionUpdate(true);
 });
 
 // Set up periodic version checking
@@ -127,7 +122,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     console.log('Background script received message:', request);
 
     if (request.action === 'checkVersion') {
-        checkForVersionUpdate().then(() => {
+        checkForVersionUpdate(true).then(() => {
             sendResponse({status: 'version check completed'});
         });
         return true; // Keep message channel open for async response
